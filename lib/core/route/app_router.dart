@@ -1,10 +1,8 @@
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/add_update_tax_rate_req.dart';
-import 'package:medusa_admin/data/models/discount_condition_req.dart';
 import 'package:medusa_admin/data/models/pick_customer_req.dart';
 import 'package:medusa_admin/data/models/pick_groups_req.dart';
 import 'package:medusa_admin/data/models/pick_products_req.dart';
@@ -12,16 +10,11 @@ import 'package:medusa_admin/data/models/pick_region_req.dart';
 import 'package:medusa_admin/data/models/product_variant_req.dart';
 import 'package:medusa_admin/data/models/select_country_req.dart';
 import 'package:medusa_admin/data/models/select_products_req.dart';
-import 'package:medusa_admin/data/models/shipping_option_req.dart';
-import 'package:medusa_admin/data/models/update_condition_req.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
-import 'package:medusa_admin/presentation/views/activity_module/activity_view.dart';
 import 'package:medusa_admin/presentation/views/auth/authentication_wrapper.dart';
 import 'package:medusa_admin/presentation/views/categories/categories_view.dart';
 import 'package:medusa_admin/presentation/views/create_update_custom_gift_card/create_update_custom_gift_card_view.dart';
-import 'package:medusa_admin/presentation/views/import_products/import_products_view.dart';
 import 'package:medusa_admin/presentation/views/main_app_wrapper.dart';
-import 'package:medusa_admin/presentation/views/order_details/components/add_update_order_edit/add_update_order_edit_view.dart';
 import 'package:medusa_admin/presentation/views/order_details/components/order_create_fulfillment.dart';
 import 'package:medusa_admin/presentation/views/order_details/order_details_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/add_update_tax_rate/add_update_tax_rate_view.dart';
@@ -30,7 +23,6 @@ import 'package:medusa_admin/presentation/views/add_update_customer/update_custo
 import 'package:medusa_admin/presentation/views/add_update_discount/add_update_discount_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_group/create_update_group_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_price_list/add_update_price_list_view.dart';
-import 'package:medusa_admin/presentation/views/add_update_price_list/components/product_price_list.dart';
 import 'package:medusa_admin/presentation/views/add_update_product/components/image_card.dart';
 import 'package:medusa_admin/presentation/views/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/presentation/views/add_update_product/add_update_product_view.dart';
@@ -49,8 +41,6 @@ import 'package:medusa_admin/presentation/views/custom_gift_cards/custom_gift_ca
 import 'package:medusa_admin/presentation/views/customer_details/customer_details_view.dart';
 import 'package:medusa_admin/presentation/views/customers/customers_view.dart';
 import 'package:medusa_admin/presentation/views/dashboard_view.dart';
-import 'package:medusa_admin/presentation/views/discount_conditions/components/index.dart';
-import 'package:medusa_admin/presentation/views/discount_conditions/views/discount_conditions_view.dart';
 import 'package:medusa_admin/presentation/views/discount_details/discount_details_view.dart';
 import 'package:medusa_admin/presentation/views/discounts/discounts_view.dart';
 import 'package:medusa_admin/presentation/views/draft_order_details/draft_order_details_view.dart';
@@ -68,7 +58,6 @@ import 'package:medusa_admin/presentation/views/splash/splash_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/add_update_api_key/add_update_api_key_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/add_update_region/add_update_region_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/add_update_sales_channel/add_update_sales_channel_view.dart';
-import 'package:medusa_admin/presentation/views/store_settings/add_update_shipping_option/add_update_shipping_option_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/api_key_management/api_key_management_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/create_update_return_reason/create_update_return_reason_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/currencies/currencies_view.dart';
@@ -85,7 +74,6 @@ import 'package:medusa_admin/presentation/views/store_settings/tax_settings/tax_
 import 'package:medusa_admin/presentation/views/store_settings/tax_settings/tax_settings_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/team/team_view.dart';
 import 'package:medusa_admin/presentation/views/transfer_order/transfer_order_view.dart';
-import 'package:medusa_admin/presentation/views/update_discount_condition/update_condition_view.dart';
 import 'package:medusa_admin/presentation/widgets/app_update_view.dart';
 import 'package:medusa_admin/presentation/widgets/countries/country_view.dart';
 import 'package:medusa_admin/presentation/widgets/pick_customer/pick_customer_view.dart';
@@ -93,6 +81,7 @@ import 'package:medusa_admin/presentation/widgets/pick_groups_view.dart';
 import 'package:medusa_admin/presentation/widgets/pick_product_variants/pick_product_vairants_view.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products_view.dart';
 import 'package:medusa_admin/presentation/widgets/pick_regions_view.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart' hide UpdateProductReq;
 
 part 'app_router.gr.dart';
 
@@ -150,7 +139,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: SelectCountryRoute.page),
         AutoRoute(page: PickGroupsRoute.page),
         AutoRoute(page: PickRegionsRoute.page),
-        AutoRoute(page: ActivityRoute.page),
+        // AutoRoute(page: ActivityRoute.page),
         AutoRoute(page: AppUpdateRoute.page),
 
         // collections module
@@ -165,13 +154,13 @@ class AppRouter extends RootStackRouter {
         // Discount module
         AutoRoute(page: AddUpdateDiscountRoute.page),
         AutoRoute(page: DiscountDetailsRoute.page),
-        AutoRoute(page: DiscountConditionsRoute.page),
-        AutoRoute(page: UpdateConditionRoute.page),
-        AutoRoute(page: ConditionProductRoute.page),
-        AutoRoute(page: ConditionCustomerGroupRoute.page),
-        AutoRoute(page: ConditionTagRoute.page),
-        AutoRoute(page: ConditionTypeRoute.page),
-        AutoRoute(page: ConditionCollectionRoute.page),
+        // AutoRoute(page: DiscountConditionsRoute.page),
+        // AutoRoute(page: UpdateConditionRoute.page),
+        // AutoRoute(page: ConditionProductRoute.page),
+        // AutoRoute(page: ConditionCustomerGroupRoute.page),
+        // AutoRoute(page: ConditionTagRoute.page),
+        // AutoRoute(page: ConditionTypeRoute.page),
+        // AutoRoute(page: ConditionCollectionRoute.page),
 
         // Draft orders module
         AutoRoute(page: CreateDraftOrderRoute.page, fullscreenDialog: true),
@@ -192,11 +181,11 @@ class AppRouter extends RootStackRouter {
 
         // Orders module
         AutoRoute(page: OrderDetailsRoute.page),
-        AutoRoute(page: AddUpdateOrderEditRoute.page),
+        // AutoRoute(page: AddUpdateOrderEditRoute.page),
         AutoRoute(page: OrderCreateFulfillmentRoute.page),
 
         // Pricing module
-        AutoRoute(page: AddUpdateVariantsPriceRoute.page),
+        // AutoRoute(page: AddUpdateVariantsPriceRoute.page),
         AutoRoute(page: AddUpdatePriceListRoute.page),
         AutoRoute(page: PriceListDetailsRoute.page),
 
@@ -205,13 +194,13 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: ProductDetailsRoute.page, fullscreenDialog: true),
         AutoRoute(page: ImagePreviewRoute.page),
         AutoRoute(page: ProductAddVariantRoute.page),
-        AutoRoute(page: ImportProductsRoute.page),
+        // AutoRoute(page: ImportProductsRoute.page),
 
         // Store settings
         AutoRoute(page: RegionsRoute.page),
         AutoRoute(page: RegionDetailsRoute.page),
         AutoRoute(page: AddUpdateRegionRoute.page),
-        AutoRoute(page: AddUpdateShippingOptionRoute.page),
+        // AutoRoute(page: AddUpdateShippingOptionRoute.page),
 
         AutoRoute(page: StoreDetailsRoute.page),
 

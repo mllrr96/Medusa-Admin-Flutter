@@ -6,7 +6,7 @@ import 'package:medusa_admin/core/extension/date_time_extension.dart';
 
 class ApiKeyTile extends StatelessWidget {
   const ApiKeyTile(this.apiKey,{super.key});
-  final PublishableApiKey apiKey;
+  final ApiKey apiKey;
   @override
   Widget build(BuildContext context) {
     final revoked = apiKey.revokedAt != null;

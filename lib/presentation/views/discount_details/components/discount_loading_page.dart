@@ -4,11 +4,10 @@ import 'package:gap/gap.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'conditions_card.dart';
 import 'configurations_card.dart';
-import 'discount_details_card.dart';
 
 class DiscountLoadingPage extends StatelessWidget {
   const DiscountLoadingPage(this.discount, {super.key});
-  final Discount discount;
+  final Promotion discount;
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
@@ -19,8 +18,8 @@ class DiscountLoadingPage extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 0),
         child: Column(
           children: [
-            DiscountDetailsCard(discount),
-            space,
+            // DiscountDetailsCard(discount),
+            // space,
             ConfigurationsCard(discount),
             space,
             ConditionsCard(discount),

@@ -13,7 +13,6 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/data/models/product_variant_req.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
-import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/countries/country_view.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
@@ -309,7 +308,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: updateMode
-                                    ? variant!.prices.length
+                                    ? variant!.prices?.length
                                     : currencies.length,
                                 itemBuilder: (context, index) {
                                   final currency =

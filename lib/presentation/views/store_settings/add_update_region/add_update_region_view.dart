@@ -8,7 +8,6 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/data/models/select_country_req.dart';
 import 'package:medusa_admin/presentation/blocs/region_crud/region_crud_bloc.dart';
-import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/payment_providers/payment_providers_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/countries/country_view.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
@@ -49,21 +48,21 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
   void initState() {
     regionCrudBloc = RegionCrudBloc.instance;
     paymentProvidersCubit = PaymentProvidersCubit.instance;
-    currencies = context
-        .read<StoreBloc>()
-        .state
-        .mapOrNull(loaded: (_) => _.store.currencies);
+    // currencies = context
+    //     .read<StoreBloc>()
+    //     .state
+    //     .mapOrNull(loaded: (_) => _.store.currencies);
     if (updateMode) {
       titleCtrl.text = region!.name;
       defaultTaxRateCtrl.text = region!.taxRate.toString();
       defaultTextCode.text = region!.taxCode.toString();
       selectedCountries = region!.countries ?? [];
-      selectedCurrency = context
-          .read<StoreBloc>()
-          .state
-          .mapOrNull(loaded: (_) => _.store.currencies)
-          ?.where((element) => element.code == region?.currencyCode)
-          .firstOrNull;
+      // selectedCurrency = context
+      //     .read<StoreBloc>()
+      //     .state
+      //     .mapOrNull(loaded: (_) => _.store.currencies)
+      //     ?.where((element) => element.code == region?.currencyCode)
+      //     .firstOrNull;
     }
     super.initState();
   }
@@ -133,7 +132,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                           name: titleCtrl.text,
                           currencyCode: selectedCurrency!.code,
                           countries: countriesIso,
-                          paymentProviderIds: selectedPaymentProviders,
+                          // paymentProviderIds: selectedPaymentProviders,
                         ),
                       ));
                     } else {
@@ -141,9 +140,9 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                         CreateRegionReq(
                           name: titleCtrl.text,
                           currencyCode: selectedCurrency!.code,
-                          taxRate: double.parse(defaultTaxRateCtrl.text),
+                          // taxRate: double.parse(defaultTaxRateCtrl.text),
                           paymentProviders: selectedPaymentProviders,
-                          fulfillmentProviders: [],
+                          // fulfillmentProviders: [],
                           countries: countriesIso,
                         ),
                       ));

@@ -60,7 +60,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
 
     taxProviderCubit.fetch();
     automaticTaxes = widget.region.automaticTaxes ?? false;
-    giftCardsTaxable = widget.region.giftCardsTaxable ?? false;
+    // giftCardsTaxable = widget.region.giftCardsTaxable ?? false;
     super.initState();
   }
 
@@ -377,11 +377,11 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                       children: [
                         TaxRateCard(
                             taxRate:
-                                TaxRate(name: 'Default', rate: 0.0, code: '-')),
+                                TaxRate(name: 'Default', rate: '0.0', code: '-', id: '', regionId: '')),
                         Gap(6.0),
                         TaxRateCard(
                           taxRate:
-                              TaxRate(name: 'Default', rate: 0.0, code: '-'),
+                              TaxRate(name: 'Default', rate: '0.0', code: '-', id: '', regionId: ''),
                         ),
                       ],
                     ),
@@ -392,7 +392,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                     children: [
                       TaxRateCard(
                           taxRate:
-                              TaxRate(name: 'Default', rate: 0.0, code: '-')),
+                              TaxRate(name: 'Default', rate: '0.0', code: '-', id: '', regionId: '')),
                     ],
                   ),
                 ),

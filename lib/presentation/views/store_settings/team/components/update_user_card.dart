@@ -7,7 +7,7 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 class UpdateUserCard extends StatefulWidget {
   const UpdateUserCard({super.key, required this.user, this.onUpdated});
   final User user;
-  final void Function(UpdateUserReq)? onUpdated;
+  final void Function(UserUpdateReq)? onUpdated;
   @override
   State<UpdateUserCard> createState() => _UpdateUserCardState();
 }
@@ -24,7 +24,7 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
     emailCtrl.text = widget.user.email ?? '';
     firstNameCtrl.text = widget.user.firstName ?? '';
     lastNameCtrl.text = widget.user.lastName ?? '';
-    tokenCtrl.text = widget.user.apiToken ?? '';
+    // tokenCtrl.text = widget.user.apiToken ?? '';
     super.initState();
   }
 
@@ -68,17 +68,19 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                         }
 
                         if (user.firstName == firstNameCtrl.text &&
-                            user.lastName == lastNameCtrl.text &&
-                            user.apiToken == tokenCtrl.text) {
+                            user.lastName == lastNameCtrl.text
+                            // user.apiToken == tokenCtrl.text
+
+                        ) {
                           context.maybePop();
                           return;
                         }
 
-                        widget.onUpdated?.call(UpdateUserReq(
+                        widget.onUpdated?.call(UserUpdateReq(
                           firstName: firstNameCtrl.text,
                           lastName: lastNameCtrl.text,
-                          apiToken:
-                              tokenCtrl.text.isNotEmpty ? tokenCtrl.text : null,
+                          // apiToken:
+                          //     tokenCtrl.text.isNotEmpty ? tokenCtrl.text : null,
                         ));
                       },
                       child: const Text('Update')),

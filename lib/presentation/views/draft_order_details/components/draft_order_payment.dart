@@ -20,7 +20,7 @@ class DraftOrderPayment extends StatelessWidget{
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
-    final currencyCode = draftOrder.cart?.region?.currencyCode;
+    final currencyCode = draftOrder.region?.currencyCode;
 
     return FlexExpansionTile(
       onExpansionChanged: (expanded) async {
@@ -30,7 +30,7 @@ class DraftOrderPayment extends StatelessWidget{
       },
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Payment'),
-      trailing: draftOrder.status == DraftOrderStatus.open
+      trailing: draftOrder.status == 'open'
           ? TextButton(
               onPressed: () async {
                 await showOkCancelAlertDialog(
@@ -61,7 +61,7 @@ class DraftOrderPayment extends StatelessWidget{
                 Row(
                   children: [
                     Text(
-                        draftOrder.cart?.subTotal.formatAsPrice(currencyCode) ??
+                        draftOrder.subtotal.formatAsPrice(currencyCode) ??
                             '',
                         style: mediumTextStyle),
                     // Text(' ${draftOrder.currencyCode?.toUpperCase() ?? ''}',
@@ -79,9 +79,8 @@ class DraftOrderPayment extends StatelessWidget{
               children: [
                 Text('Shipping', style: mediumTextStyle),
                 Text(
-                    draftOrder.cart?.shippingTotal
-                            .formatAsPrice(currencyCode) ??
-                        '',
+                    draftOrder.shippingTotal
+                            .formatAsPrice(currencyCode),
                     style: mediumTextStyle),
               ],
             ),
@@ -94,7 +93,7 @@ class DraftOrderPayment extends StatelessWidget{
               children: [
                 Text('Tax', style: mediumTextStyle),
                 Text(
-                    draftOrder.cart?.taxTotal.formatAsPrice(currencyCode) ?? '',
+                    draftOrder.taxTotal.formatAsPrice(currencyCode),
                     style: mediumTextStyle),
               ],
             ),
@@ -106,7 +105,7 @@ class DraftOrderPayment extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Total', style: largeTextStyle),
-                Text(draftOrder.cart?.total.formatAsPrice(currencyCode) ?? '',
+                Text(draftOrder.total.formatAsPrice(currencyCode) ?? '',
                     style: largeTextStyle),
               ],
             ),

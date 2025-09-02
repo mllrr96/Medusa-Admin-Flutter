@@ -59,12 +59,12 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                   }
 
                   context.maybePop(
-                    CreateRefundOrdersReq(
-                      amount: int.tryParse(amountCtrl.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0,
-                      reason: reason.toLowerCase(),
-                      note: noteCtrl.text.isEmpty ? null : noteCtrl.text,
-                      noNotification: sendNotification ? null : true,
-                    ),
+                    // CreateRefundOrdersReq(
+                    //   amount: int.tryParse(amountCtrl.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0,
+                    //   reason: reason.toLowerCase(),
+                    //   note: noteCtrl.text.isEmpty ? null : noteCtrl.text,
+                    //   noNotification: sendNotification ? null : true,
+                    // ),
                   );
                 },
                 child: const Text('Complete'))
@@ -90,7 +90,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                         Flexible(
                           child: LabeledTextField(
                             label: 'Currency',
-                            controller: TextEditingController(text: currencyCode.toUpperCase() ?? ''),
+                            controller: TextEditingController(text: currencyCode?.toUpperCase() ?? ''),
                             readOnly: true,
                           ),
                         ),
@@ -101,7 +101,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                             label: 'Refund Amount',
                             required: true,
                             hintText: '0.00',
-                            prefixText: '  ${widget.order.currency?.symbolNative} ',
+                            // prefixText: '  ${widget.order.currency?.symbolNative} ',
                             controller: amountCtrl,
                             inputFormatters: [
                               CurrencyTextInputFormatter(
@@ -131,7 +131,8 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                                 return 'Field is required';
                               }
                               final amount = val.replaceAll(RegExp(r'[^0-9]'), '');
-                              final total = widget.order.refundableAmount ?? widget.order.total;
+                              // final total = widget.order.refundableAmount ?? widget.order.total;
+                              final total = widget.order.total;
 
                               if (int.tryParse(amount) == null) {
                                 return 'Amount should be in numbers';

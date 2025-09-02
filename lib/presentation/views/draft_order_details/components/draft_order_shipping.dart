@@ -32,15 +32,13 @@ class DraftOrderShipping extends StatelessWidget {
           Text('Shipping method',
               style: smallTextStyle?.copyWith(color: manatee)),
           halfSpace,
-          if (draftOrder.cart?.shippingMethods != null)
+          if (draftOrder.shippingMethods.isNotEmpty)
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: draftOrder.cart!.shippingMethods!.length,
+              itemCount: draftOrder.shippingMethods.length,
               itemBuilder: (context, index) => Text(
-                  draftOrder
-                          .cart!.shippingMethods![index].shippingOption?.name ??
-                      '',
+                  draftOrder.shippingMethods[index].name,
                   style: mediumTextStyle),
             ),
           space,

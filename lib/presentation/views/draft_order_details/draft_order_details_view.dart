@@ -1,4 +1,3 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,8 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/draft_order_crud/draft_order_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/core/route/app_router.dart';
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
@@ -67,58 +64,58 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
               MedusaSliverAppBar(
                 title: const Text('Draft Order Details'),
                 actions: [
-                  Builder(
-                    builder: (context) {
-                      final isCompleted = draftOrderCrudBloc.state.mapOrNull(
-                              draftOrder: (draftOrder) =>
-                                  draftOrder.draftOrder.status ==
-                                  DraftOrderStatus.completed) ??
-                          false;
-                      final isOpen = draftOrderCrudBloc.state.mapOrNull(
-                              draftOrder: (draftOrder) =>
-                                  draftOrder.draftOrder.status ==
-                                  DraftOrderStatus.open) ??
-                          false;
-                      if (isCompleted) {
-                        return TextButton(
-                          onPressed: () => context.pushRoute(
-                              OrderDetailsRoute(
-                                  orderId: draftOrderCrudBloc.state.mapOrNull(
-                                          draftOrder: (draftOrder) =>
-                                              draftOrder
-                                                  .draftOrder.orderId) ??
-                                      '')),
-                          child: const Text('Go to order'),
-                        );
-                      } else if (isOpen) {
-                        return TextButton(
-                          onPressed: () async {
-                            await showOkCancelAlertDialog(
-                              context: context,
-                              title: 'Cancel Draft Order',
-                              message:
-                                  'Are you sure you want to cancel this draft order?',
-                              okLabel: 'Yes, Cancel',
-                              isDestructiveAction: true,
-                            ).then((result) async {
-                              if (result == OkCancelResult.ok) {
-                                draftOrderCrudBloc.add(
-                                    DraftOrderCrudEvent.delete(
-                                        widget.draftId));
-                                // await controller.cancelDraftOrder(context);
-                              }
-                            });
-                          },
-                          child: const Text(
-                            'Cancel',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        );
-                      } else {
-                        return const SizedBox.shrink();
-                      }
-                    },
-                  ),
+                  // Builder(
+                  //   builder: (context) {
+                  //     final isCompleted = draftOrderCrudBloc.state.mapOrNull(
+                  //             draftOrder: (draftOrder) =>
+                  //                 draftOrder.draftOrder.status ==
+                  //                 DraftOrderStatus.completed) ??
+                  //         false;
+                  //     final isOpen = draftOrderCrudBloc.state.mapOrNull(
+                  //             draftOrder: (draftOrder) =>
+                  //                 draftOrder.draftOrder.status ==
+                  //                 DraftOrderStatus.open) ??
+                  //         false;
+                  //     if (isCompleted) {
+                  //       return TextButton(
+                  //         onPressed: () => context.pushRoute(
+                  //             OrderDetailsRoute(
+                  //                 orderId: draftOrderCrudBloc.state.mapOrNull(
+                  //                         draftOrder: (draftOrder) =>
+                  //                             draftOrder
+                  //                                 .draftOrder.orderId) ??
+                  //                     '')),
+                  //         child: const Text('Go to order'),
+                  //       );
+                  //     } else if (isOpen) {
+                  //       return TextButton(
+                  //         onPressed: () async {
+                  //           await showOkCancelAlertDialog(
+                  //             context: context,
+                  //             title: 'Cancel Draft Order',
+                  //             message:
+                  //                 'Are you sure you want to cancel this draft order?',
+                  //             okLabel: 'Yes, Cancel',
+                  //             isDestructiveAction: true,
+                  //           ).then((result) async {
+                  //             if (result == OkCancelResult.ok) {
+                  //               draftOrderCrudBloc.add(
+                  //                   DraftOrderCrudEvent.delete(
+                  //                       widget.draftId));
+                  //               // await controller.cancelDraftOrder(context);
+                  //             }
+                  //           });
+                  //         },
+                  //         child: const Text(
+                  //           'Cancel',
+                  //           style: TextStyle(color: Colors.red),
+                  //         ),
+                  //       );
+                  //     } else {
+                  //       return const SizedBox.shrink();
+                  //     }
+                  //   },
+                  // ),
                 ],
               ),
             ],
@@ -176,7 +173,9 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
                         ],
                       ),
                     )),
-                orElse: () => const DraftOrderLoadingPage()),
+                // orElse: () => const DraftOrderLoadingPage(),
+                orElse: () => Center(child: CircularProgressIndicator(),),
+            ),
           ),
         );
       },

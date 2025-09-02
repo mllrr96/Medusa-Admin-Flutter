@@ -6,6 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/blocs/api_key_crud/api_key_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'components/api_key_tile.dart';
 
@@ -20,7 +21,7 @@ class ApiKeyManagementView extends StatefulWidget {
 class _ApiKeyManagementViewState extends State<ApiKeyManagementView> {
   late ApiKeyCrudBloc apiKeyCrudBloc;
 
-  final pagingController = PagingController<int, PublishableApiKey>(
+  final pagingController = PagingController<int, ApiKey>(
       firstPageKey: 0, invisibleItemsThreshold: 6);
   final refreshController = RefreshController();
 
@@ -93,7 +94,7 @@ class _ApiKeyManagementViewState extends State<ApiKeyManagementView> {
             child: PagedListView.separated(
               padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
               pagingController: pagingController,
-              builderDelegate: PagedChildBuilderDelegate<PublishableApiKey>(
+              builderDelegate: PagedChildBuilderDelegate<ApiKey>(
                 animateTransitions: true,
                 itemBuilder: (context, apiKey, index) => ApiKeyTile(apiKey),
                 noItemsFoundIndicatorBuilder: (_) =>

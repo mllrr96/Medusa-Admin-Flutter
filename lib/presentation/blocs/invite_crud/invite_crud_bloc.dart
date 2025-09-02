@@ -27,7 +27,7 @@ class InviteCrudBloc extends Bloc<InviteCrudEvent, InviteCrudState> {
     final result = await _useCase.fetchInvites();
     result.when(
       (success) {
-        emit(_Invites(success.invites!));
+        emit(_Invites(success.invites));
       },
       (error) => emit(_Error(error)),
     );

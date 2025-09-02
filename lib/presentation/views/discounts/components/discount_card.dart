@@ -2,17 +2,14 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
-import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:super_banners/super_banners.dart';
 import 'discount_rule_type_label.dart';
 
 class DiscountCard extends StatelessWidget {
   const DiscountCard(this.discount,
       {super.key, this.onToggle, this.onDelete, this.onTap});
-  final Discount discount;
+  final Promotion discount;
   final void Function()? onToggle;
   final void Function()? onDelete;
   final void Function()? onTap;
@@ -20,20 +17,16 @@ class DiscountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     Color? iconColor;
-    switch (discount.rule?.type) {
-      case PromotionType.fixed:
+    switch (discount.type) {
+      case PromotionType.standard:
         iconColor = Colors.orangeAccent;
         break;
-      case PromotionType.percentage:
+      case PromotionType.buyget:
         iconColor = Colors.blueAccent;
-        break;
-      case PromotionType.freeShipping:
-        iconColor = Colors.green;
         break;
       case null:
         break;
     }
-    final smallTextStyle = context.bodySmall;
     return Card(
       margin: EdgeInsets.zero,
       // color: context.getAlphaBlend(context.theme.cardColor),
@@ -48,16 +41,16 @@ class DiscountCard extends StatelessWidget {
           child: Stack(
             alignment: Alignment.topRight,
             children: [
-              if (discount.isExpired)
-                CornerBanner(
-                  bannerColor: Colors.red,
-                  bannerPosition: CornerBannerPosition.topRight,
-                  child: Text(
-                    'Expired',
-                    style: smallTextStyle?.copyWith(
-                        color: Colors.white, fontSize: 12),
-                  ),
-                ),
+              // if (discount.isExpired)
+              //   CornerBanner(
+              //     bannerColor: Colors.red,
+              //     bannerPosition: CornerBannerPosition.topRight,
+              //     child: Text(
+              //       'Expired',
+              //       style: smallTextStyle?.copyWith(
+              //           color: Colors.white, fontSize: 12),
+              //     ),
+              //   ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10.0, ),
@@ -86,12 +79,12 @@ class DiscountCard extends StatelessWidget {
                                   message: discount.code ?? '',
                                   context: context,
                                   actions: <SheetAction<int>>[
-                                    const SheetAction(label: 'Edit', key: 0),
-                                    !discount.isDisabled
-                                        ? const SheetAction(
-                                            label: 'Disable', key: 1)
-                                        : const SheetAction(
-                                            label: 'Enable', key: 1),
+                                    // const SheetAction(label: 'Edit', key: 0),
+                                    // !discount.isDisabled
+                                    //     ? const SheetAction(
+                                    //         label: 'Disable', key: 1)
+                                    //     : const SheetAction(
+                                    //         label: 'Enable', key: 1),
                                     const SheetAction(
                                         label: 'Delete',
                                         isDestructiveAction: true,
@@ -102,16 +95,16 @@ class DiscountCard extends StatelessWidget {
                                 }
                                 switch (value) {
                                   case 0:
-                                    await context
-                                        .pushRoute(AddUpdateDiscountRoute(
-                                            discount: discount))
-                                        .then((value) {
-                                      if (value is bool && value == true) {
-                                        // DiscountsController
-                                        //     .instance.pagingController
-                                        //     .refresh();
-                                      }
-                                    });
+                                    // await context
+                                    //     .pushRoute(AddUpdateDiscountRoute(
+                                    //         discount: discount))
+                                    //     .then((value) {
+                                    //   if (value is bool && value == true) {
+                                    //     // DiscountsController
+                                    //     //     .instance.pagingController
+                                    //     //     .refresh();
+                                    //   }
+                                    // });
                                     break;
                                   case 1:
                                     onToggle?.call();
@@ -140,13 +133,13 @@ class DiscountCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (discount.rule?.description?.isNotEmpty ?? false)
-                          Flexible(
-                            child: Text(
-                              discount.rule?.description ?? '',
-                              style: smallTextStyle?.copyWith(color: manatee),
-                            ),
-                          ),
+                        // if (discount.rule?.description?.isNotEmpty ?? false)
+                        //   Flexible(
+                        //     child: Text(
+                        //       discount.rule?.description ?? '',
+                        //       style: smallTextStyle?.copyWith(color: manatee),
+                        //     ),
+                        //   ),
                         PromotionTypeLabel(discount: discount),
                       ],
                     ),
@@ -155,14 +148,14 @@ class DiscountCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          DiscountStatusDot(
-                              disabled: discount.isDisabled ?? true),
-                          Flexible(
-                            child: Text(
-                              'Redemptions: ${discount.usageCount}',
-                              style: smallTextStyle?.copyWith(color: manatee),
-                            ),
-                          ),
+                          // DiscountStatusDot(
+                          //     disabled: discount.isDisabled ?? true),
+                          // Flexible(
+                          //   child: Text(
+                          //     'Redemptions: ${discount.usageCount}',
+                          //     style: smallTextStyle?.copyWith(color: manatee),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

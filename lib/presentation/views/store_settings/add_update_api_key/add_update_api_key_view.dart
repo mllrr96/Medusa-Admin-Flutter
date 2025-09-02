@@ -18,7 +18,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 @RoutePage()
 class AddUpdateApiKeyView extends StatefulWidget {
   const AddUpdateApiKeyView({super.key, this.publishableApiKey});
-  final PublishableApiKey? publishableApiKey;
+  final ApiKey? publishableApiKey;
 
   @override
   State<AddUpdateApiKeyView> createState() => _AddUpdateApiKeyViewState();
@@ -33,7 +33,7 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
   void initState() {
     apiKeyCrudBloc = ApiKeyCrudBloc.instance;
     if (updateMode) {
-      titleCtrl.text = widget.publishableApiKey!.title ?? '';
+      titleCtrl.text = widget.publishableApiKey!.title;
     }
     super.initState();
   }
@@ -81,7 +81,7 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
                   context.unfocus();
                   if (updateMode) {
                     apiKeyCrudBloc.add(ApiKeyCrudEvent.update(
-                        widget.publishableApiKey!.id!, titleCtrl.text));
+                        widget.publishableApiKey!.id, titleCtrl.text));
                   } else {
                     apiKeyCrudBloc.add(ApiKeyCrudEvent.create(titleCtrl.text));
                   }

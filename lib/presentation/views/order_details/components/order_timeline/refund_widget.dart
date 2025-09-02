@@ -42,16 +42,16 @@ class RefundWidget extends StatelessWidget {
                     '${DateTime.now().subtract(durationDiff).timeAgo()} ${refund.amount.formatAsPrice(currencyCode)}',
                     style: smallTextStyle?.copyWith(color: manatee),
                   ),
-                  if (refund.reason != null)
-                    Column(
-                      children: [
-                        const SizedBox(height: 6.0),
-                        Text(
-                          refund.reason?.name.capitalize ?? '',
-                          style: smallTextStyle?.copyWith(color: manatee),
-                        ),
-                      ],
-                    )
+                  // if (refund.reason != null)
+                  //   Column(
+                  //     children: [
+                  //       const SizedBox(height: 6.0),
+                  //       Text(
+                  //         refund.reason?.name.capitalize ?? '',
+                  //         style: smallTextStyle?.copyWith(color: manatee),
+                  //       ),
+                  //     ],
+                  //   )
                 ],
               ),
             ),

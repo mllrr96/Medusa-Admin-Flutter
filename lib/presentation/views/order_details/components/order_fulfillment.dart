@@ -46,15 +46,15 @@ class OrderFulfillment extends StatelessWidget {
             children: [
               Text(tr.detailsShippingMethod,
                   style: mediumTextStyle!.copyWith(color: manatee)),
-              FulfillmentStatusLabel(fulfillmentStatus: order.fulfillmentStatus),
+              FulfillmentStatusLabel(fulfillmentStatus: order.fulfillmentStatus! ),
             ],
           ),
           ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: order.shippingMethods.length,
+              itemCount: order.shippingMethods?.length,
               itemBuilder: (context, index) => Text(
-                  order.shippingMethods[index].name ?? '',
+                  order.shippingMethods?[index].name ?? '',
                   style: mediumTextStyle)),
           if (order.fulfillments != null && order.fulfillments!.isNotEmpty)
             const Divider(),

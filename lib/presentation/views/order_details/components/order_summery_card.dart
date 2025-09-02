@@ -11,7 +11,7 @@ class OrderSummeryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-    final item = order.items[index];
+    final item = order.items![index];
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),

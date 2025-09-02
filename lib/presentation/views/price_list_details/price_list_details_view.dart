@@ -212,25 +212,25 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                           PriceListProductTile(
                         product,
                         onEditPricesTap: () async {
-                          await context
-                              .pushRoute(AddUpdateVariantsPriceRoute(
-                                  product: product,
-                                  prices: priceListBloc.state.mapOrNull(
-                                      pricingList: (state) =>
-                                          state.priceList.prices)))
-                              .then((result) {
-                            if (result is List<MoneyAmount>) {
-                              // priceListBloc.add(PricingCrudEvent.updatePrices(
-                              //     id,
-                              //     UpdatePricesReq(
-                              //         prices: result
-                              //             .map((e) => MoneyAmount(
-                              //                 variantId: e.variantId,
-                              //                 amount: e.amount,
-                              //                 currencyCode: e.currencyCode))
-                              //             .toList())));
-                            }
-                          });
+                          // await context
+                          //     .pushRoute(AddUpdateVariantsPriceRoute(
+                          //         product: product,
+                          //         prices: priceListBloc.state.mapOrNull(
+                          //             pricingList: (state) =>
+                          //                 state.priceList.prices)))
+                          //     .then((result) {
+                          //   if (result is List<MoneyAmount>) {
+                          //     // priceListBloc.add(PricingCrudEvent.updatePrices(
+                          //     //     id,
+                          //     //     UpdatePricesReq(
+                          //     //         prices: result
+                          //     //             .map((e) => MoneyAmount(
+                          //     //                 variantId: e.variantId,
+                          //     //                 amount: e.amount,
+                          //     //                 currencyCode: e.currencyCode))
+                          //     //             .toList())));
+                          //   }
+                          // });
                         },
                         onRemoveProductTap: () async {
                           pricingCrudBloc.add(

@@ -17,11 +17,19 @@ class AuthenticationUseCase {
   AuthRepository get _authenticationRepository => _medusaAdminV2.auth;
   final MedusaAdminV2 _medusaAdminV2;
 
-  Future<Result<User, MedusaError>> login({required String email, required String password}) async {
+  Future<Result<String, MedusaError>> login(
+      {required String email, required String password}) async {
     try {
       final user = await _authenticationRepository
           .authProvider('emailpass', {'email': email, 'password': password});
-      return Success(user);
+      if (user is Map<String, dynamic>) {
+        return Success(user['token'] as String);
+      } else {
+        return Error(MedusaError(
+            code: 'invalid_response',
+            type: 'Invalid Response',
+            message: 'The response from the server was not as expected.'));
+      }
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -58,7 +66,7 @@ class AuthenticationUseCase {
 
   Future<Result<User, MedusaError>> getCurrentUser() async {
     try {
-      final result = await _authenticationRepository.login();
+      final result = await _authenticationRepository.postSession();
       return Success(result.user);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(

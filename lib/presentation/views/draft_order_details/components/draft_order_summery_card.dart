@@ -55,7 +55,7 @@ class DraftOrderSummeryCard extends StatelessWidget {
                 Text('${item.unitPrice.formatAsPrice(currencyCode)} x ${item.quantity}',
                     style: smallTextStyle, maxLines: 1),
                 const Divider(height: 5),
-                Text(item.total.formatAsPrice(currencyCode), style: mediumTextStyle, maxLines: 1),
+                // Text(item.total.formatAsPrice(currencyCode), style: mediumTextStyle, maxLines: 1),
               ],
             ),
           ),

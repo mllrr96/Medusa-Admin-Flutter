@@ -11,7 +11,6 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'components/region_card.dart';
-import 'components/regions_loading_page.dart';
 
 @RoutePage()
 class RegionsView extends StatefulWidget {
@@ -112,8 +111,8 @@ class _RegionsViewState extends State<RegionsView> {
                 animateTransitions: true,
                 itemBuilder: (context, region, index) =>
                     RegionCard(region: region),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const RegionsLoadingPage(),
+                // firstPageProgressIndicatorBuilder: (context) =>
+                //     const RegionsLoadingPage(),
                 firstPageErrorIndicatorBuilder: (context) =>
                     PaginationErrorPage(pagingController: pagingController),
               ),

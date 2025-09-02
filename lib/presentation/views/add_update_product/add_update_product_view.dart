@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
-import 'package:medusa_admin/data/models/wrapped.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/upload_files/upload_files_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';

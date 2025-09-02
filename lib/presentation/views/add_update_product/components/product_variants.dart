@@ -190,7 +190,7 @@ class ProductVariantCard extends StatelessWidget {
         children: [
           Expanded(
               child: Text(
-            variant.title,
+            variant.title ?? '',
             style: mediumTextStyle!.copyWith(fontWeight: FontWeight.bold),
           )),
           Row(

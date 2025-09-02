@@ -23,21 +23,30 @@ class OrderStatusLabel extends StatelessWidget {
         textColor = Colors.redAccent;
         text = 'Canceled';
         break;
-      case OrderStatus.completed:
-        containerColor = Colors.green.withOpacity(0.17);
-        textColor = Colors.green;
-        text = 'Completed';
-        break;
-      case OrderStatus.archived:
-        containerColor = Colors.green.withOpacity(0.17);
-        textColor = Colors.green;
-        text = 'Archived';
-        break;
-      case OrderStatus.requiresAction:
-        containerColor = Colors.red.withOpacity(0.17);
-        textColor = Colors.redAccent;
-        text = 'Require Action';
-        break;
+      // case OrderStatus.completed:
+      //   containerColor = Colors.green.withOpacity(0.17);
+      //   textColor = Colors.green;
+      //   text = 'Completed';
+      //   break;
+      // case OrderStatus.archived:
+      //   containerColor = Colors.green.withOpacity(0.17);
+      //   textColor = Colors.green;
+      //   text = 'Archived';
+      //   break;
+      // case OrderStatus.requiresAction:
+      //   containerColor = Colors.red.withOpacity(0.17);
+      //   textColor = Colors.redAccent;
+      //   text = 'Require Action';
+      //   break;
+      case OrderStatus.requested:
+        // TODO: Handle this case.
+        throw UnimplementedError();
+      case OrderStatus.confirmed:
+        // TODO: Handle this case.
+        throw UnimplementedError();
+      case OrderStatus.declined:
+        // TODO: Handle this case.
+        throw UnimplementedError();
     }
 
     return Container(

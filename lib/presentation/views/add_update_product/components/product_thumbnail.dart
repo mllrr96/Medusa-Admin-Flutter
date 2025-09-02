@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/data/helper/image_picker_helper.dart';
-import 'package:medusa_admin/data/models/wrapped.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'image_card.dart';

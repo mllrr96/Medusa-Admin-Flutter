@@ -66,14 +66,14 @@ class _CreateUpdateCustomGiftCardViewState
   }
 
   void loadGiftCard() {
-    selectedRegion = widget.giftCard!.region;
-    regionTextCtrl.text = selectedRegion?.name ?? '';
-    amountCtrl.text = widget.giftCard?.balance?.formatAsPrice(
-            selectedRegion?.currencyCode,
-            includeSymbol: false) ??
-        '';
-    expiryDate = widget.giftCard?.endsAt;
-    hasExpiryDate = expiryDate != null;
+    // selectedRegion = widget.giftCard!.region;
+    // regionTextCtrl.text = selectedRegion?.name ?? '';
+    // amountCtrl.text = widget.giftCard?.balance?.formatAsPrice(
+    //         selectedRegion?.currencyCode,
+    //         includeSymbol: false) ??
+    //     '';
+    // expiryDate = widget.giftCard?.endsAt;
+    // hasExpiryDate = expiryDate != null;
   }
 
   @override
@@ -114,20 +114,20 @@ class _CreateUpdateCustomGiftCardViewState
                     final balance = int.tryParse(
                         amountCtrl.text.replaceAll(RegExp(r'[^0-9]'), ''));
                     if (updateMode) {
-                      giftCardCrudBloc.add(GiftCardCrudEvent.update(
-                          widget.giftCard!.id,
-                          UpdateGiftCardReq(
-                            regionId: selectedRegion!.id,
-                            endsAt: expiryDate,
-                            balance: balance,
-                          )));
+                      // giftCardCrudBloc.add(GiftCardCrudEvent.update(
+                      //     widget.giftCard!.id,
+                      //     UpdateGiftCardReq(
+                      //       regionId: selectedRegion!.id,
+                      //       endsAt: expiryDate,
+                      //       balance: balance,
+                      //     )));
                     } else {
-                      giftCardCrudBloc
-                          .add(GiftCardCrudEvent.create(CreateGiftCardReq(
-                        value: balance,
-                        regionId: selectedRegion!.id,
-                        endsAt: expiryDate,
-                      )));
+                      // giftCardCrudBloc
+                      //     .add(GiftCardCrudEvent.create(CreateGiftCardReq(
+                      //   value: balance,
+                      //   regionId: selectedRegion!.id,
+                      //   endsAt: expiryDate,
+                      // )));
                     }
                   },
                   child: const Text('Save'))

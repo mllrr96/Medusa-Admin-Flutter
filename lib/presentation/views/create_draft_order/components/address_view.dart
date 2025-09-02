@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/core/extension/copy_with_address.dart';
+// import 'package:medusa_admin/core/extension/copy_with_address.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
@@ -60,8 +60,8 @@ class _CreateDraftOrderAddressViewState
   final billingPostalCodeCtrl = TextEditingController();
   final billingCityCtrl = TextEditingController();
   final billingProvinceCtrl = TextEditingController();
-  Address shippingAddress = const Address();
-  Address billingAddress = const Address();
+  Address shippingAddress = const Address(id: '', address1: '', city: '', countryCode: '', province: '', postalCode: '');
+  Address billingAddress = const Address(id: '', address1: '', city: '', countryCode: '', province: '', postalCode: '');
   Customer? selectedCustomer;
   bool customCustomer = true;
   bool sameAddress = false;
@@ -164,7 +164,7 @@ class _CreateDraftOrderAddressViewState
               customCustomer = true;
             }
             if (val.removeAllWhitespace.isNotEmpty) {
-              selectedCustomer = Customer(email: val);
+              selectedCustomer = Customer(email: val, id: '');
             }
           },
           validator: (val) {
@@ -206,7 +206,7 @@ class _CreateDraftOrderAddressViewState
                 label: 'First Name',
                 controller: firstNameCtrl,
                 onSaved: (val) {
-                  shippingAddress = shippingAddress.copyWith(firstName: val);
+                  // shippingAddress = shippingAddress.copyWith(firstName: val);
                   if (sameAddress) {
                     widget.onSaved?.call(
                       selectedCustomer!,
@@ -228,7 +228,7 @@ class _CreateDraftOrderAddressViewState
                   return null;
                 },
                 onChanged: (val) {
-                  shippingAddress = shippingAddress.copyWith(firstName: val);
+                  // shippingAddress = shippingAddress.copyWith(firstName: val);
                 },
                 required: true,
               ),
@@ -236,7 +236,7 @@ class _CreateDraftOrderAddressViewState
                 label: 'Last Name',
                 controller: lastNameCtrl,
                 onChanged: (val) {
-                  shippingAddress = shippingAddress.copyWith(lastName: val);
+                  // shippingAddress = shippingAddress.copyWith(lastName: val);
                 },
                 validator: (val) {
                   if (val == null || val.isEmpty) {
@@ -347,8 +347,8 @@ class _CreateDraftOrderAddressViewState
                       style: context.bodyMedium,
                       initialValue: countries.first,
                       onSaved: (country) {
-                        shippingAddress =
-                            shippingAddress.copyWith(country: country);
+                        // shippingAddress =
+                        //     shippingAddress.copyWith(country: country);
                       },
                       items: countries
                           .map((e) => DropdownMenuItem<Country>(
@@ -357,8 +357,8 @@ class _CreateDraftOrderAddressViewState
                               ))
                           .toList(),
                       onChanged: (Country? country) {
-                        shippingAddress =
-                            shippingAddress.copyWith(country: country);
+                        // shippingAddress =
+                        //     shippingAddress.copyWith(country: country);
                       },
                       validator: (val) {
                         if (val == null) {
@@ -393,7 +393,7 @@ class _CreateDraftOrderAddressViewState
               billingCityCtrl.clear();
               billingProvinceCtrl.clear();
             } else {
-              billingAddress = const Address();
+              billingAddress = const Address(id: '', address1: '', city: '', countryCode: '', province: '', postalCode: '');
               sameAddress = false;
             }
             setState(() {});
@@ -423,7 +423,7 @@ class _CreateDraftOrderAddressViewState
                 readOnly: sameAddress,
                 controller: billingFirstNameCtrl,
                 onChanged: (val) {
-                  billingAddress = billingAddress.copyWith(firstName: val);
+                  // billingAddress = billingAddress.copyWith(firstName: val);
                 },
                 validator: (val) {
                   if (sameAddress) {
@@ -442,7 +442,7 @@ class _CreateDraftOrderAddressViewState
                 readOnly: sameAddress,
                 controller: billingLastNameCtrl,
                 onChanged: (val) {
-                  billingAddress = billingAddress.copyWith(lastName: val);
+                  // billingAddress = billingAddress.copyWith(lastName: val);
                 },
                 validator: (val) {
                   if (sameAddress) {
@@ -585,8 +585,8 @@ class _CreateDraftOrderAddressViewState
                               ))
                           .toList(),
                       onChanged: (Country? country) {
-                        billingAddress =
-                            billingAddress.copyWith(country: country);
+                        // billingAddress =
+                        //     billingAddress.copyWith(country: country);
                       },
                       validator: (val) {
                         if (sameAddress) {

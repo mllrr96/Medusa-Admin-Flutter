@@ -168,26 +168,26 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                             [];
                                         if (selectedProducts.isNotEmpty &&
                                             context.mounted) {
-                                          context
-                                              .read<CollectionCrudBloc>()
-                                              .add(CollectionCrudEvent.addProducts(
-                                                  CollectionUpdateProductsReq(
-                                                collectionId:
-                                                    widget.collectionId,
-                                                productsIds: selectedProducts,
-                                              )));
+                                          // context
+                                          //     .read<CollectionCrudBloc>()
+                                          //     .add(CollectionCrudEvent.addProducts(
+                                          //         CollectionUpdateProductsReq(
+                                          //       collectionId:
+                                          //           widget.collectionId,
+                                          //       productsIds: selectedProducts,
+                                          //     )));
                                         }
                                         if (removedProducts.isNotEmpty &&
                                             context.mounted) {
-                                          context
-                                              .read<CollectionCrudBloc>()
-                                              .add(CollectionCrudEvent
-                                                  .removeProducts(
-                                                      CollectionRemoveProductsReq(
-                                                collectionId:
-                                                    widget.collectionId,
-                                                productsIds: removedProducts,
-                                              )));
+                                          // context
+                                          //     .read<CollectionCrudBloc>()
+                                          //     .add(CollectionCrudEvent
+                                          //         .removeProducts(
+                                          //             CollectionRemoveProductsReq(
+                                          //       collectionId:
+                                          //           widget.collectionId,
+                                          //       productsIds: removedProducts,
+                                          //     )));
                                         }
                                       }
                                     },
@@ -224,11 +224,11 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                 final selectedProducts = result.selectedProducts
                                     .map((e) => e.id)
                                     .toList();
-                                context.read<CollectionCrudBloc>().add(
-                                    CollectionCrudEvent.addProducts(
-                                        CollectionUpdateProductsReq(
-                                            collectionId: widget.collectionId,
-                                            productsIds: selectedProducts)));
+                                // context.read<CollectionCrudBloc>().add(
+                                //     CollectionCrudEvent.addProducts(
+                                //         CollectionUpdateProductsReq(
+                                //             collectionId: widget.collectionId,
+                                //             productsIds: selectedProducts)));
                               }
                             },
                             child: Text(tr.collectionProductTableAddProducts))
@@ -276,11 +276,11 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                             onPressed: () async {
                               if (await _showDeleteCollectionDialog &&
                                   context.mounted) {
-                                context.read<CollectionCrudBloc>().add(
-                                    CollectionCrudEvent.removeProducts(
-                                        CollectionRemoveProductsReq(
-                                            collectionId: widget.collectionId,
-                                            productsIds: [product.id])));
+                                // context.read<CollectionCrudBloc>().add(
+                                //     CollectionCrudEvent.removeProducts(
+                                //         CollectionRemoveProductsReq(
+                                //             collectionId: widget.collectionId,
+                                //             productsIds: [product.id])));
                               }
                             },
                             icon: const Icon(Icons.delete_forever,

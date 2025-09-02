@@ -11,7 +11,6 @@ import 'package:info_popup/info_popup.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
-import 'package:medusa_admin/data/models/shipping_option_req.dart';
 import 'package:medusa_admin/presentation/blocs/region_crud/region_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
@@ -233,12 +232,14 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                               ShippingOptionsList(region),
                               Center(
                                 child: TextButton(
-                                  onPressed: () => context
-                                      .pushRoute(AddUpdateShippingOptionRoute(
-                                    addUpdateShippingOptionReq:
-                                        AddUpdateShippingOptionReq(
-                                            region: region),
-                                  )),
+                                  onPressed: () {
+                                  //   context
+                                  //     .pushRoute(AddUpdateShippingOptionRoute(
+                                  //   addUpdateShippingOptionReq:
+                                  //       AddUpdateShippingOptionReq(
+                                  //           region: region),
+                                  // ));
+                                  },
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -276,14 +277,16 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                               ShippingOptionsList(region, isReturn: true),
                               Center(
                                 child: TextButton(
-                                  onPressed: () => context
-                                      .pushRoute(AddUpdateShippingOptionRoute(
-                                    addUpdateShippingOptionReq:
-                                        AddUpdateShippingOptionReq(
-                                      region: region,
-                                      returnShippingOption: true,
-                                    ),
-                                  )),
+                                  onPressed: () {
+                                    // context
+                                    //   .pushRoute(AddUpdateShippingOptionRoute(
+                                    // addUpdateShippingOptionReq:
+                                    //     AddUpdateShippingOptionReq(
+                                    //   region: region,
+                                    //   returnShippingOption: true,
+                                    // ),
+                                  // ));
+                                  },
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -385,13 +388,13 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
 
   String getFulfilmentProviders(Region region) {
     String fulfilmentProviders = '';
-    for (FulfillmentProvider fulfillment in region.fulfillmentProviders) {
-      if (fulfilmentProviders.isNotEmpty) {
-        fulfilmentProviders = '$fulfilmentProviders, ${fulfillment.id!}';
-      } else {
-        fulfilmentProviders = fulfillment.id!;
-      }
-    }
+    // for (FulfillmentProvider fulfillment in region.fulfillmentProviders) {
+    //   if (fulfilmentProviders.isNotEmpty) {
+    //     fulfilmentProviders = '$fulfilmentProviders, ${fulfillment.id!}';
+    //   } else {
+    //     fulfilmentProviders = fulfillment.id!;
+    //   }
+    // }
       return fulfilmentProviders.capitalize;
   }
 }

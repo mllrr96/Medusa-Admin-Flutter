@@ -11,9 +11,9 @@ class TeamLoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const user = User(
         email: 'Medusa@js.com',
-        role: UserRole.admin,
+        // role: UserRole.admin,
         firstName: 'Medusa',
-        lastName: 'Admin');
+        lastName: 'Admin', id: '', role: '');
     return Skeletonizer(
       enabled: true,
       child: Column(

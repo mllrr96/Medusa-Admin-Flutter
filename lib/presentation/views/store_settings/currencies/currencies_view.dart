@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/currencies/currencies_cubit.dart';
@@ -15,7 +14,6 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:flutter/foundation.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
@@ -34,16 +32,16 @@ class _CurrenciesViewState extends State<CurrenciesView> {
   @override
   void initState() {
     storeBloc = StoreBloc.instance;
-    store = context
-        .read<StoreBloc>()
-        .state
-        .maybeMap(loaded: (value) => value.store, orElse: () => null);
-    if (store == null) {
-      context.read<StoreBloc>().add(const StoreEvent.loadStore());
-      context.maybePop();
-    }
-    currencies = store?.currencies ?? [];
-    defaultStoreCurrency = store?.defaultCurrency;
+    // store = context
+    //     .read<StoreBloc>()
+    //     .state
+    //     .maybeMap(loaded: (value) => value.store, orElse: () => null);
+    // if (store == null) {
+    //   context.read<StoreBloc>().add(const StoreEvent.loadStore());
+    //   context.maybePop();
+    // }
+    // currencies = store?.currencies ?? [];
+    // defaultStoreCurrency = store?.defaultCurrency;
     super.initState();
   }
 
@@ -64,13 +62,13 @@ class _CurrenciesViewState extends State<CurrenciesView> {
       listener: (context, state) {
         state.maybeMap(
           loading: (_) => loading(),
-          loaded: (_) {
-            dismissLoading();
-            context.maybePop();
-          },
+          // loaded: (_) {
+          //   dismissLoading();
+          //   context.maybePop();
+          // },
           error: (_) {
             dismissLoading();
-            context.showSnackBar(_.failure.toSnackBarString());
+            // context.showSnackBar(_.failure.toSnackBarString());
           },
           orElse: () => dismissLoading(),
         );
@@ -84,28 +82,28 @@ class _CurrenciesViewState extends State<CurrenciesView> {
               actions: [
                 TextButton(
                     onPressed: () async {
-                      final sameCurrencies = listEquals(
-                          currencies.map((e) => e.code).toList(),
-                          state
-                              .mapOrNull(loaded: (_) => _.store.currencies)
-                              ?.map((e) => e.code)
-                              .toList());
-                      if (sameCurrencies &&
-                          defaultStoreCurrency?.code ==
-                              state
-                                  .mapOrNull(
-                                      loaded: (_) => _.store.defaultCurrency)
-                                  ?.code) {
-                        context.maybePop();
-                        return;
-                      }
-                      List<String> currenciesIsoCode = [];
-                      for (var currency in currencies) {
-                        currenciesIsoCode.add(currency.code);
-                      }
-                      storeBloc.add(StoreEvent.updateStore(StorePostReq(
-                          defaultCurrencyCode: defaultStoreCurrency?.code,
-                          currencies: currenciesIsoCode)));
+                      // final sameCurrencies = listEquals(
+                      //     currencies.map((e) => e.code).toList(),
+                      //     state
+                      //         .mapOrNull(loaded: (_) => _.store.currencies)
+                      //         ?.map((e) => e.code)
+                      //         .toList());
+                      // if (sameCurrencies &&
+                      //     defaultStoreCurrency?.code ==
+                      //         state
+                      //             .mapOrNull(
+                      //                 loaded: (_) => _.store.defaultCurrency)
+                      //             ?.code) {
+                      //   context.maybePop();
+                      //   return;
+                      // }
+                      // List<String> currenciesIsoCode = [];
+                      // for (var currency in currencies) {
+                      //   currenciesIsoCode.add(currency.code);
+                      // }
+                      // storeBloc.add(StoreEvent.updateStore(StorePostReq(
+                      //     defaultCurrencyCode: defaultStoreCurrency?.code,
+                      //     currencies: currenciesIsoCode)));
                     },
                     child: const Text('Save')),
               ],

@@ -13,7 +13,7 @@ class CollectionsLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final collection = ProductCollection(title: 'Collection', handle: 'medusa',updatedAt: DateTime.now(),
-    products: []
+    products: [], id: ''
     );
     return Skeletonizer(
       enabled: true,

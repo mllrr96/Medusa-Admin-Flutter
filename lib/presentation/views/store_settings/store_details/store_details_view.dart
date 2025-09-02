@@ -34,14 +34,14 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
   @override
   void initState() {
     storeBloc = StoreBloc.instance;
-    store = context.read<StoreBloc>().state.mapOrNull(loaded: (_) => _.store);
+    store = context.read<StoreBloc>().state.mapOrNull(store: (_) => _.store);
     if (store == null) {
-      context.read<StoreBloc>().add(const StoreEvent.loadStore());
+      // context.read<StoreBloc>().add(const StoreEvent.loadStore());
       context.maybePop();
     }
     storeCtrl.text = store?.name ?? '';
-    swapLinkCtrl.text = store?.swapLinkTemplate ?? '';
-    inviteLinkCtrl.text = store?.inviteLinkTemplate ?? '';
+    // swapLinkCtrl.text = store?.swapLinkTemplate ?? '';
+    // inviteLinkCtrl.text = store?.inviteLinkTemplate ?? '';
     super.initState();
   }
 
@@ -66,15 +66,15 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
       listener: (context, state) {
         state.maybeMap(
             loading: (_) => loading(),
-            loaded: (_) {
+            store: (_) {
               dismissLoading();
               context.maybePop();
               context.showSnackBar('Store details updated successfully');
-              context.read<StoreBloc>().add(const StoreEvent.loadStore());
+              // context.read<StoreBloc>().add(const StoreEvent.loadStore());
             },
             error: (_) {
               dismissLoading();
-              context.showSnackBar(_.failure.toSnackBarString());
+              context.showSnackBar(_.e.toSnackBarString());
             },
             orElse: () => dismissLoading());
       },
@@ -87,29 +87,29 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
               TextButton(
                   child: const Text('Save'),
                   onPressed: () async {
-                    if (storeCtrl.text == store?.name &&
-                        (swapLinkCtrl.text == store?.swapLinkTemplate ||
-                            swapLinkCtrl.text.isEmpty) &&
-                        (inviteLinkCtrl.text == store?.inviteLinkTemplate ||
-                            inviteLinkCtrl.text.isEmpty)) {
-                      context.maybePop();
-                      return;
-                    }
-
-                    if (!keyFrom.currentState!.validate()) {
-                      return;
-                    }
-                    context.unfocus();
-                    storeBloc.add(StoreEvent.updateStore(StorePostReq(
-                        name: storeCtrl.text,
-                        swapLinkTemplate:
-                            swapLinkCtrl.text.removeAllWhitespace.isEmpty
-                                ? null
-                                : swapLinkCtrl.text,
-                        inviteLinkTemplate:
-                            inviteLinkCtrl.text.removeAllWhitespace.isEmpty
-                                ? null
-                                : inviteLinkCtrl.text)));
+                    // if (storeCtrl.text == store?.name &&
+                    //     (swapLinkCtrl.text == store?.swapLinkTemplate ||
+                    //         swapLinkCtrl.text.isEmpty) &&
+                    //     (inviteLinkCtrl.text == store?.inviteLinkTemplate ||
+                    //         inviteLinkCtrl.text.isEmpty)) {
+                    //   context.maybePop();
+                    //   return;
+                    // }
+                    //
+                    // if (!keyFrom.currentState!.validate()) {
+                    //   return;
+                    // }
+                    // context.unfocus();
+                    // storeBloc.add(StoreEvent.updateStore(StorePostReq(
+                    //     name: storeCtrl.text,
+                    //     swapLinkTemplate:
+                    //         swapLinkCtrl.text.removeAllWhitespace.isEmpty
+                    //             ? null
+                    //             : swapLinkCtrl.text,
+                    //     inviteLinkTemplate:
+                    //         inviteLinkCtrl.text.removeAllWhitespace.isEmpty
+                    //             ? null
+                    //             : inviteLinkCtrl.text)));
                   }),
             ],
           ),

@@ -164,7 +164,7 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                                 return const SizedBox();
                               }
                             case SearchCategory.discounts:
-                              if (object is Discount) {
+                              if (object is Promotion) {
                                 return DiscountCard(object);
                               } else {
                                 return const SizedBox();

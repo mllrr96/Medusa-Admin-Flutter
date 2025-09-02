@@ -16,7 +16,6 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
-import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
 import 'easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

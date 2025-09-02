@@ -89,22 +89,22 @@ class _AddUpdateSalesChannelViewState extends State<AddUpdateSalesChannelView> {
                 if (!formKey.currentState!.validate()) {
                   return;
                 }
-                updateMode
-                    ? salesChannelCrudBloc.add(SalesChannelCrudEvent.update(
-                        widget.salesChannel!.id,
-                        SalesChannelUpdateReq(
-                          name: titleCtrl.text,
-                          description: descriptionCtrl.text,
-                          isDisabled: disabled,
-                        ),
-                      ))
-                    : salesChannelCrudBloc.add(SalesChannelCrudEvent.create(
-                        SalesChannelCreateReq(
-                          name: titleCtrl.text,
-                          description: descriptionCtrl.text,
-                          isDisabled: disabled,
-                        ),
-                      ));
+                // updateMode
+                //     ? salesChannelCrudBloc.add(SalesChannelCrudEvent.update(
+                //         widget.salesChannel!.id,
+                //         SalesChannelUpdateReq(
+                //           name: titleCtrl.text,
+                //           description: descriptionCtrl.text,
+                //           isDisabled: disabled,
+                //         ),
+                //       ))
+                //     : salesChannelCrudBloc.add(SalesChannelCrudEvent.create(
+                //         SalesChannelCreateReq(
+                //           name: titleCtrl.text,
+                //           description: descriptionCtrl.text,
+                //           isDisabled: disabled,
+                //         ),
+                //       ));
               },
               child: updateMode
                   ? const Text('Update Channel',

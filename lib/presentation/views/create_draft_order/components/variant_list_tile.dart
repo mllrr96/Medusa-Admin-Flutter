@@ -29,13 +29,13 @@ class VariantListTile extends StatelessWidget {
     final productVariant = lineItem.variant!;
     MoneyAmount? moneyAmount;
     final priceList = productVariant.prices
-        .where((e) => e.currencyCode == selectedRegion?.currencyCode);
-    if (priceList.isNotEmpty ?? false) {
-      moneyAmount = priceList.first;
+        ?.where((e) => e.currencyCode == selectedRegion?.currencyCode);
+    if (priceList?.isNotEmpty ?? false) {
+      moneyAmount = priceList?.first;
     } else {
-      moneyAmount = (productVariant.prices.isNotEmpty ?? false)
-          ? productVariant.prices.first
-          : const MoneyAmount(amount: 0, currencyCode: 'USD');
+      moneyAmount = (productVariant.prices?.isNotEmpty ?? false)
+          ? productVariant.prices?.first
+          : const MoneyAmount(amount: 0, currencyCode: 'USD', id: '');
     }
 
     const space = Gap(12);
@@ -90,7 +90,7 @@ class VariantListTile extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
                       Text(
-                          moneyAmount.amount
+                          moneyAmount!.amount
                               .formatAsPrice(moneyAmount.currencyCode),
                           style: smallTextStyle?.copyWith(color: manatee),
                           maxLines: 1,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin/presentation/views/draft_orders/components/index.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import '../../../../../core/constant/colors.dart';
@@ -14,10 +15,10 @@ class DraftOrderOverview extends StatelessWidget {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-    final email = draftOrder.cart?.email;
-    final billingAddress = draftOrder.cart?.billingAddress;
-    final currencyCode = draftOrder.cart?.region?.currencyCode;
-    int? amount = draftOrder.cart?.total;
+    final email = draftOrder.email;
+    final billingAddress = draftOrder.billingAddress;
+    final currencyCode = draftOrder.region?.currencyCode;
+    int? amount = draftOrder.total;
     const space = Gap(12);
     const halfSpace = Gap(6);
     return Container(
@@ -37,9 +38,9 @@ class DraftOrderOverview extends StatelessWidget {
                 children: [
                   Text('#${draftOrder.displayId!}', style: context.bodyLarge),
                   halfSpace,
-                  if (draftOrder.cart != null && draftOrder.cart!.createdAt != null)
+                  if ( draftOrder.createdAt != null)
                     Text(
-                      'on ${draftOrder.cart!.createdAt.formatDate()} at ${draftOrder.cart!.createdAt.formatTime()}',
+                      'on ${draftOrder.createdAt?.formatDate()} at ${draftOrder.createdAt?.formatTime()}',
                       style: context.bodyMedium,
                     )
                 ],
@@ -56,7 +57,7 @@ class DraftOrderOverview extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(email ?? 'Email: N/A', style: mediumTextStyle),
+                      Text(email, style: mediumTextStyle),
                       const SizedBox(height: 6.0),
                       Text(billingAddress?.phone?.toString() ?? 'Phone: N/A',
                           style: smallTextStyle?.copyWith(color: manatee)),

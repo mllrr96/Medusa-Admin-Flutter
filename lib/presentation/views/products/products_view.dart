@@ -196,7 +196,7 @@ class _ProductsViewState extends State<ProductsView> {
                     label: 'Import Products',
                     labelStyle: smallTextStyle,
                     onTap: () async {
-                      await context.pushRoute(const ImportProductsRoute());
+                      // await context.pushRoute(const ImportProductsRoute());
                     },
                     onLongPress: () {},
                   ),

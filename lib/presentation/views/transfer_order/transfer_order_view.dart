@@ -103,8 +103,8 @@ class _TransferOrderViewState extends State<TransferOrderView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   FulfillmentStatusLabel(
-                      fulfillmentStatus: order.fulfillmentStatus),
-                  PaymentStatusLabel(paymentStatus: order.paymentStatus)
+                      fulfillmentStatus: order.fulfillmentStatus!),
+                  PaymentStatusLabel(paymentStatus: order.paymentStatus!)
                 ],
               ),
               space,

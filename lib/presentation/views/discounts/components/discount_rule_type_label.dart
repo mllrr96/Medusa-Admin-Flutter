@@ -3,32 +3,34 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 import '../../../../core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/num_extension.dart';
 class PromotionTypeLabel extends StatelessWidget {
   const PromotionTypeLabel({super.key, required this.discount});
-  final Discount discount;
+  final Promotion discount;
   @override
   Widget build(BuildContext context) {
     Color containerColor = ColorManager.primary.withOpacity(0.17);
     Color textColor = ColorManager.primary;
     String text = 'Upcoming';
-    final valueText = discount.rule!.value;
-    switch (discount.rule!.type) {
-      case PromotionType.fixed:
+    final valueText = discount.code;
+    switch (discount.type) {
+      case PromotionType.buyget:
         containerColor = Colors.orangeAccent.withOpacity(0.17);
         textColor = Colors.orangeAccent;
-        text = discount.rule?.value.formatAsPrice(discount.regions.firstOrNull?.currencyCode) ?? '';
+        // text = discount.rule?.value.formatAsPrice(discount.regions.firstOrNull?.currencyCode) ?? '';
         break;
-      case PromotionType.percentage:
+      case PromotionType.standard:
         containerColor = Colors.blueAccent.withOpacity(0.17);
         textColor = Colors.blueAccent;
         text = '${valueText ?? ''} %';
         break;
-      case PromotionType.freeShipping:
-        containerColor = Colors.green.withOpacity(0.17);
-        textColor = Colors.green;
-        text = 'Free shipping';
-        break;
+      // case PromotionType.freeShipping:
+      //   containerColor = Colors.green.withOpacity(0.17);
+      //   textColor = Colors.green;
+      //   text = 'Free shipping';
+      //   break;
+      case null:
+        // TODO: Handle this case.
+        throw UnimplementedError();
     }
 
     return Container(

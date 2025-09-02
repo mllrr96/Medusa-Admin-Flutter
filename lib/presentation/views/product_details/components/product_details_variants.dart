@@ -1,11 +1,9 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/data/models/product_variant_req.dart';
-import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
@@ -80,7 +78,7 @@ class ProductDetailsVariants extends StatelessWidget {
                         spacing: 8.0,
                         children: option.values
                                 ?.map((e) => Chip(
-                                    label: Text(e.value ?? '',
+                                    label: Text(e.value,
                                         style: smallTextStyle)))
                                 .toList() ??
                             [],
@@ -138,8 +136,7 @@ class ProductDetailsVariants extends StatelessWidget {
                             children: [
                               Center(
                                   child: Text(
-                                      variant.inventoryQuantity.toString() ??
-                                          '-',
+                                      variant.inventoryQuantity.toString(),
                                       style: smallTextStyle)),
                               IconButton(
                                   onPressed: () async {

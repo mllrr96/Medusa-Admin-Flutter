@@ -175,7 +175,7 @@ class _ProductAttributesState extends State<ProductAttributes> {
                             ]),
                           ));
                   if (result is List<Country>) {
-                    countryCtrl.text = result.first.displayOnStore!;
+                    countryCtrl.text = result.first.displayOnStore;
                     originCountryIso = result.first.iso2;
                     setState(() {});
                   }

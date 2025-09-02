@@ -22,12 +22,12 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
   List<LineItem> items = [];
   @override
   void initState() {
-    for (var e in widget.order.items) {
-      if ((e.quantity - (e.fulfilledQuantity ?? 0)) != 0) {
-        lineItemCount.addAll({e.id: e.quantity});
-        items.add(e);
-      }
-    }
+    // for (var e in widget.order.items) {
+    //   if ((e.quantity - (e.fulfilledQuantity ?? 0)) != 0) {
+    //     lineItemCount.addAll({e.id: e.quantity});
+    //     items.add(e);
+    //   }
+    // }
     super.initState();
   }
 
@@ -50,7 +50,7 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
                       List<LineItem> lineItems = [];
                       lineItemCount.forEach((key, value) {
                         if (value != 0) {
-                          lineItems.add(LineItem(id: key, quantity: value));
+                          // lineItems.add(LineItem(id: key, quantity: value));
                         }
                       });
                       context.maybePop(lineItems);

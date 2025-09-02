@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,7 +5,6 @@ import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
@@ -56,13 +54,13 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
                         if (!formKey.currentState!.validate()) {
                           return;
                         }
-                        context.maybePop(LineItem(
-                          title: titleCtrl.text,
-                          quantity: int.tryParse(quantityCtrl.text),
-                          unitPrice: int.tryParse(priceCtrl.text
-                              .replaceAll('.', '')
-                              .replaceAll(',', '')),
-                        ));
+                        // context.maybePop(LineItem(
+                        //   title: titleCtrl.text,
+                        //   quantity: int.tryParse(quantityCtrl.text),
+                        //   unitPrice: int.tryParse(priceCtrl.text
+                        //       .replaceAll('.', '')
+                        //       .replaceAll(',', '')),
+                        // ));
                       },
                       child: const Text('Add'))
                 ],

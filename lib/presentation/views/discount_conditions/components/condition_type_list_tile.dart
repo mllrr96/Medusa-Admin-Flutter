@@ -14,7 +14,7 @@ class ConditionTypeListTile extends StatelessWidget {
     return CheckboxListTile(
       enabled: enabled,
       controlAffinity: ListTileControlAffinity.trailing,
-      title: Text(type.value ?? '', style: mediumTextStyle),
+      title: Text(type.value, style: mediumTextStyle),
       value: value,
       onChanged: onChanged,
     );

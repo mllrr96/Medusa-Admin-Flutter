@@ -30,7 +30,7 @@ class ProductTileWithVariantCount extends StatelessWidget {
                 errorWidget: (context, string, error) => const Icon(Icons.warning_rounded, color: Colors.redAccent),
               ))
           : null,
-      title: Text(product.title ?? '',
+      title: Text(product.title,
           style: mediumTextStyle?.copyWith(color: enabled != null && enabled == false ? manatee : null)),
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

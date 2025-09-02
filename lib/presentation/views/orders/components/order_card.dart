@@ -11,7 +11,6 @@ import 'package:medusa_admin/data/models/order_preference.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 import 'fulfillment_label.dart';
 import 'payment_status_label.dart';
@@ -42,7 +41,7 @@ class OrderCard extends StatelessWidget {
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ??
-          () => context.pushRoute(OrderDetailsRoute(orderId: order.id!)),
+          () => context.pushRoute(OrderDetailsRoute(orderId: order.id)),
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7.0),
         decoration: BoxDecoration(
@@ -72,7 +71,7 @@ class OrderCard extends StatelessWidget {
                     ),
                     if (order.shippingAddress?.countryCode != null &&
                         !orderSettingsModel.hideFlag)
-                      Flag.fromString(order.shippingAddress!.countryCode!,
+                      Flag.fromString(order.shippingAddress!.countryCode,
                           height: 15, width: 30),
                   ],
                 ),
@@ -125,7 +124,7 @@ class OrderCard extends StatelessWidget {
                                 ? null
                                 : Text(
                                     customerName?[0] ??
-                                        order.customer!.email?[0] ??
+                                        order.customer!.email[0] ??
                                         '',
                                     style:
                                         const TextStyle(color: Colors.white)),
@@ -188,7 +187,7 @@ class AlternativeOrderCard extends StatelessWidget {
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         onTap: onTap ??
-            () => context.pushRoute(OrderDetailsRoute(orderId: order.id!)),
+            () => context.pushRoute(OrderDetailsRoute(orderId: order.id)),
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
           decoration: const BoxDecoration(
@@ -222,7 +221,7 @@ class AlternativeOrderCard extends StatelessWidget {
                           ),
                         if (order.shippingAddress?.countryCode != null &&
                             !orderPreference.hideFlag)
-                          Flag.fromString(order.shippingAddress!.countryCode!,
+                          Flag.fromString(order.shippingAddress!.countryCode,
                               height: 15, width: 30),
                       ],
                     ),
@@ -250,7 +249,7 @@ class AlternativeOrderCard extends StatelessWidget {
                               ? null
                               : Text(
                                   customerName?[0] ??
-                                      order.customer!.email?[0] ??
+                                      order.customer!.email[0] ??
                                       '',
                                   style: const TextStyle(color: Colors.white)),
                         ),
@@ -376,7 +375,7 @@ class AlternativeOrderCard extends StatelessWidget {
                             image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: CachedNetworkImageProvider(
-                                    order.items![index].thumbnail!))),
+                                    order.items![index].thumbnail))),
                       ),
                       const SizedBox(width: 10)
                     ],
@@ -412,7 +411,7 @@ class AlternativeOrderCard extends StatelessWidget {
                         image: DecorationImage(
                             fit: BoxFit.cover,
                             image: CachedNetworkImageProvider(
-                                order.items![index].thumbnail!))),
+                                order.items![index].thumbnail))),
                   ),
                   const SizedBox(width: 10)
                 ],
@@ -450,7 +449,7 @@ class CustomerOrderCard extends StatelessWidget {
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ??
-          () => context.pushRoute(OrderDetailsRoute(orderId: order.id!)),
+          () => context.pushRoute(OrderDetailsRoute(orderId: order.id)),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
         decoration: BoxDecoration(
@@ -608,7 +607,7 @@ class CustomerOrderCard extends StatelessWidget {
                             image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: CachedNetworkImageProvider(
-                                    order.items![index].thumbnail!))),
+                                    order.items![index].thumbnail))),
                       ),
                       const SizedBox(width: 10)
                     ],
@@ -644,7 +643,7 @@ class CustomerOrderCard extends StatelessWidget {
                         image: DecorationImage(
                             fit: BoxFit.cover,
                             image: CachedNetworkImageProvider(
-                                order.items![index].thumbnail!))),
+                                order.items![index].thumbnail))),
                   ),
                   const SizedBox(width: 10)
                 ],

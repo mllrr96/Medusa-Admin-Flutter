@@ -125,7 +125,7 @@ class DiscountCrudUseCase {
     // }
   }
 
-  Future<Result<Discount, MedusaError>> createDiscountCondition({
+  Future<Result<Promotion, MedusaError>> createDiscountCondition({
     required String discountId,
     // required CreateConditionReq userCreateConditionReq,
   }) async {
@@ -147,7 +147,7 @@ class DiscountCrudUseCase {
     // }
   }
 
-  Future<Result<Discount, MedusaError>> addBatchResources({
+  Future<Result<Promotion, MedusaError>> addBatchResources({
     required String discountId,
     required String conditionId,
     required List<String> itemIds,
@@ -169,7 +169,7 @@ class DiscountCrudUseCase {
     // }
   }
 
-  Future<Result<Discount, MedusaError>> deleteBatchResources({
+  Future<Result<Promotion, MedusaError>> deleteBatchResources({
     required String discountId,
     required String conditionId,
     required List<String> itemIds,

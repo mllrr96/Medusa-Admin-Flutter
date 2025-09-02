@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+
 class InviteUserCard extends StatefulWidget {
   const InviteUserCard({super.key, this.onInvite});
+
   final void Function()? onInvite;
+
   @override
   State<InviteUserCard> createState() => _InviteUserCardState();
 }
@@ -25,11 +27,12 @@ class _InviteUserCardState extends State<InviteUserCard> {
 
   @override
   Widget build(BuildContext context) {
-    var selectedRole = UserRole.member;
+    var selectedRole = 'member';
     final mediumTextStyle = context.bodyMedium;
     return Padding(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewPadding.bottom + MediaQuery.of(context).viewInsets.bottom,
+        bottom:
+            MediaQuery.of(context).viewPadding.bottom + MediaQuery.of(context).viewInsets.bottom,
         left: 12.0,
         right: 12.0,
         top: 8.0,
@@ -47,7 +50,6 @@ class _InviteUserCardState extends State<InviteUserCard> {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         widget.onInvite?.call();
-
                       }
                     },
                     child: const Text('Invite')),
@@ -73,7 +75,7 @@ class _InviteUserCardState extends State<InviteUserCard> {
             const SizedBox(height: 6.0),
             Text('Role', style: mediumTextStyle),
             const SizedBox(height: 6.0),
-            DropdownButtonFormField<UserRole>(
+            DropdownButtonFormField<String>(
               style: context.bodyMedium,
               initialValue: selectedRole,
               onChanged: (role) {
@@ -81,8 +83,8 @@ class _InviteUserCardState extends State<InviteUserCard> {
                   selectedRole = role;
                 }
               },
-              items: UserRole.values
-                  .map((e) => DropdownMenuItem<UserRole>(value: e, child: Text(e.name.capitalize)))
+              items: ['member', 'admin', 'developer']
+                  .map((e) => DropdownMenuItem<String>(value: e, child: Text(e.capitalize)))
                   .toList(),
               decoration: InputDecoration(
                   enabledBorder: const OutlineInputBorder(

@@ -10,9 +10,10 @@ import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class OrdersUseCase {
-  OrdersUseCase(this._ordersRepository);
+  OrdersUseCase(this._medusaAdminV2);
+  final MedusaAdminV2 _medusaAdminV2;
 
-  final OrdersRepository _ordersRepository;
+  OrdersRepository get _ordersRepository => _medusaAdminV2.orders;
 
   static OrdersUseCase get instance => getIt<OrdersUseCase>();
 

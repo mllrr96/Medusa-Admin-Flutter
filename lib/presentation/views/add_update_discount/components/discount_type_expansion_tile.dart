@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'discount_allocation_type_card.dart';
 import 'discount_type_card.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 

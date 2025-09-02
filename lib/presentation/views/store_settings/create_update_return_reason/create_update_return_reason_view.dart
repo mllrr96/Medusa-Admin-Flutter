@@ -98,23 +98,23 @@ class _CreateUpdateReturnReasonViewState
                   }
 
                   if (updateMode) {
-                    returnReasonsCrudBloc.add(ReturnReasonsCrudEvent.update(
-                      widget.returnReason!.id,
-                      UpdateReturnReasonReq(
-                          label: labelCtrl.text,
-                          value: valueCtrl.text,
-                          description: descriptionCtrl.text),
-                    ));
+                    // returnReasonsCrudBloc.add(ReturnReasonsCrudEvent.update(
+                    //   widget.returnReason!.id,
+                    //   UpdateReturnReasonReq(
+                    //       label: labelCtrl.text,
+                    //       value: valueCtrl.text,
+                    //       description: descriptionCtrl.text),
+                    // ));
                   } else {
-                    returnReasonsCrudBloc.add(
-                      ReturnReasonsCrudEvent.create(CreateReturnReasonReq(
-                          label: labelCtrl.text,
-                          value: valueCtrl.text,
-                          description:
-                              descriptionCtrl.text.removeAllWhitespace.isEmpty
-                                  ? null
-                                  : descriptionCtrl.text)),
-                    );
+                    // returnReasonsCrudBloc.add(
+                    //   ReturnReasonsCrudEvent.create(CreateReturnReasonReq(
+                    //       label: labelCtrl.text,
+                    //       value: valueCtrl.text,
+                    //       description:
+                    //           descriptionCtrl.text.removeAllWhitespace.isEmpty
+                    //               ? null
+                    //               : descriptionCtrl.text)),
+                    // );
                   }
                 },
                 child: updateMode ? const Text('Update') : const Text('Create'),

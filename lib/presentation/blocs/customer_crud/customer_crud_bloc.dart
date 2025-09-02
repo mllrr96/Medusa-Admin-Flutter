@@ -78,7 +78,7 @@ class CustomerCrudBloc extends Bloc<CustomerCrudEvent, CustomerCrudState> {
     emit(const _Loading());
     final result = await customerCrudUseCase.retrieveAll(queryParameters: {'limit': pageSize, ...?event.queryParameters});
     result.when((response) {
-      emit(_Customers(response.customers ?? [], response.count ?? 0));
+      emit(_Customers(response.customers, response.count));
     }, (error) {
       emit(_Error(error));
     });

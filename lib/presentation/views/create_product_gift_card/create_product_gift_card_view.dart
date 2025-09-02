@@ -71,49 +71,49 @@ class _CreateProductGiftCardViewState extends State<CreateProductGiftCardView> {
                     if (!formKey.currentState!.validate()) {
                       return;
                     }
-                    productCrudBloc.add(
-                      ProductCrudEvent.create(
-                        PostProductReq(
-                          product: Product(
-                            title: nameCtrl.text,
-                            isGiftCard: true,
-                            discountable: false,
-                            status: ProductStatus.published,
-                            options: [
-                              const ProductOption(
-                                title: 'Denomination',
-                                productId: null,
-                              )
-                            ],
-                            // variants: denominations.map((e) {
-                            //   return ProductVariant(
-                            //       title:
-                            //           (denominations.indexOf(e) + 1).toString(),
-                            //       inventoryQuantity: 0,
-                            //       manageInventory: false,
-                            //       allowBackorder: false,
-                            //       prices: [
-                            //         MoneyAmount(
-                            //           amount: int.tryParse(e.$2
-                            //                       ?.replaceAll(',', '')
-                            //                       .replaceAll('.', '') ??
-                            //                   '') ??
-                            //               0,
-                            //           currencyCode: e.$1?.code,
-                            //         ),
-                            //       ],
-                            //       options: [
-                            //         ProductOptionValue(
-                            //           value: e.$2,
-                            //           optionId: null,
-                            //           variantId: null,
-                            //         )
-                            //       ]);
-                            // }).toList(),
-                          ),
-                        ),
-                      ),
-                    );
+                    // productCrudBloc.add(
+                    //   ProductCrudEvent.create(
+                    //     PostProductReq(
+                    //       product: Product(
+                    //         title: nameCtrl.text,
+                    //         isGiftCard: true,
+                    //         discountable: false,
+                    //         status: ProductStatus.published,
+                    //         options: [
+                    //           const ProductOption(
+                    //             title: 'Denomination',
+                    //             productId: null,
+                    //           )
+                    //         ],
+                    //         // variants: denominations.map((e) {
+                    //         //   return ProductVariant(
+                    //         //       title:
+                    //         //           (denominations.indexOf(e) + 1).toString(),
+                    //         //       inventoryQuantity: 0,
+                    //         //       manageInventory: false,
+                    //         //       allowBackorder: false,
+                    //         //       prices: [
+                    //         //         MoneyAmount(
+                    //         //           amount: int.tryParse(e.$2
+                    //         //                       ?.replaceAll(',', '')
+                    //         //                       .replaceAll('.', '') ??
+                    //         //                   '') ??
+                    //         //               0,
+                    //         //           currencyCode: e.$1?.code,
+                    //         //         ),
+                    //         //       ],
+                    //         //       options: [
+                    //         //         ProductOptionValue(
+                    //         //           value: e.$2,
+                    //         //           optionId: null,
+                    //         //           variantId: null,
+                    //         //         )
+                    //         //       ]);
+                    //         // }).toList(),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // );
                   },
                   child: const Text('Create'))
             ],
@@ -235,10 +235,10 @@ class _DenominationWidgetState extends State<DenominationWidget> {
     return BlocBuilder<StoreBloc, StoreState>(
       builder: (context, state) {
         List<Currency>? currencies =
-            state.mapOrNull(loaded: (_) => _.store.currencies);
+            state.mapOrNull(store: (_) => _.store.supportedCurrencies.map((c)=> c.currency).toList());
         Currency? selectedCurrency = (currencies?.isNotEmpty ?? false)
             ? currencies?.firstOrNull
-            : const Currency(code: 'usd');
+            : const Currency(code: 'usd', symbol: '', symbolNative: '', name: '');
         return Column(
           children: [
             Row(

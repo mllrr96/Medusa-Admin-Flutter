@@ -5,9 +5,7 @@ import 'package:gap/gap.dart';
 
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
-import 'package:medusa_admin/presentation/views/add_update_price_list/components/product_price_list.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 class PriceListAddProducts extends StatefulWidget {
   const PriceListAddProducts(this.products,{super.key});
@@ -72,19 +70,19 @@ class _PriceListAddProductsState extends State<PriceListAddProducts> {
                       ]).then((result) async {
                     switch (result) {
                       case 0:
-                        final result =
-                        await showBarModalBottomSheet(
-                          backgroundColor: context.theme.scaffoldBackgroundColor,
-                          overlayStyle: context
-                              .theme.appBarTheme.systemOverlayStyle,
-                          context: context,
-                          builder: (context) =>
-                              AddUpdateVariantsPriceView(
-                                  product: product),
-                        );
-                        if (result is List<MoneyAmount>) {
-                          prices.addAll(result);
-                        }
+                        // final result =
+                        // await showBarModalBottomSheet(
+                        //   backgroundColor: context.theme.scaffoldBackgroundColor,
+                        //   overlayStyle: context
+                        //       .theme.appBarTheme.systemOverlayStyle,
+                        //   context: context,
+                        //   builder: (context) =>
+                        //       AddUpdateVariantsPriceView(
+                        //           product: product),
+                        // );
+                        // if (result is List<MoneyAmount>) {
+                        //   prices.addAll(result);
+                        // }
                         return;
                       case 1:
                         products.removeWhere(

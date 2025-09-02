@@ -182,7 +182,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                                         }
                                         setState(() {});
                                       },
-                                      title: Text(e.title ?? '',
+                                      title: Text(e.title,
                                           style: smallTextStyle),
                                     ))
                             ],

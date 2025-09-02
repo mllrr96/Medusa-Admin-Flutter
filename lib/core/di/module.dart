@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,10 +22,10 @@ abstract class RegisterCoreDependencies {
   @preResolve
   Future<PackageInfo> get packageInfo => PackageInfo.fromPlatform();
 
-  @singleton
-  MedusaAdminV2 get client => MedusaAdminV2.initialize(
-        baseUrl: 'http://localhost:9000',
-      );
+  // @singleton
+  // MedusaAdminV2 get client => MedusaAdminV2.initialize(
+  //       baseUrl: 'http://localhost:9000',
+  //     );
 }
 
 AndroidOptions _getAndroidOptions() => const AndroidOptions();

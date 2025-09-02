@@ -30,7 +30,7 @@ class DiscountsView extends StatefulWidget {
 
 class _DiscountsViewState extends State<DiscountsView> {
   final smartRefresherCtrl = RefreshController();
-  final PagingController<int, Discount> pagingController =
+  final PagingController<int, Promotion> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
   String loadingDiscountId = '';
   bool get loading => loadingDiscountId.isNotEmpty;
@@ -163,7 +163,7 @@ class _DiscountsViewState extends State<DiscountsView> {
               onPressed: () async {
                 final result =
                     await context.pushRoute(AddUpdateDiscountRoute());
-                if (result is Discount) {
+                if (result is Promotion) {
                   pagingController.refresh();
                 }
               },
@@ -189,7 +189,7 @@ class _DiscountsViewState extends State<DiscountsView> {
               separatorBuilder: (_, __) => const Gap(12.0),
               padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 80),
               pagingController: pagingController,
-              builderDelegate: PagedChildBuilderDelegate<Discount>(
+              builderDelegate: PagedChildBuilderDelegate<Promotion>(
                 animateTransitions: true,
                 itemBuilder: (context, discount, index) => Skeletonizer(
                   enabled: loadingDiscountId == discount.id,
@@ -215,8 +215,8 @@ class _DiscountsViewState extends State<DiscountsView> {
                         : () async {
                             discountCrudBloc.add(DiscountCrudEvent.update(
                                 discount.id,
-                                UpdateDiscountReq(
-                                  isDisabled: !discount.isDisabled,
+                                PostPromotionReq(
+                                  // isDisabled: !discount.isDisabled,
                                 )));
                           },
                   ),

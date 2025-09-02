@@ -156,21 +156,21 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
                     }
                     if (currentStep == 2) {
                       context.unfocus();
-                      draftOrderCrudBloc.add(
-                        DraftOrderCrudEvent.create(CreateDraftOrderReq(
-                            discounts: [],
-                            email: customer!.email,
-                            customerId: customer?.id,
-                            regionId: selectedRegion!.id,
-                            shippingMethods: [
-                              ShippingMethod(
-                                  shippingOptionId: selectedShippingOption!.id,
-                                  price: selectedShippingOption!.amount),
-                            ],
-                            shippingAddress: shippingAddress,
-                            billingAddress: billingAddress,
-                            items: [...lineItems, ...customLineItems])),
-                      );
+                      // draftOrderCrudBloc.add(
+                      //   DraftOrderCrudEvent.create(CreateDraftOrderReq(
+                      //       discounts: [],
+                      //       email: customer!.email,
+                      //       customerId: customer?.id,
+                      //       regionId: selectedRegion!.id,
+                      //       shippingMethods: [
+                      //         ShippingMethod(
+                      //             shippingOptionId: selectedShippingOption!.id,
+                      //             price: selectedShippingOption!.amount),
+                      //       ],
+                      //       shippingAddress: shippingAddress,
+                      //       billingAddress: billingAddress,
+                      //       items: [...lineItems, ...customLineItems])),
+                      // );
                       return;
                     }
                   },
@@ -180,24 +180,24 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
                     }
                   },
                   steps: [
-                    MedusaStep(
-                      title: const Text('Add items'),
-                      state: getStepState(0),
-                      content: Form(
-                        key: formKey,
-                        child: CreateDraftOrderItemsView(
-                          onSaved: (lineItems, customLineItem, selectedRegion,
-                              selectedShippingOption) {
-                            this.lineItems = lineItems;
-                            customLineItems = customLineItem;
-                            this.selectedRegion = selectedRegion;
-                            this.selectedShippingOption =
-                                selectedShippingOption;
-                          },
-                        ),
-                      ),
-                      isActive: currentStep >= 0,
-                    ),
+                    // MedusaStep(
+                    //   title: const Text('Add items'),
+                    //   state: getStepState(0),
+                    //   content: Form(
+                    //     key: formKey,
+                    //     child: CreateDraftOrderItemsView(
+                    //       onSaved: (lineItems, customLineItem, selectedRegion,
+                    //           selectedShippingOption) {
+                    //         this.lineItems = lineItems;
+                    //         customLineItems = customLineItem;
+                    //         this.selectedRegion = selectedRegion;
+                    //         this.selectedShippingOption =
+                    //             selectedShippingOption;
+                    //       },
+                    //     ),
+                    //   ),
+                    //   isActive: currentStep >= 0,
+                    // ),
                     MedusaStep(
                       title: const Text('Choose Customer'),
                       state: getStepState(1),
@@ -214,27 +214,27 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
                       ),
                       isActive: currentStep >= 1,
                     ),
-                    MedusaStep(
-                      state: getStepState(2),
-                      title: const Text('Draft Order Overview'),
-                      content: CreateDraftOrderOverViewView(
-                        lineItems: lineItems + customLineItems,
-                        region: selectedRegion ??
-                            const Region(
-                                name: 'Region', currencyCode: '', taxRate: 0),
-                        shippingOption: selectedShippingOption ??
-                            const ShippingOption(
-                                name: '',
-                                regionId: '',
-                                profileId: '',
-                                providerId: '',
-                                priceType: null),
-                        customer: customer ?? const Customer(email: 'medusa@js.com'),
-                        shippingAddress: shippingAddress ?? const Address(),
-                        billingAddress: billingAddress ?? const Address(),
-                      ),
-                      isActive: currentStep >= 2,
-                    ),
+                    // MedusaStep(
+                    //   state: getStepState(2),
+                    //   title: const Text('Draft Order Overview'),
+                    //   content: CreateDraftOrderOverViewView(
+                    //     lineItems: lineItems + customLineItems,
+                    //     region: selectedRegion ??
+                    //         const Region(
+                    //             name: 'Region', currencyCode: '', taxRate: 0),
+                    //     shippingOption: selectedShippingOption ??
+                    //         const ShippingOption(
+                    //             name: '',
+                    //             regionId: '',
+                    //             profileId: '',
+                    //             providerId: '',
+                    //             priceType: null),
+                    //     customer: customer ?? const Customer(email: 'medusa@js.com'),
+                    //     shippingAddress: shippingAddress ?? const Address(),
+                    //     billingAddress: billingAddress ?? const Address(),
+                    //   ),
+                    //   isActive: currentStep >= 2,
+                    // ),
                   ]),
             ),
           ),

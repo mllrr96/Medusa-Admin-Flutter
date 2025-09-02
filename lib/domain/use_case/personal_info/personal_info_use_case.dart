@@ -21,7 +21,7 @@ class PersonalInfoCrudUseCase {
 
   Future<Result<User, MedusaError>> currentUser() async {
     try {
-      final result = await _authRepository.login();
+      final result = await _authRepository.postSession();
       return Success(result.user);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(

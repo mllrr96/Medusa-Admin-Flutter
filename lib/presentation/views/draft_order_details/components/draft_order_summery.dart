@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'draft_order_summery_card.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 class DraftOrderSummery extends StatelessWidget {
@@ -13,7 +13,7 @@ class DraftOrderSummery extends StatelessWidget {
     const halfSpace = SizedBox(height: 6.0);
     final mediumTextStyle = context.bodyMedium;
     final totalTextTheme = context.headlineMedium;
-    final currencyCode = draftOrder.cart?.region?.currencyCode;
+    final currencyCode = draftOrder.region?.currencyCode;
 
     return FlexExpansionTile(
       onExpansionChanged: (expanded) async {
@@ -26,12 +26,12 @@ class DraftOrderSummery extends StatelessWidget {
       childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
      child: Column(
        children: [
-         ListView.builder(
-             shrinkWrap: true,
-             physics: const NeverScrollableScrollPhysics(),
-             itemCount: draftOrder.cart!.items!.length,
-             itemBuilder: (context, index) =>
-                 DraftOrderSummeryCard(item: draftOrder.cart!.items![index], currencyCode: currencyCode!)),
+         // ListView.builder(
+         //     shrinkWrap: true,
+         //     physics: const NeverScrollableScrollPhysics(),
+         //     itemCount: draftOrder.items.length,
+         //     itemBuilder: (context, index) =>
+         //         DraftOrderSummeryCard(item: draftOrder.items![index]., currencyCode: currencyCode!)),
          const Divider(),
          Column(
            children: [
@@ -41,7 +41,7 @@ class DraftOrderSummery extends StatelessWidget {
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                  children: [
                    Text('Subtotal', style: mediumTextStyle),
-                   Text(draftOrder.cart?.subTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
+                   Text(draftOrder.subtotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
                  ],
                ),
              ),
@@ -52,7 +52,7 @@ class DraftOrderSummery extends StatelessWidget {
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                  children: [
                    Text('Shipping', style: mediumTextStyle),
-                   Text(draftOrder.cart?.shippingTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
+                   Text(draftOrder.shippingTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
                  ],
                ),
              ),
@@ -63,7 +63,7 @@ class DraftOrderSummery extends StatelessWidget {
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                  children: [
                    Text('Tax', style: mediumTextStyle),
-                   Text(draftOrder.cart?.taxTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
+                   Text(draftOrder.taxTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
                  ],
                ),
              ),
@@ -74,7 +74,7 @@ class DraftOrderSummery extends StatelessWidget {
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                  children: [
                    Text('Total', style: totalTextTheme),
-                   Text(draftOrder.cart?.total.formatAsPrice(currencyCode) ?? '', style: context.headlineMedium),
+                   Text(draftOrder.total.formatAsPrice(currencyCode) ?? '', style: context.headlineMedium),
                  ],
                ),
              ),

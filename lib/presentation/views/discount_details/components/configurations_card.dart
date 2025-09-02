@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
-import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
@@ -12,7 +11,7 @@ import 'package:medusa_admin/core/extension/color_extension.dart';
 
 class ConfigurationsCard extends StatelessWidget {
   const ConfigurationsCard(this.discount, {super.key});
-  final Discount discount;
+  final Promotion discount;
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
@@ -34,7 +33,7 @@ class ConfigurationsCard extends StatelessWidget {
             child: Text('Configurations'),
           ),
           halfSpace,
-          if (discount.startsAt != null)
+          if (discount.createdAt != null)
             DateTimeCard(
               validator: (date){
                 if(date == null){
@@ -42,28 +41,28 @@ class ConfigurationsCard extends StatelessWidget {
                 }
                 return null;
               },
-              dateTime: discount.startsAt,
+              dateTime: discount.createdAt,
               dateText: 'Start',
               dateTimeTextStyle: mediumTextStyle,
               dateTextStyle: mediumTextStyle?.copyWith(color: manatee),
               borderColor: Colors.transparent,
             ),
           space,
-          if (discount.endsAt != null)
-            DateTimeCard(
-              validator: (date){
-                if(date == null){
-                  return 'Please select a date';
-                }
-                return null;
-              },
-              dateTime: discount.endsAt,
-              dateText: 'Expiry',
-              dateTimeTextStyle: mediumTextStyle?.copyWith(color: discount.isExpired ? Colors.redAccent : null),
-              dateTextStyle: mediumTextStyle?.copyWith(color: manatee),
-              borderColor: Colors.transparent,
-            ),
-          if (discount.endsAt != null) space,
+          // if (discount.endsAt != null)
+          //   DateTimeCard(
+          //     validator: (date){
+          //       if(date == null){
+          //         return 'Please select a date';
+          //       }
+          //       return null;
+          //     },
+          //     dateTime: discount.endsAt,
+          //     dateText: 'Expiry',
+          //     dateTimeTextStyle: mediumTextStyle?.copyWith(color: discount.isExpired ? Colors.redAccent : null),
+          //     dateTextStyle: mediumTextStyle?.copyWith(color: manatee),
+          //     borderColor: Colors.transparent,
+          //   ),
+          // if (discount.endsAt != null) space,
         ],
       ),
     );

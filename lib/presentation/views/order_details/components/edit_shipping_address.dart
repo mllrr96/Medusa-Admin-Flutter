@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
@@ -44,8 +43,8 @@ class _EditAddressState extends State<EditAddress> {
   @override
   void initState() {
     address = widget.shippingAddress;
-    firstNameCtrl.text = address.firstName ?? '';
-    lastNameCtrl.text = address.lastName ?? '';
+    // firstNameCtrl.text = address. ?? '';
+    // lastNameCtrl.text = address.lastName ?? '';
     companyCtrl.text = address.company ?? '';
     phoneCtrl.text = address.phone?.toString() ?? '';
     address1Ctrl.text = address.address1 ?? '';
@@ -53,7 +52,7 @@ class _EditAddressState extends State<EditAddress> {
     postalCodeCtrl.text = address.postalCode ?? '';
     cityCtrl.text = address.city ?? '';
     provinceCtrl.text = address.province ?? '';
-    selectedCountry = address.country;
+    // selectedCountry = address.country;
     super.initState();
   }
 
@@ -80,8 +79,9 @@ class _EditAddressState extends State<EditAddress> {
     final mediumTextStyle = context.bodyMedium;
 
     bool sameAddress() {
-      if (firstNameCtrl.text == address.firstName &&
-          lastNameCtrl.text == address.lastName &&
+      if (
+      // firstNameCtrl.text == address.firstName &&
+      //     lastNameCtrl.text == address.lastName &&
           companyCtrl.text == address.company &&
           phoneCtrl.text == address.phone &&
           address1Ctrl.text == address.address1 &&
@@ -108,8 +108,8 @@ class _EditAddressState extends State<EditAddress> {
                     return;
                   }
                   final address = Address(
-                    firstName: firstNameCtrl.text,
-                    lastName: lastNameCtrl.text,
+                    // firstName: firstNameCtrl.text,
+                    // lastName: lastNameCtrl.text,
                     company: companyCtrl.text,
                     phone: phoneCtrl.text,
                     address1: address1Ctrl.text,
@@ -117,7 +117,7 @@ class _EditAddressState extends State<EditAddress> {
                     postalCode: postalCodeCtrl.text,
                     city: cityCtrl.text,
                     province: provinceCtrl.text,
-                    countryCode: selectedCountry?.iso2,
+                    countryCode: selectedCountry!.iso2, id: '',
                   );
                   context.maybePop(address);
                 },
@@ -200,25 +200,25 @@ class _EditAddressState extends State<EditAddress> {
                         style: mediumTextStyle,
                       ),
                       halfSpace,
-                      DropdownButtonFormField<int>(
-                        style: context.bodyMedium,
-                        items: widget.countries
-                            .map((e) => DropdownMenuItem<int>(
-                                  value: e.numCode,
-                                  child: Text(e.name ?? ''),
-                                ))
-                            .toList(),
-                        hint: Text('Select',
-                            style: smallTextStyle?.copyWith(color: manatee)),
-                        initialValue: selectedCountry?.numCode,
-                        onChanged: (val) {
-                          if (val == null) return;
-                          setState(() {
-                            selectedCountry = countries.firstWhere(
-                                (element) => element.numCode == val);
-                          });
-                        },
-                      ),
+                      // DropdownButtonFormField<int>(
+                      //   style: context.bodyMedium,
+                      //   items: widget.countries
+                      //       .map((e) => DropdownMenuItem<int>(
+                      //             value: e.numCode,
+                      //             child: Text(e.name ?? ''),
+                      //           ))
+                      //       .toList(),
+                      //   hint: Text('Select',
+                      //       style: smallTextStyle?.copyWith(color: manatee)),
+                      //   initialValue: selectedCountry?.numCode,
+                      //   onChanged: (val) {
+                      //     if (val == null) return;
+                      //     setState(() {
+                      //       selectedCountry = countries.firstWhere(
+                      //           (element) => element.numCode == val);
+                      //     });
+                      //   },
+                      // ),
                       space,
                     ],
                   ),

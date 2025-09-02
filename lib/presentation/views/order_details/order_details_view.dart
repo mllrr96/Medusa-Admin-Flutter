@@ -181,16 +181,16 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                           key: customerKey,
                         ),
                         space,
-                        OrderTimeline(
-                          order,
-                          onExpansionChanged: (expanded) async {
-                            if (expanded) {
-                              await timelineKey.currentContext
-                                  .ensureVisibility();
-                            }
-                          },
-                          key: timelineKey,
-                        ),
+                        // OrderTimeline(
+                        //   order,
+                        //   onExpansionChanged: (expanded) async {
+                        //     if (expanded) {
+                        //       await timelineKey.currentContext
+                        //           .ensureVisibility();
+                        //     }
+                        //   },
+                        //   key: timelineKey,
+                        // ),
                         const SizedBox(height: 25.0),
                       ],
                     ),

@@ -33,7 +33,7 @@ class OrderCustomer extends StatelessWidget {
       final countryCode = order.shippingAddress?.countryCode;
       if (countryCode != null) {
         final country = countries.firstWhere((element) => element.iso2 == countryCode,
-            orElse: () => const Country(iso2: '', iso3: '', numCode: 0, name: '', displayName: ''));
+            orElse: () => const Country(iso2: '', iso3: '', numCode: '0', name: '', displayOnStore: '', id: 0));
         countryName = country.name ?? '';
       }
       return countryName.capitalize;
@@ -55,7 +55,7 @@ class OrderCustomer extends StatelessWidget {
               if (value == null) return;
               switch (value) {
                 case 0:
-                  await context.pushRoute(CustomerDetailsRoute(customerId: order.customerId));
+                  await context.pushRoute(CustomerDetailsRoute(customerId: order.customerId!));
                   break;
                 case 1:
                   await context.pushRoute(TransferOrderRoute(order: order));

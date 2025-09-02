@@ -8,7 +8,6 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/blocs/region_crud/region_crud_bloc.dart';
 import 'package:medusa_admin/presentation/views/store_settings/regions/components/region_card.dart';
-import 'package:medusa_admin/presentation/views/store_settings/regions/components/regions_loading_page.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
@@ -126,8 +125,8 @@ class _TaxSettingsSelectRegionViewState
                       context.pushRoute(TaxSettingsRoute(region: region)),
                   showProviders: false,
                 ),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const RegionsLoadingPage(),
+                // firstPageProgressIndicatorBuilder: (context) =>
+                //     const RegionsLoadingPage(),
                 firstPageErrorIndicatorBuilder: (context) =>
                     PaginationErrorPage(pagingController: pagingController),
               ),

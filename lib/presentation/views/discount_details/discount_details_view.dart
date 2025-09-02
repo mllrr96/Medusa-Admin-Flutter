@@ -12,7 +12,7 @@ import 'components/index.dart';
 @RoutePage()
 class DiscountDetailsView extends StatefulWidget {
   const DiscountDetailsView(this.discount, {super.key});
-  final Discount discount;
+  final Promotion discount;
 
   @override
   State<DiscountDetailsView> createState() => _DiscountDetailsViewState();
@@ -61,13 +61,13 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
                   padding: const EdgeInsets.fromLTRB(
                       12.0, 8.0, 12.0, kToolbarHeight * 2),
                   children: [
-                    DiscountDetailsCard(state.discount, toggle: () {
-                      discountCrudBloc.add(DiscountCrudEvent.update(
-                          state.discount.id,
-                          UpdateDiscountReq(
-                            isDisabled: !state.discount.isDisabled,
-                          )));
-                    }),
+                    // DiscountDetailsCard(state.discount, toggle: () {
+                    //   discountCrudBloc.add(DiscountCrudEvent.update(
+                    //       state.discount.id,
+                    //       PostPromotionReq(
+                    //         // isDisabled: !state.discount.isDisabled,
+                    //       )));
+                    // }),
                     space,
                     ConfigurationsCard(state.discount),
                     space,

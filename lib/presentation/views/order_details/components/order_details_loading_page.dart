@@ -11,48 +11,47 @@ class OrderDetailsLoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const order = Order(
-        displayId: 123,
-        customerId: '',
-        email: 'Medusa@js.com',
-        regionId: '',
-        currencyCode: 'USD',
-    payments: [
-      Payment(amount: 120, currencyCode: 'USD', providerId: 'System')
-    ]
+    final order = Order(
+      displayId: 123,
+      customerId: '',
+      email: 'Medusa@js.com',
+      regionId: '',
+      currencyCode: 'USD',
+      id: '',
+      version: 0,
+      status: OrderStatus.canceled,
     );
     const space = Gap(12);
-    return const Skeletonizer(
+    return Skeletonizer(
         enabled: true,
         child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: 8.0, vertical: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 OrderOverview(order: order),
                 space,
-                FlexExpansionTile(
+                const FlexExpansionTile(
                   leading: Icon(Icons.info_outline),
                   title: Text('Summery'),
                 ),
                 space,
-                FlexExpansionTile(
+                const FlexExpansionTile(
                   leading: Icon(Icons.info_outline),
                   title: Text('Payment'),
                 ),
                 space,
-                FlexExpansionTile(
+                const FlexExpansionTile(
                   leading: Icon(Icons.info_outline),
                   title: Text('Fulfillment'),
                 ),
                 space,
-                FlexExpansionTile(
+                const FlexExpansionTile(
                   leading: Icon(Icons.info_outline),
                   title: Text('Customer'),
                 ),
                 space,
-                FlexExpansionTile(
+                const FlexExpansionTile(
                   leading: Icon(Icons.info_outline),
                   title: Text('Timeline'),
                 ),

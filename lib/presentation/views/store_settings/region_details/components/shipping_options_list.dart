@@ -1,12 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
-import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin/data/models/shipping_option_req.dart';
 import 'package:medusa_admin/presentation/blocs/shipping_option_crud/shipping_option_crud_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'shipping_option_card.dart';
 
 class ShippingOptionsList extends StatefulWidget {
@@ -62,31 +58,31 @@ class _ShippingOptionsListState extends State<ShippingOptionsList> {
       },
       builder: (context, state) {
         return state.maybeMap(
-            loading: (_) => Skeletonizer(
-                  child: ShippingOptionCard(
-                    shippingOption: ShippingOption(
-                        name: 'Shipping option',
-                        regionId: '',
-                        profileId: '',
-                        providerId: '',
-                        priceType: ShippingOptionPriceType.calculated,
-                        amount: 1200,
-                        region: const Region(
-                            name: 'Test', currencyCode: 'USD', taxRate: 1000),
-                        requirements: [
-                          ShippingOptionRequirement(
-                            type: RequirementType.minSubtotal,
-                            amount: 1200,
-                            shippingOptionId: null,
-                          ),
-                          ShippingOptionRequirement(
-                            type: RequirementType.maxSubtotal,
-                            amount: 2200,
-                            shippingOptionId: null,
-                          ),
-                        ]),
-                  ),
-                ),
+            // loading: (_) => Skeletonizer(
+            //       child: ShippingOptionCard(
+            //         shippingOption: ShippingOption(
+            //             name: 'Shipping option',
+            //             regionId: '',
+            //             profileId: '',
+            //             providerId: '',
+            //             priceType: ShippingOptionPriceType.calculated,
+            //             amount: 1200,
+            //             region: const Region(
+            //                 name: 'Test', currencyCode: 'USD', taxRate: 1000),
+            //             requirements: [
+            //               ShippingOptionRequirement(
+            //                 type: RequirementType.minSubtotal,
+            //                 amount: 1200,
+            //                 shippingOptionId: null,
+            //               ),
+            //               ShippingOptionRequirement(
+            //                 type: RequirementType.maxSubtotal,
+            //                 amount: 2200,
+            //                 shippingOptionId: null,
+            //               ),
+            //             ]),
+            //       ),
+            //     ),
             error: (_) {
               return Column(
                 children: [
@@ -123,13 +119,14 @@ class _ShippingOptionsListState extends State<ShippingOptionsList> {
                       shippingOptions[index].id,
                     ),
                   ),
-                  onEditTap: () =>
-                      context.pushRoute(AddUpdateShippingOptionRoute(
-                    addUpdateShippingOptionReq: AddUpdateShippingOptionReq(
-                      region: widget.region,
-                      shippingOption: shippingOptions[index],
-                    ),
-                  )),
+                  onEditTap: () {
+                  //   context.pushRoute(AddUpdateShippingOptionRoute(
+                  //   addUpdateShippingOptionReq: AddUpdateShippingOptionReq(
+                  //     region: widget.region,
+                  //     shippingOption: shippingOptions[index],
+                  //   ),
+                  // ));
+                  },
                 ),
               );
             },

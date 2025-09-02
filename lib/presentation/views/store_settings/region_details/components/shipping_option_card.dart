@@ -2,8 +2,6 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'shipping_option_label.dart';
-import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class ShippingOptionCard extends StatelessWidget {
@@ -21,15 +19,16 @@ class ShippingOptionCard extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const halfSpace = SizedBox(height: 6.0);
-    final currencyCode = shippingOption.region?.currencyCode;
+    // final currencyCode = shippingOption.currencyCode;
+    final currencyCode = '';
     String getMaxText() {
       String text = '';
-      for (var requirement in shippingOption.requirements!) {
-        if (requirement.type! == RequirementType.maxSubtotal) {
-          text =
-              'Max. subtotal: ${requirement.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}';
-        }
-      }
+      // for (var requirement in shippingOption.requirements!) {
+      //   if (requirement.type! == RequirementType.maxSubtotal) {
+      //     text =
+      //         'Max. subtotal: ${requirement.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}';
+      //   }
+      // }
       if (text.isEmpty) {
         return 'Max. subtotal: N/A';
       }
@@ -38,12 +37,12 @@ class ShippingOptionCard extends StatelessWidget {
 
     String getMinText() {
       String text = '';
-      for (var requirement in shippingOption.requirements!) {
-        if (requirement.type! == RequirementType.minSubtotal) {
-          text =
-              'Min. subtotal: ${requirement.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}';
-        }
-      }
+      // for (var requirement in shippingOption.requirements!) {
+      //   if (requirement.type! == RequirementType.minSubtotal) {
+      //     text =
+      //         'Min. subtotal: ${requirement.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}';
+      //   }
+      // }
       if (text.isEmpty) {
         return 'Min. subtotal: N/A';
       }
@@ -72,9 +71,9 @@ class ShippingOptionCard extends StatelessWidget {
                   IconButton(
                       onPressed: () async {
                         await showModalActionSheet<int>(
-                            title: (shippingOption.isReturn)
-                                ? 'Manage return shipping option'
-                                : 'Manage shipping option',
+                            // title: (shippingOption.isReturn)
+                            //     ? 'Manage return shipping option'
+                            //     : 'Manage shipping option',
                             message: shippingOption.name,
                             context: context,
                             actions: <SheetAction<int>>[
@@ -101,12 +100,12 @@ class ShippingOptionCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Flexible(
-                    child: Text(
-                        'Flat Rate: ${shippingOption.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}',
-                        style: smallTextStyle?.copyWith(color: manatee)),
-                  ),
-                  ShippingOptionLabel(adminOnly: shippingOption.adminOnly)
+                  // Flexible(
+                  //   child: Text(
+                  //       'Flat Rate: ${shippingOption.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}',
+                  //       style: smallTextStyle?.copyWith(color: manatee)),
+                  // ),
+                  // ShippingOptionLabel(adminOnly: shippingOption.adminOnly)
                 ],
               ),
               halfSpace,

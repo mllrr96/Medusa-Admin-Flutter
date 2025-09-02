@@ -25,7 +25,7 @@ class TeamCard extends StatelessWidget {
     final largeTextStyle = context.bodyLarge;
     final email = user.email ?? '';
     final name = user.fullName;
-    final firstLetter = user.fullName?[0];
+    final firstLetter = user.fullName[0];
     return Container(
       decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
@@ -52,8 +52,8 @@ class TeamCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (name != null) Text(name, style: largeTextStyle),
-                      if (name != null) const SizedBox(height: 6.0),
+                      Text(name, style: largeTextStyle),
+                      const SizedBox(height: 6.0),
                       Text(email, style: mediumTextStyle),
                     ],
                   ),

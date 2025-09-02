@@ -77,9 +77,9 @@ class RegionCard extends StatelessWidget {
     String countries = '';
     for (Country country in region.countries) {
       if (countries.isNotEmpty) {
-        countries = '$countries, ${country.displayName!}';
+        countries = '$countries, ${country.displayOnStore}';
       } else {
-        countries = country.displayName!;
+        countries = country.displayOnStore;
       }
     }
       if (countries.isEmpty) {
@@ -102,13 +102,13 @@ class RegionCard extends StatelessWidget {
 
   String getFulfilmentProviders() {
     String fulfilmentProviders = '';
-    for (FulfillmentProvider fulfillment in region.fulfillmentProviders) {
-      if (fulfilmentProviders.isNotEmpty) {
-        fulfilmentProviders = '$fulfilmentProviders, ${fulfillment.id!}';
-      } else {
-        fulfilmentProviders = fulfillment.id!;
-      }
-    }
+    // for (FulfillmentProvider fulfillment in region.fulfillmentProviders) {
+    //   if (fulfilmentProviders.isNotEmpty) {
+    //     fulfilmentProviders = '$fulfilmentProviders, ${fulfillment.id!}';
+    //   } else {
+    //     fulfilmentProviders = fulfillment.id!;
+    //   }
+    // }
       return fulfilmentProviders.capitalize;
   }
 }

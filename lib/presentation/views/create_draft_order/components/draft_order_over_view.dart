@@ -135,9 +135,9 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
                   Text(
                       '${shippingAddress.address1}${shippingAddress.address2 != null ? ',' : ''} ${shippingAddress.address2 ?? ''}',
                       style: smallTextStyle),
-                  Text(
-                      '${shippingAddress.postalCode} ${shippingAddress.city ?? ''}, ${shippingAddress.country?.name?.capitalize ?? ''}',
-                      style: smallTextStyle),
+                  // Text(
+                  //     '${shippingAddress.postalCode} ${shippingAddress.city ?? ''}, ${shippingAddress.country?.name?.capitalize ?? ''}',
+                  //     style: smallTextStyle),
                 ],
               ),
               space,
@@ -146,9 +146,9 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
                 children: [
                   Text('Shipping method',
                       style: smallTextStyle?.copyWith(color: manatee)),
-                  Text(
-                      '${shippingOption.name ?? ''} - (${shippingOption.amount.formatAsPrice(shippingOption.region?.currencyCode)})',
-                      style: smallTextStyle),
+                  // Text(
+                  //     '${shippingOption.name ?? ''} - (${shippingOption.amount.formatAsPrice(shippingOption.region?.currencyCode)})',
+                  //     style: smallTextStyle),
                 ],
               ),
 
@@ -177,9 +177,9 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
                   Text(
                       '${billingAddress.address1}${billingAddress.address2 != null ? ',' : ''} ${billingAddress.address2 ?? ''}',
                       style: smallTextStyle),
-                  Text(
-                      '${billingAddress.postalCode} ${billingAddress.city ?? ''}, ${billingAddress.country?.name?.capitalize ?? ''}',
-                      style: smallTextStyle),
+                  // Text(
+                  //     '${billingAddress.postalCode} ${billingAddress.city ?? ''}, ${billingAddress.country?.name?.capitalize ?? ''}',
+                  //     style: smallTextStyle),
                 ],
               ),
               halfSpace,
@@ -206,21 +206,23 @@ class OverViewListTile extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final productVariant = lineItem.variant ??
-        ProductVariant(title: lineItem.title, prices: [
+        ProductVariant(title: lineItem.title,
+            allowBackorder: false,manageInventory: false,
+            prices: [
           MoneyAmount(
             amount: lineItem.unitPrice.toInt(),
-            currencyCode: currencyCode,
+            currencyCode: currencyCode, id: '',
           )
         ]);
     MoneyAmount? moneyAmount;
     final priceList =
-        productVariant.prices.where((e) => e.currencyCode == currencyCode);
-    if (priceList.isNotEmpty ?? false) {
-      moneyAmount = priceList.first;
+        productVariant.prices?.where((e) => e.currencyCode == currencyCode);
+    if (priceList?.isNotEmpty ?? false) {
+      moneyAmount = priceList?.first;
     } else {
-      moneyAmount = (productVariant.prices.isNotEmpty ?? false)
-          ? productVariant.prices.first
-          : const MoneyAmount(amount: 0, currencyCode: 'usd');
+      moneyAmount = (productVariant.prices?.isNotEmpty ?? false)
+          ? productVariant.prices?.first
+          : const MoneyAmount(amount: 0, currencyCode: 'usd', id: '');
     }
 
     const space = Gap(12);
@@ -271,12 +273,12 @@ class OverViewListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                  '${moneyAmount.amount.formatAsPrice(currencyCode)} x ${lineItem.quantity}',
+                  '${moneyAmount?.amount.formatAsPrice(currencyCode)} x ${lineItem.quantity}',
                   style: smallTextStyle,
                   maxLines: 1),
               const Divider(height: 5),
               Text(
-                  ((lineItem.quantity ?? 1) * (moneyAmount.amount ?? 1))
+                  ((lineItem.quantity ?? 1) * (moneyAmount?.amount ?? 1))
                       .formatAsPrice(currencyCode),
                   style: mediumTextStyle,
                   maxLines: 1),

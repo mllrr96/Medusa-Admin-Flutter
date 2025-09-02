@@ -86,21 +86,21 @@ class _AddUpdateTaxRateViewState extends State<AddUpdateTaxRateView> {
                     return;
                   }
                   if (updateMode) {
-                    taxCrudBloc.add(TaxCrudEvent.update(
-                        widget.addUpdateTaxRateReq.taxRate!.id,
-                        UpdateTaxRateReq(
-                          code: taxCodeCtrl.text,
-                          name: nameCtrl.text,
-                          rate: double.tryParse(taxRateCtrl.text),
-                          regionId: widget.addUpdateTaxRateReq.regionId,
-                        )));
+                    // taxCrudBloc.add(TaxCrudEvent.update(
+                    //     widget.addUpdateTaxRateReq.taxRate!.id,
+                    //     UpdateTaxRateReq(
+                    //       code: taxCodeCtrl.text,
+                    //       name: nameCtrl.text,
+                    //       rate: double.tryParse(taxRateCtrl.text),
+                    //       regionId: widget.addUpdateTaxRateReq.regionId,
+                    //     )));
                   } else {
-                    taxCrudBloc.add(TaxCrudEvent.create(CreateTaxRateReq(
-                      code: taxCodeCtrl.text,
-                      name: nameCtrl.text,
-                      rate: double.tryParse(taxRateCtrl.text),
-                      regionId: widget.addUpdateTaxRateReq.regionId,
-                    )));
+                    // taxCrudBloc.add(TaxCrudEvent.create(CreateTaxRateReq(
+                    //   code: taxCodeCtrl.text,
+                    //   name: nameCtrl.text,
+                    //   rate: double.tryParse(taxRateCtrl.text),
+                    //   regionId: widget.addUpdateTaxRateReq.regionId,
+                    // )));
                   }
                 },
                 child: updateMode ? const Text('Update') : const Text('Create'),

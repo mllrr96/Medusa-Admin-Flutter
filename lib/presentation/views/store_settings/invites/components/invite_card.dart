@@ -22,7 +22,7 @@ class InviteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
-    final email = invite.userEmail ?? '';
+    final email = invite.email;
     return Container(
       decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
