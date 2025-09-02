@@ -26,7 +26,7 @@ class DraftOrderCrudBloc
     emit(const _Loading());
     final result = await draftCrudUseCase.retrieveDraftOrder(
       id: event.id,
-      queryParameters: {'expand': 'order,cart'},
+      fields: 'order,cart'
     );
     result.when(
       (draftOrder) {
@@ -48,7 +48,7 @@ class DraftOrderCrudBloc
     );
     result.when(
       (response) {
-        emit(_DraftOrders(response.draftOrders ?? [], response.count ?? 0));
+        emit(_DraftOrders(response.draftOrders, response.count));
       },
       (error) {
         emit(_Error(error));
@@ -58,28 +58,29 @@ class DraftOrderCrudBloc
 
   Future<void> _registerPayment(
       _RegisterPayment event, Emitter<DraftOrderCrudState> emit) async {
-    emit(const _Loading());
-    final result = await draftCrudUseCase.registerPayment(id: event.id);
-    await result.when(
-      (success) async {
-        emit(const _PaymentRegistered());
-        final draftOrderResult = await draftCrudUseCase.retrieveDraftOrder(
-          id: event.id,
-          queryParameters: {'expand': 'order,cart'},
-        );
-        draftOrderResult.when(
-          (draftOrder) {
-            emit(_DraftOrder(draftOrder));
-          },
-          (error) {
-            emit(_Error(error));
-          },
-        );
-      },
-      (error) {
-        emit(_Error(error));
-      },
-    );
+    throw UnimplementedError();
+    // emit(const _Loading());
+    // final result = await draftCrudUseCase.registerPayment(id: event.id);
+    // await result.when(
+    //   (success) async {
+    //     emit(const _PaymentRegistered());
+    //     final draftOrderResult = await draftCrudUseCase.retrieveDraftOrder(
+    //       id: event.id,
+    //       queryParameters: {'expand': 'order,cart'},
+    //     );
+    //     draftOrderResult.when(
+    //       (draftOrder) {
+    //         emit(_DraftOrder(draftOrder));
+    //       },
+    //       (error) {
+    //         emit(_Error(error));
+    //       },
+    //     );
+    //   },
+    //   (error) {
+    //     emit(_Error(error));
+    //   },
+    // );
   }
 
   Future<void> _update(_Update event, Emitter<DraftOrderCrudState> emit) async {

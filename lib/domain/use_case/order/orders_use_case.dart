@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart' hide Order;
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/domain/repository/orders_repository.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
@@ -16,63 +16,46 @@ class OrdersUseCase {
 
   static OrdersUseCase get instance => getIt<OrdersUseCase>();
 
-  Future<Result<GetOrders200Response, MedusaError>> retrieveOrders(
-      // {GetOrdersQueryParameters? queryParameters},
-      ) async {
+  Future<Result<OrdersListRes, MedusaError>> retrieveOrders(
+      Map<String, dynamic>? queryParameters) async {
     try {
-      final result = await _ordersRepository.listOrders();
+      final result = await _ordersRepository.list(queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
-      if (e.error is MedusaError) {
-        return Error(e.error as MedusaError);
-      } else {
-        if (kDebugMode) {
-          log(e.type.toString());
-          log(e.response?.data.toString() ?? 'No response data');
-          log(e.stackTrace.toString());
-          log(e.error.toString());
-        }
-        return Error(MedusaError((b) => b.message = 'Network error or unexpected issue'));
-      }
-    } catch (e, stack) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
       if (kDebugMode) {
-        log(e.toString());
+        log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError((b) => b.message = 'Unexpected error occurred'));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<AdminOrder, MedusaError>> updateOrder({
+  Future<Result<Order, MedusaError>> updateOrder({
     required String id,
-    required AdminUpdateOrder payload,
+    required PostOrdersOrderReq payload,
     // PostOrdersIdQueryParameters? queryParameters,
   }) async {
     try {
-      final result = await _ordersRepository.updateOrder(
-        id: id,
-        requestBody: payload,
-        // query: queryParameters,
-      );
-      return Success(result.order!);
+      final result = await _ordersRepository.update(id, payload);
+      return Success(result.order);
     } on DioException catch (e) {
-      if (e.error is MedusaError) {
-        return Error(e.error as MedusaError);
-      } else {
-        if (kDebugMode) {
-          log(e.type.toString());
-          log(e.response?.data.toString() ?? 'No response data');
-          log(e.stackTrace.toString());
-          log(e.error.toString());
-        }
-        return Error(MedusaError((b) => b.message = 'Network error or unexpected issue'));
-      }
-    } catch (e, stack) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
       if (kDebugMode) {
-        log(e.toString());
+        log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError((b) => b.message = 'Unexpected error occurred'));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

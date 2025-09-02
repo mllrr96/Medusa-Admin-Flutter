@@ -101,7 +101,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                       }
                       List<String> currenciesIsoCode = [];
                       for (var currency in currencies) {
-                        currenciesIsoCode.add(currency.code!);
+                        currenciesIsoCode.add(currency.code);
                       }
                       storeBloc.add(StoreEvent.updateStore(StorePostReq(
                           defaultCurrencyCode: defaultStoreCurrency?.code,
@@ -136,7 +136,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                           Text(currencies.first.name ?? ''),
                         if (currencies.length > 1)
                           DropdownButtonFormField<String>(
-                            value: defaultStoreCurrency?.code,
+                            initialValue: defaultStoreCurrency?.code,
                             style: context.bodyMedium,
                             items: currencies
                                 .map((currency) => DropdownMenuItem(

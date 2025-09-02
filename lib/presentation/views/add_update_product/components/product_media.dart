@@ -28,7 +28,7 @@ class ProductMedia extends StatefulWidget {
   final bool updateMode;
   final void Function(
     List<File> images,
-    List<ImageData> imagesToDelete,
+    // List<ImageData> imagesToDelete,
   )? onMediaChanged;
   final FlexExpansionTileController? controller;
 
@@ -38,7 +38,7 @@ class ProductMedia extends StatefulWidget {
 
 class _ProductMediaState extends State<ProductMedia> {
   List<File> images = [];
-  List<ImageData> imagesToDelete = [];
+  // List<ImageData> imagesToDelete = [];
   bool get updateMode => widget.updateMode;
   Product? get product => widget.product;
   final ImagePickerHelper imagePickerHelper = ImagePickerHelper.instance;
@@ -50,7 +50,7 @@ class _ProductMediaState extends State<ProductMedia> {
     const space = Gap(12);
     return FormField(
       onSaved: (_) {
-        widget.onMediaChanged?.call(images, imagesToDelete);
+        // widget.onMediaChanged?.call(images, imagesToDelete);
       },
       builder: (_) => FlexExpansionTile(
         key: key,
@@ -69,43 +69,43 @@ class _ProductMediaState extends State<ProductMedia> {
             if (updateMode && (product?.images?.isNotEmpty ?? false))
               Column(
                 children: [
-                  ListView.separated(
-                      separatorBuilder: (_, __) => space,
-                      itemCount: product!.images!.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final image = product!.images![index];
-                        return Opacity(
-                          opacity: imagesToDelete
-                                  .map((e) => e.url)
-                                  .toList()
-                                  .contains(image.url)
-                              ? 0.5
-                              : 1.0,
-                          child: NetworkImageCard(
-                            image.url ?? '',
-                            deleteIconColor: imagesToDelete
-                                    .map((e) => e.url)
-                                    .toList()
-                                    .contains(image.url)
-                                ? Colors.red
-                                : null,
-                            onDelete: () {
-                              if (imagesToDelete
-                                  .map((e) => e.url)
-                                  .toList()
-                                  .contains(image.url)) {
-                                imagesToDelete.removeWhere(
-                                    (element) => element.url == image.url);
-                              } else {
-                                imagesToDelete.add(image);
-                              }
-                              setState(() {});
-                            },
-                          ),
-                        );
-                      }),
+                  // ListView.separated(
+                  //     separatorBuilder: (_, __) => space,
+                  //     itemCount: product!.images!.length,
+                  //     physics: const NeverScrollableScrollPhysics(),
+                  //     shrinkWrap: true,
+                  //     itemBuilder: (context, index) {
+                  //       final image = product!.images![index];
+                  //       return Opacity(
+                  //         opacity: imagesToDelete
+                  //                 .map((e) => e.url)
+                  //                 .toList()
+                  //                 .contains(image.url)
+                  //             ? 0.5
+                  //             : 1.0,
+                  //         child: NetworkImageCard(
+                  //           image.url ?? '',
+                  //           deleteIconColor: imagesToDelete
+                  //                   .map((e) => e.url)
+                  //                   .toList()
+                  //                   .contains(image.url)
+                  //               ? Colors.red
+                  //               : null,
+                  //           onDelete: () {
+                  //             if (imagesToDelete
+                  //                 .map((e) => e.url)
+                  //                 .toList()
+                  //                 .contains(image.url)) {
+                  //               imagesToDelete.removeWhere(
+                  //                   (element) => element.url == image.url);
+                  //             } else {
+                  //               imagesToDelete.add(image);
+                  //             }
+                  //             setState(() {});
+                  //           },
+                  //         ),
+                  //       );
+                  //     }),
                   if (images.isNotEmpty) const Divider(),
                 ],
               ),

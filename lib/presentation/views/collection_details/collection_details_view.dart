@@ -154,11 +154,11 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                       if (result is PickProductsRes) {
                                         final originalProducts = _
                                             .collection.products
-                                            ?.map((e) => e.id!)
+                                            ?.map((e) => e.id)
                                             .toList();
                                         final selectedProducts = result
                                             .selectedProducts
-                                            .map((e) => e.id!)
+                                            .map((e) => e.id)
                                             .toList();
                                         final removedProducts = originalProducts
                                                 ?.toSet()
@@ -222,7 +222,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                               if (result is PickProductsRes &&
                                   context.mounted) {
                                 final selectedProducts = result.selectedProducts
-                                    .map((e) => e.id!)
+                                    .map((e) => e.id)
                                     .toList();
                                 context.read<CollectionCrudBloc>().add(
                                     CollectionCrudEvent.addProducts(
@@ -244,9 +244,9 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                       return ListTile(
                         onTap: () async {
                           await context.pushRoute(
-                              ProductDetailsRoute(productId: product.id!));
+                              ProductDetailsRoute(productId: product.id));
                         },
-                        title: Text(product.title!),
+                        title: Text(product.title),
                         subtitle: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -280,7 +280,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                     CollectionCrudEvent.removeProducts(
                                         CollectionRemoveProductsReq(
                                             collectionId: widget.collectionId,
-                                            productsIds: [product.id!])));
+                                            productsIds: [product.id])));
                               }
                             },
                             icon: const Icon(Icons.delete_forever,

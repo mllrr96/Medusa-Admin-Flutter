@@ -48,7 +48,7 @@ class _AddOptionViewState extends State<AddOptionView> {
                       context.maybePop(
                            ProductOption(
                               title: optionCtrl.text,
-                              values: variants.map((e) => ProductOptionValue(value: e, optionId: null, variantId: null)).toList(), productId: null));
+                              values: variants.map((e) => ProductOptionValue(value: e, optionId: '', variantId: '', id: '')).toList(), productId: null, id: ''));
                     }
                   },
                   child: const Text('Add')),

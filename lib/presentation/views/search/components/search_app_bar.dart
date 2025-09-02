@@ -11,7 +11,6 @@ import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/search_history.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/presentation/blocs/search/search_bloc.dart';
-import 'package:medusa_admin/presentation/views/orders_filter/orders_filter_view.dart';
 import 'package:medusa_admin/presentation/views/products_filter/products_filter_view.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
@@ -19,7 +18,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'pick_search_category.dart';
 import 'search_chip.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/data/models/orders_filter.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   const SearchAppBar(
@@ -38,7 +36,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
   late SearchCategory searchCategory;
   SortOptions sortOptions = SortOptions.dateRecent;
   ProductFilter? productFilter;
-  OrderFilter? orderFilter;
+  // OrderFilter? orderFilter;
   @override
   void initState() {
     widget.controller.addPageRequestListener(_search);
@@ -61,7 +59,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
       SortOptions.dateOld => CupertinoIcons.calendar_badge_minus,
     };
 
-    int orderFilterCount = orderFilter?.count() ?? 0;
+    int orderFilterCount =  0;
     int productFilterCount = productFilter?.count() ?? 0;
     Color filterBorderColor =
         (searchCategory == SearchCategory.orders && orderFilterCount > 0) ||
@@ -92,7 +90,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                   },
                   hintText: getHintText(searchCategory),
                   padding:
-                      MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
+                      WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
                   leading: IconButton(
                     padding: const EdgeInsets.all(16),
                     icon: const Icon(Icons.arrow_back),
@@ -173,7 +171,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                     if (result == SearchCategory.groups) {
                                       sortOptions = SortOptions.dateRecent;
                                     }
-                                    orderFilter = null;
+                                    // orderFilter = null;
                                     productFilter = null;
                                     widget.controller.itemList = [];
                                     searchCategory = result;
@@ -245,7 +243,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                     productFilter = null;
                                   } else if (searchCategory ==
                                       SearchCategory.orders) {
-                                    orderFilter = null;
+                                    // orderFilter = null;
                                   }
                                   setState(() {});
                                 },
@@ -278,30 +276,30 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                       });
 
                                     case SearchCategory.orders:
-                                      await showBarModalBottomSheet<
-                                              OrderFilter>(
-                                          context: context,
-                                          backgroundColor: context
-                                              .theme.scaffoldBackgroundColor,
-                                          enableDrag: false,
-                                          overlayStyle: context.theme
-                                              .appBarTheme.systemOverlayStyle,
-                                          builder: (context) =>
-                                              OrdersFilterView(
-                                                orderFilter: orderFilter,
-                                                onResetTap: () {
-                                                  orderFilter = null;
-                                                  setState(() {});
-                                                  widget. controller.refresh();
-                                                  context.maybePop();
-                                                },
-                                              )).then((result) {
-                                        if (result is OrderFilter) {
-                                          orderFilter = result;
-                                          setState(() {});
-                                          widget. controller.refresh();
-                                        }
-                                      });
+                                      // await showBarModalBottomSheet<
+                                      //         OrderFilter>(
+                                      //     context: context,
+                                      //     backgroundColor: context
+                                      //         .theme.scaffoldBackgroundColor,
+                                      //     enableDrag: false,
+                                      //     overlayStyle: context.theme
+                                      //         .appBarTheme.systemOverlayStyle,
+                                      //     builder: (context) =>
+                                      //         OrdersFilterView(
+                                      //           orderFilter: orderFilter,
+                                      //           onResetTap: () {
+                                      //             orderFilter = null;
+                                      //             setState(() {});
+                                      //             widget. controller.refresh();
+                                      //             context.maybePop();
+                                      //           },
+                                      //         )).then((result) {
+                                      //   if (result is OrderFilter) {
+                                      //     orderFilter = result;
+                                      //     setState(() {});
+                                      //     widget. controller.refresh();
+                                      //   }
+                                      // });
                                     case SearchCategory.draftOrders:
                                     case SearchCategory.collections:
                                     case SearchCategory.customers:
@@ -408,9 +406,9 @@ class _SearchAppBarState extends State<SearchAppBar> {
           'fields':
               'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
         });
-        if (orderFilter != null) {
-          queryParameters.addAll(orderFilter!.toJson());
-        }
+        // if (orderFilter != null) {
+        //   queryParameters.addAll(orderFilter!.toJson());
+        // }
         context
             .read<SearchBloc>()
             .add(SearchEvent.searchOrders(queryParameters: queryParameters));
@@ -418,7 +416,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
       case SearchCategory.draftOrders:
         context
             .read<SearchBloc>()
-            .add(SearchEvent.searchDrafts(queryParameters: queryParameters));
+            .add(SearchEvent.searchDrafts());
       // -----------------------------------------------------------
       case SearchCategory.products:
         queryParameters.addAll({

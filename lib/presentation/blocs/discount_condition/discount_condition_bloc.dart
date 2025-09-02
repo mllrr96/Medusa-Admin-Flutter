@@ -26,7 +26,7 @@ class DiscountConditionBloc
         queryParameters: event.queryParameters);
     result.when(
         (success) =>
-            emit(_Loaded(success.productTypes ?? [], success.count ?? 0)),
+            emit(_Loaded(success.productTypes, success.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -36,7 +36,7 @@ class DiscountConditionBloc
         queryParameters: event.queryParameters);
     result.when(
         (success) =>
-            emit(_Loaded(success.customerGroups ?? [], success.count ?? 0)),
+            emit(_Loaded(success.customerGroups, success.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -45,7 +45,7 @@ class DiscountConditionBloc
     final result = await updateConditionUseCase.retrieveProducts(
         queryParameters: event.queryParameters);
     result.when(
-        (success) => emit(_Loaded(success.products ?? [], success.count ?? 0)),
+        (success) => emit(_Loaded(success.products, success.count )),
         (error) => emit(_Error(error)));
   }
 
@@ -54,7 +54,7 @@ class DiscountConditionBloc
     final result = await updateConditionUseCase.retrieveProductTags(
         queryParameters: event.queryParameters);
     result.when(
-        (success) => emit(_Loaded(success.tags ?? [], success.count ?? 0)),
+        (success) => emit(_Loaded(success.productTags, success.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -64,7 +64,7 @@ class DiscountConditionBloc
         queryParameters: event.queryParameters);
     result.when(
         (success) =>
-            emit(_Loaded(success.collections ?? [], success.count ?? 0)),
+            emit(_Loaded(success.collections, success.count)),
         (error) => emit(_Error(error)));
   }
 

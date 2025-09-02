@@ -29,19 +29,19 @@ class VariantListTile extends StatelessWidget {
     final productVariant = lineItem.variant!;
     MoneyAmount? moneyAmount;
     final priceList = productVariant.prices
-        ?.where((e) => e.currencyCode == selectedRegion?.currencyCode);
-    if (priceList?.isNotEmpty ?? false) {
-      moneyAmount = priceList!.first;
+        .where((e) => e.currencyCode == selectedRegion?.currencyCode);
+    if (priceList.isNotEmpty ?? false) {
+      moneyAmount = priceList.first;
     } else {
-      moneyAmount = (productVariant.prices?.isNotEmpty ?? false)
-          ? productVariant.prices!.first
+      moneyAmount = (productVariant.prices.isNotEmpty ?? false)
+          ? productVariant.prices.first
           : const MoneyAmount(amount: 0, currencyCode: 'USD');
     }
 
     const space = Gap(12);
     return Slidable(
       groupTag: const Key('variants'),
-      key: ValueKey(productVariant.id!),
+      key: ValueKey(productVariant.id),
       endActionPane: ActionPane(
         extentRatio: 0.25,
         motion: const DrawerMotion(),
@@ -109,7 +109,7 @@ class VariantListTile extends StatelessWidget {
                 icon: const Icon(Icons.remove),
                 padding: EdgeInsets.zero,
               ),
-              Text(lineItem.quantity?.toString() ?? '0'),
+              Text(lineItem.quantity.toString() ?? '0'),
               IconButton(
                 onPressed: onAddTap,
                 icon: const Icon(Icons.add),
@@ -145,7 +145,7 @@ class CustomVariantListTile extends StatelessWidget {
     const space = Gap(12);
     return Slidable(
       groupTag: const Key('variants'),
-      key: ValueKey(lineItem.title!),
+      key: ValueKey(lineItem.title),
       endActionPane: ActionPane(
         extentRatio: 0.25,
         motion: const DrawerMotion(),
@@ -192,7 +192,7 @@ class CustomVariantListTile extends StatelessWidget {
                 icon: const Icon(Icons.remove),
                 padding: EdgeInsets.zero,
               ),
-              Text(lineItem.quantity?.toString() ?? '0'),
+              Text(lineItem.quantity.toString() ?? '0'),
               IconButton(
                 onPressed: onAddTap,
                 icon: const Icon(Icons.add),

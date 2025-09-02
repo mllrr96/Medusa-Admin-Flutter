@@ -12,12 +12,15 @@ class ProductDetailsLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const product = Product(
-      title: 'Medusa LongSleeve',
-      description:
-          'Reimagine the feeling of a classic long-sleeve. With our cotton long-sleeve, everyday essentials no longer have to be ordinary. Made with 100% cotton.',
-      subtitle: 'subtitle',
-      handle: 'medusa-longsleeve',
-    );
+        title: 'Medusa LongSleeve',
+        description:
+            'Reimagine the feeling of a classic long-sleeve. With our cotton long-sleeve, everyday essentials no longer have to be ordinary. Made with 100% cotton.',
+        subtitle: 'subtitle',
+        handle: 'medusa-longsleeve',
+        id: 'id',
+        isGiftcard: false,
+        status: ProductStatus.draft,
+        discountable: false);
     const space = Gap(12);
     return const Skeletonizer(
       enabled: true,

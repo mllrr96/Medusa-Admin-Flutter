@@ -96,7 +96,7 @@ class _CreateUpdateGroupViewState extends State<CreateUpdateGroupView> {
                             metadata.addAll({e.key.text: e.value.text});
                           }
                           groupCrudBloc.add(GroupCrudEvent.update(
-                              widget.customerGroup!.id!,
+                              widget.customerGroup!.id,
                               groupTitleCtrl.text,
                               metadata.isEmpty ? null : metadata));
                         }

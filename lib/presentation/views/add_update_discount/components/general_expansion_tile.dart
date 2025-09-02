@@ -27,8 +27,8 @@ class GeneralExpansionTile extends StatefulWidget {
   });
   final FlexExpansionTileController? tileController;
   final void Function(bool)? onExpansionChanged;
-  final DiscountRuleType discountType;
-  final Discount? discount;
+  final PromotionType discountType;
+  final Promotion? discount;
   final void Function(
     List<Region> regions,
     String code,
@@ -40,7 +40,7 @@ class GeneralExpansionTile extends StatefulWidget {
 }
 
 class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
-  DiscountRuleType get discountType => widget.discountType;
+  PromotionType get discountType => widget.discountType;
   final regionCtrl = TextEditingController();
   final amountCtrl = TextEditingController();
   final percentageCtrl = TextEditingController();
@@ -50,25 +50,25 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
 
   @override
   void initState() {
-    if (widget.discount != null) {
-      selectedRegions = widget.discount!.regions ?? [];
-      regionCtrl.text = selectedRegions
-          .map((e) => e.name)
-          .toList()
-          .toString()
-          .replaceAll('[', '')
-          .replaceAll(']', '');
-      if (discountType == DiscountRuleType.fixed) {
-        // widget.discount?.rule;
-        amountCtrl.text = widget.discount!.rule?.value
-                ?.formatAsPrice(selectedRegions.firstOrNull?.currencyCode, includeSymbol: false) ??
-            '';
-      } else {
-        percentageCtrl.text = widget.discount!.rule?.value?.toString() ?? '';
-      }
-      descriptionCtrl.text = widget.discount!.rule?.description ?? '';
-      codeCtrl.text = widget.discount!.code ?? '';
-    }
+    // if (widget.discount != null) {
+    //   selectedRegions = widget.discount!.regions ?? [];
+    //   regionCtrl.text = selectedRegions
+    //       .map((e) => e.name)
+    //       .toList()
+    //       .toString()
+    //       .replaceAll('[', '')
+    //       .replaceAll(']', '');
+    //   if (discountType == PromotionType.standard) {
+    //     // widget.discount?.rule;
+    //     amountCtrl.text = widget.discount!.rule?.value
+    //             .formatAsPrice(selectedRegions.firstOrNull?.currencyCode, includeSymbol: false) ??
+    //         '';
+    //   } else {
+    //     percentageCtrl.text = widget.discount!.rule?.value.toString() ?? '';
+    //   }
+    //   descriptionCtrl.text = widget.discount!.rule?.description ?? '';
+    //   codeCtrl.text = widget.discount!.code ?? '';
+    // }
     super.initState();
   }
 
@@ -109,13 +109,13 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
              selectedRegions,
               codeCtrl.text,
              descriptionCtrl.text,
-            discountType == DiscountRuleType.fixed
+            discountType == PromotionType.standard
                       ? int.tryParse(
                           amountCtrl.text.replaceAll(RegExp('[^0-9]'), ''))
                       : int.tryParse(percentageCtrl.text
                           .replaceAll(RegExp('[^0-9]'), '')));
             },
-            label: discountType == DiscountRuleType.fixed
+            label: discountType == PromotionType.standard
                 ? 'Choose valid region'
                 : 'Choose valid regions',
             controller: regionCtrl,
@@ -144,8 +144,8 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
             onTap: () async {
               final regionReq = PickRegionsReq(
                 multipleSelect:
-                    discountType == DiscountRuleType.fixed ? false : true,
-                selectedRegions: discountType == DiscountRuleType.fixed
+                    discountType == PromotionType.standard ? false : true,
+                selectedRegions: discountType == PromotionType.standard
                     ? selectedRegions.isNotEmpty
                         ? [selectedRegions.first]
                         : []
@@ -166,7 +166,7 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
                       .toString()
                       .replaceAll('[', '')
                       .replaceAll(']', '');
-                  if (discountType == DiscountRuleType.fixed) {
+                  if (discountType == PromotionType.standard) {
                     amountCtrl.text = int.tryParse(
                             amountCtrl.text.replaceAll(RegExp('[^0-9]'), ''))
                         .formatAsPrice(selectedRegions.first.currencyCode);
@@ -184,7 +184,7 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
           ),
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
-            child: discountType == DiscountRuleType.percentage
+            child: discountType == PromotionType.buyget
                 ? LabeledNumericTextField(
                     key: const Key('percentage'),
                     label: 'Percentage',
@@ -199,7 +199,7 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
                     hintText: '10',
                     controller: percentageCtrl,
                   )
-                : discountType == DiscountRuleType.fixed
+                : discountType == PromotionType.buyget
                     ? LabeledNumericTextField(
                         key: const Key('amount'),
                         label: 'Amount',

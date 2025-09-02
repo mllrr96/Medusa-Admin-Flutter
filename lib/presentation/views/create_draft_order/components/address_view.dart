@@ -345,7 +345,7 @@ class _CreateDraftOrderAddressViewState
                     halfSpace,
                     DropdownButtonFormField<Country>(
                       style: context.bodyMedium,
-                      value: countries.first,
+                      initialValue: countries.first,
                       onSaved: (country) {
                         shippingAddress =
                             shippingAddress.copyWith(country: country);
@@ -353,7 +353,7 @@ class _CreateDraftOrderAddressViewState
                       items: countries
                           .map((e) => DropdownMenuItem<Country>(
                                 value: e,
-                                child: Text(e.name?.capitalize ?? ''),
+                                child: Text(e.name.capitalize ?? ''),
                               ))
                           .toList(),
                       onChanged: (Country? country) {
@@ -577,11 +577,11 @@ class _CreateDraftOrderAddressViewState
                     halfSpace,
                     DropdownButtonFormField<Country>(
                       style: context.bodyMedium,
-                      value: countries.first,
+                      initialValue: countries.first,
                       items: countries
                           .map((e) => DropdownMenuItem<Country>(
                                 value: e,
-                                child: Text(e.name?.capitalize ?? ''),
+                                child: Text(e.name.capitalize ?? ''),
                               ))
                           .toList(),
                       onChanged: (Country? country) {

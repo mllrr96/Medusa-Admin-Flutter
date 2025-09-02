@@ -99,7 +99,7 @@ class _CreateUpdateReturnReasonViewState
 
                   if (updateMode) {
                     returnReasonsCrudBloc.add(ReturnReasonsCrudEvent.update(
-                      widget.returnReason!.id!,
+                      widget.returnReason!.id,
                       UpdateReturnReasonReq(
                           label: labelCtrl.text,
                           value: valueCtrl.text,

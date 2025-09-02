@@ -1,8 +1,6 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import '../../../../../core/constant/colors.dart';
@@ -38,11 +36,11 @@ class OrderOverview extends StatelessWidget {
                       IconButton(onPressed: () {}, icon: const Icon(Icons.copy, size: 14))
                     ],
                   ),
-                  if ( order.cart?.completedAt != null)
-                    Text(
-                      'on ${order.cart!.completedAt.formatDate()} at ${order.cart!.completedAt.formatTime()}',
-                      style: context.bodyMedium,
-                    )
+                  // if ( order.completedAt != null)
+                  //   Text(
+                  //     'on ${order.cart!.completedAt.formatDate()} at ${order.cart!.completedAt.formatTime()}',
+                  //     style: context.bodyMedium,
+                  //   )
                 ],
               ),
               Column(
@@ -73,9 +71,9 @@ class OrderOverview extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(tr.detailsPayment, style: context.bodyMedium?.copyWith(color: Colors.grey)),
-                  if (order.payments?.isNotEmpty ?? false)
-                    Text(order.payments!.first.providerId!.capitalize,
-                        style: context.bodyMedium),
+                  // if (order.payments?.isNotEmpty ?? false)
+                  //   Text(order.payments!.first.providerId!.capitalize,
+                  //       style: context.bodyMedium),
                 ],
               ),
             ],

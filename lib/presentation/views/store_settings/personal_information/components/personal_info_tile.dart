@@ -41,8 +41,8 @@ class PersonalInfoTile extends StatelessWidget {
                     radius: 25,
                     child: Text(
                         user?.firstName != null
-                            ? user!.firstName![0].capitalize
-                            : user?.email?[0].capitalize ?? '',
+                            ? user!.firstName[0].capitalize
+                            : user?.email[0].capitalize ?? '',
                         style: largeTextStyle?.copyWith(color: Colors.white)),
                   ),
                   const SizedBox(width: 8.0),
@@ -51,7 +51,7 @@ class PersonalInfoTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (user?.firstName != null && user?.lastName != null)
-                          Text('${user!.firstName!} ${user!.lastName!}'),
+                          Text('${user!.firstName} ${user!.lastName}'),
                         if (user?.firstName != null && user?.lastName != null)
                           const SizedBox(height: 6.0),
                         Text(user?.email ?? ''),

@@ -66,7 +66,7 @@ class TaxRateCard extends StatelessWidget {
             children: [
               Text('Code: ${taxRate.code ?? ''}',
                   style: smallTextStyle?.copyWith(color: manatee)),
-              Text('${taxRate.rate?.toString() ?? ''} %',
+              Text('${taxRate.rate.toString() ?? ''} %',
                   style: smallTextStyle),
             ],
           ),

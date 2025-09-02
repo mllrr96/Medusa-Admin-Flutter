@@ -24,7 +24,7 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
   @override
   void initState() {
     discountCrudBloc = DiscountCrudBloc.instance;
-    discountCrudBloc.add(DiscountCrudEvent.load(widget.discount.id!));
+    discountCrudBloc.add(DiscountCrudEvent.load(widget.discount.id));
     super.initState();
   }
 
@@ -56,18 +56,16 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
               discount: (state) => SmartRefresher(
                 controller: refreshController,
                 onRefresh: () => discountCrudBloc
-                    .add(DiscountCrudEvent.load(widget.discount.id!)),
+                    .add(DiscountCrudEvent.load(widget.discount.id)),
                 child: ListView(
                   padding: const EdgeInsets.fromLTRB(
                       12.0, 8.0, 12.0, kToolbarHeight * 2),
                   children: [
                     DiscountDetailsCard(state.discount, toggle: () {
                       discountCrudBloc.add(DiscountCrudEvent.update(
-                          state.discount.id!,
+                          state.discount.id,
                           UpdateDiscountReq(
-                            isDisabled: state.discount.isDisabled != null
-                                ? !state.discount.isDisabled!
-                                : true,
+                            isDisabled: !state.discount.isDisabled,
                           )));
                     }),
                     space,
@@ -93,7 +91,7 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
                     const Gap(12.0),
                     FilledButton(
                         onPressed: () => discountCrudBloc
-                            .add(DiscountCrudEvent.load(widget.discount.id!)),
+                            .add(DiscountCrudEvent.load(widget.discount.id)),
                         child: const Text('Retry')),
                   ],
                 ),

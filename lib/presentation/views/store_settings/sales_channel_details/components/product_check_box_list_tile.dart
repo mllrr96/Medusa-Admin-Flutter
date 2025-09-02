@@ -20,7 +20,7 @@ class ProductCheckboxListTile extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     return Slidable(
       groupTag: const Key('sales'),
-      key: ValueKey(product.id!),
+      key: ValueKey(product.id),
       endActionPane: ActionPane(
         extentRatio: 0.4,
         motion: const DrawerMotion(),
@@ -28,7 +28,7 @@ class ProductCheckboxListTile extends StatelessWidget {
           SlidableAction(
             onPressed: (context) {
               context.maybePop();
-              context.pushRoute(ProductDetailsRoute(productId: product.id!));
+              context.pushRoute(ProductDetailsRoute(productId: product.id));
             },
             backgroundColor: const Color(0xFF7BC043),
             foregroundColor: Colors.white,
@@ -62,7 +62,7 @@ class ProductCheckboxListTile extends StatelessWidget {
         controlAffinity: ListTileControlAffinity.leading,
         value: selected,
         onChanged: onToggle,
-        title: Text(product.title!),
+        title: Text(product.title),
         subtitle: Text(product.collection?.title ?? '-', style: smallTextStyle),
       ),
     );

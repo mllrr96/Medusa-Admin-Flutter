@@ -42,15 +42,15 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        state.mapOrNull(
+        state.whenOrNull(
           loggedIn: (loggedIn) async {
             context.router.replaceAll([const DashboardRoute()]);
           },
-          loggedOut: (_) {
+          loggedOut: () {
             context.router.replaceAll([SignInRoute()]);
           },
-          error: (error) {
-            context.showSignInErrorSnackBar(error.failure.toSnackBarString());
+          error: (e) {
+            context.showSignInErrorSnackBar(e.toSnackBarString());
             context.router.replaceAll([SignInRoute()]);
           },
         );
@@ -69,10 +69,7 @@ class _SplashViewState extends State<SplashView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Hero(
-                        tag: 'medusa',
-                        child:
-                            Image.asset('assets/images/medusa.png', scale: 5)),
+                    Hero(tag: 'medusa', child: Image.asset('assets/images/medusa.png', scale: 5)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text('Medusa Admin', style: context.headlineLarge),
@@ -93,13 +90,12 @@ class _SplashViewState extends State<SplashView> {
                     OutlinedButton(
                         onPressed: () {
                           context.router.replaceAll([SignInRoute()]);
-                          context.read<AuthenticationBloc>().add(
-                              const AuthenticationEvent.cancel());
+                          context
+                              .read<AuthenticationBloc>()
+                              .add(const AuthenticationEvent.cancel());
                         },
                         child: const Text('Go to login')),
-                    Gap(context.bottomViewPadding != 0
-                        ? context.bottomViewPadding
-                        : 10),
+                    Gap(context.bottomViewPadding != 0 ? context.bottomViewPadding : 10),
                   ],
                 )
                     .animate()

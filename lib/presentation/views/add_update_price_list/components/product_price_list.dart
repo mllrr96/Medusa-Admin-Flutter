@@ -10,13 +10,12 @@ import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
-import 'package:medusa_admin/core/extension/num_extension.dart';
 
 @RoutePage()
 class AddUpdateVariantsPriceView extends StatefulWidget {
   const AddUpdateVariantsPriceView(
       {super.key, this.prices, required this.product});
-  final List<MoneyAmount>? prices;
+  final List<Price>? prices;
   final Product product;
   @override
   State<AddUpdateVariantsPriceView> createState() =>
@@ -27,28 +26,29 @@ class _AddUpdateVariantsPriceViewState
     extends State<AddUpdateVariantsPriceView> {
   @override
   void initState() {
-    final currencies = context
-        .read<StoreBloc>()
-        .state
-        .mapOrNull(loaded: (_) => _.store.currencies);
-    widget.product.variants?.forEach((variant) {
-      if (currencies != null) {
-        for (Currency currency in currencies) {
-          priceListVariants.add(PriceListVariant(
-              textCtrl: TextEditingController(),
-              variant: variant,
-              currency: currency));
-        }
-      }
-    });
+    // final currencies = context
+    //     .read<StoreBloc>()
+    //     .state
+    //     .mapOrNull(loaded: (_) => _.store.supportedCurrencies);
+
+    // widget.product.variants?.forEach((variant) {
+    //   if (currencies != null) {
+    //     for (StoreCurrency currency in currencies) {
+    //       priceListVariants.add(PriceListVariant(
+    //           textCtrl: TextEditingController(),
+    //           variant: variant,
+    //           currency: currency.currency));
+    //     }
+    //   }
+    // });
     if (widget.prices?.isNotEmpty ?? false) {
       for (var element in widget.prices!) {
-        final variantId = element.variantId;
-        final currencyCode = element.currencyCode;
-        final priceListVariant = priceListVariants.where(
-            (e) => e.variantId == variantId && e.currencyCode == currencyCode).firstOrNull;
-        priceListVariant?.textCtrl.text =
-            element.amount?.formatAsPrice(currencyCode) ?? '';
+        // final variantId = element.variantId;
+        // final currencyCode = element.currencyCode;
+        // final priceListVariant = priceListVariants.where(
+        //     (e) => e.variantId == variantId && e.currencyCode == currencyCode).firstOrNull;
+        // priceListVariant?.textCtrl.text =
+        //     element.amount.formatAsPrice(currencyCode) ?? '';
       }
     }
     super.initState();
@@ -114,7 +114,7 @@ class _AddUpdateVariantsPriceViewState
                       Flexible(
                         child: Row(
                           children: [
-                            Text(currency.code?.toUpperCase() ?? '',
+                            Text(currency.code.toUpperCase() ?? '',
                                 style: mediumTextStyle),
                             const SizedBox(width: 12.0),
                             Expanded(
@@ -184,7 +184,7 @@ class _AddUpdateVariantsPriceViewState
                             variant: variants
                                 ?.where((variant) =>
                                     variant.id == element.variantId)
-                                .firstOrNull),
+                                .firstOrNull, id: ''),
                       );
                     }
                   }
@@ -214,6 +214,6 @@ class PriceListVariant {
     textCtrl.dispose();
   }
 
-  String get variantId => variant.id!;
-  String get currencyCode => currency.code!;
+  String get variantId => variant.id;
+  String get currencyCode => currency.code;
 }

@@ -20,7 +20,7 @@ class GroupCard extends StatelessWidget {
     final largeTextStyle = context.bodyLarge;
     return Slidable(
       groupTag: const Key('groups'),
-      key: ValueKey(customerGroup.id!),
+      key: ValueKey(customerGroup.id),
       endActionPane: ActionPane(
         extentRatio: 0.4,
         motion: const DrawerMotion(),

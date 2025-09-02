@@ -21,13 +21,13 @@ class DiscountCard extends StatelessWidget {
     const manatee = ColorManager.manatee;
     Color? iconColor;
     switch (discount.rule?.type) {
-      case DiscountRuleType.fixed:
+      case PromotionType.fixed:
         iconColor = Colors.orangeAccent;
         break;
-      case DiscountRuleType.percentage:
+      case PromotionType.percentage:
         iconColor = Colors.blueAccent;
         break;
-      case DiscountRuleType.freeShipping:
+      case PromotionType.freeShipping:
         iconColor = Colors.green;
         break;
       case null:
@@ -87,8 +87,7 @@ class DiscountCard extends StatelessWidget {
                                   context: context,
                                   actions: <SheetAction<int>>[
                                     const SheetAction(label: 'Edit', key: 0),
-                                    discount.isDisabled == null ||
-                                            !discount.isDisabled!
+                                    !discount.isDisabled
                                         ? const SheetAction(
                                             label: 'Disable', key: 1)
                                         : const SheetAction(
@@ -148,7 +147,7 @@ class DiscountCard extends StatelessWidget {
                               style: smallTextStyle?.copyWith(color: manatee),
                             ),
                           ),
-                        DiscountRuleTypeLabel(discount: discount),
+                        PromotionTypeLabel(discount: discount),
                       ],
                     ),
                     Padding(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'order_card.dart';
 
@@ -10,10 +9,10 @@ class OrdersLoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final order = AdminOrder(
+    // final order = Order(
     //     id: '1',
     //     total: 12345,
-    //     shippingAddress:  AdminOrderAddress(countryCode: 'USD'),
+    //     shippingAddress:  OrderAddress(countryCode: 'USD'),
     //     customerId: '',
     //     email: "medusa@js.com",
     //     regionId: "",
@@ -21,21 +20,21 @@ class OrdersLoadingPage extends StatelessWidget {
     //     customer:  AdminCustomer(
     //         firstName: 'Medusa', lastName: 'Admin', email: 'Medusa Js', hasAccount: true),
     //     );
-    final order =  AdminOrder((b) => b
-      ..id = '1'
-      ..total = 12345
-      ..shippingAddress.update((b) => b..countryCode = 'USD')
-      ..customerId = ''
-      ..email = "medusa@js.com" .. regionId = "" .. currencyCode = 'USD' ..customer.update((b) => b
-        ..firstName = 'Medusa'
-        ..lastName = 'Admin'
-        ..email = 'Medusa Js'
-        ..hasAccount = true));
+    // final order =  Order((b) => b
+    //   ..id = '1'
+    //   ..total = 12345
+    //   ..shippingAddress.update((b) => b..countryCode = 'USD')
+    //   ..customerId = ''
+    //   ..email = "medusa@js.com" .. regionId = "" .. currencyCode = 'USD' ..customer.update((b) => b
+    //     ..firstName = 'Medusa'
+    //     ..lastName = 'Admin'
+    //     ..email = 'Medusa Js'
+    //     ..hasAccount = true));
     final orderPreference = PreferenceService.orderPreference;
 
-    final widget = orderPreference.alternativeCard
-        ? AlternativeOrderCard(order, shimmer: true)
-        : OrderCard(order, shimmer: true);
+    // final widget = orderPreference.alternativeCard
+    //     ? AlternativeOrderCard(order, shimmer: true)
+    //     : OrderCard(order, shimmer: true);
 
     return Skeletonizer(
       enabled: true,

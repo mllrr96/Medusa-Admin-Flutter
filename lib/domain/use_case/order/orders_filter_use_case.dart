@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
@@ -6,18 +10,21 @@ import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class OrdersFilterUseCase {
-  static OrdersFilterUseCase get instance => getIt<OrdersFilterUseCase>();
-  RegionsRepository get _regionsRepository =>
-      getIt<MedusaAdmin>().regionsRepository;
-  SalesChannelRepository get _salesChannelRepository =>
-      getIt<MedusaAdmin>().salesChannelRepository;
+  final MedusaAdminV2 _medusaAdmin;
 
-  Future<Result<(RegionsRes, SalesChannelRetrieveAllRes), MedusaError>>
-      call() async {
+  OrdersFilterUseCase(this._medusaAdmin);
+
+  static OrdersFilterUseCase get instance => getIt<OrdersFilterUseCase>();
+
+  RegionsRepository get _regionsRepository => _medusaAdmin.regions;
+
+  SalesChannelsRepository get _salesChannelRepository => _medusaAdmin.salesChannels;
+
+  Future<Result<(RegionsRes, SalesChannelListRes), MedusaError>> call() async {
     try {
       final regions = await _regionsRepository.retrieveAll();
       final channels = await _salesChannelRepository.retrieveAll();
-      return Success((regions!, channels!));
+      return Success((regions, channels));
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

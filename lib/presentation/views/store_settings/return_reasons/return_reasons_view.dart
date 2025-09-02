@@ -138,7 +138,7 @@ class _ReturnReasonsViewState extends State<ReturnReasonsView> {
                     listTiltStyle: true,
                     onDelete: () {
                       returnReasonsCrudBloc.add(
-                        ReturnReasonsCrudEvent.delete(returnReason.id!),
+                        ReturnReasonsCrudEvent.delete(returnReason.id),
                       );
                     },
                     onAfterEdit: () {

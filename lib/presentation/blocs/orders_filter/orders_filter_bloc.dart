@@ -24,7 +24,7 @@ class OrdersFilterBloc extends Bloc<OrdersFilterEvent, OrdersFilterState> {
     emit(const _Loading());
     final result = await ordersFilterUseCase();
     result.when((success) {
-      emit(_Loaded(success.$1.regions!, success.$2.salesChannels!));
+      emit(_Loaded(success.$1.regions, success.$2.salesChannels));
     }, (error) {
       emit(_Error(error));
     });

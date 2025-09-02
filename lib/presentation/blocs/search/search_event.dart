@@ -4,7 +4,7 @@ part of 'search_bloc.dart';
 sealed class SearchEvent with _$SearchEvent {
   const factory SearchEvent.searchProducts({Map<String,dynamic>? queryParameters}) = _SearchProducts;
   const factory SearchEvent.searchOrders({Map<String,dynamic>? queryParameters}) = _SearchOrders;
-  const factory SearchEvent.searchDrafts({Map<String,dynamic>? queryParameters}) = _SearchDrafts;
+  const factory SearchEvent.searchDrafts({GetDraftOrdersQuery? query}) = _SearchDrafts;
   const factory SearchEvent.searchCollections({Map<String,dynamic>? queryParameters}) = _SearchCollections;
   const factory SearchEvent.searchCustomers({Map<String,dynamic>? queryParameters}) = _SearchCustomers;
   const factory SearchEvent.searchGroups({Map<String,dynamic>? queryParameters}) = _SearchGroups;

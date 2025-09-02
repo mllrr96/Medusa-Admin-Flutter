@@ -40,14 +40,14 @@ class SalesChannelCrudBloc
     );
     result.when(
         (success) => emit(
-            _SalesChannels(success.salesChannels ?? [], success.count ?? 0)),
+            _SalesChannels(success.salesChannels, success.count)),
         (error) => emit(_Error(error)));
   }
 
   void _create(_Create event, Emitter<SalesChannelCrudState> emit) async {
     emit(const _Loading());
     final result =
-        await salesChannelCrudUseCase.create(event.userSalesChannelCreateReq);
+        await salesChannelCrudUseCase.create(event.payload);
     result.when((success) => emit(_SalesChannel(success)),
         (error) => emit(_Error(error)));
   }
@@ -56,7 +56,7 @@ class SalesChannelCrudBloc
     emit(const _Loading());
     final result = await salesChannelCrudUseCase.update(
         id: event.id,
-        userSalesChannelUpdateReq: event.userSalesChannelUpdateReq);
+        payload: event.payload);
     result.when((success) => emit(_SalesChannel(success)),
         (error) => emit(_Error(error)));
   }

@@ -22,11 +22,11 @@ class RegionCrudBloc extends Bloc<RegionCrudEvent, RegionCrudState> {
     on<_Delete>(_delete);
     on<_AddCountry>(_addCountry);
     on<_RemoveCountry>(_removeCountry);
-    on<_LoadFulfillmentOptions>(_loadFulfillmentOptions);
-    on<_AddFulfillmentProvider>(_addFulfillmentProvider);
-    on<_RemoveFulfillmentProvider>(_removeFulfillmentProvider);
-    on<_AddPaymentProvider>(_addPaymentProvider);
-    on<_RemovePaymentProvider>(_removePaymentProvider);
+    // on<_LoadFulfillmentOptions>(_loadFulfillmentOptions);
+    // on<_AddFulfillmentProvider>(_addFulfillmentProvider);
+    // on<_RemoveFulfillmentProvider>(_removeFulfillmentProvider);
+    // on<_AddPaymentProvider>(_addPaymentProvider);
+    // on<_RemovePaymentProvider>(_removePaymentProvider);
   }
 
   Future<void> _load(_Load event, Emitter<RegionCrudState> emit) async {
@@ -43,7 +43,7 @@ class RegionCrudBloc extends Bloc<RegionCrudEvent, RegionCrudState> {
       ...?event.queryParameters,
     });
     result.when(
-        (regions) => emit(_Regions(regions.regions ?? [], regions.count ?? 0)),
+        (regions) => emit(_Regions(regions.regions, regions.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -87,50 +87,50 @@ class RegionCrudBloc extends Bloc<RegionCrudEvent, RegionCrudState> {
         (region) => emit(_Region(region)), (error) => emit(_Error(error)));
   }
 
-  Future<void> _loadFulfillmentOptions(
-      _LoadFulfillmentOptions event, Emitter<RegionCrudState> emit) async {
-    emit(const _Loading());
-    final result = await _useCase.loadFulfillmentOptions(event.id);
-    result.when(
-        (fulfillmentOptions) => emit(_FulfillmentOptions(fulfillmentOptions)),
-        (error) => emit(_Error(error)));
-  }
+  // Future<void> _loadFulfillmentOptions(
+  //     _LoadFulfillmentOptions event, Emitter<RegionCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final result = await _useCase.loadFulfillmentOptions(event.id);
+  //   result.when(
+  //       (fulfillmentOptions) => emit(_FulfillmentOptions(fulfillmentOptions)),
+  //       (error) => emit(_Error(error)));
+  // }
 
-  Future<void> _addFulfillmentProvider(
-      _AddFulfillmentProvider event, Emitter<RegionCrudState> emit) async {
-    emit(const _Loading());
-    final result = await _useCase.addFulfillmentProvider(
-        id: event.id, providerId: event.providerId);
-    result.when(
-        (region) => emit(_Region(region)), (error) => emit(_Error(error)));
-  }
-
-  Future<void> _removeFulfillmentProvider(
-      _RemoveFulfillmentProvider event, Emitter<RegionCrudState> emit) async {
-    emit(const _Loading());
-    final result = await _useCase.removeFulfillmentProvider(
-        id: event.id, providerId: event.providerId);
-    result.when(
-        (region) => emit(_Region(region)), (error) => emit(_Error(error)));
-  }
-
-  Future<void> _addPaymentProvider(
-      _AddPaymentProvider event, Emitter<RegionCrudState> emit) async {
-    emit(const _Loading());
-    final result = await _useCase.addPaymentProvider(
-        id: event.id, providerId: event.providerId);
-    result.when(
-        (region) => emit(_Region(region)), (error) => emit(_Error(error)));
-  }
-
-  Future<void> _removePaymentProvider(
-      _RemovePaymentProvider event, Emitter<RegionCrudState> emit) async {
-    emit(const _Loading());
-    final result = await _useCase.removePaymentProvider(
-        id: event.id, providerId: event.providerId);
-    result.when(
-        (region) => emit(_Region(region)), (error) => emit(_Error(error)));
-  }
+  // Future<void> _addFulfillmentProvider(
+  //     _AddFulfillmentProvider event, Emitter<RegionCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final result = await _useCase.addFulfillmentProvider(
+  //       id: event.id, providerId: event.providerId);
+  //   result.when(
+  //       (region) => emit(_Region(region)), (error) => emit(_Error(error)));
+  // }
+  //
+  // Future<void> _removeFulfillmentProvider(
+  //     _RemoveFulfillmentProvider event, Emitter<RegionCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final result = await _useCase.removeFulfillmentProvider(
+  //       id: event.id, providerId: event.providerId);
+  //   result.when(
+  //       (region) => emit(_Region(region)), (error) => emit(_Error(error)));
+  // }
+  //
+  // Future<void> _addPaymentProvider(
+  //     _AddPaymentProvider event, Emitter<RegionCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final result = await _useCase.addPaymentProvider(
+  //       id: event.id, providerId: event.providerId);
+  //   result.when(
+  //       (region) => emit(_Region(region)), (error) => emit(_Error(error)));
+  // }
+  //
+  // Future<void> _removePaymentProvider(
+  //     _RemovePaymentProvider event, Emitter<RegionCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final result = await _useCase.removePaymentProvider(
+  //       id: event.id, providerId: event.providerId);
+  //   result.when(
+  //       (region) => emit(_Region(region)), (error) => emit(_Error(error)));
+  // }
 
   final RegionCrudUseCase _useCase;
   static RegionCrudBloc get instance => getIt<RegionCrudBloc>();

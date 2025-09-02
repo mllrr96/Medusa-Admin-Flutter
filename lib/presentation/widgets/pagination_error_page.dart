@@ -18,8 +18,8 @@ class PaginationErrorPage extends StatefulWidget {
 class _PaginationErrorPageState extends State<PaginationErrorPage> {
   @override
   void initState() {
-    if (widget.pagingController.error is Failure &&
-        (widget.pagingController.error as Failure).code == 401) {
+    if (widget.pagingController.error is MedusaError &&
+        (widget.pagingController.error as MedusaError).code == '401') {
       context.router.reevaluateGuards();
     }
     super.initState();
@@ -28,8 +28,8 @@ class _PaginationErrorPageState extends State<PaginationErrorPage> {
   bool showError = false;
   @override
   Widget build(BuildContext context) {
-    assert(widget.pagingController.error is Failure);
-    final failure = widget.pagingController.error as Failure;
+    assert(widget.pagingController.error is MedusaError);
+    final failure = widget.pagingController.error as MedusaError;
     final type = failure.type;
     final message = failure.message;
     final code = failure.code;
@@ -56,7 +56,7 @@ class _PaginationErrorPageState extends State<PaginationErrorPage> {
                 children: <Widget>[
                   if (type.isNotEmpty) Text('type: $type'),
                   if (message.isNotEmpty) Text('message : $message'),
-                  if (code != null) Text('code : $code'),
+                  Text('code : $code'),
                 ],
               ),
           ],

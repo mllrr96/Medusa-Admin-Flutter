@@ -33,7 +33,7 @@ class _SelectCountryViewState extends State<SelectCountryView> {
     selectCountryOptions = widget.selectCountryReq ?? const SelectCountryReq();
     selectedCountries.addAll(selectCountryOptions.selectedCountries);
     countriesList.sort((a, b) =>
-        a.displayName!.toLowerCase().compareTo(b.displayName!.toLowerCase()));
+        a.displayOnStore.toLowerCase().compareTo(b.displayOnStore.toLowerCase()));
     searchCtrl.addListener(() => search());
     super.initState();
   }
@@ -130,7 +130,7 @@ class _SelectCountryViewState extends State<SelectCountryView> {
             final country = countriesList[index];
             return CheckboxListTile(
               value: selectedCountries
-                  .map((e) => e.name!)
+                  .map((e) => e.name)
                   .toList()
                   .contains(country.name),
               enabled: !disabledCountriesIso.contains(country.iso2),
@@ -152,8 +152,8 @@ class _SelectCountryViewState extends State<SelectCountryView> {
               },
               title: Row(
                 children: [
-                  Flag.fromString(country.iso2!, height: 15, width: 30),
-                  Text(country.displayName!),
+                  Flag.fromString(country.iso2, height: 15, width: 30),
+                  Text(country.displayOnStore),
                 ],
               ),
             );
@@ -177,14 +177,14 @@ class _SelectCountryViewState extends State<SelectCountryView> {
       countriesList = countries
           .where(
             (element) =>
-                element.displayName!
+                element.displayOnStore
                     .toLowerCase()
                     .contains(searchCtrl.text.toLowerCase()) ||
-                element.iso2!.contains(searchCtrl.text) ||
-                element.iso3!.contains(searchCtrl.text) ||
+                element.iso2.contains(searchCtrl.text) ||
+                element.iso3.contains(searchCtrl.text) ||
                 element.iso2 == searchCtrl.text.toLowerCase() ||
                 element.iso3 == searchCtrl.text.toLowerCase() ||
-                element.numCode == int.tryParse(searchCtrl.text),
+                element.numCode == searchCtrl.text,
           )
           .toList();
     } else {

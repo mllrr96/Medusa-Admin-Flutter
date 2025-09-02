@@ -18,11 +18,11 @@ class FulfillmentStatusLabel extends StatelessWidget {
         textColor = Colors.redAccent;
         text = 'Canceled';
         break;
-      case FulfillmentStatus.requiresAction:
-        containerColor = Colors.orangeAccent.withOpacity(0.17);
-        textColor = Colors.orangeAccent;
-        text = 'Requires Action';
-        break;
+      // case FulfillmentStatus.requiresAction:
+      //   containerColor = Colors.orangeAccent.withOpacity(0.17);
+      //   textColor = Colors.orangeAccent;
+      //   text = 'Requires Action';
+      //   break;
       case FulfillmentStatus.notFulfilled:
         containerColor = Colors.deepOrange.withOpacity(0.17);
         textColor = Colors.deepOrange;
@@ -48,12 +48,12 @@ class FulfillmentStatusLabel extends StatelessWidget {
         textColor = Colors.green;
         text = 'Shipped';
         break;
-      case FulfillmentStatus.partiallyReturned:
+      case FulfillmentStatus.partiallyDelivered:
         containerColor = Colors.orange.withOpacity(0.17);
         textColor = Colors.orange;
         text = 'Partially Returned';
         break;
-      case FulfillmentStatus.returned:
+      case FulfillmentStatus.delivered:
         containerColor = Colors.green.withOpacity(0.17);
         textColor = Colors.green;
         text = 'Returned';

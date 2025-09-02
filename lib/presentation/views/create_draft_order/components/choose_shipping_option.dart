@@ -2,7 +2,6 @@ import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/domain/use_case/region/shipping_option_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
@@ -183,7 +182,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                             label: 'Currency',
                             controller: TextEditingController(
                                 text:
-                                    widget.region?.currencyCode?.toUpperCase()),
+                                    widget.region?.currencyCode.toUpperCase()),
                           )),
                           const SizedBox(width: 12.0),
                           Flexible(

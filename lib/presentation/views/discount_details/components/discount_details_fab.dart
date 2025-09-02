@@ -39,7 +39,7 @@ class DiscountDetailsFab extends StatelessWidget {
           .pushRoute(AddUpdateDiscountRoute(discount: discount))
           .then((value) async {
         if (value is bool && value == true) {
-          discountCrudBloc.add(DiscountCrudEvent.load(discount.id!));
+          discountCrudBloc.add(DiscountCrudEvent.load(discount.id));
         }
       });
     }
@@ -69,7 +69,7 @@ class DiscountDetailsFab extends StatelessWidget {
                         foregroundColor: Colors.white,
                         labelStyle:
                             smallTextStyle?.copyWith(color: Colors.white),
-                        onTap: () => onDeleteTap(_.discount.id!),
+                        onTap: () => onDeleteTap(_.discount.id),
                         onLongPress: () {},
                       ),
                       SpeedDialChild(
@@ -97,7 +97,7 @@ class DiscountDetailsFab extends StatelessWidget {
                         heroTag: null,
                         backgroundColor: Colors.redAccent,
                         foregroundColor: Colors.white,
-                        onPressed: () => onDeleteTap(_.discount.id!),
+                        onPressed: () => onDeleteTap(_.discount.id),
                         child: const Icon(MedusaIcons.trash)),
                     const SizedBox(width: 12.0),
                     FloatingActionButton(

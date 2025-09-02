@@ -167,12 +167,12 @@ class _ConditionProductViewState extends State<ConditionProductView> {
                     itemBuilder: (context, product, index) =>
                         ProductTileWithVariantCount(
                             enabled: !disabledProducts
-                                .map((e) => e.id!)
+                                .map((e) => e.id)
                                 .toList()
                                 .contains(product.id),
                             product: product,
                             value: selectedProducts
-                                .map((e) => e.id!)
+                                .map((e) => e.id)
                                 .toList()
                                 .contains(product.id),
                             onChanged: (val) {

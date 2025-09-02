@@ -13,9 +13,9 @@ class DiscountTypeCard extends StatelessWidget {
       this.onTap,
       required this.groupValue,
       this.disabled = false});
-  final DiscountRuleType discountType;
-  final DiscountRuleType? groupValue;
-  final void Function(DiscountRuleType discountRuleType)? onTap;
+  final PromotionType discountType;
+  final PromotionType? groupValue;
+  final void Function(PromotionType discountRuleType)? onTap;
   final bool disabled;
   @override
   Widget build(BuildContext context) {
@@ -36,17 +36,13 @@ class DiscountTypeCard extends StatelessWidget {
     String title = '';
     String description = '';
     switch (discountType) {
-      case DiscountRuleType.fixed:
-        title = 'Fixed amount';
+      case PromotionType.buyget:
+        title = 'Buy get';
         description = 'Discount in whole numbers';
         break;
-      case DiscountRuleType.percentage:
-        title = 'Percentage';
+      case PromotionType.standard:
+        title = 'Standard';
         description = 'Discount applied in %';
-        break;
-      case DiscountRuleType.freeShipping:
-        title = 'Free shipping';
-        description = 'Override delivery amount';
         break;
     }
 
@@ -69,7 +65,7 @@ class DiscountTypeCard extends StatelessWidget {
               Flexible(
                 child: Row(
                   children: [
-                    Radio<DiscountRuleType>(
+                    Radio<PromotionType>(
                         value: discountType,
                         groupValue: groupValue,
                         onChanged: (val) {

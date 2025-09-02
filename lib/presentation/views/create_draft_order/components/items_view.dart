@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/copy_with_line_item.dart';
 import 'package:medusa_admin/data/models/select_products_req.dart';
@@ -144,9 +143,9 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                             }
                             return null;
                           },
-                          items: success.regions!
+                          items: success.regions
                               .map((e) => DropdownMenuItem(
-                                  value: e, child: Text(e.name!)))
+                                  value: e, child: Text(e.name)))
                               .toList(),
                           hint: const Text('Region'),
                           onChanged: onRegionChanged,
@@ -231,7 +230,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                   },
                                   onAddTap: () {
                                     var quantity = lineItems[index].quantity;
-                                    quantity = quantity! + 1;
+                                    quantity = quantity + 1;
                                     lineItems[index] = lineItems
                                         .elementAt(index)
                                         .copyWith(quantity: quantity);
@@ -239,11 +238,11 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                         .didChange(lineItems + customLineItems);
                                     setState(() {});
                                   },
-                                  onRemoveTap: lineItem.quantity! > 1
+                                  onRemoveTap: lineItem.quantity > 1
                                       ? () {
                                           var quantity =
                                               lineItems[index].quantity;
-                                          if (quantity! > 1) {
+                                          if (quantity > 1) {
                                             quantity = quantity - 1;
                                             lineItems[index] = lineItems[index]
                                                 .copyWith(quantity: quantity);
@@ -281,7 +280,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                 final customLineItem = customLineItems[index];
                                 return CustomVariantListTile(
                                   customLineItem,
-                                  currencyCode: selectedRegion!.currencyCode!,
+                                  currencyCode: selectedRegion!.currencyCode,
                                   onDelete: () {
                                     customLineItems.removeAt(index);
                                     field
@@ -293,23 +292,23 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                         .elementAt(index)
                                         .copyWith(
                                             quantity: customLineItems[index]
-                                                    .quantity! +
+                                                    .quantity +
                                                 1);
                                     field
                                         .didChange(lineItems + customLineItems);
                                     setState(() {});
                                   },
                                   onRemoveTap: customLineItems[index]
-                                              .quantity! >
+                                              .quantity >
                                           1
                                       ? () {
-                                          if (customLineItems[index].quantity! >
+                                          if (customLineItems[index].quantity >
                                               1) {
                                             customLineItems[index] =
                                                 customLineItems[index].copyWith(
                                                     quantity:
                                                         customLineItems[index]
-                                                                .quantity! -
+                                                                .quantity -
                                                             1);
                                           }
                                           field.didChange(

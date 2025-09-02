@@ -49,16 +49,13 @@ class OrderFulfillment extends StatelessWidget {
               FulfillmentStatusLabel(fulfillmentStatus: order.fulfillmentStatus),
             ],
           ),
-          if (order.shippingMethods == null)
-            Text(tr.giftCardTableNone, style: mediumTextStyle),
-          if (order.shippingMethods != null)
-            ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: order.shippingMethods!.length,
-                itemBuilder: (context, index) => Text(
-                    order.shippingMethods![index].shippingOption?.name ?? '',
-                    style: mediumTextStyle)),
+          ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: order.shippingMethods.length,
+              itemBuilder: (context, index) => Text(
+                  order.shippingMethods[index].name ?? '',
+                  style: mediumTextStyle)),
           if (order.fulfillments != null && order.fulfillments!.isNotEmpty)
             const Divider(),
           if (order.fulfillments != null)
@@ -82,7 +79,7 @@ class OrderFulfillment extends StatelessWidget {
                     children: [
                       if (canceled)
                         Text(
-                            'at ${fulfillment.canceledAt.formatDate()}, ${fulfillment.canceledAt.formatTime()}',
+                            'at ${fulfillment.canceledAt?.formatDate()}, ${fulfillment.canceledAt?.formatTime()}',
                             style: smallTextStyle),
                       if (canceled) const SizedBox(height: 6.0),
                       Text(

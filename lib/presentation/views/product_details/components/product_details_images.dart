@@ -39,17 +39,17 @@ class ProductDetailsImages extends StatelessWidget {
       title: Text('Images', style: Theme.of(context).textTheme.bodyLarge),
       trailing: TextButton(
           onPressed: () async {
-            await context
-                .pushRoute(AddUpdateProductRoute(
-                    updateProductReq:
-                        UpdateProductReq(product: product, number: 5)))
-                .then((result) async {
-              if (result != null) {
-                context
-                    .read<ProductCrudBloc>()
-                    .add(ProductCrudEvent.loadWithVariants(product.id!));
-              }
-            });
+            // await context
+            //     .pushRoute(AddUpdateProductRoute(
+            //         updateProductReq:
+            //             UpdateProductReq(product: product, number: 5)))
+            //     .then((result) async {
+            //   if (result != null) {
+            //     context
+            //         .read<ProductCrudBloc>()
+            //         .add(ProductCrudEvent.loadWithVariants(product.id));
+            //   }
+            // });
           },
           child: Text(buttonText)),
       childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -67,8 +67,8 @@ class ProductDetailsImages extends StatelessWidget {
                             onTap: () => context
                                 .pushRoute(ImagePreviewRoute(imageUrl: e.url)),
                             child: Hero(
-                                tag: e.url!,
-                                child: CachedNetworkImage(imageUrl: e.url!)))))
+                                tag: e.url,
+                                child: CachedNetworkImage(imageUrl: e.url)))))
                     .toList()),
           if (product.images == null || (product.images?.isEmpty ?? false))
             Text('No images added',

@@ -1,16 +1,11 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/data/models/update_product_req.dart';
-import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductDetailsAttributes extends StatelessWidget {
@@ -32,17 +27,17 @@ class ProductDetailsAttributes extends StatelessWidget {
       title: const Text('Attributes'),
       trailing: TextButton(
           onPressed: () async {
-            await context
-                .pushRoute(AddUpdateProductRoute(
-                    updateProductReq:
-                        UpdateProductReq(product: product, number: 3)))
-                .then((result) async {
-              if (result != null) {
-                context
-                    .read<ProductCrudBloc>()
-                    .add(ProductCrudEvent.loadWithVariants(product.id!));
-              }
-            });
+            // await context
+            //     .pushRoute(AddUpdateProductRoute(
+            //         updateProductReq:
+            //             UpdateProductReq(product: product, number: 3)))
+            //     .then((result) async {
+            //   if (result != null) {
+            //     context
+            //         .read<ProductCrudBloc>()
+            //         .add(ProductCrudEvent.loadProductVariants(product.id));
+            //   }
+            // });
           },
           child: const Text('Edit')),
       childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -152,7 +147,7 @@ class ProductDetailsAttributes extends StatelessWidget {
                                   .where((element) =>
                                       element.iso2 == product.originCountry)
                                   .firstOrNull
-                                  ?.displayName ??
+                                  ?.displayOnStore ??
                               '-',
                           style: mediumTextStyle.copyWith(color: manatee),
                           textAlign: TextAlign.right),

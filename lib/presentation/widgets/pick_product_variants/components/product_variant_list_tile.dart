@@ -43,11 +43,11 @@ class ProductVariantListTile extends StatelessWidget {
                 children: [
                   getStatusIcon(),
                   const SizedBox(width: 4.0),
-                  Text(productVariant.title ?? '', style: smallTextStyle),
+                  Text(productVariant.title, style: smallTextStyle),
                 ],
               ),
               Text(
-                productVariant.inventoryQuantity?.toString() ?? '',
+                productVariant.inventoryQuantity.toString(),
                 style: smallTextStyle,
               )
             ],

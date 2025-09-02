@@ -46,7 +46,7 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
     });
     result.when(
       (success) {
-        emit(_Categories(success.productCategories ?? [], success.count ?? 0));
+        emit(_Categories(success.productCategories, success.count));
       },
       (error) {
         emit(CategoryCrudState.error(error));
@@ -56,7 +56,7 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
 
   Future<void> _create(_Create event, Emitter<CategoryCrudState> emit) async {
     emit(const _Loading());
-    final result = await _useCase.create(event.userCreateProductCategoryReq);
+    final result = await _useCase.create(event.payload);
     result.when(
       (success) {
         emit(_Category(success));
@@ -70,7 +70,7 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
   Future<void> _update(_Update event, Emitter<CategoryCrudState> emit) async {
     emit(const _Loading());
     final result =
-        await _useCase.update(event.id, event.userUpdateProductCategoryReq);
+        await _useCase.update(event.id, event.payload);
     result.when(
       (success) {
         emit(_Category(success));
@@ -98,7 +98,7 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
       _AddProducts event, Emitter<CategoryCrudState> emit) async {
     emit(const _Loading());
     final result =
-        await _useCase.addProductsToCategory(event.id, event.productIds);
+        await _useCase.addProducts(event.id, event.productIds);
     result.when(
       (success) {
         emit(_Category(success));
@@ -113,7 +113,7 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
       _RemoveProducts event, Emitter<CategoryCrudState> emit) async {
     emit(const _Loading());
     final result =
-        await _useCase.removeProductsToCategory(event.id, event.productIds);
+        await _useCase.removeProducts(event.id, event.productIds);
     result.when(
       (success) {
         emit(_Category(success));

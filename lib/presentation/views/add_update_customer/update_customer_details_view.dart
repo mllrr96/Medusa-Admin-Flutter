@@ -96,8 +96,8 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
                           context
                               .read<CustomerCrudBloc>()
                               .add(CustomerCrudEvent.update(
-                                  customer!.id!,
-                                  UpdateCustomerReq(
+                                  customer!.id,
+                                  CustomerUpdateReq(
                                     email:
                                         emailNameCtrl.text == (customer!.email)
                                             ? null
@@ -122,11 +122,12 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
                           }
                           context.read<CustomerCrudBloc>().add(
                                   CustomerCrudEvent.create(
-                                      CreateCustomerReq(
+                                      CustomerCreateReq(
                                 email: emailNameCtrl.text,
                                 firstName: firstNameCtrl.text,
                                 lastName: lastNameCtrl.text,
-                                password: passwordCtrl.text,
+                                // TODO: Check why no password is needed
+                                // password: passwordCtrl.text,
                                 phone: phoneNameCtrl.text,
                               )));
                         },

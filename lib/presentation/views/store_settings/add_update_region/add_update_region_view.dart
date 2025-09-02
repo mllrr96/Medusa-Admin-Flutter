@@ -20,7 +20,6 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 @RoutePage()
 class AddUpdateRegionView extends StatefulWidget {
@@ -55,7 +54,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
         .state
         .mapOrNull(loaded: (_) => _.store.currencies);
     if (updateMode) {
-      titleCtrl.text = region!.name!;
+      titleCtrl.text = region!.name;
       defaultTaxRateCtrl.text = region!.taxRate.toString();
       defaultTextCode.text = region!.taxCode.toString();
       selectedCountries = region!.countries ?? [];
@@ -124,15 +123,15 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                     var countriesIso = <String>[];
 
                     for (Country country in selectedCountries) {
-                      countriesIso.add(country.iso2!);
+                      countriesIso.add(country.iso2);
                     }
 
                     if (updateMode) {
                       regionCrudBloc.add(RegionCrudEvent.update(
-                        region!.id!,
+                        region!.id,
                         UpdateRegionReq(
                           name: titleCtrl.text,
-                          currencyCode: selectedCurrency!.code!,
+                          currencyCode: selectedCurrency!.code,
                           countries: countriesIso,
                           paymentProviderIds: selectedPaymentProviders,
                         ),
@@ -141,7 +140,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                       regionCrudBloc.add(RegionCrudEvent.create(
                         CreateRegionReq(
                           name: titleCtrl.text,
-                          currencyCode: selectedCurrency!.code!,
+                          currencyCode: selectedCurrency!.code,
                           taxRate: double.parse(defaultTaxRateCtrl.text),
                           paymentProviders: selectedPaymentProviders,
                           fulfillmentProviders: [],
@@ -209,10 +208,10 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                             },
                             items: currencies
                                 ?.map((e) => DropdownMenuItem(
-                                    value: e, child: Text(e.name!)))
+                                    value: e, child: Text(e.name)))
                                 .toList(),
                             hint: const Text('Choose currency'),
-                            value: selectedCurrency,
+                            initialValue: selectedCurrency,
                             onChanged: (value) {
                               if (value != null) {
                                 selectedCurrency = value;

@@ -13,7 +13,7 @@ class DiscountsLoadingPage extends StatelessWidget {
         code: 'MEDUSA',
         rule: DiscountRule(
           description: '10% off on all products',
-          type: DiscountRuleType.fixed,
+          type: PromotionType.fixed,
           value: 12000,
         ), isDynamic: null);
     return Skeletonizer(

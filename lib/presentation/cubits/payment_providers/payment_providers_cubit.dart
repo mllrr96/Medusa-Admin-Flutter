@@ -20,7 +20,7 @@ class PaymentProvidersCubit extends Cubit<PaymentProvidersState> {
     final result = await _useCase();
     result.when(
       (paymentProviders) {
-        emit(_PaymentProviders(paymentProviders));
+        emit(_PaymentProviders(paymentProviders.paymentProviders));
       },
       (error) {
         emit(_Error(error));

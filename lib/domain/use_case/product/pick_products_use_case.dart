@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
@@ -6,14 +10,17 @@ import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class PickProductsUseCase {
+  final MedusaAdminV2 _medusaAdmin;
+
+  PickProductsUseCase(this._medusaAdmin);
   static PickProductsUseCase get instance => getIt<PickProductsUseCase>();
-  ProductsRepository get _productsRepository => getIt<MedusaAdmin>().productsRepository;
-  Future<Result<ProductsListRes, MedusaError>> call(
+  ProductsRepository get _productsRepository =>  _medusaAdmin.products;
+  Future<Result<ProductsRes, MedusaError>> call(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _productsRepository.retrieveAll(
           queryParameters: queryParameters);
-      return Success(result!);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

@@ -21,11 +21,10 @@ class DraftOrderSummeryCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
       child: Row(
         children: [
-          if (item.thumbnail != null)
-            SizedBox(
-                height: 50,
-                width: 50,
-                child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail!)),
+          SizedBox(
+              height: 50,
+              width: 50,
+              child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail)),
           const SizedBox(width: 6.0),
           Expanded(
             child: Column(
@@ -34,7 +33,7 @@ class DraftOrderSummeryCard extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    item.title!,
+                    item.title,
                     style: mediumTextStyle,
                   ),
                 ),
@@ -53,7 +52,7 @@ class DraftOrderSummeryCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('${item.unitPrice.formatAsPrice(currencyCode)} x ${item.quantity!}',
+                Text('${item.unitPrice.formatAsPrice(currencyCode)} x ${item.quantity}',
                     style: smallTextStyle, maxLines: 1),
                 const Divider(height: 5),
                 Text(item.total.formatAsPrice(currencyCode), style: mediumTextStyle, maxLines: 1),

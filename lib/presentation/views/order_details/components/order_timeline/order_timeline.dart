@@ -68,7 +68,7 @@ class _OrderTimelineState extends State<OrderTimeline> {
       return;
     }
     noteCrudBloc.add(
-      NoteCrudEvent.create(widget.order.id!, 'order', noteCtrl.text),
+      NoteCrudEvent.create(widget.order.id, 'order', noteCtrl.text),
     );
   }
 

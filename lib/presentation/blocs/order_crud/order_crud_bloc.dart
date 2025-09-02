@@ -18,9 +18,9 @@ class OrderCrudBloc extends Bloc<OrderCrudEvent, OrderCrudState> {
     on<_Cancel>(_cancel);
     on<_CreateFulfillment>(_createFulfillment);
     on<_CancelFulfillment>(_cancelFulfillment);
-    on<_CreateRefund>(_createRefund);
-    on<_CreateOrderShipment>(_createOrderShipment);
-    on<_CaptureOrderPayment>(_captureOrderPayment);
+    // on<_CreateRefund>(_createRefund);
+    // on<_CreateOrderShipment>(_createOrderShipment);
+    // on<_CaptureOrderPayment>(_captureOrderPayment);
   }
   Future<void> _load(_Load event, Emitter<OrderCrudState> emit) async {
     emit(const _Loading());
@@ -38,51 +38,49 @@ class OrderCrudBloc extends Bloc<OrderCrudEvent, OrderCrudState> {
 
   Future<void> _cancel(_Cancel event, Emitter<OrderCrudState> emit) async {
     emit(const _Loading());
-    final result = await orderCrudUseCase.cancelOrder(id: event.id);
+    final result = await orderCrudUseCase.archiveOrder(id: event.id);
     result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
   }
 
   Future<void> _createFulfillment(
       _CreateFulfillment event, Emitter<OrderCrudState> emit) async {
     emit(const _Loading());
-    final result = await orderCrudUseCase.createFulfillment(
-        id: event.id, payload: event.userCreateFulfillmentReq);
-    result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
+    final result = await orderCrudUseCase.createFulfillment(payload: event.userCreateFulfillmentReq);
+    result.when((order) => emit(_Fulfillment(order)), (error) => emit(_Error(error)));
   }
 
   Future<void> _cancelFulfillment(
       _CancelFulfillment event, Emitter<OrderCrudState> emit) async {
     emit(const _Loading());
-    final result = await orderCrudUseCase.cancelFulfillment(
-        id: event.id, fulfillmentId: event.fulfillmentId);
-    result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
+    final result = await orderCrudUseCase.cancelFulfillment(fulfillmentId: event.fulfillmentId);
+    result.when((order) => emit(_Fulfillment(order)), (error) => emit(_Error(error)));
   }
 
-  Future<void> _createRefund(
-      _CreateRefund event, Emitter<OrderCrudState> emit) async {
-    emit(const _Loading());
-    final result = await orderCrudUseCase.createRefund(
-        id: event.id,
-        payload: event.userCreateRefundOrdersReq);
-    result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
-  }
+  // Future<void> _createRefund(
+  //     _CreateRefund event, Emitter<OrderCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final result = await orderCrudUseCase.createRefund(
+  //       id: event.id,
+  //       payload: event.userCreateRefundOrdersReq);
+  //   result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
+  // }
 
-  Future<void> _createOrderShipment(
-      _CreateOrderShipment event, Emitter<OrderCrudState> emit) async {
-    emit(const _Loading());
-    final result = await orderCrudUseCase.createOrderShipment(
-        id: event.id,
-        fulfillmentId: event.fulfillmentId,
-        trackingNumbers: event.trackingNumbers);
-    result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
-  }
-
-  Future<void> _captureOrderPayment(
-      _CaptureOrderPayment event, Emitter<OrderCrudState> emit) async {
-    emit(const _Loading());
-    final result = await orderCrudUseCase.captureOrderPayment(id: event.id);
-    result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
-  }
+  // Future<void> _createOrderShipment(
+  //     _CreateOrderShipment event, Emitter<OrderCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final result = await orderCrudUseCase.createOrderShipment(
+  //       id: event.id,
+  //       fulfillmentId: event.fulfillmentId,
+  //       trackingNumbers: event.trackingNumbers);
+  //   result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
+  // }
+  //
+  // Future<void> _captureOrderPayment(
+  //     _CaptureOrderPayment event, Emitter<OrderCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final result = await orderCrudUseCase.captureOrderPayment(id: event.id);
+  //   result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
+  // }
 
   final OrderCrudUseCase orderCrudUseCase;
   static OrderCrudBloc get instance => getIt<OrderCrudBloc>();

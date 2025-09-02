@@ -5,7 +5,6 @@ import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/domain/use_case/order/orders_use_case.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_api_client/gen.dart';
 
 part 'orders_event.dart';
 
@@ -25,6 +24,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   ) async {
     emit(const _Loading());
     final result = await ordersUseCase.retrieveOrders(
+      event.queryParameters);
         //     queryParameters:
         //         // TODO: add event.queryParameters if needed
         //         GetOrdersQueryParameters(
@@ -37,9 +37,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         //   ...?event.queryParameters,
         // }
 
-        );
+        // );
     result.when((ordersResponse) {
-      emit(_Orders(ordersResponse.orders!, ordersResponse.count.toInt() ?? 0));
+      emit(_Orders(ordersResponse.orders, ordersResponse.count.toInt() ?? 0));
     }, (error) {
       emit(_Error(error));
     });

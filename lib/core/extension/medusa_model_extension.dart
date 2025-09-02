@@ -13,11 +13,8 @@ extension Name on Order {
 }
 
 extension UserFullName on User {
-  String? get fullName {
-    if (firstName == null && lastName == null) {
-      return null;
-    }
-    return '${firstName ?? ''} ${lastName ?? ''}';
+  String get fullName {
+    return '$firstName $lastName';
   }
 }
 
@@ -43,8 +40,4 @@ extension AuthTypeExtension on String? {
         return AuthenticationType.jwt;
     }
   }
-}
-
-extension DiscountExtension on Discount {
-  bool get isExpired => endsAt?.isBefore(DateTime.now()) ?? false;
 }

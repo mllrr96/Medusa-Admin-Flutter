@@ -45,7 +45,7 @@ class CollectionCrudBloc
     );
     result.when(
         (response) =>
-            emit(_Collections(response.collections ?? [], response.count ?? 0)),
+            emit(_Collections(response.collections, response.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -55,7 +55,7 @@ class CollectionCrudBloc
   ) async {
     emit(const _Loading());
     final result = await collectionCrudUseCase.create(
-      userCreateCollectionReq: event.userCreateCollectionReq,
+      userCreateCollectionReq: event.payload,
     );
     result.when((collection) => emit(_Collection(collection)),
         (error) => emit(_Error(error)));
@@ -67,8 +67,7 @@ class CollectionCrudBloc
   ) async {
     emit(const _Loading());
     final result = await collectionCrudUseCase.update(
-      id: event.id,
-      userCreateCollectionReq: event.userCreateCollectionReq,
+     id: event.id, updateCollectionReq: event.payload,
     );
     result.when((collection) => emit(_Collection(collection)),
         (error) => emit(_Error(error)));
@@ -90,9 +89,9 @@ class CollectionCrudBloc
   ) async {
     emit(const _Loading());
     final result = await collectionCrudUseCase
-        .removeProducts(event.userCollectionRemoveProductsReq);
+        .removeProducts(event.id ,event.productIds);
     result.when(
-        (success) => emit(_ProductsRemoved(success.removedProducts ?? [])),
+        (success) => emit(_ProductsRemoved([])),
         (error) => emit(_Error(error)));
   }
 
@@ -102,7 +101,7 @@ class CollectionCrudBloc
   ) async {
     emit(const _Loading());
     final result = await collectionCrudUseCase
-        .updateProducts(event.userCollectionUpdateProductsReq);
+        .removeProducts(event.id ,event.productIds);
     result.when((collection) => emit(_Collection(collection)),
         (error) => emit(_Error(error)));
   }

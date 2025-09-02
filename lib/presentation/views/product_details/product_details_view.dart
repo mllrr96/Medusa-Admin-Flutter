@@ -25,7 +25,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   @override
   void initState() {
     productCrudBloc = ProductCrudBloc.instance;
-    productCrudBloc.add(ProductCrudEvent.loadWithVariants(widget.productId));
+    productCrudBloc.add(ProductCrudEvent.loadProductVariants(widget.productId));
     super.initState();
   }
 
@@ -73,7 +73,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                               if (result == OkCancelResult.ok) {
                                 productCrudBloc.add(ProductCrudEvent.update(
                                     widget.productId,
-                                    PostUpdateProductReq(
+                                    UpdateProductReq(
                                         status: isPublished
                                             ? ProductStatus.draft
                                             : ProductStatus.published)));
@@ -109,7 +109,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     },
                     updated: (product) {
                       productCrudBloc
-                          .add(ProductCrudEvent.loadWithVariants(product.id!));
+                          .add(ProductCrudEvent.loadProductVariants(product.id));
                     },
                     orElse: () {},
                   );
@@ -147,7 +147,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                     child: const Text('Retry'),
                                     onPressed: () {
                                       productCrudBloc.add(
-                                          ProductCrudEvent.loadWithVariants(
+                                          ProductCrudEvent.loadProductVariants(
                                               widget.productId));
                                     }),
                               ],

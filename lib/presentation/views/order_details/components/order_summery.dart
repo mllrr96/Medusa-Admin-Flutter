@@ -36,7 +36,7 @@ class OrderSummery extends StatelessWidget {
           ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: order.items!.length,
+              itemCount: order.items.length,
               itemBuilder: (context, index) =>
                   OrderSummeryCard(order: order, index: index)),
           const Divider(indent: 20, endIndent: 20),

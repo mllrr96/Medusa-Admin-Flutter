@@ -3,7 +3,6 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'draft_order_summery_card.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
-import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 class DraftOrderSummery extends StatelessWidget {
   const DraftOrderSummery(this.draftOrder, {super.key});

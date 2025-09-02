@@ -1,22 +1,23 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+
 @lazySingleton
 class ShippingOptionCrudUseCase {
-  ShippingOptionsRepository get _shippingOptionsRepository =>
-      getIt<MedusaAdmin>().shippingOptionsRepository;
+  final MedusaAdminV2 _medusaAdmin;
 
-  Future<Result<ShippingOption, MedusaError>> create(
-      CreateShippingOptionReq userCreateShippingOptionReq) async {
+  ShippingOptionCrudUseCase(this._medusaAdmin);
+
+  ShippingOptionsRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptions;
+
+  Future<Result<ShippingOption, MedusaError>> create(CreateShippingOptionReq payload) async {
     try {
-      final result = await _shippingOptionsRepository.create(
-          userCreateShippingOptionReq: userCreateShippingOptionReq);
-      return Success(result!);
+      final result = await _shippingOptionsRepository.create(body: payload);
+      return Success(result.shippingOption);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -33,12 +34,10 @@ class ShippingOptionCrudUseCase {
   }
 
   Future<Result<ShippingOption, MedusaError>> update(
-      {required String id,
-      required UpdateShippingOptionReq userUpdateShippingOptionReq}) async {
+      {required String id, required UpdateShippingOptionReq payload}) async {
     try {
-      final result = await _shippingOptionsRepository.update(
-          userUpdateShippingOptionReq: userUpdateShippingOptionReq, id: id);
-      return Success(result!);
+      final result = await _shippingOptionsRepository.update(id: id, body: payload);
+      return Success(result.shippingOption);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -54,10 +53,10 @@ class ShippingOptionCrudUseCase {
     }
   }
 
-  Future<Result<DeleteShippingOptionRes, MedusaError>> delete(String id) async {
+  Future<Result<ShippingOptionDeleteRes, MedusaError>> delete(String id) async {
     try {
       final result = await _shippingOptionsRepository.delete(id: id);
-      return Success(result!);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -73,12 +72,11 @@ class ShippingOptionCrudUseCase {
     }
   }
 
-  Future<Result<RetrieveAllShippingOptionRes, MedusaError>> loadAll(
+  Future<Result<ShippingOptionListRes, MedusaError>> loadAll(
       {Map<String, dynamic>? queryParams}) async {
     try {
-      final result = await _shippingOptionsRepository.retrieveAll(
-          queryParams: queryParams);
-      return Success(result!);
+      final result = await _shippingOptionsRepository.list(query: queryParams);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -94,12 +92,11 @@ class ShippingOptionCrudUseCase {
     }
   }
 
-  Future<Result<ShippingOption, MedusaError>> load(String id,
+  Future<Result<ShippingOptionRes, MedusaError>> load(String id,
       {Map<String, dynamic>? queryParams}) async {
     try {
-      final result = await _shippingOptionsRepository.retrieve(
-          id: id, queryParams: queryParams);
-      return Success(result!);
+      final result = await _shippingOptionsRepository.retrieve(id: id, query: queryParams);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

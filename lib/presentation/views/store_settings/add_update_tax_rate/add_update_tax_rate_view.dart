@@ -14,7 +14,6 @@ import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 @RoutePage()
 class AddUpdateTaxRateView extends StatefulWidget {
@@ -39,7 +38,7 @@ class _AddUpdateTaxRateViewState extends State<AddUpdateTaxRateView> {
     if (updateMode) {
       nameCtrl.text = widget.addUpdateTaxRateReq.taxRate!.name ?? '';
       taxRateCtrl.text =
-          widget.addUpdateTaxRateReq.taxRate!.rate?.toString() ?? '';
+          widget.addUpdateTaxRateReq.taxRate!.rate.toString() ?? '';
       taxCodeCtrl.text = widget.addUpdateTaxRateReq.taxRate!.code ?? '';
     }
     super.initState();
@@ -88,7 +87,7 @@ class _AddUpdateTaxRateViewState extends State<AddUpdateTaxRateView> {
                   }
                   if (updateMode) {
                     taxCrudBloc.add(TaxCrudEvent.update(
-                        widget.addUpdateTaxRateReq.taxRate!.id!,
+                        widget.addUpdateTaxRateReq.taxRate!.id,
                         UpdateTaxRateReq(
                           code: taxCodeCtrl.text,
                           name: nameCtrl.text,

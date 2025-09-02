@@ -15,16 +15,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc(NotificationUseCase notificationUseCase)
       : _useCase = notificationUseCase,
         super(const _Initial()) {
-    on<_Resend>(_resend);
     on<_LoadAll>(_loadAll);
   }
 
-  void _resend(_Resend event, Emitter<NotificationState> emit) async {
-    emit(const _Loading());
-    final result = await _useCase.resend(event.id, event.to);
-    result.when((notification) => emit(_Notification(notification)),
-        (error) => emit(_Error(error)));
-  }
+
 
   void _loadAll(_LoadAll event, Emitter<NotificationState> emit) async {
     emit(const _Loading());

@@ -29,8 +29,8 @@ class ProductListTile extends StatelessWidget {
       contentPadding: const EdgeInsets.only(left: 16.0),
       onTap: onTap ??
           () async => await context
-              .pushRoute(ProductDetailsRoute(productId: product.id!)),
-      title: Text(product.title!, style: context.bodyMedium),
+              .pushRoute(ProductDetailsRoute(productId: product.id)),
+      title: Text(product.title, style: context.bodyMedium),
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

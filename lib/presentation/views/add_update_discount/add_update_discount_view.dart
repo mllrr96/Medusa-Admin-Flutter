@@ -13,20 +13,20 @@ import 'components/index.dart';
 
 @RoutePage()
 class AddUpdateDiscountView extends StatefulWidget {
-  const AddUpdateDiscountView({super.key, this.discount});
-  final Discount? discount;
+  const AddUpdateDiscountView({super.key, this.promotion});
+  final Promotion? promotion;
 
   @override
   State<AddUpdateDiscountView> createState() => _AddUpdateDiscountViewState();
 }
 
 class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
-  bool get updatingDiscount => widget.discount != null;
-  DiscountRuleType discountType = DiscountRuleType.percentage;
-  AllocationType allocationType = AllocationType.total;
-  UpdateDiscountReq? updateDiscountReq;
-  CreateDiscountReq? createDiscountReq;
-  List<DiscountCondition> conditions = [];
+  bool get updatingDiscount => widget.promotion != null;
+  PromotionType discountType = PromotionType.buyget;
+  // AllocationType allocationType = AllocationType.total;
+  PostPromotionReq? updateDiscountReq;
+  PostPromotionReq? createDiscountReq;
+  // List<DiscountCondition> conditions = [];
   final discountKey = GlobalKey();
   final generalKey = GlobalKey();
   final configKey = GlobalKey();
@@ -36,9 +36,9 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
   @override
   void initState() {
     if (updatingDiscount) {
-      discountType = widget.discount!.rule!.type!;
-      allocationType =
-          widget.discount!.rule?.allocation ?? AllocationType.total;
+      // discountType = widget.promotion!.rule!.type;
+      // allocationType =
+      //     widget.promotion!.rule?.allocation ?? AllocationType.total;
     }
     super.initState();
   }
@@ -53,7 +53,7 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
     context.unfocus();
     if (updatingDiscount) {
       context.read<DiscountCrudBloc>().add(
-          DiscountCrudEvent.update(widget.discount!.id!, updateDiscountReq!));
+          DiscountCrudEvent.update(widget.promotion!.id, updateDiscountReq!));
     } else {
       context
           .read<DiscountCrudBloc>()
@@ -67,13 +67,13 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
     return BlocListener<DiscountCrudBloc, DiscountCrudState>(
       listener: (context, state) {
         state.mapOrNull(
-            discount: (_) {
+            discount: (r) {
               dismissLoading();
-              context.router.popForced(_.discount);
+              context.router.pop(r.discount);
             },
-            error: (_) {
+            error: (e) {
               dismissLoading();
-              context.showSnackBar(_.failure.toSnackBarString());
+              context.showSnackBar(e.failure.toSnackBarString());
             },
             loading: (_) => loading());
       },
@@ -112,17 +112,16 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
                       if (!updatingDiscount)
                         Column(
                           children: [
-                            DiscountTypeExpansionTile(
-                              key: discountKey,
-                              discountType: discountType,
-                              allocationType: allocationType,
-                              onTypeChange: (type) {
-                                setState(() => discountType = type);
-                              },
-                              onAllocationChange: (type) {
-                                setState(() => allocationType = type);
-                              },
-                            ),
+                            // DiscountTypeExpansionTile(
+                            //   key: discountKey,
+                            //   discountType: discountType,
+                            //   allocationType: allocationType,
+                            //   onTypeChange: (type) {
+                            //     setState(() => discountType = type);
+                            //   },
+                            //   onAllocationChange: (type) {
+                            //   },
+                            // ),
                             space,
                           ],
                         ),
@@ -132,37 +131,8 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
                             key: generalKey,
                             discountType: discountType,
                             onSaved: (regions, code, description, value) {
-                              if (updatingDiscount) {
-                                updateDiscountReq = UpdateDiscountReq(
-                                  code: code,
-                                  regionsIds:
-                                      regions.map((e) => e.id!).toList(),
-                                  rule: DiscountRule(
-                                    id: widget.discount!.ruleId,
-                                    type: null,
-                                    allocation: allocationType,
-                                    value: value,
-                                    description: description,
-                                  ),
-                                );
-                              } else {
-                                createDiscountReq = CreateDiscountReq(
-                                  code: code,
-                                  regionsIds:
-                                      regions.map((e) => e.id!).toList(),
-                                  rule: DiscountRule(
-                                    type: discountType,
-                                    allocation: allocationType,
-                                    value: value,
-                                    description: description,
-                                    conditions: conditions.isNotEmpty
-                                        ? conditions
-                                        : null,
-                                  ),
-                                );
-                              }
                             },
-                            discount: widget.discount,
+                            discount: widget.promotion,
                           )),
                       space,
                       Form(
@@ -170,18 +140,18 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
                           child: ConfigurationExpansionTile(
                             key: configKey,
                             onSaved: (startDate, endDate, limit) {},
-                            discount: widget.discount,
+                            discount: widget.promotion,
                           )),
                       space,
-                      if (!updatingDiscount)
-                        ConditionExpansionTile(
-                          key: conditionsKey,
-                          onSaved: (conditions) {
-                            if (conditions.isNotEmpty) {
-                              setState(() => this.conditions = conditions);
-                            }
-                          },
-                        ),
+                      // if (!updatingDiscount)
+                      //   ConditionExpansionTile(
+                      //     key: conditionsKey,
+                      //     onSaved: (conditions) {
+                      //       // if (conditions.isNotEmpty) {
+                      //       //   setState(() => this.conditions = conditions);
+                      //       // }
+                      //     },
+                      //   ),
                     ],
                   ),
                 ),

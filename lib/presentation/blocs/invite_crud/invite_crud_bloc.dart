@@ -47,7 +47,7 @@ class InviteCrudBloc extends Bloc<InviteCrudEvent, InviteCrudState> {
   Future<void> _create(_Create event, Emitter<InviteCrudState> emit) async {
     emit(const _Loading());
     final result =
-        await _useCase.inviteUser(email: event.email, role: event.role);
+        await _useCase.inviteUser(email: event.email);
     result.when(
       (success) {
         emit(const _Created());

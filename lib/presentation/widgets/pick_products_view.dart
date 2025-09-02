@@ -32,10 +32,10 @@ class _PickProductsViewState extends State<PickProductsView> {
   RefreshController refreshController = RefreshController();
   late ProductCrudBloc productsBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     productsBloc.add(ProductCrudEvent.loadAll(queryParameters: {
       'is_giftcard': false,
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': page == 0 ? 0 : pagingController.itemList?.length ?? 0,
     }));
   }
 
@@ -97,10 +97,10 @@ class _PickProductsViewState extends State<PickProductsView> {
           actions: [
             TextButton(
                 onPressed: selectedProducts
-                        .map((e) => e.id!)
+                        .map((e) => e.id)
                         .toList()
                         .listEquals(pickProductsReq.selectedProducts
-                                ?.map((e) => e.id!)
+                                ?.map((e) => e.id)
                                 .toList() ??
                             [])
                     ? null
@@ -127,7 +127,7 @@ class _PickProductsViewState extends State<PickProductsView> {
                   : true;
               return CheckboxListTile(
                 enabled: enabled,
-                title: Text(product.title!),
+                title: Text(product.title),
                 subtitle: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -157,7 +157,7 @@ class _PickProductsViewState extends State<PickProductsView> {
                     .toList()
                     .contains(product.id),
                 selected: pickProductsReq.selectedProducts
-                        ?.map((e) => e.id!)
+                        ?.map((e) => e.id)
                         .toList()
                         .contains(product.id) ??
                     false,

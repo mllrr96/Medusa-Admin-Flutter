@@ -18,11 +18,11 @@ class UserCrudBloc extends Bloc<UserCrudEvent, UserCrudState> {
     on<_Load>(_load);
     on<_LoadCurrentUser>(_loadCurrentUser);
     on<_LoadAll>(_loadAll);
-    on<_Create>(_create);
+    // on<_Create>(_create);
     on<_Update>(_update);
     on<_Delete>(_delete);
-    on<_ResetPassword>(_resetPassword);
-    on<_RequestPasswordReset>(_requestPasswordReset);
+    // on<_ResetPassword>(_resetPassword);
+    // on<_RequestPasswordReset>(_requestPasswordReset);
   }
 
   Future<void> _load(_Load event, Emitter<UserCrudState> emit) async {
@@ -48,20 +48,21 @@ class UserCrudBloc extends Bloc<UserCrudEvent, UserCrudState> {
     emit(const _Loading());
     final result = await _useCase.fetchUsers();
     result.when(
-      (response) => emit(_Users(response.userList ?? [], response.count ?? 0)),
+      (response) => emit(_Users(response.users, response.count)),
       (error) => emit(_Error(error)),
     );
   }
 
-  Future<void> _create(_Create event, Emitter<UserCrudState> emit) async {
-    emit(const _Loading());
-    final result =
-        await _useCase.createUser(payload: event.userCreateUserReq);
-    result.when(
-      (user) => emit(_User(user)),
-      (error) => emit(_Error(error)),
-    );
-  }
+  // Future<void> _create(_Create event, Emitter<UserCrudState> emit) async {
+  //   throw UnimplementedError();
+  //   // emit(const _Loading());
+  //   // final result =
+  //   //     await _useCase.createUser(payload: event.userCreateUserReq);
+  //   // result.when(
+  //   //   (user) => emit(_User(user)),
+  //   //   (error) => emit(_Error(error)),
+  //   // );
+  // }
 
   Future<void> _delete(_Delete event, Emitter<UserCrudState> emit) async {
     emit(const _Loading());
@@ -84,27 +85,27 @@ class UserCrudBloc extends Bloc<UserCrudEvent, UserCrudState> {
     );
   }
 
-  Future<void> _resetPassword(
-      _ResetPassword event, Emitter<UserCrudState> emit) async {
-    emit(const _Loading());
-    final result = await _useCase.resetPassword(
-      payload: event.userResetPasswordReq,
-    );
-    result.when(
-      (user) => emit(_User(user)),
-      (error) => emit(_Error(error)),
-    );
-  }
+  // Future<void> _resetPassword(
+  //     _ResetPassword event, Emitter<UserCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final result = await _useCase.resetPassword(
+  //     payload: event.userResetPasswordReq,
+  //   );
+  //   result.when(
+  //     (user) => emit(_User(user)),
+  //     (error) => emit(_Error(error)),
+  //   );
+  // }
 
-  Future<void> _requestPasswordReset(
-      _RequestPasswordReset event, Emitter<UserCrudState> emit) async {
-    emit(const _Loading());
-    final result = await _useCase.requestPasswordReset(email: event.email);
-    result.when(
-      (success) => emit(const _PasswordResetRequested()),
-      (error) => emit(_Error(error)),
-    );
-  }
+  // Future<void> _requestPasswordReset(
+  //     _RequestPasswordReset event, Emitter<UserCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final result = await _useCase.requestPasswordReset(email: event.email);
+  //   result.when(
+  //     (success) => emit(const _PasswordResetRequested()),
+  //     (error) => emit(_Error(error)),
+  //   );
+  // }
 
   final PersonalInfoCrudUseCase _useCase;
   static int pageSize = 20;

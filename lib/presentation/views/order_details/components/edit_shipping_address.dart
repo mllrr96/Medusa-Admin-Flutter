@@ -210,7 +210,7 @@ class _EditAddressState extends State<EditAddress> {
                             .toList(),
                         hint: Text('Select',
                             style: smallTextStyle?.copyWith(color: manatee)),
-                        value: selectedCountry?.numCode,
+                        initialValue: selectedCountry?.numCode,
                         onChanged: (val) {
                           if (val == null) return;
                           setState(() {

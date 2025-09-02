@@ -75,11 +75,11 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
   @override
   void initState() {
     productCrudBloc = ProductCrudBloc.instance;
-    currencies = context
-            .read<StoreBloc>()
-            .state
-            .mapOrNull(loaded: (_) => _.store.currencies) ??
-        [];
+    // currencies = context
+    //         .read<StoreBloc>()
+    //         .state
+    //         .mapOrNull(loaded: (_) => _.store.currencies) ??
+    //     [];
     currencyCtrlMap = {for (var e in currencies) e: TextEditingController()};
     product = productVariantReq.product;
     variant = productVariantReq.productVariant;
@@ -153,28 +153,29 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
               title: Text(updateMode ? 'Update Attributes' : 'Create Variant'),
               actions: [
                 TextButton(
-                    onPressed: () async => updateMode
-                        ? productCrudBloc.add(ProductCrudEvent.update(
-                            product.id!,
-                            PostUpdateProductReq(
-                              status: product.status,
-                              discountable: product.discountable,
-                              weight: int.tryParse(weightCtrl.text),
-                              length: int.tryParse(lengthCtrl.text),
-                              height: int.tryParse(heightCtrl.text),
-                              width: int.tryParse(widthCtrl.text),
-                              midCode: midCtrl.text.removeAllWhitespace.isEmpty
-                                  ? null
-                                  : midCtrl.text,
-                              hsCode: hsCtrl.text.removeAllWhitespace.isEmpty
-                                  ? null
-                                  : hsCtrl.text,
-                              originCountry:
-                                  countryCtrl.text.removeAllWhitespace.isEmpty
-                                      ? null
-                                      : countryCtrl.text,
-                            )))
-                        : await save(context),
+                  onPressed: (){},
+                    // onPressed: () async => updateMode
+                    //     ? productCrudBloc.add(ProductCrudEvent.update(
+                    //         product.id,
+                    //         PostUpdateProductReq(
+                    //           status: product.status,
+                    //           discountable: product.discountable,
+                    //           weight: int.tryParse(weightCtrl.text),
+                    //           length: int.tryParse(lengthCtrl.text),
+                    //           height: int.tryParse(heightCtrl.text),
+                    //           width: int.tryParse(widthCtrl.text),
+                    //           midCode: midCtrl.text.removeAllWhitespace.isEmpty
+                    //               ? null
+                    //               : midCtrl.text,
+                    //           hsCode: hsCtrl.text.removeAllWhitespace.isEmpty
+                    //               ? null
+                    //               : hsCtrl.text,
+                    //           originCountry:
+                    //               countryCtrl.text.removeAllWhitespace.isEmpty
+                    //                   ? null
+                    //                   : countryCtrl.text,
+                    //         )))
+                    //     : await save(context),
                     child: const Text('Save')),
               ],
             ),
@@ -231,7 +232,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(currentOption.title!,
+                                          Text(currentOption.title,
                                               style: mediumTextStyle),
                                           Text(' *',
                                               style: mediumTextStyle?.copyWith(
@@ -251,7 +252,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                           items: currentOption.values!
                                               .map((e) => DropdownMenuItem(
                                                   value: e,
-                                                  child: Text(e.value!)))
+                                                  child: Text(e.value)))
                                               .toList(),
                                           hint: const Text('Choose an option'),
                                           onChanged: (value) {
@@ -308,7 +309,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: updateMode
-                                    ? variant!.prices!.length
+                                    ? variant!.prices.length
                                     : currencies.length,
                                 itemBuilder: (context, index) {
                                   final currency =
@@ -335,7 +336,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                                 children: [
                                                   Text(
                                                       currency.code
-                                                              ?.toUpperCase() ??
+                                                              .toUpperCase() ??
                                                           '',
                                                       style: mediumTextStyle),
                                                   space,
@@ -569,7 +570,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                     builder: (context) =>
                                         const SelectCountryView());
                                 if (result is List<Country>) {
-                                  countryCtrl.text = result.first.displayName!;
+                                  countryCtrl.text = result.first.displayOnStore;
                                   setState(() {});
                                 }
                               },
@@ -648,9 +649,9 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
       selectedOptionsValue.forEach((key, value) {
         variantOptions.add(value);
         if (variantTitle.isEmpty) {
-          variantTitle = value.value!;
+          variantTitle = value.value;
         } else {
-          variantTitle = '$variantTitle / ${value.value!}';
+          variantTitle = '$variantTitle / ${value.value}';
         }
       });
     }
@@ -659,8 +660,8 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
     currencyCtrlMap.forEach((key, value) {
       prices.add(MoneyAmount(
         amount:
-            int.tryParse(value.text.replaceAll(',', '').replaceAll('.', '')),
-        currencyCode: key.code,
+            int.tryParse(value.text.replaceAll(',', '').replaceAll('.', '')) ?? 0,
+        currencyCode: key.code, id: '',
       ));
     });
 
@@ -676,7 +677,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
         length: int.tryParse(lengthCtrl.text),
         height: int.tryParse(heightCtrl.text),
         width: int.tryParse(widthCtrl.text),
-        hsCode: hsCtrl.text.removeAllWhitespace.isEmpty ? null : hsCtrl.text,
+        // hsCode: hsCtrl.text.removeAllWhitespace.isEmpty ? null : hsCtrl.text,
         material: materialCtrl.text.removeAllWhitespace.isEmpty
             ? null
             : materialCtrl.text,

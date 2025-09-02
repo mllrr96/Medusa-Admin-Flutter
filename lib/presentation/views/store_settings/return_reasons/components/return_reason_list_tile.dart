@@ -31,7 +31,7 @@ class ReturnReasonCard extends StatelessWidget {
     if (listTiltStyle) {
       return Slidable(
         groupTag: const Key('return_reason'),
-        key: ValueKey(returnReason.id!),
+        key: ValueKey(returnReason.id),
         endActionPane: ActionPane(
           extentRatio: 0.25,
           motion: const DrawerMotion(),
@@ -69,7 +69,7 @@ class ReturnReasonCard extends StatelessWidget {
                     }
                   }),
           title: Text(
-            returnReason.label!,
+            returnReason.label,
             style: largeTextStyle,
           ),
           subtitle: returnReason.description != null
@@ -103,7 +103,7 @@ class ReturnReasonCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    returnReason.label!,
+                    returnReason.label,
                     style: largeTextStyle,
                   ),
                   if (returnReason.description != null)

@@ -6,10 +6,10 @@ class PricingCrudEvent with _$PricingCrudEvent {
       CreatePriceListReq userCreatePriceListReq) = _Create;
   const factory PricingCrudEvent.update(
       String id, UpdatePriceListReq userUpdatePriceListReq) = _Update;
-  const factory PricingCrudEvent.updatePrices(
-      String id, UpdatePricesReq userUpdatePricesReq) = _UpdatePrices;
+  // const factory PricingCrudEvent.updatePrices(
+  //     String id, UpdatePricesReq userUpdatePricesReq) = _UpdatePrices;
   const factory PricingCrudEvent.load(String id) = _Load;
-  const factory PricingCrudEvent.loadProducts(String id) = _LoadProducts;
+  // const factory PricingCrudEvent.loadProducts(String id) = _LoadProducts;
   const factory PricingCrudEvent.delete(String id) = _Delete;
   const factory PricingCrudEvent.deleteProduct(String id, String productId) =
       _DeleteProduct;

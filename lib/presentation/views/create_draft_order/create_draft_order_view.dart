@@ -44,7 +44,7 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
     }
   }
 
-  goStep(int index) => setState(() => currentStep = index);
+  void goStep(int index) => setState(() => currentStep = index);
 
   MedusaStepState getStepState(int index) {
     if (currentStep == index) {
@@ -58,7 +58,7 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
 
   final formKey = GlobalKey<FormState>();
   final formKey2 = GlobalKey<FormState>();
-  final expansionController = ExpansionTileController();
+  final expansionController = ExpansibleController();
   List<LineItem> lineItems = [];
   List<LineItem> customLineItems = [];
   Region? selectedRegion;
@@ -161,7 +161,7 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
                             discounts: [],
                             email: customer!.email,
                             customerId: customer?.id,
-                            regionId: selectedRegion!.id!,
+                            regionId: selectedRegion!.id,
                             shippingMethods: [
                               ShippingMethod(
                                   shippingOptionId: selectedShippingOption!.id,

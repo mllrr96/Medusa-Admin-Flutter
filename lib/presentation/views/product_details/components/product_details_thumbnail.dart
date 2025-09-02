@@ -32,17 +32,17 @@ class ProductDetailsThumbnail extends StatelessWidget {
       title: const Text('Thumbnail'),
       trailing: TextButton(
           onPressed: () async {
-            await context
-                .pushRoute(AddUpdateProductRoute(
-                    updateProductReq:
-                        UpdateProductReq(product: product, number: 4)))
-                .then((result) async {
-              if (result != null) {
-                context
-                    .read<ProductCrudBloc>()
-                    .add(ProductCrudEvent.loadWithVariants(product.id!));
-              }
-            });
+            // await context
+            //     .pushRoute(AddUpdateProductRoute(
+            //         updateProductReq:
+            //             UpdateProductReq(product: product, number: 4)))
+            //     .then((result) async {
+            //   if (result != null) {
+            //     context
+            //         .read<ProductCrudBloc>()
+            //         .add(ProductCrudEvent.loadWithVariants(product.id));
+            //   }
+            // });
           },
           child: Text(buttonText)),
       childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),

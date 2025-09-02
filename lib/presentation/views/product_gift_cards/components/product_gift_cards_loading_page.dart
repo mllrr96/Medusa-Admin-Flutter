@@ -10,12 +10,15 @@ class GiftCardsLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const product = Product(
-      id: '1',
-      title: 'Gift Card',
-      description: 'Gift Card Description',
-      status: ProductStatus.published,
-      isGiftCard: true,
-    );
+        title: 'Medusa LongSleeve',
+        description:
+        'Reimagine the feeling of a classic long-sleeve. With our cotton long-sleeve, everyday essentials no longer have to be ordinary. Made with 100% cotton.',
+        subtitle: 'subtitle',
+        handle: 'medusa-longsleeve',
+        id: 'id',
+        isGiftcard: false,
+        status: ProductStatus.draft,
+        discountable: false);
     return Skeletonizer(
       enabled: true,
       child: Column(

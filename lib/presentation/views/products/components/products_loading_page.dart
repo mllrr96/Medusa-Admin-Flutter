@@ -9,8 +9,13 @@ class ProductsLoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const product =
-        Product(title: 'Medusa Js Product', status: ProductStatus.published);
+    const product = Product(
+        title: 'Medusa Js Product',
+        status: ProductStatus.published,
+        id: '',
+        handle: '',
+        isGiftcard: false,
+        discountable: false);
     return Skeletonizer(
       enabled: true,
       child: Column(

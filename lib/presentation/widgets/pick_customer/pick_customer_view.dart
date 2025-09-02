@@ -118,7 +118,7 @@ class _PickCustomerViewState extends State<PickCustomerView> {
                         : customer.email;
                     return CheckboxListTile(
                         enabled: !disabledCustomers
-                            .map((e) => e.id!)
+                            .map((e) => e.id)
                             .contains(customer.id),
                         title: Text(titleText),
                         value: selectedCustomers

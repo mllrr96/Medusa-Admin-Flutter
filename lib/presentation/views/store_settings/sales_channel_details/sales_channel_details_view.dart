@@ -46,7 +46,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
   void _loadPage(int _) {
     Map<String, dynamic> queryParameters = {
       'offset': pagingController.itemList?.length ?? 0,
-      'sales_channel_id': [salesChannel.id!, ''],
+      'sales_channel_id': [salesChannel.id, ''],
       'expand': 'collection,type,sales_channels',
       'fields': 'id,title,thumbnail,status',
     };
@@ -88,7 +88,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
-    final disabled = salesChannel.isDisabled != null && salesChannel.isDisabled!
+    final disabled = salesChannel.isDisabled
         ? true
         : false;
     return MultiBlocListener(
@@ -175,7 +175,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                         }
                         if (val) {
                           selectedProducts.addAll(
-                              pagingController.itemList?.map((e) => e.id!) ??
+                              pagingController.itemList?.map((e) => e.id) ??
                                   []);
                           selectAll = true;
                         } else {
@@ -288,16 +288,16 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                         );
                         if (result is PickProductsRes) {
                           final ids = result.selectedProducts
-                              .map((e) => e.id!)
+                              .map((e) => e.id)
                               .toList();
                           salesChannelCrudBloc.add(
                               SalesChannelCrudEvent.addProducts(
-                                  salesChannel.id!, ids));
+                                  salesChannel.id, ids));
                         }
                         break;
                       case 2:
                         salesChannelCrudBloc.add(
-                            SalesChannelCrudEvent.delete(salesChannel.id!));
+                            SalesChannelCrudEvent.delete(salesChannel.id));
                         break;
                     }
                   });
@@ -311,7 +311,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                 selectedProductsCount: selectedProducts.length,
                 onRemove: () {
                   salesChannelCrudBloc.add(SalesChannelCrudEvent.deleteProducts(
-                      salesChannel.id!, selectedProducts));
+                      salesChannel.id, selectedProducts));
                 },
                 onClear: () {
                   selectAll = false;
@@ -335,12 +335,12 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                   onRemove: () {
                     salesChannelCrudBloc.add(
                         SalesChannelCrudEvent.deleteProducts(
-                            salesChannel.id!, [product.id!]));
+                            salesChannel.id, [product.id]));
                   },
                   onToggle: (val) {
                     if (val == null) return;
                     if (val) {
-                      selectedProducts.add(product.id!);
+                      selectedProducts.add(product.id);
                       if (selectedProducts.length ==
                           pagingController.itemList?.length) {
                         selectAll = true;
@@ -382,11 +382,11 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                                   )));
                           if (result is PickProductsRes) {
                             final ids = result.selectedProducts
-                                .map((e) => e.id!)
+                                .map((e) => e.id)
                                 .toList();
                             salesChannelCrudBloc.add(
                                 SalesChannelCrudEvent.addProducts(
-                                    salesChannel.id!, ids));
+                                    salesChannel.id, ids));
                           }
                         },
                         child: const Text('Add products'))

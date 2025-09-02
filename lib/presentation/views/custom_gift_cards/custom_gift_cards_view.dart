@@ -160,7 +160,7 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
                 builderDelegate: PagedChildBuilderDelegate<GiftCard>(
                   animateTransitions: true,
                   itemBuilder: (context, giftCard, index) {
-                    final isDisabled = giftCard.isDisabled;
+                    // final isDisabled = giftCard.isDisabled;
                     final listTile = CustomGiftCardTile(
                       giftCard,
                       onTap: () async {
@@ -186,8 +186,8 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
                             onToggle: () async {
                               giftCardCrudBloc.add(
                                 GiftCardCrudEvent.update(
-                                  giftCard.id!,
-                                  UpdateGiftCardReq(isDisabled: !isDisabled),
+                                  giftCard.id,
+                                  UpdateGiftCardRequest(isDisabled: false),
                                 ),
                               );
                             },
@@ -206,29 +206,31 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
                         }
                       },
                       onToggle: () async {
+                        //TODO: fix isDisabled toggle
                         giftCardCrudBloc.add(
                           GiftCardCrudEvent.update(
-                            giftCard.id!,
-                            UpdateGiftCardReq(isDisabled: !isDisabled),
+                            giftCard.id,
+                            UpdateGiftCardRequest(isDisabled: false),
                           ),
                         );
                       },
                     );
-                    const disabledDot = Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(Icons.circle, color: Colors.red, size: 10),
-                    );
-                    if (isDisabled) {
-                      return Stack(
-                        alignment: AlignmentDirectional.topEnd,
-                        children: [
-                          listTile,
-                          disabledDot,
-                        ],
-                      );
-                    } else {
-                      return listTile;
-                    }
+                    // const disabledDot = Padding(
+                    //   padding: EdgeInsets.all(8.0),
+                    //   child: Icon(Icons.circle, color: Colors.red, size: 10),
+                    // );                    return listTile;
+                    // if (isDisabled) {
+                    //   return Stack(
+                    //     alignment: AlignmentDirectional.topEnd,
+                    //     children: [
+                    //       listTile,
+                    //       disabledDot,
+                    //     ],
+                    //   );
+                    // } else {
+                    //   return listTile;
+                    // }
+                  return listTile;
                   },
                   noItemsFoundIndicatorBuilder: (_) =>
                       const Center(child: Text('No Gift cards')),

@@ -141,7 +141,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                 onPressed: () async {
                   final result = await context.pushRoute(AddUpdateTaxRateRoute(
                     addUpdateTaxRateReq:
-                        AddUpdateTaxRateReq(regionId: widget.region.id!),
+                        AddUpdateTaxRateReq(regionId: widget.region.id),
                   ));
                   if (result is bool) {
                     pagingController.refresh();
@@ -207,7 +207,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                                           ))
                                       .toList(),
                                   onChanged: (val) {},
-                                  value: selectedTaxProvider,
+                                  initialValue: selectedTaxProvider,
                                   decoration: const InputDecoration(
                                       isDense: true,
                                       border: OutlineInputBorder(
@@ -361,14 +361,14 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                       final result =
                           await context.pushRoute(AddUpdateTaxRateRoute(
                         addUpdateTaxRateReq: AddUpdateTaxRateReq(
-                            regionId: widget.region.id!, taxRate: taxRate),
+                            regionId: widget.region.id, taxRate: taxRate),
                       ));
                       if (result is bool) {
                         pagingController.refresh();
                       }
                     },
                     onDeleteTap: () =>
-                        taxCrudBloc.add(TaxCrudEvent.delete(taxRate.id!)),
+                        taxCrudBloc.add(TaxCrudEvent.delete(taxRate.id)),
                   ),
                   firstPageProgressIndicatorBuilder: (context) =>
                       const Skeletonizer(

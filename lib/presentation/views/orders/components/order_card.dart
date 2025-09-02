@@ -23,7 +23,7 @@ class OrderCard extends StatelessWidget {
   const OrderCard(this.order,
       {super.key, this.onTap, this.orderPreference, this.shimmer = false});
 
-  final AdminOrder order;
+  final Order order;
   final void Function()? onTap;
   final OrderPreference? orderPreference;
   final bool shimmer;
@@ -166,7 +166,7 @@ class AlternativeOrderCard extends StatelessWidget {
   const AlternativeOrderCard(this.order,
       {super.key, this.onTap, this.orderPreference, this.shimmer = false});
 
-  final AdminOrder order;
+  final Order order;
   final void Function()? onTap;
   final OrderPreference? orderPreference;
   final bool shimmer;
@@ -429,7 +429,7 @@ class CustomerOrderCard extends StatelessWidget {
       this.onTransferTap,
       required this.index});
 
-  final AdminOrder order;
+  final Order order;
   final void Function()? onTap;
   final void Function()? onTransferTap;
   final Color? cardColor;

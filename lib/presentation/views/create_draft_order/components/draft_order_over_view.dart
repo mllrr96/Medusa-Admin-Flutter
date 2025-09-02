@@ -208,18 +208,18 @@ class OverViewListTile extends StatelessWidget {
     final productVariant = lineItem.variant ??
         ProductVariant(title: lineItem.title, prices: [
           MoneyAmount(
-            amount: lineItem.unitPrice?.toInt(),
+            amount: lineItem.unitPrice.toInt(),
             currencyCode: currencyCode,
           )
         ]);
     MoneyAmount? moneyAmount;
     final priceList =
-        productVariant.prices?.where((e) => e.currencyCode == currencyCode);
-    if (priceList?.isNotEmpty ?? false) {
-      moneyAmount = priceList!.first;
+        productVariant.prices.where((e) => e.currencyCode == currencyCode);
+    if (priceList.isNotEmpty ?? false) {
+      moneyAmount = priceList.first;
     } else {
-      moneyAmount = (productVariant.prices?.isNotEmpty ?? false)
-          ? productVariant.prices!.first
+      moneyAmount = (productVariant.prices.isNotEmpty ?? false)
+          ? productVariant.prices.first
           : const MoneyAmount(amount: 0, currencyCode: 'usd');
     }
 
@@ -254,11 +254,10 @@ class OverViewListTile extends StatelessWidget {
                         productVariant.product?.title ?? '',
                         style: mediumTextStyle,
                       ),
-                    if (productVariant.title != null)
-                      Text(productVariant.title ?? '',
-                          style: smallTextStyle?.copyWith(color: manatee),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis),
+                    Text(productVariant.title ?? '',
+                        style: smallTextStyle?.copyWith(color: manatee),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis),
                   ],
                 ),
               ),
@@ -272,7 +271,7 @@ class OverViewListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                  '${moneyAmount.amount.formatAsPrice(currencyCode)} x ${lineItem.quantity!}',
+                  '${moneyAmount.amount.formatAsPrice(currencyCode)} x ${lineItem.quantity}',
                   style: smallTextStyle,
                   maxLines: 1),
               const Divider(height: 5),

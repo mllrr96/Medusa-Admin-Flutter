@@ -17,7 +17,6 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -32,14 +31,14 @@ class CustomerDetailsView extends StatefulWidget {
 }
 
 class _CustomerDetailsViewState extends State<CustomerDetailsView> {
-  final PagingController<int, AdminOrder> pagingController =
+  final PagingController<int, Order> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   late OrdersBloc ordersBloc;
   late CustomerCrudBloc customerCrudBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     ordersBloc.add(OrdersEvent.loadOrders(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': page == 0 ? 0 : pagingController.itemList?.length ?? 0,
       'customer_id': widget.customerId,
     }));
   }
@@ -151,8 +150,8 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                           delegate: Delegate(
                               Customer(
                                   email: 'Medusa@js.com',
-                                  createdAt: DateTime.now(),
-                                  hasAccount: true),
+                                  createdAt: DateTime.now(), id: '',
+                                 ),
                               0,
                               isSkeleton: true),
                         ),
@@ -164,7 +163,7 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
               top: false,
               sliver: PagedSliverList(
                 pagingController: pagingController,
-                builderDelegate: PagedChildBuilderDelegate<AdminOrder>(
+                builderDelegate: PagedChildBuilderDelegate<Order>(
                   animateTransitions: true,
                   itemBuilder: (context, order, index) => CustomerOrderCard(
                     order,
@@ -274,7 +273,7 @@ class Delegate extends SliverPersistentHeaderDelegate {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${tr.detailsUser}: ${customer.hasAccount.toString().capitalize}',
+                          '${tr.detailsUser}: ${customer.email}',
                           style: smallTextStyle,
                         ),
                         Text('${tr.detailsPhone}: ${customer.phone ?? 'N/A'}',

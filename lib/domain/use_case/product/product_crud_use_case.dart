@@ -83,13 +83,13 @@ class ProductCrudUseCase {
     }
   }
 
-  Future<Result<DeleteProductRes, MedusaError>> deleteProduct({
+  Future<Result<Unit, MedusaError>> deleteProduct({
     required String id,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _productsRepository.delete(id: id);
-      return Success(result!);
+      await _productsRepository.delete(id);
+      return Success(unit);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -107,12 +107,12 @@ class ProductCrudUseCase {
 
   Future<Result<Product, MedusaError>> updateProduct({
     required String id,
-    required PostUpdateProductReq payload,
+    required UpdateProductReq payload,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _productsRepository.update(id: id, userPostUpdateProductReq: payload);
-      return Success(result!);
+      final result = await _productsRepository.update(id, payload);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -129,12 +129,12 @@ class ProductCrudUseCase {
   }
 
   Future<Result<Product, MedusaError>> createProduct({
-    required PostProductReq payload,
+    required CreateProductReq payload,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _productsRepository.add(userPostProductReq: payload);
-      return Success(result!);
+      final result = await _productsRepository.create(payload);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

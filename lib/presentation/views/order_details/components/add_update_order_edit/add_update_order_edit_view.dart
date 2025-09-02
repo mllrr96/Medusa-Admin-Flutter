@@ -29,7 +29,7 @@ class AddUpdateOrderEditView extends StatefulWidget {
 class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
   late OrderEditCrudBloc orderEditCrudBloc;
   Order get order => widget.order;
-  String get orderId => order.id!;
+  String get orderId => order.id;
   final noteCtrl = TextEditingController();
 
   @override
@@ -80,7 +80,7 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
               if (orderEdit != null)
                 TextButton(
                     onPressed: () => orderEditCrudBloc
-                        .add(OrderEditCrudEvent.request(orderEdit.id!)),
+                        .add(OrderEditCrudEvent.request(orderEdit.id)),
                     child: const Text('Save')),
             ],
           ),
@@ -112,7 +112,7 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
                     ).then((result) async {
                       if (result == OkCancelResult.ok) {
                         orderEditCrudBloc
-                            .add(OrderEditCrudEvent.update(orderEdit!.id!, ''));
+                            .add(OrderEditCrudEvent.update(orderEdit!.id, ''));
                       }
                     });
                   },
@@ -123,7 +123,7 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
                   onSubmitted: (_) async {
                     if (orderEdit?.id != null && _.isNotEmpty) {
                       orderEditCrudBloc
-                          .add(OrderEditCrudEvent.update(orderEdit!.id!, _));
+                          .add(OrderEditCrudEvent.update(orderEdit!.id, _));
                     }
                   },
                 ),
@@ -210,7 +210,7 @@ class EditOrderItems extends StatelessWidget {
     final differenceDue = orderEdit.differenceDue ?? 0;
     Map<String, int> addedItems = {};
     List<LineItem> lineItems = List<LineItem>.from(orderEdit.items!);
-    lineItems.sort((a, b) => a.id!.compareTo(b.id!));
+    lineItems.sort((a, b) => a.id.compareTo(b.id));
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
       children: [
@@ -226,7 +226,7 @@ class EditOrderItems extends StatelessWidget {
                       (result.selectedProductVariants?.isNotEmpty ?? false) &&
                       context.mounted) {
                     onAddLineItem?.call(
-                        orderEdit.id!, result.selectedProductVariants!);
+                        orderEdit.id, result.selectedProductVariants!);
                     // await controller.addLineItems(
                     //     context: context,
                     //     orderEditId: orderEdit.id!,
@@ -251,11 +251,11 @@ class EditOrderItems extends StatelessWidget {
                 Flexible(
                   child: Row(
                     children: [
-                      if (item.thumbnail?.isNotEmpty ?? false)
+                      if (item.thumbnail.isNotEmpty ?? false)
                         SizedBox(
                             width: 50,
                             child:
-                                CachedNetworkImage(imageUrl: item.thumbnail!)),
+                                CachedNetworkImage(imageUrl: item.thumbnail)),
                       const Gap(10),
                       Flexible(
                         child: Column(
@@ -278,7 +278,7 @@ class EditOrderItems extends StatelessWidget {
                             .formatAsPrice(currencyCode)),
                         const Gap(5),
                         Text(
-                          currencyCode?.toUpperCase() ?? '',
+                          currencyCode.toUpperCase() ?? '',
                           style: context.bodyMedium
                               ?.copyWith(color: ColorManager.manatee),
                         ),
@@ -307,7 +307,7 @@ class EditOrderItems extends StatelessWidget {
 
                                 case 2:
                                   onDeleteLineItem?.call(
-                                      orderEdit.id!, item.id!);
+                                      orderEdit.id, item.id);
                                   // await controller.deleteLineItem(
                                   //     orderEditId: orderEdit.id!,
                                   //     itemId: item.id!);
@@ -320,12 +320,12 @@ class EditOrderItems extends StatelessWidget {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: item.quantity! > 1
+                          onPressed: item.quantity > 1
                               ? () async {
-                                  final canRemove = item.quantity! > 1;
+                                  final canRemove = item.quantity > 1;
                                   if (canRemove) {
-                                    onUpsetLineItem?.call(orderEdit.id!,
-                                        item.id!, item.quantity! - 1);
+                                    onUpsetLineItem?.call(orderEdit.id,
+                                        item.id, item.quantity - 1);
                                     // await controller.updateLineItem(
                                     //     orderEditId: orderEdit.id!,
                                     //     itemId: item.id!,
@@ -344,7 +344,7 @@ class EditOrderItems extends StatelessWidget {
                         IconButton(
                           onPressed: () async {
                             onUpsetLineItem?.call(
-                                orderEdit.id!, item.id!, item.quantity! + 1);
+                                orderEdit.id, item.id, item.quantity + 1);
                             // await controller.updateLineItem(
                             //     orderEditId: orderEdit.id!,
                             //     itemId: item.id!,
@@ -372,7 +372,7 @@ class EditOrderItems extends StatelessWidget {
                     children: [
                       Text(orderEdit.total?.formatAsPrice(currencyCode) ?? '',
                           style: context.bodyLarge),
-                      Text(' ${currencyCode?.toUpperCase() ?? ''}',
+                      Text(' ${currencyCode.toUpperCase() ?? ''}',
                           style: context.bodyLarge
                               ?.copyWith(color: ColorManager.manatee))
                     ],
@@ -404,7 +404,7 @@ class EditOrderItems extends StatelessWidget {
                                 ? null
                                 : Colors.greenAccent),
                       ),
-                      Text(' ${currencyCode?.toUpperCase() ?? ''}',
+                      Text(' ${currencyCode.toUpperCase() ?? ''}',
                           style: context.bodyLarge
                               ?.copyWith(color: ColorManager.manatee))
                     ],

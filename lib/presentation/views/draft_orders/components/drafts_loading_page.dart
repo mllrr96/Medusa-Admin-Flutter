@@ -13,23 +13,56 @@ class DraftsLoadingPage extends StatelessWidget {
     final draftOrder = DraftOrder(
       id: '1',
       displayId: 1,
-      order: const Order(
-          customerId: '',
-          email: '',
-          regionId: '',
-          currencyCode: 'USD',
-          displayId: 1,
-          customer: Customer(
-              email: 'Medusa@js.com', firstName: 'Medusa', lastName: 'Js')),
-      status: DraftOrderStatus.open,
-      cart: Cart(createdAt: DateTime.now(), email: 'Medusa@js.com'),
+      status: 'open',
+      paymentCollections: [],
+      items: [],
+      shippingMethods: [],
+      currencyCode: '',
+      version: 0,
+      regionId: '',
+      customerId: '',
+      salesChannelId: '',
+      email: '',
+      paymentStatus:PaymentStatus.canceled,
+      fulfillmentStatus: FulfillmentStatus.delivered,
+      summary: OrderSummary(paidTotal: 0,
+          refundedTotal: 0,
+          pendingDifference: 0,
+          currentOrderTotal: 0,
+          originalOrderTotal: 0,
+          transactionTotal: 0,
+          accountingTotal: 0),
+      originalItemTotal: 0,
+      originalItemSubtotal: 0,
+      originalItemTaxTotal: 0,
+      itemTotal: 0,
+      itemSubtotal: 0,
+      itemTaxTotal: 0,
+      originalTotal: 0,
+      originalSubtotal: 0,
+      originalTaxTotal: 0,
+      total: 0,
+      subtotal: 0,
+      taxTotal: 0,
+      discountTotal: 0,
+      discountTaxTotal: 0,
+      giftCardTotal: 0,
+      giftCardTaxTotal: 0,
+      shippingTotal: 0,
+      shippingSubtotal: 0,
+      shippingTaxTotal: 0,
+      originalShippingTotal: 0,
+      originalShippingSubtotal: 0,
+      originalShippingTaxTotal: 0,
+      creditLineTotal: 0,
     );
     return Skeletonizer(
       enabled: true,
       child: Column(
           children: List.generate(
               20,
-              (index) => index.isEven
+                  (index) =>
+              index.isEven
                   ? DraftOrderCard(draftOrder, shimmer: true)
                   : const Gap(12.0))),
     );

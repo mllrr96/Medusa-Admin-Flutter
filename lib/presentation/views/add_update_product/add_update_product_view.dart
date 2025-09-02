@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-
-import 'package:medusa_admin/core/extension/product_extension.dart';
-import 'package:medusa_admin/core/extension/product_variant_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
 import 'package:medusa_admin/data/models/wrapped.dart';
@@ -15,7 +12,7 @@ import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.d
 import 'package:medusa_admin/presentation/cubits/upload_files/upload_files_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart' hide UpdateProductReq;
 
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -23,6 +20,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 @RoutePage()
 class AddUpdateProductView extends StatefulWidget {
   const AddUpdateProductView({super.key, this.updateProductReq});
+
   final UpdateProductReq? updateProductReq;
 
   @override
@@ -30,10 +28,11 @@ class AddUpdateProductView extends StatefulWidget {
 }
 
 class _AddUpdateProductViewState extends State<AddUpdateProductView> {
-  List<ImageData> imagesToDelete = [];
+  // List<ImageData> imagesToDelete = [];
   List<File> images = [];
   File? thumbnailImage;
   Product? product;
+
   bool get updateMode => widget.updateProductReq != null;
   late ProductCrudBloc productCrudBloc;
   late UploadFilesCubit uploadImagesCubit;
@@ -127,13 +126,13 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                 loading();
               },
               uploaded: (state) {
-                dismissLoading();
-                final newImages = List<ImageData>.from(product?.images ?? []);
-                for (var url in state.urls) {
-                  newImages.add(ImageData(url: url));
-                }
-                product = product?.copyWith(images: newImages);
-                context.showSnackBar('Images uploaded');
+                // dismissLoading();
+                // final newImages = List<ImageData>.from(product?.images ?? []);
+                // for (var url in state.urls) {
+                //   newImages.add(ImageData(url: url));
+                // }
+                // product = product?.copyWith(images: newImages);
+                // context.showSnackBar('Images uploaded');
               },
               error: (state) {
                 dismissLoading();
@@ -149,8 +148,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
               uploading: () => loading(),
               uploaded: (urls) {
                 dismissLoading();
-                product =
-                    product?.copyWith(thumbnail: Wrapped.value(urls.first));
+                product = product?.copyWith(thumbnail: urls.first);
                 context.showSnackBar('Thumbnail uploaded');
               },
               error: (failure) {
@@ -169,9 +167,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
             appBar: AppBar(
               systemOverlayStyle: context.defaultSystemUiOverlayStyle,
               leading: const CloseButton(),
-              title: updateMode
-                  ? const Text('Update Product')
-                  : const Text('New Product'),
+              title: updateMode ? const Text('Update Product') : const Text('New Product'),
               actions: [
                 TextButton(
                     onPressed: () async {
@@ -187,16 +183,13 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                         await createProduct();
                       }
                     },
-                    child: updateMode
-                        ? const Text('Save')
-                        : const Text('Publish')),
+                    child: updateMode ? const Text('Save') : const Text('Publish')),
               ],
             ),
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
                   child: Form(
                     key: keyForm,
                     child: Column(
@@ -206,7 +199,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                             product: product,
                             onSaved: (product) {
                               if (this.product == null) {
-                                this.product = const Product();
+                                // this.product = const Product();
                               }
                               this.product = this.product?.copyWith(
                                     title: product.title,
@@ -224,7 +217,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                           product: product,
                           onSaved: (product) {
                             if (this.product == null) {
-                              this.product = const Product();
+                              // this.product = const Product();
                             }
                             this.product = this.product?.copyWith(
                                   collection: product.collection,
@@ -241,7 +234,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                           controller: variantTileCtrl,
                           onSaved: (product) {
                             if (this.product == null) {
-                              this.product = const Product();
+                              // this.product = const Product();
                             }
                             this.product = this.product?.copyWith(
                                   options: product.options,
@@ -255,7 +248,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                           product: product,
                           onSaved: (product) {
                             if (this.product == null) {
-                              this.product = const Product();
+                              // this.product = const Product();
                             }
                             this.product = this.product?.copyWith(
                                   width: product?.width,
@@ -264,8 +257,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                                   weight: product?.weight,
                                   midCode: product?.midCode,
                                   hsCode: product?.hsCode,
-                                  originCountry:
-                                      Wrapped.value(product?.originCountry),
+                                  originCountry: product?.originCountry,
                                 );
                           },
                         ),
@@ -278,22 +270,21 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                           onChanged: (thumbnail) {
                             thumbnailImage = thumbnail;
                             if (thumbnail == null) {
-                              product = product?.copyWith(
-                                  thumbnail: const Wrapped.value(null));
+                              product = product?.copyWith(thumbnail: null);
                             }
                             setState(() {});
                           },
                         ),
                         space,
-                        ProductMedia(
-                          controller: mediaTileCtrl,
-                          product: product,
-                          updateMode: updateMode,
-                          onMediaChanged: (images, imagesToDelete) {
-                            this.images = images;
-                            this.imagesToDelete = imagesToDelete;
-                          },
-                        )
+                        // ProductMedia(
+                        //   controller: mediaTileCtrl,
+                        //   product: product,
+                        //   updateMode: updateMode,
+                        //   onMediaChanged: (images, imagesToDelete) {
+                        //     this.images = images;
+                        //     // this.imagesToDelete = imagesToDelete;
+                        //   },
+                        // )
                       ],
                     ),
                   ),
@@ -333,71 +324,51 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
       await uploadThumbnailCubit.uploadFiles([thumbnailImage!]);
     }
 
-
-    productCrudBloc
-        .add(ProductCrudEvent.create(PostProductReq(product: product!)));
+    // productCrudBloc.add(ProductCrudEvent.create(PostProductReq(product: product!)));
   }
 
   Future<void> updateProduct() async {
-    for (var element in imagesToDelete) {
-      if (element.url != null) {
-        await uploadImagesCubit.deleteFile(element.url!);
-      }
-    }
+    // for (var element in imagesToDelete) {
+    //   if (element.url != null) {
+    //     await uploadImagesCubit.deleteFile(element.url!);
+    //   }
+    // }
 
     if (images.isNotEmpty) {
       await uploadImagesCubit.uploadFiles(images);
     }
     final originalProduct = widget.updateProductReq!.product;
-    productCrudBloc.add(ProductCrudEvent.update(
-      widget.updateProductReq!.product.id!,
-      PostUpdateProductReq(
-        title: originalProduct.title == product!.title ? null : product!.title,
-        subtitle: originalProduct.subtitle == product!.subtitle
-            ? null
-            : product!.subtitle,
-        handle:
-            originalProduct.handle == product!.handle ? null : product!.handle,
-        material: originalProduct.material == product!.material
-            ? null
-            : product!.material,
-        description: originalProduct.description == product!.description
-            ? null
-            : product!.description,
-        discountable: product!.discountable,
-        tags: product!.tags
-            ?.map((e) => ProductTag(value: e.value, id: e.id))
-            .toList(),
-        type: product!.type != null
-            ? ProductType(value: product!.type?.value, id: product!.type?.id)
-            : null,
-        salesChannels: product!.salesChannels!
-            .map((e) => SalesChannel(name: null, id: e.id))
-            .toList(),
-        variants: product!.variants?.map((e) => e.forUpdate()).toList(),
-        width: originalProduct.width == product!.width ? null : product!.width,
-        length:
-            originalProduct.length == product!.length ? null : product!.length,
-        height:
-            originalProduct.height == product!.height ? null : product!.height,
-        weight:
-            originalProduct.weight == product!.weight ? null : product!.weight,
-        midCode: originalProduct.midCode == product!.midCode
-            ? null
-            : product!.midCode,
-        hsCode:
-            originalProduct.hsCode == product!.hsCode ? null : product!.hsCode,
-        originCountry: originalProduct.originCountry == product!.originCountry
-            ? null
-            : product!.originCountry,
-        thumbnail: originalProduct.thumbnail == product!.thumbnail
-            ? null
-            : product!.thumbnail,
-        collectionId: originalProduct.collectionId == product!.collection?.id
-            ? null
-            : product!.collection?.id,
-        images: product!.images?.map((e) => e.url!).toList(),
-      ),
-    ));
+    // productCrudBloc.add(ProductCrudEvent.update(
+    //   widget.updateProductReq!.product.id!,
+    //   // PostUpdateProductReq(
+    //   //   title: originalProduct.title == product!.title ? null : product!.title,
+    //   //   subtitle: originalProduct.subtitle == product!.subtitle ? null : product!.subtitle,
+    //   //   handle: originalProduct.handle == product!.handle ? null : product!.handle,
+    //   //   material: originalProduct.material == product!.material ? null : product!.material,
+    //   //   description:
+    //   //       originalProduct.description == product!.description ? null : product!.description,
+    //   //   discountable: product!.discountable,
+    //   //   tags: product!.tags?.map((e) => ProductTag(value: e.value, id: e.id)).toList(),
+    //   //   type: product!.type != null
+    //   //       ? ProductType(value: product!.type?.value, id: product!.type?.id)
+    //   //       : null,
+    //   //   salesChannels:
+    //   //       product!.salesChannels!.map((e) => SalesChannel(name: null, id: e.id)).toList(),
+    //   //   variants: product!.variants?.map((e) => e.forUpdate()).toList(),
+    //   //   width: originalProduct.width == product!.width ? null : product!.width,
+    //   //   length: originalProduct.length == product!.length ? null : product!.length,
+    //   //   height: originalProduct.height == product!.height ? null : product!.height,
+    //   //   weight: originalProduct.weight == product!.weight ? null : product!.weight,
+    //   //   midCode: originalProduct.midCode == product!.midCode ? null : product!.midCode,
+    //   //   hsCode: originalProduct.hsCode == product!.hsCode ? null : product!.hsCode,
+    //   //   originCountry:
+    //   //       originalProduct.originCountry == product!.originCountry ? null : product!.originCountry,
+    //   //   thumbnail: originalProduct.thumbnail == product!.thumbnail ? null : product!.thumbnail,
+    //   //   collectionId: originalProduct.collectionId == product!.collection?.id
+    //   //       ? null
+    //   //       : product!.collection?.id,
+    //   //   images: product!.images?.map((e) => e.url).toList(),
+    //   // ),
+    // ));
   }
 }

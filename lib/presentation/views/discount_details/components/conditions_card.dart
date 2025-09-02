@@ -10,10 +10,6 @@ import 'package:medusa_admin/core/extension/color_extension.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin/data/models/discount_condition_req.dart';
-import 'package:medusa_admin/data/models/discount_condition_res.dart';
-import 'package:medusa_admin/data/models/update_condition_req.dart';
-import 'package:medusa_admin/data/models/update_condition_res.dart';
 import 'package:medusa_admin/presentation/blocs/discount_crud/discount_crud_bloc.dart';
 import 'package:medusa_admin/presentation/views/discount_conditions/components/index.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
@@ -53,7 +49,7 @@ class ConditionsCard extends StatelessWidget {
                                     [])));
                     if (result is DiscountConditionRes && context.mounted) {
                       discountCrudBloc?.add(DiscountCrudEvent.addCondition(
-                          discount.id!,
+                          discount.id,
                           CreateConditionReq(
                             operator: result.operator,
                             productCollectionIds: result.productCollections
@@ -108,7 +104,7 @@ class ConditionsCard extends StatelessWidget {
                           if (context.mounted) {
                             discountCrudBloc?.add(
                                 DiscountCrudEvent.removeCondition(
-                                    discount.id!, condition.id!));
+                                    discount.id, condition.id!));
                           }
                           return;
                         }
@@ -124,12 +120,12 @@ class ConditionsCard extends StatelessWidget {
                           if (addedItems.isNotEmpty) {
                             discountCrudBloc?.add(
                                 DiscountCrudEvent.addItemsToCondition(
-                                    discount.id!, condition.id!, addedItems));
+                                    discount.id, condition.id!, addedItems));
                           }
                           if (deletedItems.isNotEmpty) {
                             discountCrudBloc?.add(
                                 DiscountCrudEvent.removeItemsFromCondition(
-                                    discount.id!, condition.id!, deletedItems));
+                                    discount.id, condition.id!, deletedItems));
                           }
                         }
                       }
@@ -148,7 +144,7 @@ class ConditionsCard extends StatelessWidget {
                         if (context.mounted) {
                           discountCrudBloc?.add(
                               DiscountCrudEvent.removeCondition(
-                                  discount.id!, condition.id!));
+                                  discount.id, condition.id!));
                         }
                       }
                     },

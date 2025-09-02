@@ -143,7 +143,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                     } else {
                       context.unfocus();
                       userCrudBloc.add(UserCrudEvent.update(
-                          user.id!,
+                          user.id,
                           UpdateUserReq(
                               firstName: firstNameCtrl.text,
                               lastName: lastNameCtrl.text)));
@@ -184,7 +184,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                         } else {
                           context.unfocus();
                           userCrudBloc.add(UserCrudEvent.update(
-                              user.id!,
+                              user.id,
                               UpdateUserReq(
                                   firstName: firstNameCtrl.text,
                                   lastName: lastNameCtrl.text)));

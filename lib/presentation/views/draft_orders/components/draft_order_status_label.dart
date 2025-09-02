@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin/core/constant/colors.dart';
 
-import '../../../../core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 class DraftOrderStatusLabel extends StatelessWidget {
   const DraftOrderStatusLabel(this.draftOrderStatus,{super.key});
-  final DraftOrderStatus draftOrderStatus;
+  final String draftOrderStatus;
   @override
   Widget build(BuildContext context) {
     Color containerColor = ColorManager.primary.withOpacity(0.17);
     Color textColor = ColorManager.primary;
     String text = 'Completed';
     switch (draftOrderStatus) {
-      case DraftOrderStatus.open:
+      case 'open':
         containerColor = ColorManager.primary.withOpacity(0.17);
         textColor = ColorManager.primary;
         text = '   Open   ';
         break;
-      case DraftOrderStatus.completed:
+      case 'completed':
         containerColor = Colors.green.withOpacity(0.17);
         textColor = Colors.green;
         text = 'Completed';

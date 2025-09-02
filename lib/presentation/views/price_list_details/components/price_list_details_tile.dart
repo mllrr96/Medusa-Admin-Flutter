@@ -22,15 +22,17 @@ class PriceListDetailsTile extends StatelessWidget {
 
     String getGroupsNames(PriceList priceList) {
       String names = '';
-      final nameList = priceList.customerGroups!.map((e) => e.name!).toList();
-      for (var element in nameList) {
-        if (names.isEmpty) {
-          names = element;
-        } else {
-          names = '$names, $element';
-        }
-      }
       return names;
+      // TODO: review this
+      // final nameList = priceList.customerGroups!.map((e) => e.name!).toList();
+      // for (var element in nameList) {
+      //   if (names.isEmpty) {
+      //     names = element;
+      //   } else {
+      //     names = '$names, $element';
+      //   }
+      // }
+      // return names;
     }
 
 
@@ -53,7 +55,7 @@ class PriceListDetailsTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  priceList.name ?? '',
+                  priceList.title ?? '',
                   style: context.headlineMedium,
                 ),
                 DiscountStatusDot(
@@ -65,35 +67,35 @@ class PriceListDetailsTile extends StatelessWidget {
             Text(priceList.description ?? '',
                 style:
                 smallTextStyle?.copyWith(color: manatee)),
-            if (priceList.customerGroups?.isNotEmpty ?? false)
-              space,
-            if (priceList.customerGroups?.isNotEmpty ?? false)
-              Container(
-                width: double.maxFinite,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 12.0, vertical: 6.0),
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(4.0)),
-                    color:
-                    context.theme.scaffoldBackgroundColor),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Customer groups',
-                        style: smallTextStyle?.copyWith(
-                            color: manatee)),
-                    Text(
-                      getGroupsNames(priceList),
-                      style: mediumTextStyle,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
+            // if (priceList.customerGroups?.isNotEmpty ?? false)
+            //   space,
+            // if (priceList.customerGroups?.isNotEmpty ?? false)
+            //   Container(
+            //     width: double.maxFinite,
+            //     padding: const EdgeInsets.symmetric(
+            //         horizontal: 12.0, vertical: 6.0),
+            //     decoration: BoxDecoration(
+            //         borderRadius: const BorderRadius.all(
+            //             Radius.circular(4.0)),
+            //         color:
+            //         context.theme.scaffoldBackgroundColor),
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       mainAxisAlignment:
+            //       MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         Text('Customer groups',
+            //             style: smallTextStyle?.copyWith(
+            //                 color: manatee)),
+            //         Text(
+            //           getGroupsNames(priceList),
+            //           style: mediumTextStyle,
+            //           maxLines: 3,
+            //           overflow: TextOverflow.ellipsis,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
             space,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,7 +140,7 @@ class PriceListDetailsTile extends StatelessWidget {
                           style: smallTextStyle?.copyWith(
                               color: manatee)),
                       Text(
-                          priceList.prices?.length.toString() ??
+                          priceList.prices.length.toString() ??
                               '0',
                           style: mediumTextStyle),
                     ],

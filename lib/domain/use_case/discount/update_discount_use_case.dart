@@ -7,20 +7,20 @@ import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class UpdateDiscountUseCase {
-  DiscountsRepository get _discountRepository => _medusaAdminV2.discounts;
+  PromotionsRepository get _discountRepository => _medusaAdminV2.promotions;
   final MedusaAdminV2 _medusaAdminV2;
 
   UpdateDiscountUseCase(this._medusaAdminV2);
 
   static UpdateDiscountUseCase get instance => getIt<UpdateDiscountUseCase>();
 
-  Future<Result<Discount, MedusaError>> updateDiscount({
+  Future<Result<Promotion, MedusaError>> updateDiscount({
     required String id,
-    required PostDiscountsDiscountReq postDiscountsDiscountReq,
+    required PostPromotionReq payload,
   }) async {
     try {
-      final result = await _discountRepository.update(id, postDiscountsDiscountReq);
-      return Success(result.discount);
+      final result = await _discountRepository.update(id: id,payload: payload);
+      return Success(result.promotion);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -32,12 +32,12 @@ class UpdateDiscountUseCase {
     }
   }
 
-  Future<Result<Discount, MedusaError>> createDiscount({
-    required PostDiscountsReq postDiscountsReq,
+  Future<Result<Promotion, MedusaError>> createDiscount({
+    required PostPromotionReq payload,
   }) async {
     try {
-      final result = await _discountRepository.create(postDiscountsReq);
-      return Success(result.discount);
+      final result = await _discountRepository.create( payload:payload );
+      return Success(result.promotion);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

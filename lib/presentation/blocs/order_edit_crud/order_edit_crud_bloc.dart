@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
+import 'package:injectable/injectable.dart' hide Order;
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/domain/use_case/order_edit/order_edit_crud_use_case.dart';
@@ -18,8 +18,8 @@ class OrderEditCrudBloc extends Bloc<OrderEditCrudEvent, OrderEditCrudState> {
     on<_Load>(_load);
     on<_AddLineItem>(_addLineItem);
     on<_DeleteLineItem>(_deleteLineItem);
-    on<_UpsertLineItem>(_upsertLineItem);
-    on<_DeleteLineItemChange>(_deleteLineItemChange);
+    // on<_UpsertLineItem>(_upsertLineItem);
+    // on<_DeleteLineItemChange>(_deleteLineItemChange);
     on<_Cancel>(_cancel);
     on<_Confirm>(_confirm);
     on<_Create>(_create);
@@ -31,7 +31,7 @@ class OrderEditCrudBloc extends Bloc<OrderEditCrudEvent, OrderEditCrudState> {
     emit(const _Loading());
     final orderEdit = await _useCase.requestOrderEdit(id: event.id);
     orderEdit.when(
-        (success) => emit(_OrderEdit(success)), (error) => emit(_Error(error)));
+        (success) => emit(_Order(success)), (error) => emit(_Error(error)));
   }
 
   Future<void> _addLineItem(
@@ -40,7 +40,7 @@ class OrderEditCrudBloc extends Bloc<OrderEditCrudEvent, OrderEditCrudState> {
     final orderEdit = await _useCase.addLineItem(
         id: event.id, payload: event.userAddLineItemReq);
     orderEdit.when(
-        (success) => emit(_OrderEdit(success)), (error) => emit(_Error(error)));
+        (success) => emit(_Order(success)), (error) => emit(_Error(error)));
   }
 
   Future<void> _deleteLineItem(
@@ -52,29 +52,29 @@ class OrderEditCrudBloc extends Bloc<OrderEditCrudEvent, OrderEditCrudState> {
         (success) => emit(_OrderEdit(success)), (error) => emit(_Error(error)));
   }
 
-  Future<void> _upsertLineItem(
-      _UpsertLineItem event, Emitter<OrderEditCrudState> emit) async {
-    emit(const _Loading());
-    final orderEdit = await _useCase.upsertLineItemChange(
-        id: event.id, itemId: event.itemId, quantity: event.quantity);
-    orderEdit.when(
-        (success) => emit(_OrderEdit(success)), (error) => emit(_Error(error)));
-  }
+  // Future<void> _upsertLineItem(
+  //     _UpsertLineItem event, Emitter<OrderEditCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final orderEdit = await _useCase.upsertLineItemChange(
+  //       id: event.id, itemId: event.itemId, quantity: event.quantity);
+  //   orderEdit.when(
+  //       (success) => emit(_OrderEdit(success)), (error) => emit(_Error(error)));
+  // }
 
-  Future<void> _deleteLineItemChange(
-      _DeleteLineItemChange event, Emitter<OrderEditCrudState> emit) async {
-    emit(const _Loading());
-    final orderEdit = await _useCase.deleteLineItemChange(
-        id: event.id, changeId: event.changeId);
-    orderEdit.when(
-        (success) => emit(const _Deleted()), (error) => emit(_Error(error)));
-  }
+  // Future<void> _deleteLineItemChange(
+  //     _DeleteLineItemChange event, Emitter<OrderEditCrudState> emit) async {
+  //   emit(const _Loading());
+  //   final orderEdit = await _useCase.deleteLineItemChange(
+  //       id: event.id, changeId: event.changeId);
+  //   orderEdit.when(
+  //       (success) => emit(const _Deleted()), (error) => emit(_Error(error)));
+  // }
 
   Future<void> _cancel(_Cancel event, Emitter<OrderEditCrudState> emit) async {
     emit(const _Loading());
     final orderEdit = await _useCase.cancelOrderEdit(id: event.id);
     orderEdit.when(
-        (success) => emit(_OrderEdit(success)), (error) => emit(_Error(error)));
+        (success) => emit(_Deleted()), (error) => emit(_Error(error)));
   }
 
   Future<void> _confirm(
@@ -82,13 +82,15 @@ class OrderEditCrudBloc extends Bloc<OrderEditCrudEvent, OrderEditCrudState> {
     emit(const _Loading());
     final orderEdit = await _useCase.confirmOrderEdit(id: event.id);
     orderEdit.when(
-        (success) => emit(_OrderEdit(success)), (error) => emit(_Error(error)));
+        (success) => emit(_Order(success)), (error) => emit(_Error(error)));
   }
 
   Future<void> _create(_Create event, Emitter<OrderEditCrudState> emit) async {
     emit(const _Loading());
     final orderEdit = await _useCase.createOrderEdit(
-        id: event.id, internalNote: event.internalNote);
+       payload: CreateOrderEditReq(
+          orderId: event.id, internalNote: event.internalNote
+       ));
     orderEdit.when(
         (success) => emit(_OrderEdit(success)), (error) => emit(_Error(error)));
   }
@@ -107,7 +109,7 @@ class OrderEditCrudBloc extends Bloc<OrderEditCrudEvent, OrderEditCrudState> {
         await _useCase.fetchOrderEdits(queryParameters: event.queryParameters);
     orderEdits.when(
         (success) =>
-            emit(_OrderEdits(success.orderEdits ?? [], success.count ?? 0)),
+            emit(_OrderEdits(success.orderEdits, success.count)),
         (error) => emit(_Error(error)));
   }
 

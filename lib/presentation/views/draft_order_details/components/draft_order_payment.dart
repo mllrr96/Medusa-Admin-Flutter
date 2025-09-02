@@ -30,7 +30,7 @@ class DraftOrderPayment extends StatelessWidget{
       },
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Payment'),
-      trailing: draftOrder.status! == DraftOrderStatus.open
+      trailing: draftOrder.status == DraftOrderStatus.open
           ? TextButton(
               onPressed: () async {
                 await showOkCancelAlertDialog(

@@ -7,15 +7,17 @@ import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class DiscountsUseCase {
-  DiscountsRepository get _discountRepository => _medusaAdminV2.discounts;
+  PromotionsRepository get _discountRepository => _medusaAdminV2.promotions;
   final MedusaAdminV2 _medusaAdminV2;
+
   DiscountsUseCase(this._medusaAdminV2);
+
   static DiscountsUseCase get instance => getIt<DiscountsUseCase>();
 
-  Future<Result<DiscountsListRes, MedusaError>> retrieveDiscounts(
+  Future<Result<PromotionsListResponse, MedusaError>> retrieveDiscounts(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _discountRepository.retrieveAll(
+      final result = await _discountRepository.list(
         queryParameters: queryParameters,
       );
       return Success(result);
@@ -26,16 +28,14 @@ class DiscountsUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<bool, MedusaError>> deleteDiscount(
-      {required String id}) async {
+  Future<Result<DeletePromotionRes, MedusaError>> deleteDiscount({required String id}) async {
     try {
-      await _discountRepository.delete(id);
-      return Success(true);
+      final result = await _discountRepository.delete(id: id);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -43,19 +43,17 @@ class DiscountsUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<Discount, MedusaError>> updateDiscount({
+  Future<Result<Promotion, MedusaError>> updateDiscount({
     required String id,
-    required PostDiscountsDiscountReq postDiscountsDiscountReq,
+    required PostPromotionReq payload,
   }) async {
     try {
-      final result = await _discountRepository.update(
-          id, postDiscountsDiscountReq);
-      return Success(result.discount);
+      final result = await _discountRepository.update(id: id, payload: payload);
+      return Success(result.promotion);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -63,8 +61,7 @@ class DiscountsUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

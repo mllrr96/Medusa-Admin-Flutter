@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
@@ -6,14 +9,19 @@ import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class PaymentProviderUseCase {
-  StoreRepository get _storeRepository => getIt<MedusaAdmin>().storeRepository;
+  final MedusaAdminV2 _medusaAdmin;
+
+  PaymentProviderUseCase(this._medusaAdmin);
+
+  PaymentsRepository get _paymentsRepository => _medusaAdmin.payments;
 
   static PaymentProviderUseCase get instance => getIt<PaymentProviderUseCase>();
 
-  Future<Result<List<PaymentProvider>, MedusaError>> call() async {
+  Future<Result<PaymentProviderListRes, MedusaError>> call(
+      {Map<String, dynamic>? queryParam}) async {
     try {
-      final result = await _storeRepository.retrievePaymentProviders();
-      return Success(result!);
+      final result = await _paymentsRepository.listPaymentProviders(query: queryParam);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

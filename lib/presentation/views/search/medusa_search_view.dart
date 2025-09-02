@@ -26,14 +26,15 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class MedusaSearchView extends StatefulWidget {
   const MedusaSearchView({super.key, required this.searchCategory});
+
   final SearchCategory searchCategory;
+
   @override
   State<MedusaSearchView> createState() => _MedusaSearchViewState();
 }
@@ -63,17 +64,16 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
     return BlocListener<SearchBloc, SearchState>(
       listener: (context, state) {
         state.mapOrNull(
-            loaded: (_) {
-              final isLastPage = _.items.length < SearchBloc.pageSize;
+            loaded: (r) {
+              final isLastPage = r.items.length < SearchBloc.pageSize;
               if (isLastPage) {
-                pagingController.appendLastPage(_.items);
+                pagingController.appendLastPage(r.items);
               } else {
-                final nextPageKey =
-                    pagingController.nextPageKey ?? 1 + _.items.length;
-                pagingController.appendPage(_.items, nextPageKey);
+                final nextPageKey = pagingController.nextPageKey ?? 1 + r.items.length;
+                pagingController.appendPage(r.items, nextPageKey);
               }
             },
-            error: (_) => pagingController.error = _.failure);
+            error: (e) => pagingController.error = e.failure);
       },
       child: HideKeyboard(
         child: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -103,8 +103,7 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                         case SearchCategory.customers:
                           return const SizedBox.shrink();
                         case SearchCategory.groups:
-                          return Divider(
-                              height: 0, indent: Platform.isIOS ? 16.0 : 0);
+                          return Divider(height: 0, indent: Platform.isIOS ? 16.0 : 0);
                         case SearchCategory.giftCards:
                           return const Divider(height: 0);
                         case SearchCategory.discounts:
@@ -118,7 +117,7 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                         itemBuilder: (context, object, index) {
                           switch (searchCategory) {
                             case SearchCategory.orders:
-                              if (object is AdminOrder) {
+                              if (object is Order) {
                                 return AlternativeOrderCard(object);
                               } else {
                                 return const SizedBox();
@@ -159,7 +158,7 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                             case SearchCategory.giftCards:
                               if (object is GiftCard) {
                                 return ListTile(
-                                  title: Text(object.code ?? ''),
+                                  title: Text(object.code),
                                 );
                               } else {
                                 return const SizedBox();
@@ -173,10 +172,9 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                             case SearchCategory.priceLists:
                               if (object is PriceList) {
                                 return ListTile(
-                                  title: Text(object.name ?? ''),
-                                  subtitle: Text(object.description ?? '',
-                                      style: smallTextStyle?.copyWith(
-                                          color: manatee)),
+                                  title: Text(object.title),
+                                  subtitle: Text(object.description,
+                                      style: smallTextStyle?.copyWith(color: manatee)),
                                 );
                               } else {
                                 return const SizedBox();
@@ -184,13 +182,10 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                           }
                         },
                         firstPageProgressIndicatorBuilder: (context) =>
-                            const Center(
-                                child: CircularProgressIndicator.adaptive()),
+                            const Center(child: CircularProgressIndicator.adaptive()),
                         firstPageErrorIndicatorBuilder: (context) =>
-                            PaginationErrorPage(
-                                pagingController: pagingController),
-                        noItemsFoundIndicatorBuilder: (context) =>
-                            SearchHistoryView(
+                            PaginationErrorPage(pagingController: pagingController),
+                        noItemsFoundIndicatorBuilder: (context) => SearchHistoryView(
                               searchCtrl,
                               onTap: (searchHistory) {
                                 searchCategory = searchHistory.searchableFields;
@@ -217,9 +212,11 @@ class SearchHistoryListTile extends StatelessWidget {
     this.onTap,
     this.onDeleteTap,
   });
+
   final SearchHistory searchHistory;
   final void Function()? onTap;
   final void Function()? onDeleteTap;
+
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
@@ -240,22 +237,22 @@ class SearchHistoryListTile extends StatelessWidget {
 
 class SearchHistoryView extends StatelessWidget {
   const SearchHistoryView(this.searchCtrl, {super.key, this.onTap});
+
   final TextEditingController searchCtrl;
   final void Function(SearchHistory)? onTap;
+
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final searchHistory = PreferenceService.searchHistory;
-    if (searchCtrl.text.removeAllWhitespace.isEmpty &&
-        searchHistory.isNotEmpty) {
+    if (searchCtrl.text.removeAllWhitespace.isEmpty && searchHistory.isNotEmpty) {
       return SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               child: Text(
                 'Search history',
                 style: smallTextStyle?.copyWith(color: manatee),
@@ -266,8 +263,7 @@ class SearchHistoryView extends StatelessWidget {
                       searchHistory: e,
                       onTap: () => onTap?.call(e),
                       onDeleteTap: () async {
-                        await PreferenceService.instance
-                            .updateSearchHistory(e, delete: true);
+                        await PreferenceService.instance.updateSearchHistory(e, delete: true);
                         // controller.update();
                       },
                     ))
@@ -276,8 +272,7 @@ class SearchHistoryView extends StatelessWidget {
           ],
         ),
       );
-    } else if (searchCtrl.text.removeAllWhitespace.isEmpty &&
-        searchHistory.isEmpty) {
+    } else if (searchCtrl.text.removeAllWhitespace.isEmpty && searchHistory.isEmpty) {
       return const Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

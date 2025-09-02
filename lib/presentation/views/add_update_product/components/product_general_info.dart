@@ -38,9 +38,9 @@ class _ProductGeneralInformationState extends State<ProductGeneralInformation> {
   @override
   void initState() {
     if (widget.product != null) {
-      titleCtrl.text = widget.product!.title ?? '';
+      titleCtrl.text = widget.product!.title;
       subtitleCtrl.text = widget.product!.subtitle ?? '';
-      handleCtrl.text = widget.product!.handle ?? '';
+      handleCtrl.text = widget.product!.handle;
       materialCtrl.text = widget.product!.material ?? '';
       descriptionCtrl.text = widget.product!.description ?? '';
       discountable = widget.product!.discountable;
@@ -87,10 +87,13 @@ class _ProductGeneralInformationState extends State<ProductGeneralInformation> {
               widget.onSaved?.call(Product(
                 title: titleCtrl.text,
                 subtitle: subtitleCtrl.text.isEmpty ? null : subtitleCtrl.text,
-                handle: handleCtrl.text.isEmpty ? null : handleCtrl.text,
+                handle: handleCtrl.text ?? '',
                 material: materialCtrl.text.isEmpty ? null : materialCtrl.text,
                 description: descriptionCtrl.text.isEmpty ? null : descriptionCtrl.text,
                 discountable: discountable,
+                id: '',
+                isGiftcard: false,
+                status: ProductStatus.draft,
               ));
             },
             required: true,

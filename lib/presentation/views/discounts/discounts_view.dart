@@ -208,17 +208,15 @@ class _DiscountsViewState extends State<DiscountsView> {
                         ? null
                         : () async {
                             discountCrudBloc
-                                .add(DiscountCrudEvent.delete(discount.id!));
+                                .add(DiscountCrudEvent.delete(discount.id));
                           },
                     onToggle: loading
                         ? null
                         : () async {
                             discountCrudBloc.add(DiscountCrudEvent.update(
-                                discount.id!,
+                                discount.id,
                                 UpdateDiscountReq(
-                                  isDisabled: discount.isDisabled != null
-                                      ? !discount.isDisabled!
-                                      : null,
+                                  isDisabled: !discount.isDisabled,
                                 )));
                           },
                   ),

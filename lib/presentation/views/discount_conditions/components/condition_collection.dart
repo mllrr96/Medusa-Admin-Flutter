@@ -170,11 +170,11 @@ class _ConditionCollectionViewState extends State<ConditionCollectionView> {
                         ConditionCollectionTile(
                       collection: collection,
                       value: selectedCollections
-                          .map((e) => e.id!)
+                          .map((e) => e.id)
                           .toList()
                           .contains(collection.id),
                       enabled: !disabledCollections
-                          .map((e) => e.id!)
+                          .map((e) => e.id)
                           .toList()
                           .contains(collection.id),
                       onChanged: (val) {

@@ -167,11 +167,11 @@ class _ConditionCustomerGroupViewState
                       ConditionCustomerGroupTile(
                           customerGroup: customerGroup,
                           value: selectedCustomerGroups
-                              .map((e) => e.id!)
+                              .map((e) => e.id)
                               .toList()
                               .contains(customerGroup.id),
                           enabled: !disabledGroups
-                              .map((e) => e.id!)
+                              .map((e) => e.id)
                               .toList()
                               .contains(customerGroup.id),
                           onChanged: (val) {

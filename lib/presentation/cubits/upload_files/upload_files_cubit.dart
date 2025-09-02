@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -8,6 +9,7 @@ import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/domain/use_case/file/delete_file_use_case.dart';
 import 'package:medusa_admin/domain/use_case/file/get_file_url_use_case.dart';
 import 'package:medusa_admin/domain/use_case/file/upload_use_case.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 part 'upload_files_state.dart';
 
@@ -20,7 +22,8 @@ class UploadFilesCubit extends Cubit<UploadFilesState> {
 
   Future<void> uploadFiles(List<File> files) async {
     emit(const _Uploading());
-    final result = await uploadUseCase(files);
+    // TODO: fix this
+    final result = await uploadUseCase(FormData());
     result.when((result) {
       final urls = result.map((e) => e.url).toList();
       emit(_Uploaded(urls));
@@ -41,7 +44,8 @@ class UploadFilesCubit extends Cubit<UploadFilesState> {
 
   Future<void> getFileUrl(String url) async {
     emit(const _Uploading());
-    final result = await getFileUrlUseCase(url);
+    // TODO: fix this
+    final result = await getFileUrlUseCase(UploadsPresignedUrlReq(originalName: '', size: 0, mimeType: ''));
     result.when((url) {
       emit(_Uploaded([url.url]));
     }, (error) {

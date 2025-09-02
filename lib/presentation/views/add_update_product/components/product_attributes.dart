@@ -16,11 +16,12 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductAttributes extends StatefulWidget {
-  const ProductAttributes(
-      {super.key, this.controller, this.onSaved, this.product});
+  const ProductAttributes({super.key, this.controller, this.onSaved, this.product});
+
   final FlexExpansionTileController? controller;
   final void Function(Product? product)? onSaved;
   final Product? product;
+
   @override
   State<ProductAttributes> createState() => _ProductAttributesState();
 }
@@ -47,10 +48,9 @@ class _ProductAttributesState extends State<ProductAttributes> {
       hsCodeCtrl.text = widget.product!.hsCode ?? '';
       originCountryIso = widget.product!.originCountry;
       countryCtrl.text = countries
-              .where((element) =>
-                  element.iso2 == widget.product?.originCountry?.toLowerCase())
+              .where((element) => element.iso2 == widget.product?.originCountry?.toLowerCase())
               .firstOrNull
-              ?.displayName ??
+              ?.displayOnStore ??
           '';
     }
     super.initState();
@@ -78,13 +78,19 @@ class _ProductAttributesState extends State<ProductAttributes> {
     return FormField<Product>(
       onSaved: (_) {
         widget.onSaved?.call(Product(
-          width: double.tryParse(widthCtrl.text),
-          length: double.tryParse(lengthCtrl.text),
-          height: double.tryParse(heightCtrl.text),
-          weight: double.tryParse(weightCtrl.text),
+          width: widthCtrl.text,
+          length: lengthCtrl.text,
+          height: heightCtrl.text,
+          weight: weightCtrl.text,
           midCode: midCodeCtrl.text.isEmpty ? null : midCodeCtrl.text,
           hsCode: hsCodeCtrl.text.isEmpty ? null : hsCodeCtrl.text,
           originCountry: originCountryIso,
+          id: '',
+          title: '',
+          handle: '',
+          isGiftcard: false,
+          status: ProductStatus.draft,
+          discountable: false,
         ));
       },
       builder: (FormFieldState<Product> field) {
@@ -112,13 +118,11 @@ class _ProductAttributesState extends State<ProductAttributes> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: LabeledNumericTextField(
-                        controller: widthCtrl, label: 'Width'),
+                    child: LabeledNumericTextField(controller: widthCtrl, label: 'Width'),
                   ),
                   const SizedBox(width: 12.0),
                   Flexible(
-                    child: LabeledNumericTextField(
-                        controller: lengthCtrl, label: 'Length'),
+                    child: LabeledNumericTextField(controller: lengthCtrl, label: 'Length'),
                   ),
                 ],
               ),
@@ -128,13 +132,11 @@ class _ProductAttributesState extends State<ProductAttributes> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: LabeledNumericTextField(
-                        controller: heightCtrl, label: 'Height'),
+                    child: LabeledNumericTextField(controller: heightCtrl, label: 'Height'),
                   ),
                   const SizedBox(width: 12.0),
                   Flexible(
-                    child: LabeledNumericTextField(
-                        controller: weightCtrl, label: 'Weight'),
+                    child: LabeledNumericTextField(controller: weightCtrl, label: 'Weight'),
                   ),
                 ],
               ),
@@ -164,23 +166,16 @@ class _ProductAttributesState extends State<ProductAttributes> {
                       overlayStyle: context.defaultSystemUiOverlayStyle,
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       builder: (context) => SelectCountryView(
-                            selectCountryReq:
-                                SelectCountryReq(selectedCountries: [
+                            selectCountryReq: SelectCountryReq(selectedCountries: [
                               countries.firstWhere(
                                   (element) =>
-                                      element.iso2 ==
-                                      widget.product?.originCountry
-                                          ?.toLowerCase(),
+                                      element.iso2 == widget.product?.originCountry?.toLowerCase(),
                                   orElse: () => const Country(
-                                      iso2: '',
-                                      iso3: '',
-                                      numCode: 0,
-                                      name: '',
-                                      displayName: ''))
+                                      iso2: '', iso3: '', numCode: '0', name: '', id: 0, displayOnStore: ''))
                             ]),
                           ));
                   if (result is List<Country>) {
-                    countryCtrl.text = result.first.displayName!;
+                    countryCtrl.text = result.first.displayOnStore!;
                     originCountryIso = result.first.iso2;
                     setState(() {});
                   }
@@ -193,8 +188,7 @@ class _ProductAttributesState extends State<ProductAttributes> {
                   ),
                   hintText: 'Choose a country',
                   prefix: originCountryIso != null
-                      ? Flag.fromString(originCountryIso!,
-                          height: 16, width: 35)
+                      ? Flag.fromString(originCountryIso!, height: 16, width: 35)
                       : null,
                   suffixIcon: countryCtrl.text.isEmpty
                       ? const Icon(Icons.keyboard_arrow_down_outlined)

@@ -119,7 +119,7 @@ class _AppDrawerState extends State<AppDrawer> {
           },
           error: (e) {
             dismissLoading();
-            context.showSnackBar(e.failure.toSnackBarString());
+            context.showSnackBar(e.error.toSnackBarString());
           },
         );
       },
@@ -162,17 +162,17 @@ class _AppDrawerState extends State<AppDrawer> {
                               );
                             },
                           ),
-                          BlocBuilder<StoreBloc, StoreState>(
-                            builder: (context, state) {
-                              final storeName = state.mapOrNull(
-                                  loaded: (_) => _.store.name);
-                              return Flexible(
-                                child: Text(storeName ?? '',
-                                    style: context.bodyLarge,
-                                    overflow: TextOverflow.ellipsis),
-                              );
-                            },
-                          ),
+                          // BlocBuilder<StoreBloc, StoreState>(
+                          //   builder: (context, state) {
+                          //     final storeName = state.mapOrNull(
+                          //         loaded: (r) => r.store.name);
+                          //     return Flexible(
+                          //       child: Text(storeName ?? '',
+                          //           style: context.bodyLarge,
+                          //           overflow: TextOverflow.ellipsis),
+                          //     );
+                          //   },
+                          // ),
                           const Padding(
                             padding: EdgeInsets.all(16.0),
                             child: SizedBox(),
@@ -181,27 +181,27 @@ class _AppDrawerState extends State<AppDrawer> {
                       ),
                     ),
                   ),
-                  const Gap(5.0),
-                  IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: context.getAlphaBlend(
-                            context.theme.scaffoldBackgroundColor),
-                      ),
-                      padding: const EdgeInsets.all(16.0),
-                      onPressed: () =>
-                          context.pushRoute(const ActivityRoute()),
-                      icon: const Badge(
-                          smallSize: 8,
-                          backgroundColor: Colors.red,
-                          alignment: Alignment.topRight,
-                          child: Icon(Icons.notifications_outlined))),
+                  // const Gap(5.0),
+                  // IconButton(
+                  //     style: IconButton.styleFrom(
+                  //       backgroundColor: context.getAlphaBlend(
+                  //           context.theme.scaffoldBackgroundColor),
+                  //     ),
+                  //     padding: const EdgeInsets.all(16.0),
+                  //     onPressed: () =>
+                  //         context.pushRoute(const ActivityRoute()),
+                  //     icon: const Badge(
+                  //         smallSize: 8,
+                  //         backgroundColor: Colors.red,
+                  //         alignment: Alignment.topRight,
+                  //         child: Icon(Icons.notifications_outlined))),
                 ],
               ),
             ),
             BlocBuilder<AppUpdateBloc, AppUpdateState>(
               builder: (context, state) {
                 return state.maybeMap(
-                    updateAvailable: (_) => Padding(
+                    updateAvailable: (r) => Padding(
                       padding:
                           const EdgeInsets.fromLTRB(12, 10, 12, 5),
                       child: Stack(
@@ -254,7 +254,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                            'New Update Available ${_.appUpdate.tagName ?? ''}',
+                                            'New Update Available ${r.appUpdate.tagName ?? ''}',
                                             style: const TextStyle(
                                                 color: Colors.white)),
                                         Text('Tap to install',
@@ -626,7 +626,7 @@ class _AppDrawerState extends State<AppDrawer> {
             isDestructiveAction: true)
         .then(
       (value) async {
-        if (value == OkCancelResult.ok) {
+        if (value == OkCancelResult.ok && mounted) {
           context
               .read<AuthenticationBloc>()
               .add(const AuthenticationEvent.logOut());

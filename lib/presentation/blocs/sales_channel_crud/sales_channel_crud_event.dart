@@ -6,9 +6,9 @@ class SalesChannelCrudEvent with _$SalesChannelCrudEvent {
   const factory SalesChannelCrudEvent.loadAll(
       {Map<String, dynamic>? queryParameters}) = _LoadAll;
   const factory SalesChannelCrudEvent.create(
-      SalesChannelCreateReq userSalesChannelCreateReq) = _Create;
+      CreateSalesChannel payload) = _Create;
   const factory SalesChannelCrudEvent.update(
-      String id, SalesChannelUpdateReq userSalesChannelUpdateReq) = _Update;
+      String id, UpdateSalesChannel payload) = _Update;
   const factory SalesChannelCrudEvent.delete(String id) = _Delete;
   const factory SalesChannelCrudEvent.deleteProducts(
       String id, List<String> productIds) = _DeleteProducts;

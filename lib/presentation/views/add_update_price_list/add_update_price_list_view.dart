@@ -1,35 +1,29 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/copy_with_price_list.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/data/models/pick_groups_req.dart';
 import 'package:medusa_admin/data/models/pick_products_req.dart';
 import 'package:medusa_admin/data/models/pick_products_res.dart';
-import 'package:medusa_admin/data/models/wrapped.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/pricing/pricing_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
-import 'package:medusa_admin/presentation/widgets/pick_groups_view.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'components/index.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class AddUpdatePriceListView extends StatefulWidget {
   const AddUpdatePriceListView({super.key, this.id});
+
   final String? id;
   static const kDuration = Duration(milliseconds: 300);
 
@@ -39,8 +33,14 @@ class AddUpdatePriceListView extends StatefulWidget {
 
 class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
   bool get updateMode => widget.id != null;
-  PriceList priceList =
-      const PriceList(type: PriceListType.sale, status: PriceListStatus.active);
+  PriceList priceList = PriceList(
+      id: '',
+      title: '',
+      description: '',
+      rules: {},
+      status: PriceListStatus.draft,
+      type: PriceListType.sale,
+      prices: []);
   final configFormKey = GlobalKey<FormState>();
   final generalFormKey = GlobalKey<FormState>();
   final priceListTypeKey = GlobalKey();
@@ -95,8 +95,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
             }
           },
           title: const Text('Price List Type'),
-          childPadding:
-              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -104,25 +103,25 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                 'Select the type of the price list',
                 style: smallTextStyle!.copyWith(color: manatee),
               ),
-              space,
-              PriceListTypeCard(
-                priceListType: PriceListType.sale,
-                groupValue: priceList.type,
-                onTap: (val) {
-                  priceList = priceList.copyWith(type: val);
-                  setState(() {});
-                  // update([0]);
-                },
-              ),
-              space,
-              PriceListTypeCard(
-                priceListType: PriceListType.override,
-                groupValue: priceList.type,
-                onTap: (val) {
-                  priceList = priceList.copyWith(type: val);
-                  setState(() {});
-                },
-              ),
+              // space,
+              // PriceListTypeCard(
+              //   priceListType: PriceListType.sale,
+              //   groupValue: priceList.type,
+              //   onTap: (val) {
+              //     priceList = priceList.copyWith(type: val);
+              //     setState(() {});
+              //     // update([0]);
+              //   },
+              // ),
+              // space,
+              // PriceListTypeCard(
+              //   priceListType: PriceListType.override,
+              //   groupValue: priceList.type,
+              //   onTap: (val) {
+              //     priceList = priceList.copyWith(type: val);
+              //     setState(() {});
+              //   },
+              // ),
               halfSpace,
             ],
           ));
@@ -141,8 +140,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
           }
         },
         title: const Text('General'),
-        childPadding:
-            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+        childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -193,8 +191,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
             }
           },
           title: const Text('Configuration'),
-          childPadding:
-              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -206,20 +203,17 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
               SwitchListTile.adaptive(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Price overrides has a start date?'),
-                subtitle: const Text(
-                    'Schedule the price overrides to activate in the future.',
+                subtitle: const Text('Schedule the price overrides to activate in the future.',
                     style: TextStyle(color: manatee)),
                 value: priceList.startsAt != null,
                 onChanged: (val) async {
                   if (val) {
-                    priceList = priceList.copyWith(
-                        startsAt: Wrapped.value(DateTime.now()));
+                    priceList = priceList.copyWith(startsAt: DateTime.now());
                     setState(() {});
                     // update([2]);
                     await configKey.currentContext.ensureVisibility();
                   } else {
-                    priceList =
-                        priceList.copyWith(startsAt: const Wrapped.value(null));
+                    priceList = priceList.copyWith(startsAt: null);
                     // update([2]);
                     setState(() {});
                   }
@@ -228,47 +222,40 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
               halfSpace,
               AnimatedSwitcher(
                   duration: AddUpdatePriceListView.kDuration,
-                  child: priceList.startsAt != null
-                      ? DateTimeCard(
-                          validator: (date) {
-                            if (date == null) {
-                              return 'Required';
-                            }
-                            return null;
-                          },
-                          onTap: () async {
-                            final result = await context.adaptiveDateTimePicker(
-                                date: priceList.startsAt);
-                            if (result != null) {
-                              priceList = priceList.copyWith(
-                                  startsAt: Wrapped.value(result));
-                              // update([2]);
-                              setState(() {});
-                            }
-                          },
-                          dateTime: priceList.startsAt,
-                          dateText: 'Start',
-                        )
-                      : const SizedBox.shrink()),
+                  child: DateTimeCard(
+                    validator: (date) {
+                      if (date == null) {
+                        return 'Required';
+                      }
+                      return null;
+                    },
+                    onTap: () async {
+                      final result = await context.adaptiveDateTimePicker(date: priceList.startsAt);
+                      if (result != null) {
+                        priceList = priceList.copyWith(startsAt: result);
+                        // update([2]);
+                        setState(() {});
+                      }
+                    },
+                    dateTime: priceList.startsAt,
+                    dateText: 'Start',
+                  )),
               space,
               SwitchListTile.adaptive(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Price overrides has a expiry date?'),
-                subtitle: const Text(
-                    'Schedule the price overrides to deactivate in the future.',
+                subtitle: const Text('Schedule the price overrides to deactivate in the future.',
                     style: TextStyle(color: manatee)),
                 value: priceList.endsAt != null,
                 onChanged: (val) async {
                   if (val) {
-                    priceList = priceList.copyWith(
-                        endsAt: Wrapped.value(
-                            DateTime.now().add(const Duration(days: 7))));
+                    priceList =
+                        priceList.copyWith(endsAt: DateTime.now().add(const Duration(days: 7)));
                     // update([2]);
                     setState(() {});
                     await configKey.currentContext.ensureVisibility();
                   } else {
-                    priceList =
-                        priceList.copyWith(endsAt: const Wrapped.value(null));
+                    priceList = priceList.copyWith(endsAt: null);
                     // update([2]);
                     setState(() {});
                   }
@@ -277,27 +264,23 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
               halfSpace,
               AnimatedSwitcher(
                   duration: AddUpdatePriceListView.kDuration,
-                  child: priceList.endsAt != null
-                      ? DateTimeCard(
-                          validator: (date) {
-                            if (date == null) {
-                              return 'Required';
-                            }
-                            return null;
-                          },
-                          onTap: () async {
-                            final result = await context.adaptiveDateTimePicker(
-                                date: priceList.endsAt);
-                            if (result != null) {
-                              priceList = priceList.copyWith(
-                                  endsAt: Wrapped.value(result));
-                              // update([2]);
-                              setState(() {});
-                            }
-                          },
-                          dateTime: priceList.endsAt,
-                          dateText: 'Expiry')
-                      : const SizedBox.shrink()),
+                  child: DateTimeCard(
+                      validator: (date) {
+                        if (date == null) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                      onTap: () async {
+                        final result = await context.adaptiveDateTimePicker(date: priceList.endsAt);
+                        if (result != null) {
+                          priceList = priceList.copyWith(endsAt: result);
+                          // update([2]);
+                          setState(() {});
+                        }
+                      },
+                      dateTime: priceList.endsAt,
+                      dateText: 'Expiry')),
               space,
               SwitchListTile.adaptive(
                 contentPadding: EdgeInsets.zero,
@@ -320,78 +303,70 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                 },
               ),
               halfSpace,
-              AnimatedSwitcher(
-                  duration: AddUpdatePriceListView.kDuration,
-                  child: specifyCustomers
-                      ? LabeledTextField(
-                          validator: (val) {
-                            if (!specifyCustomers) {
-                              return null;
-                            }
-                            if (val == null || val.isEmpty) {
-                              return 'Field is required';
-                            }
-
-                            return null;
-                          },
-                          readOnly: true,
-                          onTap: () async {
-                            final result = await showBarModalBottomSheet(
-                                context: context,
-                                backgroundColor:
-                                    context.theme.scaffoldBackgroundColor,
-                                overlayStyle: context
-                                    .theme.appBarTheme.systemOverlayStyle,
-                                builder: (context) => PickGroupsView(
-                                    pickGroupsReq: PickGroupsReq(
-                                        multipleSelect: true,
-                                        selectedGroups:
-                                            priceList.customerGroups)));
-                            if (result is List<CustomerGroup>) {
-                              priceList = priceList.copyWith(
-                                  customerGroups: Wrapped.value(result));
-                              groupCtrl.text = result
-                                  .map((e) => e.name)
-                                  .toList()
-                                  .toString()
-                                  .replaceAll('[', '')
-                                  .replaceAll(']', '');
-                              // update([2]);
-                              setState(() {});
-                            }
-                          },
-                          label: 'Customer Groups',
-                          controller: groupCtrl,
-                          decoration: InputDecoration(
-                            enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
-                            hintText: 'Select group(s)',
-                            suffixIcon: priceList.customerGroups?.isEmpty ??
-                                    true
-                                ? const Icon(Icons.keyboard_arrow_down_outlined)
-                                : IconButton(
-                                    onPressed: () {
-                                      priceList = priceList.copyWith(
-                                          customerGroups:
-                                              const Wrapped.value(null));
-                                      groupCtrl.clear();
-                                      // update([2]);
-                                      setState(() {});
-                                    },
-                                    icon: const Icon(
-                                        CupertinoIcons.clear_circled_solid)),
-                            filled: true,
-                            fillColor:
-                                Theme.of(context).scaffoldBackgroundColor,
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(4.0),
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox.shrink())
+              // AnimatedSwitcher(
+              //     duration: AddUpdatePriceListView.kDuration,
+              //     child: specifyCustomers
+              //         ? LabeledTextField(
+              //             validator: (val) {
+              //               if (!specifyCustomers) {
+              //                 return null;
+              //               }
+              //               if (val == null || val.isEmpty) {
+              //                 return 'Field is required';
+              //               }
+              //
+              //               return null;
+              //             },
+              //             readOnly: true,
+              //             onTap: () async {
+              //               // final result = await showBarModalBottomSheet(
+              //               //     context: context,
+              //               //     backgroundColor: context.theme.scaffoldBackgroundColor,
+              //               //     overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+              //               //     builder: (context) => PickGroupsView(
+              //               //         pickGroupsReq: PickGroupsReq(
+              //               //             multipleSelect: true,
+              //               //             selectedGroups: priceList.customerGroups)));
+              //               // if (result is List<CustomerGroup>) {
+              //               //   priceList = priceList.copyWith(customerGroups: Wrapped.value(result));
+              //               //   groupCtrl.text = result
+              //               //       .map((e) => e.name)
+              //               //       .toList()
+              //               //       .toString()
+              //               //       .replaceAll('[', '')
+              //               //       .replaceAll(']', '');
+              //               //   // update([2]);
+              //               //   setState(() {});
+              //               // }
+              //             },
+              //             label: 'Customer Groups',
+              //             controller: groupCtrl,
+              //             decoration: InputDecoration(
+              //               enabledBorder: const OutlineInputBorder(
+              //                 borderSide: BorderSide(color: Colors.grey),
+              //               ),
+              //               hintText: 'Select group(s)',
+              //               suffixIcon: priceList.customerGroups?.isEmpty ?? true
+              //                   ? const Icon(Icons.keyboard_arrow_down_outlined)
+              //                   : IconButton(
+              //                       onPressed: () {
+              //                         priceList = priceList.copyWith(
+              //                             customerGroups: const Wrapped.value(null));
+              //                         groupCtrl.clear();
+              //                         // update([2]);
+              //                         setState(() {});
+              //                       },
+              //                       icon: const Icon(CupertinoIcons.clear_circled_solid)),
+              //               filled: true,
+              //               fillColor: Theme.of(context).scaffoldBackgroundColor,
+              //               border: const OutlineInputBorder(
+              //                 borderRadius: BorderRadius.all(
+              //                   Radius.circular(4.0),
+              //                 ),
+              //               ),
+              //             ),
+              //           )
+              //         : const SizedBox.shrink())
             ],
           ));
     }
@@ -407,8 +382,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
           }
         },
         title: const Text('Prices'),
-        childPadding:
-            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+        childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Text(
             'You will be able to override the prices for the products you add here',
@@ -427,33 +401,26 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                           context: context,
                           actions: <SheetAction<int>>[
                             const SheetAction(label: 'Edit prices', key: 0),
-                            const SheetAction(
-                                label: 'Remove',
-                                isDestructiveAction: true,
-                                key: 1),
+                            const SheetAction(label: 'Remove', isDestructiveAction: true, key: 1),
                           ]).then((result) async {
                         switch (result) {
                           case 0:
-                            final result = await showBarModalBottomSheet(
-                              backgroundColor:
-                                  context.theme.scaffoldBackgroundColor,
-                              overlayStyle:
-                                  context.theme.appBarTheme.systemOverlayStyle,
-                              context: context,
-                              builder: (context) => AddUpdateVariantsPriceView(
-                                  product: product, prices: priceList.prices),
-                            );
-                            if (result is List<MoneyAmount>) {
-                              final originalPrices = priceList.prices ?? [];
-                              priceList = priceList.copyWith(
-                                  prices: result + originalPrices);
-                              // update([3]);
-                              setState(() {});
-                            }
+                            // final result = await showBarModalBottomSheet(
+                            //   backgroundColor: context.theme.scaffoldBackgroundColor,
+                            //   overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                            //   context: context,
+                            //   builder: (context) => AddUpdateVariantsPriceView(
+                            //       product: product, prices: priceList.prices),
+                            // );
+                            // if (result is List<MoneyAmount>) {
+                            //   final originalPrices = priceList.prices ?? [];
+                            //   priceList = priceList.copyWith(prices: result + originalPrices);
+                            //   // update([3]);
+                            //   setState(() {});
+                            // }
                             return;
                           case 1:
-                            products.removeWhere(
-                                (element) => element.id == product.id);
+                            products.removeWhere((element) => element.id == product.id);
                             // update([3]);
                             setState(() {});
                             return;
@@ -462,13 +429,11 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                     },
                     child: Ink(
                       width: double.maxFinite,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 12.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
                       // margin: const EdgeInsets.only(bottom: 10.0),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(6))),
+                          borderRadius: const BorderRadius.all(Radius.circular(6))),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -479,33 +444,25 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                     ),
                   ),
                   const Gap(6.0),
-                  if (product.variants != null &&
-                      product.variants!.isNotEmpty &&
-                      priceList.prices != null)
+                  if (product.variants != null && product.variants!.isNotEmpty)
                     ...product.variants!.map((e) {
-                      final priceCount = priceList.prices!
-                          .where((element) => element.variantId == e.id)
-                          .toList()
-                          .length;
+                      final priceCount =
+                          priceList.prices.where((element) => element.id == e.id).toList().length;
                       if (priceCount == 0) {
                         return const SizedBox.shrink();
                       }
                       return Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
                         margin: const EdgeInsets.only(bottom: 10.0, left: 14),
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(6))),
+                            borderRadius: const BorderRadius.all(Radius.circular(6))),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(e.title ?? '', style: smallTextStyle),
-                            if (priceList.prices != null)
-                              Text(
-                                  '${priceCount == 0 ? 'Add' : priceCount} prices',
-                                  style: smallTextStyle),
+                            Text('${priceCount == 0 ? 'Add' : priceCount} prices',
+                                style: smallTextStyle),
                           ],
                         ),
                       );
@@ -515,8 +472,8 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
           space,
           TextButton(
             onPressed: () async {
-              final result = await context.pushRoute(PickProductsRoute(
-                  pickProductsReq: PickProductsReq(includeVariantCount: true)));
+              final result = await context.pushRoute(
+                  PickProductsRoute(pickProductsReq: PickProductsReq(includeVariantCount: true)));
               if (result is PickProductsRes) {
                 products = result.selectedProducts;
                 // update([3]);
@@ -546,17 +503,17 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
             if (firstTimeLoading) {
               firstTimeLoading = false;
               priceList = state.priceList;
-              nameCtrl.text = priceList.name ?? '';
+              nameCtrl.text = priceList.title ?? '';
               descriptionCtrl.text = priceList.description ?? '';
               saveAsDraft = priceList.status == PriceListStatus.draft;
-              specifyCustomers = priceList.customerGroups != null;
-              groupCtrl.text = priceList.customerGroups
-                      ?.map((e) => e.name)
-                      .toList()
-                      .toString()
-                      .replaceAll('[', '')
-                      .replaceAll(']', '') ??
-                  '';
+              // specifyCustomers = priceList.customerGroups != null;
+              // groupCtrl.text = priceList.customerGroups
+              //         ?.map((e) => e.name)
+              //         .toList()
+              //         .toString()
+              //         .replaceAll('[', '')
+              //         .replaceAll(']', '') ??
+              //     '';
               setState(() {});
             } else {
               if (updateMode) {
@@ -576,9 +533,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
           appBar: AppBar(
             systemOverlayStyle: context.defaultSystemUiOverlayStyle,
             leading: const CloseButton(),
-            title: updateMode
-                ? const Text('Update price list')
-                : const Text('Create price list'),
+            title: updateMode ? const Text('Update price list') : const Text('Create price list'),
             actions: [
               TextButton(
                 onPressed: () async {
@@ -586,40 +541,32 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                       ? pricingCrudBloc.add(PricingCrudEvent.update(
                           widget.id!,
                           UpdatePriceListReq(
-                            name: nameCtrl.text,
+                            title: nameCtrl.text,
                             description: descriptionCtrl.text,
                             type: priceList.type,
                             startsAt: priceList.startsAt,
                             endsAt: priceList.endsAt,
-                            customerGroupIds: priceList.customerGroups
-                                ?.map((e) => e.id!)
-                                .toList(),
-                            status: saveAsDraft
-                                ? PriceListStatus.draft
-                                : PriceListStatus.active,
+                            // customerGroupIds: priceList.customerGroups?.map((e) => e.id!).toList(),
+                            status: saveAsDraft ? PriceListStatus.draft : PriceListStatus.active,
                           ),
                         ))
                       : pricingCrudBloc.add(PricingCrudEvent.create(
                           CreatePriceListReq(
-                            name: nameCtrl.text,
+                            title: nameCtrl.text,
                             description: descriptionCtrl.text,
                             type: priceList.type,
                             prices: priceList.prices
-                                    ?.map((e) => MoneyAmount(
+                                    .map((e) => Price(
                                           amount: e.amount,
                                           currencyCode: e.currencyCode,
-                                          variantId: e.variantId,
+                                          // variantId: e.variantId,
                                         ))
                                     .toList() ??
                                 [],
-                            startsAt: priceList.startsAt,
+                            startsAt: priceList.createdAt,
                             endsAt: priceList.endsAt,
-                            customerGroupIds: priceList.customerGroups
-                                ?.map((e) => e.id!)
-                                .toList(),
-                            status: saveAsDraft
-                                ? PriceListStatus.draft
-                                : PriceListStatus.active,
+                            // customerGroupIds: priceList.customerGroups?.map((e) => e.id!).toList(),
+                            status: saveAsDraft ? PriceListStatus.draft : PriceListStatus.active,
                           ),
                         ));
                 },
@@ -629,8 +576,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
           ),
           body: SafeArea(
             child: ListView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
               children: [
                 SwitchListTile.adaptive(
                   contentPadding: EdgeInsets.zero,
@@ -640,9 +586,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                     // update();
                     setState(() {});
                   },
-                  title: updateMode
-                      ? const Text('Unpublish')
-                      : const Text('Save as draft'),
+                  title: updateMode ? const Text('Unpublish') : const Text('Save as draft'),
                 ),
                 const Divider(),
                 buildPriceListType(),

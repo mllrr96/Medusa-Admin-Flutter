@@ -19,10 +19,10 @@ class DiscountCrudBloc extends Bloc<DiscountCrudEvent, DiscountCrudState> {
     on<_Create>(_create);
 
     on<_Delete>(_delete);
-    on<_AddCondition>(_addCondition);
-    on<_RemoveCondition>(_removeCondition);
-    on<_AddItemsToCondition>(_addItemsToCondition);
-    on<_RemoveItemsFromCondition>(_removeItemsFromCondition);
+    // on<_AddCondition>(_addCondition);
+    // on<_RemoveCondition>(_removeCondition);
+    // on<_AddItemsToCondition>(_addItemsToCondition);
+    // on<_RemoveItemsFromCondition>(_removeItemsFromCondition);
   }
 
   Future<void> _load(
@@ -49,7 +49,7 @@ class DiscountCrudBloc extends Bloc<DiscountCrudEvent, DiscountCrudState> {
       ...?event.queryParameters,
     });
     result.when((success) {
-      emit(_Discounts(success.discounts ?? [], success.count ?? 0));
+      emit(_Discounts(success.promotions, success.count));
     }, (error) {
       emit(_Error(error));
     });
@@ -62,9 +62,9 @@ class DiscountCrudBloc extends Bloc<DiscountCrudEvent, DiscountCrudState> {
     emit(_Loading(discountId: event.id));
     final result = await discountDetailsUseCase.updateDiscount(
       id: event.id,
-      userUpdateDiscountReq: event.userUpdateDiscountReq,
+      payload: event.payload,
     );
-    result.when((discount) => emit(_Discount(discount)),
+    result.when((promotion) => emit(_Discount(promotion)),
         (error) => emit(_Error(error)));
   }
 
@@ -74,8 +74,8 @@ class DiscountCrudBloc extends Bloc<DiscountCrudEvent, DiscountCrudState> {
   ) async {
     emit(const _Loading());
     final result = await discountDetailsUseCase.createDiscount(
-        userCreateDiscountReq: event.userCreateDiscountReq);
-    result.when((discount) => emit(_Discount(discount)),
+        payload: event.payload);
+    result.when((promotion) => emit(_Discount(promotion)),
         (error) => emit(_Error(error)));
   }
 
@@ -90,59 +90,62 @@ class DiscountCrudBloc extends Bloc<DiscountCrudEvent, DiscountCrudState> {
         (discount) => emit(const _Deleted()), (error) => emit(_Error(error)));
   }
 
-  Future<void> _addCondition(
-    _AddCondition event,
-    Emitter<DiscountCrudState> emit,
-  ) async {
-    emit(_Loading(discountId: event.discountId));
-    final result = await discountDetailsUseCase.createDiscountCondition(
-        discountId: event.discountId,
-        userCreateConditionReq: event.userCreateConditionReq);
-    result.when((discount) => emit(_Discount(discount)),
-        (error) => emit(_Error(error)));
-  }
+  // Future<void> _addCondition(
+  //   _AddCondition event,
+  //   Emitter<DiscountCrudState> emit,
+  // ) async {
+  //   throw UnimplementedError();
+  //   //
+  //   // emit(_Loading(discountId: event.discountId));
+  //   // final result = await discountDetailsUseCase.createDiscountCondition(
+  //   //     discountId: event.discountId,
+  //   //     userCreateConditionReq: event.userCreateConditionReq);
+  //   // result.when((discount) => emit(_Discount(discount)),
+  //   //     (error) => emit(_Error(error)));
+  // }
 
-  Future<void> _removeCondition(
-    _RemoveCondition event,
-    Emitter<DiscountCrudState> emit,
-  ) async {
-    emit(_Loading(discountId: event.discountId));
-    final result = await discountDetailsUseCase.deleteDiscountCondition(
-        discountId: event.discountId, conditionId: event.conditionId);
-    result.when((discount) {
-      if (discount.discount == null) {
-        emit(_Error(Failure(message: 'Discount not found', type: '')));
-      } else {
-        emit(_Discount(discount.discount!));
-      }
-    }, (error) => emit(_Error(error)));
-  }
+  // Future<void> _removeCondition(
+  //   _RemoveCondition event,
+  //   Emitter<DiscountCrudState> emit,
+  // ) async {
+  //   throw UnimplementedError();
+    // emit(_Loading(discountId: event.discountId));
+    // final result = await discountDetailsUseCase.deleteDiscountCondition(
+    //     discountId: event.discountId, conditionId: event.conditionId);
+    // result.when((discount) {
+    //   if (discount.discount == null) {
+    //     emit(_Error(Failure(message: 'Discount not found', type: '')));
+    //   } else {
+    //     emit(_Discount(discount.discount!));
+    //   }
+    // }, (error) => emit(_Error(error)));
+  // }
 
-  Future<void> _addItemsToCondition(
-    _AddItemsToCondition event,
-    Emitter<DiscountCrudState> emit,
-  ) async {
-    emit(_Loading(discountId: event.discountId));
-    final result = await discountDetailsUseCase.addBatchResources(
-        discountId: event.discountId,
-        conditionId: event.conditionId,
-        itemIds: event.itemIds);
-    result.when((discount) => emit(_Discount(discount)),
-        (error) => emit(_Error(error)));
-  }
-
-  Future<void> _removeItemsFromCondition(
-    _RemoveItemsFromCondition event,
-    Emitter<DiscountCrudState> emit,
-  ) async {
-    emit(_Loading(discountId: event.discountId));
-    final result = await discountDetailsUseCase.deleteBatchResources(
-        discountId: event.discountId,
-        conditionId: event.conditionId,
-        itemIds: event.itemIds);
-    result.when((discount) => emit(_Discount(discount)),
-        (error) => emit(_Error(error)));
-  }
+  // Future<void> _addItemsToCondition(
+  //   _AddItemsToCondition event,
+  //   Emitter<DiscountCrudState> emit,
+  // ) async {
+  //   emit(_Loading(discountId: event.discountId));
+  //   final result = await discountDetailsUseCase.addBatchResources(
+  //       discountId: event.discountId,
+  //       conditionId: event.conditionId,
+  //       itemIds: event.itemIds);
+  //   result.when((discount) => emit(_Discount(discount)),
+  //       (error) => emit(_Error(error)));
+  // }
+  //
+  // Future<void> _removeItemsFromCondition(
+  //   _RemoveItemsFromCondition event,
+  //   Emitter<DiscountCrudState> emit,
+  // ) async {
+  //   emit(_Loading(discountId: event.discountId));
+  //   final result = await discountDetailsUseCase.deleteBatchResources(
+  //       discountId: event.discountId,
+  //       conditionId: event.conditionId,
+  //       itemIds: event.itemIds);
+  //   result.when((discount) => emit(_Discount(discount)),
+  //       (error) => emit(_Error(error)));
+  // }
 
   final DiscountCrudUseCase discountDetailsUseCase;
   static DiscountCrudBloc get instance => getIt<DiscountCrudBloc>();

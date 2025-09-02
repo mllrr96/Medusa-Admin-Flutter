@@ -115,9 +115,9 @@ class _CreateUpdateCustomGiftCardViewState
                         amountCtrl.text.replaceAll(RegExp(r'[^0-9]'), ''));
                     if (updateMode) {
                       giftCardCrudBloc.add(GiftCardCrudEvent.update(
-                          widget.giftCard!.id!,
+                          widget.giftCard!.id,
                           UpdateGiftCardReq(
-                            regionId: selectedRegion!.id!,
+                            regionId: selectedRegion!.id,
                             endsAt: expiryDate,
                             balance: balance,
                           )));
@@ -125,7 +125,7 @@ class _CreateUpdateCustomGiftCardViewState
                       giftCardCrudBloc
                           .add(GiftCardCrudEvent.create(CreateGiftCardReq(
                         value: balance,
-                        regionId: selectedRegion!.id!,
+                        regionId: selectedRegion!.id,
                         endsAt: expiryDate,
                       )));
                     }

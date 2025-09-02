@@ -6,7 +6,6 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import '../../../../../core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
-import 'package:medusa_admin/core/extension/date_time_extension.dart';
 class DraftOrderOverview extends StatelessWidget {
   const DraftOrderOverview(this.draftOrder, {super.key});
   final DraftOrder draftOrder;
@@ -45,7 +44,7 @@ class DraftOrderOverview extends StatelessWidget {
                     )
                 ],
               ),
-              DraftOrderStatusLabel(draftOrder.status!),
+              DraftOrderStatusLabel(draftOrder.status),
             ],
           ),
           space,

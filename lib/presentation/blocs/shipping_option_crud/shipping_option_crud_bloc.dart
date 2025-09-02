@@ -26,7 +26,7 @@ class ShippingOptionCrudBloc
   Future<void> _load(_Load event, Emitter<ShippingOptionCrudState> emit) async {
     emit(const _Loading());
     final result = await _useCase.load(event.id);
-    result.when((shippingOption) => emit(_ShippingOption(shippingOption)),
+    result.when((shippingOption) => emit(_ShippingOption(shippingOption.shippingOption)),
         (error) => emit(_Error(error)));
   }
 
@@ -39,7 +39,7 @@ class ShippingOptionCrudBloc
     });
     result.when(
       (response) => emit(_ShippingOptions(
-          response.shippingOptions ?? [], response.count ?? 0)),
+          response.shippingOptions, response.count)),
       (error) => emit(_Error(error)),
     );
   }
@@ -59,7 +59,7 @@ class ShippingOptionCrudBloc
     emit(const _Loading());
     final result = await _useCase.update(
         id: event.id,
-        userUpdateShippingOptionReq: event.userUpdateShippingOptionReq);
+        payload: event.userUpdateShippingOptionReq);
     result.when(
       (response) => emit(_ShippingOption(response)),
       (error) => emit(_Error(error)),

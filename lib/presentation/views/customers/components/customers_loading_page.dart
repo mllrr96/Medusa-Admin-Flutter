@@ -14,7 +14,7 @@ class CustomersLoadingPage extends StatelessWidget {
       lastName: 'Admin',
       id: '1',
       phone: '1234567890',
-      orders: null,
+      // orders: null,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );

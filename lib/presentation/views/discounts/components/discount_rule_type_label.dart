@@ -4,8 +4,8 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 import '../../../../core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
-class DiscountRuleTypeLabel extends StatelessWidget {
-  const DiscountRuleTypeLabel({super.key, required this.discount});
+class PromotionTypeLabel extends StatelessWidget {
+  const PromotionTypeLabel({super.key, required this.discount});
   final Discount discount;
   @override
   Widget build(BuildContext context) {
@@ -13,18 +13,18 @@ class DiscountRuleTypeLabel extends StatelessWidget {
     Color textColor = ColorManager.primary;
     String text = 'Upcoming';
     final valueText = discount.rule!.value;
-    switch (discount.rule!.type!) {
-      case DiscountRuleType.fixed:
+    switch (discount.rule!.type) {
+      case PromotionType.fixed:
         containerColor = Colors.orangeAccent.withOpacity(0.17);
         textColor = Colors.orangeAccent;
-        text = discount.rule?.value.formatAsPrice(discount.regions?.firstOrNull?.currencyCode) ?? '';
+        text = discount.rule?.value.formatAsPrice(discount.regions.firstOrNull?.currencyCode) ?? '';
         break;
-      case DiscountRuleType.percentage:
+      case PromotionType.percentage:
         containerColor = Colors.blueAccent.withOpacity(0.17);
         textColor = Colors.blueAccent;
         text = '${valueText ?? ''} %';
         break;
-      case DiscountRuleType.freeShipping:
+      case PromotionType.freeShipping:
         containerColor = Colors.green.withOpacity(0.17);
         textColor = Colors.green;
         text = 'Free shipping';

@@ -271,9 +271,9 @@ class ProductFilter {
     if (tags.isNotEmpty) {
       // For whatever reason when passing a list with single item an error occur, so this is a solution to solve the issue
       if (tags.length == 1) {
-        data['tags'] = <String>[tags[0].id!, ''];
+        data['tags'] = <String>[tags[0].id, ''];
       } else {
-        data['tags'] = tags.map((e) => e.id!).toList();
+        data['tags'] = tags.map((e) => e.id).toList();
       }
     }
 
@@ -281,7 +281,7 @@ class ProductFilter {
       if (collection.length == 1) {
         data['collection_id'] = [collection[0].id, ''];
       } else {
-        data['collection_id'] = collection.map((e) => e.id!).toList();
+        data['collection_id'] = collection.map((e) => e.id).toList();
       }
     }
 

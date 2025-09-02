@@ -55,7 +55,7 @@ class OrderCustomer extends StatelessWidget {
               if (value == null) return;
               switch (value) {
                 case 0:
-                  await context.pushRoute(CustomerDetailsRoute(customerId: order.customerId!));
+                  await context.pushRoute(CustomerDetailsRoute(customerId: order.customerId));
                   break;
                 case 1:
                   await context.pushRoute(TransferOrderRoute(order: order));
@@ -121,7 +121,7 @@ class OrderCustomer extends StatelessWidget {
                   children: [
                     CircleAvatar(
                         backgroundColor: ColorManager.getAvatarColor(order.email),
-                        child: Text(order.customer?.firstName?[0].toUpperCase() ?? order.email?[0].toUpperCase() ?? '',
+                        child: Text(order.customer?.firstName?[0].toUpperCase() ?? order.email[0].toUpperCase() ?? '',
                             style: largeTextStyle?.copyWith(color: Colors.white))),
                     const SizedBox(width: 14.0),
                     Flexible(
@@ -142,7 +142,7 @@ class OrderCustomer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(order.email!, style: context.bodyMedium),
+                    Text(order.email, style: context.bodyMedium),
                     if (order.billingAddress != null && order.billingAddress!.phone != null)
                       Text(order.billingAddress!.phone.toString(), style: context.bodyMedium),
                   ],

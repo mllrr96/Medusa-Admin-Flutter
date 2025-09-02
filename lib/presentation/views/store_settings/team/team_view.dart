@@ -101,7 +101,7 @@ class _TeamViewState extends State<TeamView> {
                                 user: user,
                                 onUpdated: (userUpdateUserReq) {
                                   userCrudBloc.add(UserCrudEvent.update(
-                                      user.id!, userUpdateUserReq));
+                                      user.id, userUpdateUserReq));
                                 }));
                       } else {
                         await showModalBottomSheet(
@@ -110,14 +110,14 @@ class _TeamViewState extends State<TeamView> {
                                 user: user,
                                 onUpdated: (userUpdateUserReq) {
                                   userCrudBloc.add(UserCrudEvent.update(
-                                      user.id!, userUpdateUserReq));
+                                      user.id, userUpdateUserReq));
                                 }),
                             isScrollControlled: true);
                       }
                     },
                     onDeleteTap: () async {
                       if (await delete) {
-                        userCrudBloc.add(UserCrudEvent.delete(user.id!));
+                        userCrudBloc.add(UserCrudEvent.delete(user.id));
                       }
                     },
                   );

@@ -8,40 +8,30 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 @lazySingleton
 class SearchUseCase {
-  ProductsRepository get _productsRepository =>
-      getIt<MedusaAdmin>().productsRepository;
-  OrdersRepository get _ordersRepository =>
-      getIt<MedusaAdmin>().orderRepository;
-  DraftOrderRepository get _draftOrderRepository =>
-      getIt<MedusaAdmin>().draftOrderRepository;
-  CollectionRepository get _collectionRepository =>
-      getIt<MedusaAdmin>().collectionRepository;
-  CustomerRepository get _customerRepository =>
-      getIt<MedusaAdmin>().customerRepository;
-  CustomerGroupRepository get _customerGroupRepository =>
-      getIt<MedusaAdmin>().customerGroupRepository;
-  GiftCardRepository get _giftCardRepository =>
-      getIt<MedusaAdmin>().giftCardRepository;
-  DiscountRepository get _discountRepository =>
-      getIt<MedusaAdmin>().discountRepository;
-  PriceListRepository get _priceListRepository =>
-      getIt<MedusaAdmin>().priceListRepository;
-  ProductTagRepository get _tagRepository =>
-      getIt<MedusaAdmin>().productTagRepository;
-  RegionsRepository get _regionsRepository =>
-      getIt<MedusaAdmin>().regionsRepository;
-  SalesChannelRepository get _salesChannelRepository =>
-      getIt<MedusaAdmin>().salesChannelRepository;
+  final MedusaAdminV2 _medusaAdmin;
+  SearchUseCase(this._medusaAdmin);
+  ProductsRepository get _productsRepository => _medusaAdmin.products;
+  OrdersRepository get _ordersRepository => _medusaAdmin.orders;
+  DraftOrdersRepository get _draftOrderRepository => _medusaAdmin.draftOrders;
+  CollectionsRepository get _collectionRepository =>  _medusaAdmin.collections;
+  CustomersRepository get _customerRepository =>  _medusaAdmin.customers;
+  CustomerGroupsRepository get _customerGroupRepository =>  _medusaAdmin.customerGroups;
+  GiftCardsRepository get _giftCardRepository =>  _medusaAdmin.giftCards;
+  PromotionsRepository get _discountRepository =>  _medusaAdmin.promotions;
+  PriceListsRepository get _priceListRepository =>  _medusaAdmin.priceLists;
+  ProductTagsRepository get _tagRepository =>  _medusaAdmin.productTags;
+  RegionsRepository get _regionsRepository =>  _medusaAdmin.regions;
+  SalesChannelsRepository get _salesChannelRepository =>  _medusaAdmin.salesChannels;
 
   static SearchUseCase get instance => getIt<SearchUseCase>();
 
-  Future<Result<SalesChannelRetrieveAllRes, MedusaError>> fetchSalesChannels({
+  Future<Result<SalesChannelListRes, MedusaError>> fetchSalesChannels({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
       final result = await _salesChannelRepository.retrieveAll(
-          queryParams: queryParameters);
-      return Success(result!);
+          queryParameters: queryParameters);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -57,13 +47,13 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<RetrieveProductTagsRes, MedusaError>> fetchTags({
+  Future<Result<ProductTagListResponse, MedusaError>> fetchTags({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _tagRepository.retrieveProductTags(
-          queryParameters: queryParameters);
-      return Success(result!);
+      final result = await _tagRepository.list(
+          query: queryParameters);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -79,13 +69,13 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<ProductsListRes, MedusaError>> fetchProducts({
+  Future<Result<ProductsRes, MedusaError>> fetchProducts({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
       final result = await _productsRepository.retrieveAll(
           queryParameters: queryParameters);
-      return Success(result!);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -101,13 +91,13 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<GiftCardsRes, MedusaError>> fetchGiftCards({
+  Future<Result<GiftCardsListResponse, MedusaError>> fetchGiftCards({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _giftCardRepository.retrieveGiftCards(
-          queryParameters: queryParameters);
-      return Success(result!);
+      final result = await _giftCardRepository.retrieveAll(
+           queryParameters ?? {});
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -123,26 +113,46 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<RetrieveCustomerGroupsRes, MedusaError>> fetchCustomerGroups(
+  Future<Result<CustomerGroupsListRes, MedusaError>> fetchCustomerGroups(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _customerGroupRepository.retrieveCustomerGroups(
+      final result = await _customerGroupRepository.list(
           queryParameters: queryParameters);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      return Success(result);
+    }on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<PriceListsRes, MedusaError>> fetchPriceLists({
+  Future<Result<PriceListsListRes, MedusaError>> fetchPriceLists({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _priceListRepository.retrievePriceLists(
+      final result = await _priceListRepository.retrieveAll(
           queryParameters: queryParameters);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -150,46 +160,8 @@ class SearchUseCase {
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _regionsRepository.retrieveAll(
-          queryParameters: queryParameters);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
-  }
-
-  Future<Result<CustomersRes, MedusaError>> fetchCustomers(
-      {Map<String, dynamic>? queryParameters}) async {
-    try {
-      final result = await _customerRepository.retrieveCustomers(
-          queryParameters: queryParameters);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
-  }
-
-  Future<Result<RetrieveOrdersRes, MedusaError>> fetchOrders(
-      {Map<String, dynamic>? queryParameters}) async {
-    try {
-      final result = await _ordersRepository.retrieveOrders(
-          queryParameters: queryParameters);
-      if (result?.orders == null) {
-        return Error(Failure.from(result));
-      } else {
-        return Success(result!);
-      }
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
-  }
-
-  Future<Result<CollectionsRes, MedusaError>> fetchCollections({
-    Map<String, dynamic>? queryParameters,
-  }) async {
-    try {
-      final result = await _collectionRepository.retrieveAll(
-          queryParameters: queryParameters);
-      return Success(result!);
+          query: queryParameters);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -205,25 +177,99 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<RetrieveDiscountsRes, MedusaError>> fetchDiscounts(
+  Future<Result<CustomersListRes, MedusaError>> fetchCustomers(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _discountRepository.retrieveDiscounts(
-        queryParameters: queryParameters,
-      );
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result = await _customerRepository.list(
+          query: queryParameters);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<DraftOrdersRes, MedusaError>> fetchDraftOrders({
+  Future<Result<OrdersListRes, MedusaError>> fetchOrders(
+      {Map<String, dynamic>? queryParameters}) async {
+    try {
+      final result = await _ordersRepository.list(
+          queryParameters: queryParameters);
+      return Success(result);
+    }on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    }
+  }
+
+  Future<Result<CollectionListRes, MedusaError>> fetchCollections({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _draftOrderRepository.retrieveDraftOrders(
+      final result = await _collectionRepository.retrieveAll(
           queryParameters: queryParameters);
-      return Success(result!);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    }
+  }
+
+  Future<Result<PromotionsListResponse, MedusaError>> fetchDiscounts(
+      {Map<String, dynamic>? queryParameters}) async {
+    try {
+      final result = await _discountRepository.list(
+        queryParameters: queryParameters,
+      );
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    }
+  }
+
+  Future<Result<DraftOrderListResponse, MedusaError>> fetchDraftOrders({
+    GetDraftOrdersQuery? queryParameters,
+  }) async {
+    try {
+      final result = await _draftOrderRepository.getDraftOrders(
+          queryParameters: queryParameters);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

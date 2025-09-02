@@ -9,8 +9,10 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/di/medusa_admin_di.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/domain/use_case/auth/auth_use_case.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 part 'authentication_event.dart';
 
@@ -63,7 +65,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   ) async {
     emit(const _Loading());
     if (!await InternetConnection().hasInternetAccess) {
-      final e = MedusaError((b) => b.message = AppConstants.noInternetMessage);
+      final e = MedusaError(code: '', type: 'Network error', message: AppConstants.noInternetMessage);
       emit(_Error(e));
       return;
     }
@@ -85,7 +87,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   ) async {
     emit(const _Loading());
     if (!await InternetConnection().hasInternetAccess) {
-      final e = MedusaError((b) => b.message = AppConstants.noInternetMessage);
+      final e = MedusaError(code: '', type: 'Network error', message: AppConstants.noInternetMessage);
       emit(_Error(e));
       return;
     }
@@ -107,11 +109,11 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   ) async {
     emit(const _Loading());
     if (!await InternetConnection().hasInternetAccess) {
-      final e = MedusaError((b) => b.message = AppConstants.noInternetMessage);
+      final e = MedusaError(code: '', type: 'Network error', message: AppConstants.noInternetMessage);
       emit(_Error(e));
       return;
     }
-    final result = await authenticationUseCase.getCurrentUser('');
+    final result = await authenticationUseCase.getCurrentUser();
     result.when((user) {
       authPreferenceService.setIsAuthenticated(true);
       emit(_LoggedIn(user));
@@ -124,7 +126,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   ) async {
     emit(const _Loading());
     if (!await InternetConnection().hasInternetAccess) {
-      final e = MedusaError((b) => b.message = AppConstants.noInternetMessage);
+      final e = MedusaError(code: '', type: 'Network error', message: AppConstants.noInternetMessage);
       emit(_Error(e));
       return;
     }

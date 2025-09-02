@@ -10,10 +10,10 @@ class PriceListsLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const priceList = PriceList(
-        name: 'Medusa Js',
+        title: 'Medusa Js',
         description: 'Medusa Js Price List',
         type: PriceListType.sale,
-        status: PriceListStatus.active);
+        status: PriceListStatus.active, id: '', rules: {}, prices: []);
     return Skeletonizer(
       enabled: true,
       child: Column(

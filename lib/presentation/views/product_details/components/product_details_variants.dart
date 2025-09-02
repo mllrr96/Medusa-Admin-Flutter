@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/core/extension/product_variant_extension.dart';
 import 'package:medusa_admin/data/models/product_variant_req.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
@@ -35,30 +34,30 @@ class ProductDetailsVariants extends StatelessWidget {
               const SheetAction(label: 'Edit Options', key: 2),
             ]).then((result) async {
               switch (result) {
-                case 0:
-                  var newVariant = await context.pushRoute(
-                      ProductAddVariantRoute(
-                          productVariantReq:
-                              ProductVariantReq(product: product)));
-                  if (newVariant is ProductVariant) {
-                    final options = <ProductOptionValue>[];
-                    newVariant.options?.forEach((element) {
-                      options.add(ProductOptionValue(
-                          value: element.value,
-                          optionId: element.optionId,
-                          option: element.option,
-                          variantId: null));
-                    });
-
-                    newVariant = newVariant.copyWith(options: options);
-                    if (context.mounted) {
-                      context.read<ProductCrudBloc>().add(
-                          ProductCrudEvent.update(
-                              product.id!,
-                              PostUpdateProductReq(
-                                  variants: [newVariant])));
-                    }
-                  }
+                // case 0:
+                //   var newVariant = await context.pushRoute(
+                //       ProductAddVariantRoute(
+                //           productVariantReq:
+                //               ProductVariantReq(product: product)));
+                //   if (newVariant is ProductVariant) {
+                //     final options = <ProductOptionValue>[];
+                //     for (var element in newVariant.options) {
+                //       options.add(ProductOptionValue(
+                //           value: element.value,
+                //           optionId: element.optionId,
+                //           option: element.option,
+                //           variantId: null));
+                //     }
+                //
+                //     newVariant = newVariant.copyWith(options: options);
+                //     if (context.mounted) {
+                //       context.read<ProductCrudBloc>().add(
+                //           ProductCrudEvent.update(
+                //               product.id,
+                //               PostUpdateProductReq(
+                //                   variants: [newVariant])));
+                //     }
+                //   }
               }
             });
           },
@@ -139,7 +138,7 @@ class ProductDetailsVariants extends StatelessWidget {
                             children: [
                               Center(
                                   child: Text(
-                                      variant.inventoryQuantity?.toString() ??
+                                      variant.inventoryQuantity.toString() ??
                                           '-',
                                       style: smallTextStyle)),
                               IconButton(

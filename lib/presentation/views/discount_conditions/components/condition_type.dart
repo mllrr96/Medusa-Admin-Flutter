@@ -185,11 +185,11 @@ class _ConditionTypeViewState extends State<ConditionTypeView> {
                         ConditionTypeListTile(
                             type: type,
                             value: selectedTypes
-                                .map((e) => e.id!)
+                                .map((e) => e.id)
                                 .toList()
                                 .contains(type.id),
                             enabled: !disabledTypes
-                                .map((e) => e.id!)
+                                .map((e) => e.id)
                                 .toList()
                                 .contains(type.id),
                             onChanged: (val) {

@@ -91,7 +91,7 @@ class _AddUpdateSalesChannelViewState extends State<AddUpdateSalesChannelView> {
                 }
                 updateMode
                     ? salesChannelCrudBloc.add(SalesChannelCrudEvent.update(
-                        widget.salesChannel!.id!,
+                        widget.salesChannel!.id,
                         SalesChannelUpdateReq(
                           name: titleCtrl.text,
                           description: descriptionCtrl.text,

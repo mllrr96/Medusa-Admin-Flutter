@@ -3,16 +3,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
-import 'package:medusa_admin/domain/use_case/batch_job/bach_job_crud_use_case.dart';
 import 'package:medusa_admin/presentation/blocs/orders/orders_bloc.dart';
-import 'package:medusa_admin/presentation/views/orders_filter/orders_filter_view.dart';
 import 'package:medusa_admin/presentation/views/orders/components/orders_loading_page.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
@@ -21,7 +17,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'components/order_card.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/data/models/orders_filter.dart';
 
 @RoutePage()
 class OrdersView extends StatefulWidget {
@@ -33,13 +28,13 @@ class OrdersView extends StatefulWidget {
 
 class _OrdersViewState extends State<OrdersView> {
   final smartRefresherCtrl = RefreshController();
-  final PagingController<int, AdminOrder> pagingController =
-      PagingController<int, AdminOrder>(firstPageKey: 0, invisibleItemsThreshold: 3);
-  OrderFilter? orderFilter;
-  void _loadPage(int _) {
+  final PagingController<int, Order> pagingController =
+      PagingController<int, Order>(firstPageKey: 0, invisibleItemsThreshold: 3);
+  // OrderFilter? orderFilter;
+  void _loadPage(int page) {
     context.read<OrdersBloc>().add(OrdersEvent.loadOrders(queryParameters: {
-          'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
-          ...?orderFilter?.toJson()
+          'offset': page == 0 ? 0 : pagingController.itemList?.length ?? 0,
+          // ...?orderFilter?.toJson()
         }));
   }
 
@@ -91,22 +86,22 @@ class _OrdersViewState extends State<OrdersView> {
       child: Scaffold(
         drawerEdgeDragWidth: context.drawerEdgeDragWidth,
         drawer: const AppDrawer(),
-        endDrawer: Drawer(
-          child: OrdersFilterView(
-            orderFilter: orderFilter,
-            onResetTap: () {
-              setState(() => orderFilter = null);
-              pagingController.refresh();
-              context.maybePop();
-            },
-            onSubmitted: (result) {
-              if (result != null) {
-                setState(() => orderFilter = result);
-                pagingController.refresh();
-              }
-            },
-          ),
-        ),
+        // endDrawer: Drawer(
+        //   child: OrdersFilterView(
+        //     orderFilter: orderFilter,
+        //     onResetTap: () {
+        //       setState(() => orderFilter = null);
+        //       pagingController.refresh();
+        //       context.maybePop();
+        //     },
+        //     onSubmitted: (result) {
+        //       if (result != null) {
+        //         setState(() => orderFilter = result);
+        //         pagingController.refresh();
+        //       }
+        //     },
+        //   ),
+        // ),
         floatingActionButton: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,13 +122,13 @@ class _OrdersViewState extends State<OrdersView> {
               icon: const Icon(MedusaIcons.arrow_up_tray),
               onPressed: () async {
                 if (await exportOrders) {
-                  final result = await BatchJobCrudUseCase.instance
-                      .create(BatchJobType.orderExport);
-                  result.when((success) {
-                    context.showSnackBar('Export started');
-                  }, (error) {
-                    context.showSnackBar(error.message);
-                  });
+                  // final result = await BatchJobCrudUseCase.instance
+                  //     .create(BatchJobType.orderExport);
+                  // result.when((success) {
+                  //   context.showSnackBar('Export started');
+                  // }, (error) {
+                  //   context.showSnackBar(error.message);
+                  // });
                 }
               },
             ),
@@ -156,10 +151,7 @@ class _OrdersViewState extends State<OrdersView> {
                   builder: (context) => IconButton(
                     padding: const EdgeInsets.all(16.0),
                     onPressed: () => context.openEndDrawer(),
-                    icon: Icon(Icons.sort,
-                        color: (orderFilter?.count() ?? -1) > 0
-                            ? Colors.red
-                            : null),
+                    icon: Icon(Icons.sort),
                   ),
                 ),
               ],
@@ -176,7 +168,7 @@ class _OrdersViewState extends State<OrdersView> {
                   right: orderPreference.padding),
               separatorBuilder: (_, __) => const Gap(8.0),
               pagingController: pagingController,
-              builderDelegate: PagedChildBuilderDelegate<AdminOrder>(
+              builderDelegate: PagedChildBuilderDelegate<Order>(
                 animateTransitions: true,
                 itemBuilder: (context, order, index) {
                   if (orderPreference.alternativeCard) {
@@ -185,26 +177,26 @@ class _OrdersViewState extends State<OrdersView> {
                   return OrderCard(order);
                 },
                 noItemsFoundIndicatorBuilder: (_) {
-                  if ((orderFilter?.count() ?? -1) > 0) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text('No orders found'),
-                        TextButton(
-                            onPressed: () {
-                              if (orderFilter == null ||
-                                  orderFilter?.count() == 0) {
-                                return;
-                              }
-                              setState(() {
-                                orderFilter = null;
-                                pagingController.refresh();
-                              });
-                            },
-                            child: const Text('Clear filters'))
-                      ],
-                    );
-                  }
+                  // if ((orderFilter?.count() ?? -1) > 0) {
+                  //   return Column(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       const Text('No orders found'),
+                  //       TextButton(
+                  //           onPressed: () {
+                  //             if (orderFilter == null ||
+                  //                 orderFilter?.count() == 0) {
+                  //               return;
+                  //             }
+                  //             setState(() {
+                  //               orderFilter = null;
+                  //               pagingController.refresh();
+                  //             });
+                  //           },
+                  //           child: const Text('Clear filters'))
+                  //     ],
+                  //   );
+                  // }
                   return const Center(child: Text('No orders yet!'));
                 },
                 firstPageProgressIndicatorBuilder: (context) =>

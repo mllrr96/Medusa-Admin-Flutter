@@ -147,7 +147,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                               if (await removeCustomer && context.mounted) {
                                 context.read<GroupCrudBloc>().add(
                                     GroupCrudEvent.delete(
-                                        widget.customerGroup.id!));
+                                        widget.customerGroup.id));
                               }
 
                               break;
@@ -165,7 +165,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                       final name = customer.fullName;
                       return ListTile(
                         onTap: () => context.pushRoute(
-                            CustomerDetailsRoute(customerId: customer.id!)),
+                            CustomerDetailsRoute(customerId: customer.id)),
                         leading: CircleAvatar(
                           backgroundColor:
                               ColorManager.getAvatarColor(customer.email),
@@ -196,7 +196,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                                 switch (result) {
                                   case 0:
                                     context.pushRoute(CustomerDetailsRoute(
-                                        customerId: customer.id!));
+                                        customerId: customer.id));
                                     break;
                                   case 1:
                                     await showOkCancelAlertDialog(
@@ -211,8 +211,8 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                                       if (value == OkCancelResult.ok) {
                                         context.read<GroupCrudBloc>().add(
                                             GroupCrudEvent.removeCustomers(
-                                                widget.customerGroup.id!,
-                                                [customer.id!]));
+                                                widget.customerGroup.id,
+                                                [customer.id]));
                                       }
                                     });
 
@@ -258,11 +258,11 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
     }
     final newCustomers = (pickCustomerReq as PickCustomerRes)
         .selectedCustomers
-        .map((e) => e.id!)
+        .map((e) => e.id)
         .toList();
     if (mounted) {
       context.read<GroupCrudBloc>().add(
-          GroupCrudEvent.addCustomers(widget.customerGroup.id!, newCustomers));
+          GroupCrudEvent.addCustomers(widget.customerGroup.id, newCustomers));
     }
   }
 }

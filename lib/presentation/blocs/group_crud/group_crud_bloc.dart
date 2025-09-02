@@ -33,14 +33,14 @@ class GroupCrudBloc extends Bloc<GroupCrudEvent, GroupCrudState> {
         queryParameters: event.queryParameters);
     result.when(
         (response) =>
-            emit(_Groups(response.customerGroups ?? [], response.count ?? 0)),
+            emit(_Groups(response.customerGroups, response.count)),
         (error) => emit(_Error(error)));
   }
 
   Future<void> _create(_Create event, Emitter<GroupCrudState> emit) async {
     emit(const _Loading());
     final result = await groupCrudUseCase.create(
-        name: event.name, metadata: event.metadata);
+        payload: CreateCustomerGroupReq(name: event.name, metadata: event.metadata));
     result.when((group) => emit(_Group(group)), (error) => emit(_Error(error)));
   }
 
@@ -54,7 +54,7 @@ class GroupCrudBloc extends Bloc<GroupCrudEvent, GroupCrudState> {
   Future<void> _update(_Update event, Emitter<GroupCrudState> emit) async {
     emit(const _Loading());
     final result = await groupCrudUseCase.update(
-        id: event.id, name: event.name, metadata: event.metadata);
+        id: event.id, payload: UpdateCustomerGroupReq(name: event.name, metadata: event.metadata));
     result.when((group) => emit(_Group(group)), (error) => emit(_Error(error)));
   }
 
@@ -62,7 +62,7 @@ class GroupCrudBloc extends Bloc<GroupCrudEvent, GroupCrudState> {
       _AddCustomers event, Emitter<GroupCrudState> emit) async {
     emit(const _Loading());
     final result = await groupCrudUseCase.addCustomers(
-        id: event.id, customerIds: event.customerIds);
+        id: event.id, customerIds: AddCustomersToGroupReq(customerIds: event.customerIds));
     result.when((group) => emit(_Group(group)), (error) => emit(_Error(error)));
   }
 
@@ -70,7 +70,7 @@ class GroupCrudBloc extends Bloc<GroupCrudEvent, GroupCrudState> {
       _RemoveCustomers event, Emitter<GroupCrudState> emit) async {
     emit(const _Loading());
     final result = await groupCrudUseCase.removeCustomers(
-        id: event.id, customerIds: event.customerIds);
+        id: event.id, customerIds: AddCustomersToGroupReq(customerIds: event.customerIds));
     result.when((group) => emit(_Group(group)), (error) => emit(_Error(error)));
   }
 

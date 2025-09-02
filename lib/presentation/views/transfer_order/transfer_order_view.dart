@@ -8,7 +8,6 @@ import 'package:medusa_admin/data/models/pick_customer_req.dart';
 import 'package:medusa_admin/data/models/pick_customer_res.dart';
 import 'package:medusa_admin/presentation/blocs/order_crud/order_crud_bloc.dart';
 import 'package:medusa_admin/presentation/views/orders/components/fulfillment_label.dart';
-import 'package:medusa_admin/presentation/views/orders/components/order_card.dart';
 import 'package:medusa_admin/presentation/views/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
@@ -56,16 +55,16 @@ class _TransferOrderViewState extends State<TransferOrderView> {
     return BlocListener<OrderCrudBloc, OrderCrudState>(
       bloc: orderCrudBloc,
       listener: (context, state) {
-        state.mapOrNull(
-            loading: (_) => loading(),
+        state.whenOrNull(
+            loading: () => loading(),
             order: (_) {
               dismissLoading();
               context.showSnackBar('Order updated successfully');
               context.maybePop();
             },
-            error: (_) {
+            error: (e) {
               dismissLoading();
-              context.showSnackBar(_.failure.toSnackBarString());
+              context.showSnackBar(e.toSnackBarString());
             });
       },
       child: HideKeyboard(
@@ -82,10 +81,10 @@ class _TransferOrderViewState extends State<TransferOrderView> {
             child: FilledButton(
                 onPressed: selectedCustomer != null
                     ? () {
-                  orderCrudBloc.add(OrderCrudEvent.update(
-                      order.id!,
-                      UpdateOrderReq(
-                          customerId: selectedCustomer!.id!)));
+                  // orderCrudBloc.add(OrderCrudEvent.update(
+                  //     order.id,
+                  //     PostOrdersOrderReq(
+                  //         customerId: selectedCustomer!.id)));
                 }
                     : null,
                 child: const Text(

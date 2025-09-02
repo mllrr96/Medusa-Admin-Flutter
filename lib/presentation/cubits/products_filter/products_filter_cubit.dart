@@ -21,7 +21,7 @@ class ProductsFilterCubit extends Cubit<ProductsFilterState> {
 
     result.when((success) {
       emit(ProductsFilterState.loaded(
-          success.$1.collections ?? [], success.$2.tags ?? []));
+          success.$1.collections, success.$2.productTags ));
     }, (error) {
       emit(ProductsFilterState.error(error));
     });

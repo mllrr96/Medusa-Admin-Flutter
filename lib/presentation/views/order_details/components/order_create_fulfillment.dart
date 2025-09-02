@@ -22,12 +22,12 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
   List<LineItem> items = [];
   @override
   void initState() {
-    widget.order.items?.forEach((e) {
-      if ((e.quantity! - (e.fulfilledQuantity ?? 0)) != 0) {
-        lineItemCount.addAll({e.id!: e.quantity!});
+    for (var e in widget.order.items) {
+      if ((e.quantity - (e.fulfilledQuantity ?? 0)) != 0) {
+        lineItemCount.addAll({e.id: e.quantity});
         items.add(e);
       }
-    });
+    }
     super.initState();
   }
 
@@ -88,13 +88,11 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
                       Flexible(
                         child: Row(
                           children: [
-                            item.thumbnail != null
-                                ? SizedBox(
+                            SizedBox(
                                     height: 50,
                                     width: 50,
-                                    child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail!),
-                                  )
-                                : const SizedBox(height: 50, width: 50),
+                                    child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail),
+                                  ),
                             Flexible(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,25 +112,25 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
                             borderRadius: const BorderRadius.all(Radius.circular(12.0))),
                         child: Row(
                           children: [
-                            Text('${lineItemCount[item.id]!.toString()} / ${item.quantity!}'),
+                            Text('${lineItemCount[item.id]!.toString()} / ${item.quantity}'),
                             IconButton(
                               onPressed: () {
-                                if (lineItemCount[item.id!] == 0) {
+                                if (lineItemCount[item.id] == 0) {
                                   return;
                                 }
                                 setState(() {
-                                  lineItemCount[item.id!] = lineItemCount[item.id]! - 1;
+                                  lineItemCount[item.id] = lineItemCount[item.id]! - 1;
                                 });
                               },
                               icon: const Icon(CupertinoIcons.minus),
                             ),
                             IconButton(
                               onPressed: () {
-                                if (lineItemCount[item.id!] == item.quantity!) {
+                                if (lineItemCount[item.id] == item.quantity) {
                                   return;
                                 }
                                 setState(() {
-                                  lineItemCount[item.id!] = lineItemCount[item.id]! + 1;
+                                  lineItemCount[item.id] = lineItemCount[item.id]! + 1;
                                 });
                               },
                               icon: const Icon(CupertinoIcons.add),

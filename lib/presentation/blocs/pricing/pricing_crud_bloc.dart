@@ -15,7 +15,7 @@ class PricingCrudBloc extends Bloc<PricingCrudEvent, PricingCrudState> {
   PricingCrudBloc(this.priceListCrudUseCase) : super(const _Initial()) {
     on<_Load>(_load);
     on<_LoadAll>(_loadAll);
-    on<_LoadProducts>(_loadProducts);
+    // on<_LoadProducts>(_loadProducts);
     on<_Delete>(_delete);
     on<_DeleteProduct>(_deleteProduct);
     on<_Create>(_create);
@@ -35,7 +35,7 @@ class PricingCrudBloc extends Bloc<PricingCrudEvent, PricingCrudState> {
         queryParameters: event.queryParameters);
     result.when(
         (success) =>
-            emit(_PricingLists(success.priceLists ?? [], success.count ?? 0)),
+            emit(_PricingLists(success.priceLists, success.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -62,15 +62,15 @@ class PricingCrudBloc extends Bloc<PricingCrudEvent, PricingCrudState> {
         (priceList) => emit(_PricingList(priceList)), (error) => emit(_Error(error)));
   }
 
-  Future<void> _loadProducts(
-      _LoadProducts event, Emitter<PricingCrudState> emit) async {
-    emit(const PricingCrudState.loading());
-    final result = await priceListCrudUseCase.fetchProducts(id: event.id);
-    result.when(
-        (success) =>
-            emit(_Products(success.products ?? [], success.count ?? 0)),
-        (error) => emit(_Error(error)));
-  }
+  // Future<void> _loadProducts(
+  //     _LoadProducts event, Emitter<PricingCrudState> emit) async {
+  //   emit(const PricingCrudState.loading());
+  //   final result = await priceListCrudUseCase.fetchProducts(id: event.id);
+  //   result.when(
+  //       (success) =>
+  //           emit(_Products(success., success.count ?? 0)),
+  //       (error) => emit(_Error(error)));
+  // }
 
   Future<void> _deleteProduct(
       _DeleteProduct event, Emitter<PricingCrudState> emit) async {

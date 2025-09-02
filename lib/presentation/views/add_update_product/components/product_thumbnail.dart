@@ -6,7 +6,6 @@ import 'package:gap/gap.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/data/helper/image_picker_helper.dart';
 import 'package:medusa_admin/data/models/wrapped.dart';
@@ -57,7 +56,7 @@ class _ProductThumbnailState extends State<ProductThumbnail> {
           product!.thumbnail!,
           heroTag: 'thumbnail',
           onDelete: () {
-            product = product?.copyWith(thumbnail: const Wrapped.value(null));
+            product = product?.copyWith(thumbnail: null);
             // controller.deleteThumbnail = true;
             widget.onChanged?.call(thumbnail);
             setState(() {});

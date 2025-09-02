@@ -73,7 +73,7 @@ class _AddUpdateShippingOptionViewState
       visibleInStore = !shippingOption.adminOnly;
     } else {
       fulfillmentOptionsBloc.add(RegionCrudEvent.loadFulfillmentOptions(
-          addUpdateShippingOptionReq.region.id!));
+          addUpdateShippingOptionReq.region.id));
       shippingProfileCrudBloc.add(const ShippingProfileCrudEvent.loadAll());
     }
     super.initState();
@@ -195,7 +195,7 @@ class _AddUpdateShippingOptionViewState
                         halfSpace,
                         DropdownButtonFormField<ShippingOptionPriceType>(
                           style: context.bodyMedium,
-                          value: selectedPriceType,
+                          initialValue: selectedPriceType,
                           hint: const Text('Choose a price type'),
                           iconSize: 20,
                           dropdownColor:
@@ -274,7 +274,7 @@ class _AddUpdateShippingOptionViewState
                                           DropdownButtonFormField<
                                               ShippingProfile>(
                                             style: context.bodyMedium,
-                                            value: selectedShippingProfile,
+                                            initialValue: selectedShippingProfile,
                                             hint: const Text(
                                                 'Choose a shipping profile'),
                                             dropdownColor: Theme.of(context)
@@ -362,7 +362,7 @@ class _AddUpdateShippingOptionViewState
                                         DropdownButtonFormField<
                                             FulfillmentOption>(
                                       style: context.bodyMedium,
-                                      value: selectedFulfillmentOption,
+                                      initialValue: selectedFulfillmentOption,
                                       hint: const Text(
                                           'Choose a fulfillment method'),
                                       dropdownColor: Theme.of(context)
@@ -415,7 +415,7 @@ class _AddUpdateShippingOptionViewState
                                               .add(RegionCrudEvent
                                                   .loadFulfillmentOptions(
                                                       addUpdateShippingOptionReq
-                                                          .region.id!)),
+                                                          .region.id)),
                                           child: const Text('Retry'),
                                         )
                                       ],
@@ -520,7 +520,7 @@ class _AddUpdateShippingOptionViewState
     if (updateMode) {
       final shippingOption = addUpdateShippingOptionReq.shippingOption!;
       shippingOptionCrudBloc.add(ShippingOptionCrudEvent.update(
-        shippingOption.id!,
+        shippingOption.id,
         UpdateShippingOptionReq(
           shippingOption: ShippingOption(
             name: shippingOption.name == titleCtrl.text ? null : titleCtrl.text,
@@ -540,7 +540,7 @@ class _AddUpdateShippingOptionViewState
         CreateShippingOptionReq(
           shippingOption: ShippingOption(
             name: titleCtrl.text,
-            regionId: addUpdateShippingOptionReq.region.id!,
+            regionId: addUpdateShippingOptionReq.region.id,
             profileId: null,
             isReturn: addUpdateShippingOptionReq.returnShippingOption,
             data: {},

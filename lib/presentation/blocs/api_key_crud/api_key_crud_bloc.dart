@@ -38,7 +38,7 @@ class ApiKeyCrudBloc extends Bloc<ApiKeyCrudEvent, ApiKeyCrudState> {
     final result = await _useCase.loadAll(
         queryParameters: {'limit': pageSize, ...?event.queryParameters});
     result.when(
-        (success) => emit(_ApiKeys(success.keys ?? [], success.count ?? 0)),
+        (success) => emit(_ApiKeys(success.apiKeys, success.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -91,12 +91,13 @@ class ApiKeyCrudBloc extends Bloc<ApiKeyCrudEvent, ApiKeyCrudState> {
   void _loadAllSalesChannels(
       _LoadAllSalesChannels event, Emitter<ApiKeyCrudState> emit) async {
     emit(const _Loading());
-    final result = await _useCase.loadAllSalesChannels(event.id,
-        queryParameters: event.queryParameters);
-    result.when(
-        (success) => emit(_ApiKeySalesChannels(
-            success.salesChannels ?? [], success.count ?? 0)),
-        (error) => emit(_Error(error)));
+    throw UnimplementedError();
+    // final result = await _useCase.loadAllSalesChannels(event.id,
+    //     queryParameters: event.queryParameters);
+    // result.when(
+    //     (success) => emit(_ApiKeySalesChannels(
+    //         success.salesChannels ?? [], success.count ?? 0)),
+    //     (error) => emit(_Error(error)));
   }
 
   final ApiKeyUseCase _useCase;

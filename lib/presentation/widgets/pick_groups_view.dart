@@ -36,9 +36,9 @@ class _PickGroupsViewState extends State<PickGroupsView> {
     super.initState();
   }
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     groupCrudBloc.add(GroupCrudEvent.loadAll(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': page == 0 ? 0 : pagingController.itemList?.length ?? 0,
     }));
   }
 
@@ -90,7 +90,7 @@ class _PickGroupsViewState extends State<PickGroupsView> {
             builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
               animateTransitions: true,
               itemBuilder: (context, group, index) => CheckboxListTile(
-                title: Text(group.name ?? ''),
+                title: Text(group.name),
                 value: selectedGroups
                     .map((e) => e.id)
                     .toList()

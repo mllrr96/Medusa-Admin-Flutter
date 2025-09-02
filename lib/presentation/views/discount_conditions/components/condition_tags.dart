@@ -167,11 +167,11 @@ class _ConditionTagViewState extends State<ConditionTagView> {
                   itemBuilder: (context, tag, index) => ConditionTagTile(
                       tag: tag,
                       value: selectedTags
-                          .map((e) => e.id!)
+                          .map((e) => e.id)
                           .toList()
                           .contains(tag.id),
                       enabled: !disabledTags
-                          .map((e) => e.id!)
+                          .map((e) => e.id)
                           .toList()
                           .contains(tag.id),
                       onChanged: (val) {

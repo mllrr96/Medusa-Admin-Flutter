@@ -25,7 +25,7 @@ class CustomerListTile extends StatelessWidget {
     final largeTextStyle = context.bodyLarge;
     return Slidable(
       groupTag: const Key('customers'),
-      key: ValueKey(customer.id!),
+      key: ValueKey(customer.id),
       endActionPane: ActionPane(
         extentRatio: 0.4,
         motion: const DrawerMotion(),
@@ -75,12 +75,12 @@ class CustomerListTile extends StatelessWidget {
                   customer.createdAt.formatDate(),
                   style: smallTextStyle,
                 ),
-              if (customer.orders != null)
-                Text('Orders: ${customer.orders!.length}', style: smallTextStyle),
+              // if (customer.orders != null)
+              //   Text('Orders: ${customer.orders!.length}', style: smallTextStyle),
             ],
           ),
           onTap: () =>
-              context.pushRoute(CustomerDetailsRoute(customerId: customer.id!)),
+              context.pushRoute(CustomerDetailsRoute(customerId: customer.id)),
         ),
       ),
     );

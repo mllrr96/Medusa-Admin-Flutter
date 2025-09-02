@@ -90,7 +90,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                         Flexible(
                           child: LabeledTextField(
                             label: 'Currency',
-                            controller: TextEditingController(text: currencyCode?.toUpperCase() ?? ''),
+                            controller: TextEditingController(text: currencyCode.toUpperCase() ?? ''),
                             readOnly: true,
                           ),
                         ),
@@ -154,7 +154,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                     halfSpace,
                     DropdownButtonFormField<String>(
                       style: context.bodyMedium,
-                      value: reason,
+                      initialValue: reason,
                       items: const <DropdownMenuItem<String>>[
                         DropdownMenuItem(
                           value: 'Discount',

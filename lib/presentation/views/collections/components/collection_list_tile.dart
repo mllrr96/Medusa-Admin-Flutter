@@ -19,7 +19,7 @@ class CollectionListTile extends StatelessWidget {
       color: Colors.transparent,
       child: ListTile(
         tileColor: tileColor ?? Theme.of(context).listTileTheme.tileColor,
-        onTap: () => context.pushRoute(CollectionDetailsRoute(collectionId: collection.id!)),
+        onTap: () => context.pushRoute(CollectionDetailsRoute(collectionId: collection.id)),
         title: Text(collection.title ?? '', style: largeTextStyle),
         subtitle: Text('/${collection.handle ?? ''}', style: smallTextStyle!.copyWith(color: manatee)),
         trailing: Column(

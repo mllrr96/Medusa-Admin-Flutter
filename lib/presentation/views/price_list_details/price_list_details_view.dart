@@ -34,10 +34,10 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
   late PricingCrudBloc pricingCrudBloc;
   late PricingCrudBloc priceListBloc;
   void _loadPage(int _) {
-    priceListBloc.add(PricingCrudEvent.loadProducts(id));
+    priceListBloc.add(PricingCrudEvent.load(id));
   }
 
-  String get id => widget.priceList.id!;
+  String get id => widget.priceList.id;
 
   @override
   void initState() {
@@ -150,15 +150,15 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                             );
                             if (prices is List<MoneyAmount> &&
                                 context.mounted) {
-                              pricingCrudBloc.add(PricingCrudEvent.updatePrices(
-                                  id,
-                                  UpdatePricesReq(
-                                      prices: prices
-                                          .map((e) => MoneyAmount(
-                                              variantId: e.variantId,
-                                              amount: e.amount,
-                                              currencyCode: e.currencyCode))
-                                          .toList())));
+                              // pricingCrudBloc.add(PricingCrudEvent.updatePrices(
+                              //     id,
+                              //     UpdatePricesReq(
+                              //         prices: prices
+                              //             .map((e) => MoneyAmount(
+                              //                 variantId: e.variantId,
+                              //                 amount: e.amount,
+                              //                 currencyCode: e.currencyCode))
+                              //             .toList())));
                             }
                           }
                           return;
@@ -220,21 +220,21 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                                           state.priceList.prices)))
                               .then((result) {
                             if (result is List<MoneyAmount>) {
-                              priceListBloc.add(PricingCrudEvent.updatePrices(
-                                  id,
-                                  UpdatePricesReq(
-                                      prices: result
-                                          .map((e) => MoneyAmount(
-                                              variantId: e.variantId,
-                                              amount: e.amount,
-                                              currencyCode: e.currencyCode))
-                                          .toList())));
+                              // priceListBloc.add(PricingCrudEvent.updatePrices(
+                              //     id,
+                              //     UpdatePricesReq(
+                              //         prices: result
+                              //             .map((e) => MoneyAmount(
+                              //                 variantId: e.variantId,
+                              //                 amount: e.amount,
+                              //                 currencyCode: e.currencyCode))
+                              //             .toList())));
                             }
                           });
                         },
                         onRemoveProductTap: () async {
                           pricingCrudBloc.add(
-                              PricingCrudEvent.deleteProduct(id, product.id!));
+                              PricingCrudEvent.deleteProduct(id, product.id));
                           // await controller.deleteProduct(
                           //     context, product);
                         },

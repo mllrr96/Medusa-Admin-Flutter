@@ -8,7 +8,6 @@ import 'package:medusa_admin/core/extension/settings_list_tile_extension.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/data/models/order_preference.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
-import 'package:medusa_admin/presentation/views/orders/components/order_card.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
@@ -23,27 +22,40 @@ class OrderSettingsView extends StatefulWidget {
 
 class _OrderSettingsViewState extends State<OrderSettingsView> {
   late OrderPreference orderPreference;
-  Order order = Order(
-    customerId: '',
-    email: 'Medusa@js.com',
-    regionId: '',
-    currencyCode: 'usd',
-    customer: const Customer(
-        email: 'Medusa@js.com', firstName: 'Medusa', lastName: 'Js'),
-    total: 12345,
-    shippingAddress: const Address(countryCode: 'us'),
-    cart: Cart(
-      createdAt: DateTime.now(),
-    ),
-    currency: const Currency(
-      name: 'US Dollars',
-      symbol: '\$',
-      symbolNative: '\$',
-      code: 'us',
-    ),
-    fulfillmentStatus: FulfillmentStatus.notFulfilled,
-    paymentStatus: PaymentStatus.captured,
-    displayId: 69,
+  Order order = Order(id: '',
+      version: 0,
+      regionId: '',
+      customerId: '',
+      salesChannelId: '',
+      email: '',
+      currencyCode: '',
+      items: [],
+      shippingMethods: [],
+      summary: BaseOrderSummary(paidTotal: 0, refundedTotal: 0, pendingDifference: 0, currentOrderTotal: 0, originalOrderTotal: 0, transactionTotal: 0, accountingTotal: 0),
+      originalItemTotal: 0,
+      originalItemSubtotal: 0,
+      originalItemTaxTotal: 0,
+      itemTotal: 0,
+      itemSubtotal: 0,
+      itemTaxTotal: 0,
+      originalTotal: 0,
+      originalSubtotal: 0,
+      originalTaxTotal: 0,
+      total: 0,
+      subtotal: 0,
+      taxTotal: 0,
+      discountTotal: 0,
+      discountTaxTotal: 0,
+      giftCardTotal: 0,
+      giftCardTaxTotal: 0,
+      shippingTotal: 0,
+      shippingSubtotal: 0,
+      shippingTaxTotal: 0,
+      originalShippingTotal: 0,
+      originalShippingSubtotal: 0,
+      originalShippingTaxTotal: 0,
+      status: OrderStatus.canceled,
+      creditLineTotal: 0, paymentStatus: PaymentStatus.awaiting, fulfillmentStatus: FulfillmentStatus.canceled,
   );
 
   @override
@@ -68,27 +80,28 @@ class _OrderSettingsViewState extends State<OrderSettingsView> {
           okLabel: 'Discard',
           isDestructiveAction: true,
         ).then((result) {
-          if (result == OkCancelResult.ok) {
-            context.router.popForced();
+          if (result == OkCancelResult.ok && context.mounted) {
+            context.router.pop();
           }
         });
       },
       child: Scaffold(
         body: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          headerSliverBuilder: (context, innerBoxIsScrolled) =>
+          [
             MedusaSliverAppBar(
               title: const Text('Order Settings'),
               actions: [
                 TextButton(
                     onPressed: mapEquals(orderPreference.toJson(),
-                            PreferenceService.orderPreference.toJson())
+                        PreferenceService.orderPreference.toJson())
                         ? null
                         : () {
-                            PreferenceService.instance
-                                .updateOrderSettings(orderPreference);
-                            // Ordersinstance.update();
-                            context.router.popForced();
-                          },
+                      PreferenceService.instance
+                          .updateOrderSettings(orderPreference);
+                      // Ordersinstance.update();
+                      context.router.pop();
+                    },
                     child: const Text('Save'))
               ],
             ),
@@ -171,32 +184,32 @@ class _OrderSettingsViewState extends State<OrderSettingsView> {
                   ]),
                   CustomSettingsSection(
                       child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Padding', style: smallTextStyle),
-                            Text(orderPreference.padding.toStringAsFixed(2),
-                                style: smallTextStyle),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Padding', style: smallTextStyle),
+                                Text(orderPreference.padding.toStringAsFixed(2),
+                                    style: smallTextStyle),
+                              ],
+                            ),
+                            Slider.adaptive(
+                              value: orderPreference.padding,
+                              divisions: 16,
+                              onChanged: (val) {
+                                orderPreference =
+                                    orderPreference.copyWith(padding: val);
+                                setState(() {});
+                              },
+                              min: 0.0,
+                              max: 16.0,
+                            ),
                           ],
                         ),
-                        Slider.adaptive(
-                          value: orderPreference.padding,
-                          divisions: 16,
-                          onChanged: (val) {
-                            orderPreference =
-                                orderPreference.copyWith(padding: val);
-                            setState(() {});
-                          },
-                          min: 0.0,
-                          max: 16.0,
-                        ),
-                      ],
-                    ),
-                  )),
+                      )),
                 ],
               )
             ],

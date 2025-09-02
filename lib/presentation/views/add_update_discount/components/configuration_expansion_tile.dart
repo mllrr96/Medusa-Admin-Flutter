@@ -19,7 +19,7 @@ class ConfigurationExpansionTile extends StatefulWidget {
       this.discount});
   final FlexExpansionTileController? tileController;
   final bool initiallyExpanded;
-  final Discount? discount;
+  final Promotion? discount;
   final void Function(
     DateTime? startDate,
     DateTime? endDate,
@@ -41,14 +41,14 @@ class _ConfigurationExpansionTileState
 
   @override
   void initState() {
-    if (widget.discount != null) {
-      startDate = widget.discount!.startsAt;
-      endDate = widget.discount!.endsAt;
-      if(widget.discount!.usageLimit !=null){
-        limitCtrl =
-            TextEditingController(text: widget.discount!.usageLimit.toString());
-      }
-    }
+    // if (widget.discount != null) {
+    //   startDate = widget.discount!.startsAt;
+    //   endDate = widget.discount!.endsAt;
+    //   if(widget.discount!.usageLimit !=null){
+    //     limitCtrl =
+    //         TextEditingController(text: widget.discount!.usageLimit.toString());
+    //   }
+    // }
     super.initState();
   }
 
@@ -65,7 +65,7 @@ class _ConfigurationExpansionTileState
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
     const halfSpace = Gap(6);
-    final disableStartDate = widget.discount?.startsAt != null;
+    // final disableStartDate = widget.discount?.startsAt != null;
     return FormField(
       onSaved: (_) {
         widget.onSaved(startDate, endDate, int.tryParse(limitCtrl?.text ?? ''));
@@ -90,9 +90,10 @@ class _ConfigurationExpansionTileState
               style: smallTextStyle?.copyWith(color: manatee),
             ),
             IgnorePointer(
-              ignoring: disableStartDate,
+              // ignoring: disableStartDate,
               child: Opacity(
-                opacity: disableStartDate ? 0.5 : 1.0,
+                // opacity: disableStartDate ? 0.5 : 1.0,
+                opacity: 1.0,
                 child: Column(
                   children: [
                     space,

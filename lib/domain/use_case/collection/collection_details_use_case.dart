@@ -79,6 +79,24 @@ class CollectionCrudUseCase {
       return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
+  Future<Result<ProductCollection, MedusaError>> addProducts(
+      String id, List<String> productIds) async {
+    try {
+      final result = await _collectionRepository.addProducts(
+        id,
+        productIds,
+      );
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error) {
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    }
+  }
 
   Future<Result<ProductCollection, MedusaError>> updateProducts(
       // CollectionUpdateProductsReq userCollectionUpdateProductsReq

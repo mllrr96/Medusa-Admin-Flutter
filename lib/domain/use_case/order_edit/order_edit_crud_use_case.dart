@@ -1,4 +1,8 @@
-import 'package:injectable/injectable.dart';
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart' hide Order;
 import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
@@ -6,29 +10,54 @@ import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class OrderEditCrudUseCase {
-  OrderEditRepository get _orderRepository =>
-      getIt<MedusaAdmin>().orderEditRepository;
+  final MedusaAdminV2 _medusaAdmin;
+
+  OrderEditCrudUseCase(this._medusaAdmin);
+
+  OrderEditsRepository get _orderRepository => _medusaAdmin.orderEdits;
+
   static OrderEditCrudUseCase get instance => getIt<OrderEditCrudUseCase>();
 
-  Future<Result<OrderEdit, MedusaError>> cancelOrderEdit({
+  Future<Result<OrderEditDeleteRes, MedusaError>> cancelOrderEdit({
     required String id,
   }) async {
-    try {
-      final result = await _orderRepository.cancelOrderEdit(id: id);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
+    throw UnimplementedError();
+    // try {
+    //   final result = await _orderRepository.cancel(id: id);
+    //   return Success(result);
+    // } on DioException catch (e) {
+    //   return Error(MedusaError.fromHttp(
+    //     status: e.response?.statusCode,
+    //     body: e.response?.data,
+    //     cause: e,
+    //   ));
+    // } catch (error, stack) {
+    //   if (kDebugMode) {
+    //     log(error.toString());
+    //     log(stack.toString());
+    //   }
+    //   return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    // }
   }
 
-  Future<Result<OrderEdit, MedusaError>> requestOrderEdit({
+  Future<Result<Order, MedusaError>> requestOrderEdit({
     required String id,
   }) async {
     try {
-      final result = await _orderRepository.requestOrderEdit(id: id);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result = await _orderRepository.request(id: id);
+      return Success(result.orderPreview);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -36,25 +65,43 @@ class OrderEditCrudUseCase {
     required String id,
     required String itemId,
   }) async {
-    try {
-      final result =
-          await _orderRepository.deleteLineItem(id: id, itemId: itemId);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
+    throw UnimplementedError();
+    // try {
+    //   final result = await _orderRepository.deleteLineItem(id: id, itemId: itemId);
+    //   return Success(result!);
+    // } on DioException catch (e) {
+    //   return Error(MedusaError.fromHttp(
+    //     status: e.response?.statusCode,
+    //     body: e.response?.data,
+    //     cause: e,
+    //   ));
+    // } catch (error, stack) {
+    //   if (kDebugMode) {
+    //     log(error.toString());
+    //     log(stack.toString());
+    //   }
+    //   return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    // }
   }
 
   Future<Result<OrderEdit, MedusaError>> createOrderEdit({
-    required String id,
-    String? internalNote,
+    required CreateOrderEditReq payload,
   }) async {
     try {
-      final result = await _orderRepository.createOrderEdit(
-          id: id, internalNote: internalNote);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result = await _orderRepository.create(body: payload);
+      return Success(result.orderEdit);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -62,85 +109,156 @@ class OrderEditCrudUseCase {
     required String id,
     String? internalNote,
   }) async {
-    try {
-      final result = await _orderRepository.updateOrderEdit(
-          id: id, internalNote: internalNote);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
+    throw UnimplementedError();
+    // try {
+    //   final result = await _orderRepository.updateOrderEdit(
+    //       id: id, internalNote: internalNote);
+    //   return Success(result!);
+    // } on DioException catch (e) {
+    //   return Error(MedusaError.fromHttp(
+    //     status: e.response?.statusCode,
+    //     body: e.response?.data,
+    //     cause: e,
+    //   ));
+    // } catch (error, stack) {
+    //   if (kDebugMode) {
+    //     log(error.toString());
+    //     log(stack.toString());
+    //   }
+    //   return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    // }
   }
-  Future<Result<DeleteLineItemChangeRes, MedusaError>> deleteLineItemChange({
+
+  // Future<Result<DeleteLineItemChangeRes, MedusaError>> deleteLineItemChange({
+  //   required String id,
+  //   required String changeId,
+  // }) async {
+  //   try {
+  //     final result = await _orderRepository.deleteLineItemChange(
+  //         id: id, changeId: changeId);
+  //     return Success(result!);
+  //   } on DioException catch (e) {
+  //     return Error(MedusaError.fromHttp(
+  //       status: e.response?.statusCode,
+  //       body: e.response?.data,
+  //       cause: e,
+  //     ));
+  //   } catch (error, stack) {
+  //     if (kDebugMode) {
+  //       log(error.toString());
+  //       log(stack.toString());
+  //     }
+  //     return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+  //   }
+  // }
+
+  Future<Result<Order, MedusaError>> confirmOrderEdit({
     required String id,
-    required String changeId,
   }) async {
     try {
-      final result = await _orderRepository.deleteLineItemChange(
-          id: id, changeId: changeId);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result = await _orderRepository.confirm(id: id);
+      return Success(result.orderPreview);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<OrderEdit, MedusaError>> confirmOrderEdit({
+  Future<Result<OrderEditDeleteRes, MedusaError>> deleteOrderEdit({
     required String id,
   }) async {
     try {
-      final result = await _orderRepository.confirmOrderEdit(id: id);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result = await _orderRepository.cancel(id: id);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<DeleteOrderEditRes, MedusaError>> deleteOrderEdit({
+  //
+  // Future<Result<OrderEdit, MedusaError>> upsertLineItemChange({
+  //   required String id,
+  //   required String itemId,
+  //   required int quantity,
+  // }) async {
+  //   try {
+  //     final result = await _orderRepository.upsertLineItemChange(
+  //         id: id, itemId: itemId, quantity: quantity);
+  //     return Success(result!);
+  //   } on DioException catch (e) {
+  //     return Error(MedusaError.fromHttp(
+  //       status: e.response?.statusCode,
+  //       body: e.response?.data,
+  //       cause: e,
+  //     ));
+  //   } catch (error, stack) {
+  //     if (kDebugMode) {
+  //       log(error.toString());
+  //       log(stack.toString());
+  //     }
+  //     return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+  //   }
+  // }
+
+  Future<Result<Order, MedusaError>> addLineItem({
     required String id,
+    required AddItemsToOrderEditReq payload,
   }) async {
     try {
-      final result = await _orderRepository.deleteOrderEdit(id: id);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result = await _orderRepository.addItems(id: id, body: payload);
+      return Success(result.orderPreview);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<OrderEdit, MedusaError>> upsertLineItemChange({
-    required String id,
-    required String itemId,
-    required int quantity,
-  }) async {
-    try {
-      final result = await _orderRepository.upsertLineItemChange(
-          id: id, itemId: itemId, quantity: quantity);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
-  }
-
-  Future<Result<OrderEdit, MedusaError>> addLineItem({
-    required String id,
-    required AddLineItemReq payload,
-  }) async {
-    try {
-      final result = await _orderRepository.addLineItem(
-          id: id, userAddLineItemReq: payload);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
-  }
-
-  Future<Result<RetrieveAllOrderEditRes, MedusaError>> fetchOrderEdits({
+  Future<Result<OrderEditListRes, MedusaError>> fetchOrderEdits({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _orderRepository.retrieveAllOrderEdit(
-          queryParameters: queryParameters);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result = await _orderRepository.list(query: queryParameters);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

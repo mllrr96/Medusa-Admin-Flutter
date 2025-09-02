@@ -12,13 +12,14 @@ class DiscountTypeExpansionTile extends StatelessWidget {
   const DiscountTypeExpansionTile(
       {super.key,
       required this.discountType,
-      required this.allocationType,
+      // required this.allocationType,
       this.onTypeChange,
-      this.onAllocationChange});
-  final DiscountRuleType discountType;
-  final AllocationType allocationType;
-  final void Function(DiscountRuleType)? onTypeChange;
-  final void Function(AllocationType)? onAllocationChange;
+      // this.onAllocationChange
+      });
+  final PromotionType discountType;
+  // final AllocationType allocationType;
+  final void Function(PromotionType)? onTypeChange;
+  // final void Function(AllocationType)? onAllocationChange;
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
@@ -45,7 +46,7 @@ class DiscountTypeExpansionTile extends StatelessWidget {
             style: smallTextStyle!.copyWith(color: manatee),
           ),
           halfSpace,
-          ...DiscountRuleType.values.map(
+          ...PromotionType.values.map(
             (e) => Column(
               children: [
                 DiscountTypeCard(
@@ -57,7 +58,7 @@ class DiscountTypeExpansionTile extends StatelessWidget {
                   //     controller.discountRuleType = val;
                   //     controller.generalFormKey.currentState!.reset();
                   //   }
-                  //   if (val == DiscountRuleType.fixed &&
+                  //   if (val == PromotionType.fixed &&
                   //       controller.selectedRegions.length > 1) {
                   //     controller.selectedRegions = [
                   //       controller.selectedRegions.first
@@ -74,7 +75,7 @@ class DiscountTypeExpansionTile extends StatelessWidget {
           ),
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
-            child: discountType == DiscountRuleType.fixed
+            child: discountType == PromotionType.standard
                 ? Column(
                     children: [
                       Padding(
@@ -89,20 +90,20 @@ class DiscountTypeExpansionTile extends StatelessWidget {
                         ),
                       ),
                       halfSpace,
-                      ...AllocationType.values.map((e) => Column(
-                            children: [
-                              DiscountAllocationTypeDiscount(
-                                allocationType: e,
-                                groupValue: allocationType,
-                                onTap: onAllocationChange,
-                                // onTap: (val) {
-                                //   controller.allocationType = val;
-                                //   controller.update([0]);
-                                // },
-                              ),
-                              space,
-                            ],
-                          )),
+                      // ...AllocationType.values.map((e) => Column(
+                      //       children: [
+                      //         DiscountAllocationTypeDiscount(
+                      //           allocationType: e,
+                      //           groupValue: allocationType,
+                      //           onTap: onAllocationChange,
+                      //           // onTap: (val) {
+                      //           //   controller.allocationType = val;
+                      //           //   controller.update([0]);
+                      //           // },
+                      //         ),
+                      //         space,
+                      //       ],
+                      //     )),
                     ],
                   )
                 : const SizedBox.shrink(),

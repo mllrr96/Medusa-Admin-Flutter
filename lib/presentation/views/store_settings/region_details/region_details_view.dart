@@ -64,7 +64,7 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
       },
       builder: (context, state) {
         final regionName = state.maybeMap(
-            region: (_) => _.region.name!, orElse: () => 'Region');
+            region: (_) => _.region.name, orElse: () => 'Region');
         final region = state.mapOrNull(region: (region) => region.region);
         return Scaffold(
           body: NestedScrollView(
@@ -94,16 +94,16 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                               break;
                             case 1:
                               await showTextAnswerDialog(
-                                keyword: region.name!,
-                                hintText: region.name!,
+                                keyword: region.name,
+                                hintText: region.name,
                                 context: context,
                                 title: 'Delete region?',
                                 message:
-                                    'Are you sure you want to delete this region?\n Type the name "${region.name!}" to confirm ',
+                                    'Are you sure you want to delete this region?\n Type the name "${region.name}" to confirm ',
                                 okLabel: 'Yes, confirm',
                                 retryTitle: 'Wrong name',
                                 retryMessage:
-                                    'Make sure to type the region name "${region.name!}" to confirm deletion',
+                                    'Make sure to type the region name "${region.name}" to confirm deletion',
                                 isDestructiveAction: true,
                               ).then((value) async {
                                 if (value) {
@@ -147,7 +147,7 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                                   style: mediumTextStyle!
                                       .copyWith(color: manatee)),
                               Text(
-                                  '${region.currencyCode?.toUpperCase() ?? '-'} ${region.currencyCode.getCurrencySymbol}',
+                                  '${region.currencyCode.toUpperCase() ?? '-'} ${region.currencyCode.getCurrencySymbol}',
                                   style: mediumTextStyle),
                             ],
                           ),
@@ -328,23 +328,23 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
   }
 
   String getCountriesText(Region region) {
-    if (region.countries == null || region.countries!.isEmpty) {
+    if (region.countries.isEmpty) {
       return 'No countries configured';
     }
-    if (region.countries!.length > 4) {
+    if (region.countries.length > 4) {
       String result = '';
-      region.countries!.take(4).forEach((element) {
+      region.countries.take(4).forEach((element) {
         if (result.isEmpty) {
           result = element.name ?? '';
         } else {
           result = '$result, ${element.name ?? ''}';
         }
       });
-      result = '$result +${region.countries!.length - 4}';
+      result = '$result +${region.countries.length - 4}';
       return result;
     } else {
       String result = '';
-      for (var element in region.countries!) {
+      for (var element in region.countries) {
         if (result.isEmpty) {
           result = element.name ?? '';
         } else {
@@ -356,12 +356,12 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
   }
 
   String getAllCountriesText(Region region) {
-    if (region.countries == null || region.countries!.isEmpty) {
+    if (region.countries.isEmpty) {
       return 'No countries configured';
     }
 
     String result = '';
-    for (var element in region.countries!) {
+    for (var element in region.countries) {
       if (result.isEmpty) {
         result = element.name ?? '';
       } else {
@@ -373,29 +373,25 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
 
   String getPaymentProviders(Region region) {
     String paymentProviders = '';
-    if (region.paymentProviders != null) {
-      for (PaymentProvider payment in region.paymentProviders!) {
-        if (paymentProviders.isNotEmpty) {
-          paymentProviders = '$paymentProviders, ${payment.id!}';
-        } else {
-          paymentProviders = payment.id!;
-        }
+    for (PaymentProvider payment in region.paymentProviders) {
+      if (paymentProviders.isNotEmpty) {
+        paymentProviders = '$paymentProviders, ${payment.id}';
+      } else {
+        paymentProviders = payment.id;
       }
     }
-    return paymentProviders.capitalize;
+      return paymentProviders.capitalize;
   }
 
   String getFulfilmentProviders(Region region) {
     String fulfilmentProviders = '';
-    if (region.fulfillmentProviders != null) {
-      for (FulfillmentProvider fulfillment in region.fulfillmentProviders!) {
-        if (fulfilmentProviders.isNotEmpty) {
-          fulfilmentProviders = '$fulfilmentProviders, ${fulfillment.id!}';
-        } else {
-          fulfilmentProviders = fulfillment.id!;
-        }
+    for (FulfillmentProvider fulfillment in region.fulfillmentProviders) {
+      if (fulfilmentProviders.isNotEmpty) {
+        fulfilmentProviders = '$fulfilmentProviders, ${fulfillment.id!}';
+      } else {
+        fulfilmentProviders = fulfillment.id!;
       }
     }
-    return fulfilmentProviders.capitalize;
+      return fulfilmentProviders.capitalize;
   }
 }

@@ -4,7 +4,6 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class CustomGiftCardTile extends StatelessWidget {
@@ -17,7 +16,7 @@ class CustomGiftCardTile extends StatelessWidget {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final isDisabled = giftCard.isDisabled;
+    // final isDisabled = giftCard.isDisabled;
 
     return ListTile(
       onTap: onTap,
@@ -27,10 +26,10 @@ class CustomGiftCardTile extends StatelessWidget {
             context: context,
             actions: <SheetAction<int>>[
               const SheetAction(label: 'Edit details', key: 0),
-              SheetAction(
-                  label: isDisabled ? 'Enable' : 'Disable',
-                  isDestructiveAction: true,
-                  key: 1),
+              // SheetAction(
+              //     label: isDisabled ? 'Enable' : 'Disable',
+              //     isDestructiveAction: true,
+              //     key: 1),
             ]).then((value) async {
           switch (value) {
             case 0:
@@ -45,15 +44,15 @@ class CustomGiftCardTile extends StatelessWidget {
       tileColor: context.theme.appBarTheme.backgroundColor,
       title: Text(giftCard.code ?? ''),
       subtitle: Text(
-        giftCard.orderId ?? '_',
+         '_',
         style: smallTextStyle?.copyWith(color: manatee),
       ),
       trailing: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(
-              '${giftCard.balance.formatAsPrice(giftCard.region?.currencyCode, includeSymbol: false)} / ${giftCard.value.formatAsPrice(giftCard.region?.currencyCode, symbolAtEnd: true)}'),
+          // Text(
+          //     '${giftCard.balance.formatAsPrice(giftCard.region?.currencyCode, includeSymbol: false)} / ${giftCard.value.formatAsPrice(giftCard.region?.currencyCode, symbolAtEnd: true)}'),
           Text(giftCard.createdAt.formatDate()),
         ],
       ),

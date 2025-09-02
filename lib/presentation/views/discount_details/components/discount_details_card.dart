@@ -24,18 +24,18 @@ class DiscountDetailsCard extends StatelessWidget {
       String valueText = '';
       Color valueColor = Colors.green;
       String detail = '';
-      switch (discount.rule!.type!) {
-        case DiscountRuleType.fixed:
-          valueText = discount.rule?.value.formatAsPrice(discount.regions?.firstOrNull?.currencyCode) ?? '';
+      switch (discount.rule!.type) {
+        case PromotionType.fixed:
+          valueText = discount.rule?.value.formatAsPrice(discount.regions.firstOrNull?.currencyCode) ?? '';
           valueColor = Colors.orangeAccent;
-          detail = ' ${discount.regions?.firstOrNull?.currency?.code ?? ''}';
+          detail = ' ${discount.regions.firstOrNull?.currency?.code ?? ''}';
           break;
-        case DiscountRuleType.percentage:
-          valueText = discount.rule!.value!.toString();
+        case PromotionType.percentage:
+          valueText = discount.rule!.value.toString();
           valueColor = Colors.blueAccent;
           detail = ' %';
           break;
-        case DiscountRuleType.freeShipping:
+        case PromotionType.freeShipping:
           valueColor = Colors.green;
           valueText = 'Free shipping';
           break;
@@ -43,9 +43,9 @@ class DiscountDetailsCard extends StatelessWidget {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (discount.rule?.type == DiscountRuleType.fixed)
+          if (discount.rule?.type == PromotionType.fixed)
             Flexible(
-                child: Text('${discount.regions?.firstOrNull?.currency?.symbolNative ?? ''} ',
+                child: Text('${discount.regions.firstOrNull?.currency?.symbolNative ?? ''} ',
                     style: context.bodyLarge?.copyWith(color: valueColor))),
           Text(valueText, style: context.headlineSmall?.copyWith(color: valueColor)),
           if (detail.isNotEmpty) Text(detail.toUpperCase(), style: mediumTextStyle?.copyWith(color: manatee)),
@@ -55,13 +55,13 @@ class DiscountDetailsCard extends StatelessWidget {
 
     String regionsName(Discount discount) {
       String regions = '';
-      discount.regions?.forEach((element) {
+      for (var element in discount.regions) {
         if (regions.isNotEmpty) {
           regions = '$regions, ${element.name ?? ''}';
         } else {
           regions = element.name ?? '';
         }
-      });
+      }
 
       return regions;
     }
@@ -152,7 +152,7 @@ class DiscountDetailsCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(discount.regions?.length.toString() ?? '',
+                                Text(discount.regions.length.toString() ?? '',
                                     style: Theme.of(context).textTheme.bodyLarge),
                                 Text('Valid Regions', style: mediumTextStyle.copyWith(color: manatee))
                               ],

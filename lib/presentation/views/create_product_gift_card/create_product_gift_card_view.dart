@@ -246,7 +246,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                 Flexible(
                   child: DropdownButtonFormField<Currency>(
                     style: context.bodyMedium,
-                    value: selectedCurrency,
+                    initialValue: selectedCurrency,
                     disabledHint: const Text('No options'),
                     onChanged: (currency) {
                       setState(() {

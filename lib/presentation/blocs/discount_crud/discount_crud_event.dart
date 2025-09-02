@@ -5,15 +5,15 @@ class DiscountCrudEvent with _$DiscountCrudEvent {
   const factory DiscountCrudEvent.load(String id) = _Load;
   const factory DiscountCrudEvent.loadAll({Map<String, dynamic>? queryParameters}) = _LoadAll;
   const factory DiscountCrudEvent.update(
-      String id, UpdateDiscountReq userUpdateDiscountReq) = _Update;
+      String id, PostPromotionReq payload) = _Update;
   const factory DiscountCrudEvent.create(
-      CreateDiscountReq userCreateDiscountReq) = _Create;
+      PostPromotionReq payload) = _Create;
   const factory DiscountCrudEvent.delete(String discountId) = _Delete;
-  const factory DiscountCrudEvent.addCondition(
-          String discountId, CreateConditionReq userCreateConditionReq) =
-      _AddCondition;
-  const factory DiscountCrudEvent.removeCondition(
-      String discountId, String conditionId) = _RemoveCondition;
+  // const factory DiscountCrudEvent.addCondition(
+  //         String discountId, CreateConditionReq userCreateConditionReq) =
+  //     _AddCondition;
+  // const factory DiscountCrudEvent.removeCondition(
+  //     String discountId, String conditionId) = _RemoveCondition;
   const factory DiscountCrudEvent.addItemsToCondition(
     String discountId,
     String conditionId,

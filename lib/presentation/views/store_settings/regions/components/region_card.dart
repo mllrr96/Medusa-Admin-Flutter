@@ -24,7 +24,7 @@ class RegionCard extends StatelessWidget {
       borderRadius: const BorderRadius.all(Radius.circular(12.0)),
       child: InkWell(
         onTap: onTap ??
-            () => context.pushRoute(RegionDetailsRoute(regionId: region.id!)),
+            () => context.pushRoute(RegionDetailsRoute(regionId: region.id)),
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -36,7 +36,7 @@ class RegionCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(region.name!, overflow: TextOverflow.ellipsis),
+                  Text(region.name, overflow: TextOverflow.ellipsis),
                   const SizedBox(width: 8.0),
                   Expanded(
                       child: Text(getCountries(),
@@ -75,16 +75,14 @@ class RegionCard extends StatelessWidget {
 
   String getCountries() {
     String countries = '';
-    if (region.countries != null) {
-      for (Country country in region.countries!) {
-        if (countries.isNotEmpty) {
-          countries = '$countries, ${country.displayName!}';
-        } else {
-          countries = country.displayName!;
-        }
+    for (Country country in region.countries) {
+      if (countries.isNotEmpty) {
+        countries = '$countries, ${country.displayName!}';
+      } else {
+        countries = country.displayName!;
       }
     }
-    if (countries.isEmpty) {
+      if (countries.isEmpty) {
       return 'No countries configured';
     }
     return '($countries)';
@@ -92,29 +90,25 @@ class RegionCard extends StatelessWidget {
 
   String getPaymentProviders() {
     String paymentProviders = '';
-    if (region.paymentProviders != null) {
-      for (PaymentProvider payment in region.paymentProviders!) {
-        if (paymentProviders.isNotEmpty) {
-          paymentProviders = '$paymentProviders, ${payment.id!}';
-        } else {
-          paymentProviders = payment.id!;
-        }
+    for (PaymentProvider payment in region.paymentProviders) {
+      if (paymentProviders.isNotEmpty) {
+        paymentProviders = '$paymentProviders, ${payment.id}';
+      } else {
+        paymentProviders = payment.id;
       }
     }
-    return paymentProviders.capitalize;
+      return paymentProviders.capitalize;
   }
 
   String getFulfilmentProviders() {
     String fulfilmentProviders = '';
-    if (region.fulfillmentProviders != null) {
-      for (FulfillmentProvider fulfillment in region.fulfillmentProviders!) {
-        if (fulfilmentProviders.isNotEmpty) {
-          fulfilmentProviders = '$fulfilmentProviders, ${fulfillment.id!}';
-        } else {
-          fulfilmentProviders = fulfillment.id!;
-        }
+    for (FulfillmentProvider fulfillment in region.fulfillmentProviders) {
+      if (fulfilmentProviders.isNotEmpty) {
+        fulfilmentProviders = '$fulfilmentProviders, ${fulfillment.id!}';
+      } else {
+        fulfilmentProviders = fulfillment.id!;
       }
     }
-    return fulfilmentProviders.capitalize;
+      return fulfilmentProviders.capitalize;
   }
 }
