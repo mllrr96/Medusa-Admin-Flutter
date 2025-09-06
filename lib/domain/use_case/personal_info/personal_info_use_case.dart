@@ -20,22 +20,23 @@ class PersonalInfoCrudUseCase {
       getIt<PersonalInfoCrudUseCase>();
 
   Future<Result<User, MedusaError>> currentUser() async {
-    try {
-      final result = await _authRepository.postSession();
-      return Success(result.user);
-    } on DioException catch (e) {
-      return Error(MedusaError.fromHttp(
-        status: e.response?.statusCode,
-        body: e.response?.data,
-        cause: e,
-      ));
-    } catch (error, stack) {
-      if (kDebugMode) {
-        log(error.toString());
-        log(stack.toString());
-      }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
-    }
+    throw UnimplementedError();
+    // try {
+    //   final result = await _authRepository.postSession();
+    //   return Success(result.user);
+    // } on DioException catch (e) {
+    //   return Error(MedusaError.fromHttp(
+    //     status: e.response?.statusCode,
+    //     body: e.response?.data,
+    //     cause: e,
+    //   ));
+    // } catch (error, stack) {
+    //   if (kDebugMode) {
+    //     log(error.toString());
+    //     log(stack.toString());
+    //   }
+    //   return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    // }
   }
 
   Future<Result<User, MedusaError>> fetchUser(String id) async {

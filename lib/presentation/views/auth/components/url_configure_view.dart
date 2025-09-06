@@ -67,9 +67,9 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
 
   Future<void> _handleMedusaSingleton() async {
     if (setupUrl) {
-      await MedusaAdminDi.registerMedusaAdminSingleton();
+      // await MedusaAdminDi.registerMedusaAdminSingleton();
     } else {
-      await MedusaAdminDi.resetMedusaAdminSingleton();
+      // await MedusaAdminDi.resetMedusaAdminSingleton();
     }
   }
 

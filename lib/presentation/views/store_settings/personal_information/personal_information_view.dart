@@ -88,7 +88,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                         firstName: 'Medusa',
                         lastName: 'Js',
                         id: '',
-                        role: ''))),
+                        ))),
                 user: (_) => PersonalInfoTile(
                   _.user,
                   onTap: () async => await updatePersonalInformation(_.user),

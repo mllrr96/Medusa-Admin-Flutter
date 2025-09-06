@@ -69,7 +69,7 @@ class _OrdersViewState extends State<OrdersView> {
               pagingController.appendLastPage(state.orders);
             } else {
               final nextPageKey =
-                  pagingController.nextPageKey + state.orders.length;
+                  pagingController.nextPageKey! + state.orders.length;
               pagingController.appendPage(state.orders, nextPageKey);
             }
             if (smartRefresherCtrl.isRefresh) {

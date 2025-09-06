@@ -276,6 +276,26 @@ class _SignInViewState extends State<SignInView> {
                             ),
                           ),
                           space,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Hero(
+                              tag: 'Test Sign In',
+                              child: FilledButton.icon(
+                                  style: FilledButton.styleFrom(
+                                    minimumSize: const Size(220, 48.0),
+                                  ),
+                                  onPressed: loading
+                                      ? null
+                                      : () async {
+                                          emailCtrl.text = '1@1.com';
+                                          passwordCtrl.text = '12345678';
+                                          await _signIn();
+                                        },
+                                  icon: const Icon(Icons.login),
+                                  label: Text('Test Sign In')),
+                            ),
+                          ),
+                          space,
                         ],
                       ),
                     ),

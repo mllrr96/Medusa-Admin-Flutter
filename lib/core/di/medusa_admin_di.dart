@@ -8,7 +8,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'di.dart';
 
 abstract class MedusaAdminDi {
-  static final Interceptor _loggerInterceptor = PrettyDioLogger(
+  static final Interceptor loggerInterceptor = PrettyDioLogger(
       requestHeader: true,
       requestBody: true,
       responseBody: false,
@@ -16,7 +16,7 @@ abstract class MedusaAdminDi {
       error: true,
       compact: true,
       maxWidth: 90);
-  static final Interceptor _authInterceptor = InterceptorsWrapper(
+  static final Interceptor authInterceptor = InterceptorsWrapper(
     onRequest: (options, handler) async {
       final authType = AuthPreferenceService.authTypeGetter;
       final secureStorage = getIt<FlutterSecureStorage>();
@@ -79,18 +79,18 @@ abstract class MedusaAdminDi {
       handler.next(e);
     },
   );
-  static Future<void> registerMedusaAdminSingleton() async {
-    if (!getIt.isRegistered<MedusaAdminV2>()) {
-      getIt.registerLazySingleton<MedusaAdminV2>(
-        () => MedusaAdminV2.initialize(
-          baseUrl: AuthPreferenceService.baseUrlGetter!,
-          interceptors: [_authInterceptor, _loggerInterceptor],
-        ),
-      );
-    }
-  }
-
-  static Future<void> resetMedusaAdminSingleton() async {
-    await getIt.resetLazySingleton<MedusaAdminV2>();
-  }
+  // static Future<void> registerMedusaAdminSingleton() async {
+  //   if (!getIt.isRegistered<MedusaAdminV2>()) {
+  //     getIt.registerLazySingleton<MedusaAdminV2>(
+  //       () => MedusaAdminV2.initialize(
+  //         baseUrl: AuthPreferenceService.baseUrlGetter!,
+  //         interceptors: [_authInterceptor, _loggerInterceptor],
+  //       ),
+  //     );
+  //   }
+  // }
+  //
+  // static Future<void> resetMedusaAdminSingleton() async {
+  //   await getIt.resetLazySingleton<MedusaAdminV2>();
+  // }
 }

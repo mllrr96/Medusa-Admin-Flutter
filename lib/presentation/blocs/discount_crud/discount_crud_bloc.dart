@@ -45,7 +45,7 @@ class DiscountCrudBloc extends Bloc<DiscountCrudEvent, DiscountCrudState> {
     final result =
         await discountDetailsUseCase.retrieveDiscounts(queryParameters: {
       'limit': pageSize,
-      'is_dynamic': false,
+      // 'is_dynamic': false,
       ...?event.queryParameters,
     });
     result.when((success) {

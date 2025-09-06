@@ -31,11 +31,11 @@ class _CustomersViewState extends State<CustomersView> {
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
   late CustomerCrudBloc customerCrudBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     customerCrudBloc.add(
       CustomerCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
-        'expand': 'orders',
+        'offset': page == 0 ? 0 : pagingController.itemList?.length,
+        // 'fields': 'orders',
       }),
     );
   }

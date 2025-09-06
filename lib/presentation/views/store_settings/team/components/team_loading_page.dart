@@ -10,10 +10,11 @@ class TeamLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const user = User(
-        email: 'Medusa@js.com',
-        // role: UserRole.admin,
-        firstName: 'Medusa',
-        lastName: 'Admin', id: '', role: '');
+      email: 'Medusa@js.com',
+      // role: UserRole.admin,
+      firstName: 'Medusa',
+      lastName: 'Admin', id: '',
+    );
     return Skeletonizer(
       enabled: true,
       child: Column(

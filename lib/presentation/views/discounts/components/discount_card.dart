@@ -38,131 +38,117 @@ class DiscountCard extends StatelessWidget {
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
-          child: Stack(
-            alignment: Alignment.topRight,
-            children: [
-              // if (discount.isExpired)
-              //   CornerBanner(
-              //     bannerColor: Colors.red,
-              //     bannerPosition: CornerBannerPosition.topRight,
-              //     child: Text(
-              //       'Expired',
-              //       style: smallTextStyle?.copyWith(
-              //           color: Colors.white, fontSize: 12),
-              //     ),
-              //   ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10.0, ),
-                child: Column(
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          child: Row(
-                            children: [
-                              Icon(Icons.discount_outlined,
-                                  size: 20, color: iconColor ?? manatee),
-                              const SizedBox(width: 6.0),
-                              Flexible(child: Text(discount.code ?? '')),
-                            ],
-                          ),
-                        ),
-                        IconButton(
-                          padding: const EdgeInsets.all(16.0),
-                            onPressed: () async {
-                              await showModalActionSheet<int>(
-                                  title: 'Manage discount',
-                                  message: discount.code ?? '',
-                                  context: context,
-                                  actions: <SheetAction<int>>[
-                                    // const SheetAction(label: 'Edit', key: 0),
-                                    // !discount.isDisabled
-                                    //     ? const SheetAction(
-                                    //         label: 'Disable', key: 1)
-                                    //     : const SheetAction(
-                                    //         label: 'Enable', key: 1),
-                                    const SheetAction(
-                                        label: 'Delete',
-                                        isDestructiveAction: true,
-                                        key: 2),
-                                  ]).then((value) async {
-                                if (value == null) {
-                                  return;
-                                }
-                                switch (value) {
-                                  case 0:
-                                    // await context
-                                    //     .pushRoute(AddUpdateDiscountRoute(
-                                    //         discount: discount))
-                                    //     .then((value) {
-                                    //   if (value is bool && value == true) {
-                                    //     // DiscountsController
-                                    //     //     .instance.pagingController
-                                    //     //     .refresh();
-                                    //   }
-                                    // });
-                                    break;
-                                  case 1:
-                                    onToggle?.call();
-                                    break;
-                                  case 2:
-                                    await showOkCancelAlertDialog(
-                                            context: context,
-                                            title: 'Delete Promotion',
-                                            message:
-                                                'Are you sure you want to delete this promotion?',
-                                            okLabel: 'Yes, delete',
-                                            cancelLabel: 'Cancel',
-                                            isDestructiveAction: true)
-                                        .then((value) async {
-                                      if (value == OkCancelResult.ok) {
-                                        onDelete?.call();
-                                      }
-                                    });
-                                    break;
-                                }
-                              });
-                            },
-                            icon: const Icon(Icons.more_horiz)),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // if (discount.rule?.description?.isNotEmpty ?? false)
-                        //   Flexible(
-                        //     child: Text(
-                        //       discount.rule?.description ?? '',
-                        //       style: smallTextStyle?.copyWith(color: manatee),
-                        //     ),
-                        //   ),
-                        PromotionTypeLabel(discount: discount),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    Flexible(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // DiscountStatusDot(
-                          //     disabled: discount.isDisabled ?? true),
-                          // Flexible(
-                          //   child: Text(
-                          //     'Redemptions: ${discount.usageCount}',
-                          //     style: smallTextStyle?.copyWith(color: manatee),
-                          //   ),
-                          // ),
+                          Icon(Icons.discount_outlined,
+                              size: 20, color: iconColor ?? manatee),
+                          const SizedBox(width: 6.0),
+                          Flexible(child: Text(discount.code ?? '')),
                         ],
                       ),
                     ),
+                    IconButton(
+                      padding: const EdgeInsets.all(16.0),
+                        onPressed: () async {
+                          await showModalActionSheet<int>(
+                              title: 'Manage discount',
+                              message: discount.code ?? '',
+                              context: context,
+                              actions: <SheetAction<int>>[
+                                // const SheetAction(label: 'Edit', key: 0),
+                                // !discount.isDisabled
+                                //     ? const SheetAction(
+                                //         label: 'Disable', key: 1)
+                                //     : const SheetAction(
+                                //         label: 'Enable', key: 1),
+                                const SheetAction(
+                                    label: 'Delete',
+                                    isDestructiveAction: true,
+                                    key: 2),
+                              ]).then((value) async {
+                            if (value == null) {
+                              return;
+                            }
+                            switch (value) {
+                              case 0:
+                                // await context
+                                //     .pushRoute(AddUpdateDiscountRoute(
+                                //         discount: discount))
+                                //     .then((value) {
+                                //   if (value is bool && value == true) {
+                                //     // DiscountsController
+                                //     //     .instance.pagingController
+                                //     //     .refresh();
+                                //   }
+                                // });
+                                break;
+                              case 1:
+                                onToggle?.call();
+                                break;
+                              case 2:
+                                await showOkCancelAlertDialog(
+                                        context: context,
+                                        title: 'Delete Promotion',
+                                        message:
+                                            'Are you sure you want to delete this promotion?',
+                                        okLabel: 'Yes, delete',
+                                        cancelLabel: 'Cancel',
+                                        isDestructiveAction: true)
+                                    .then((value) async {
+                                  if (value == OkCancelResult.ok) {
+                                    onDelete?.call();
+                                  }
+                                });
+                                break;
+                            }
+                          });
+                        },
+                        icon: const Icon(Icons.more_horiz)),
                   ],
                 ),
-              ),
-            ],
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     // if (discount.rule?.description?.isNotEmpty ?? false)
+                //     //   Flexible(
+                //     //     child: Text(
+                //     //       discount.rule?.description ?? '',
+                //     //       style: smallTextStyle?.copyWith(color: manatee),
+                //     //     ),
+                //     //   ),
+                //   ],
+                // ),
+                // PromotionTypeLabel(discount: discount),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // DiscountStatusDot(
+                      //     disabled: discount.isDisabled ?? true),
+                      // Flexible(
+                      //   child: Text(
+                      //     'Redemptions: ${discount.usageCount}',
+                      //     style: smallTextStyle?.copyWith(color: manatee),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

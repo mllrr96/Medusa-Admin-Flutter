@@ -134,7 +134,7 @@ class AppRouter extends RootStackRouter {
       ]),
 
       AutoRoute(page: MainAppRoute.page, children: [
-        AutoRoute(page: DashboardRoute.page, children: dashboardChildren),
+        AutoRoute(page: DashboardRoute.page, initial: true, children: dashboardChildren),
         AutoRoute(page: PickProductsRoute.page),
         AutoRoute(page: SelectCountryRoute.page),
         AutoRoute(page: PickGroupsRoute.page),

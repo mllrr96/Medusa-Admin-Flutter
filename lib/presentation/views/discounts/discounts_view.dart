@@ -33,6 +33,7 @@ class _DiscountsViewState extends State<DiscountsView> {
   final PagingController<int, Promotion> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
   String loadingDiscountId = '';
+
   bool get loading => loadingDiscountId.isNotEmpty;
   int discountCount = 0;
   late DiscountCrudBloc discountsBloc;
@@ -69,24 +70,22 @@ class _DiscountsViewState extends State<DiscountsView> {
         BlocListener<DiscountCrudBloc, DiscountCrudState>(
           bloc: discountCrudBloc,
           listener: (context, updateDiscountState) {
-            updateDiscountState.mapOrNull(
-              loading: (_) =>
-                  setState(() => loadingDiscountId = _.discountId ?? ''),
-              discount: (_) async {
-                final index = pagingController.itemList
-                    ?.indexWhere((element) => element.id == _.discount.id);
+            updateDiscountState.whenOrNull(
+              loading: (discountId) => setState(() => loadingDiscountId = discountId ?? ''),
+              discount: (discount) async {
+                final index =
+                    pagingController.itemList?.indexWhere((element) => element.id == discount.id);
                 // If for whatever reason we didn't find the discount in the list,
                 // we just reload discounts
                 if (index == -1 || index == null) {
-                  smartRefresherCtrl.headerMode?.value =
-                      RefreshStatus.refreshing;
+                  smartRefresherCtrl.headerMode?.value = RefreshStatus.refreshing;
                 } else {
-                  pagingController.updateItem(_.discount, index);
+                  pagingController.updateItem(discount, index);
                 }
                 setState(() => loadingDiscountId = '');
                 context.showSnackBar('Discount updated successfully');
               },
-              deleted: (_) {
+              deleted: () {
                 context.showSnackBar('Discount deleted successfully');
                 final index = pagingController.itemList
                     ?.indexWhere((element) => element.id == loadingDiscountId);
@@ -101,9 +100,9 @@ class _DiscountsViewState extends State<DiscountsView> {
                   discountCount -= 1;
                 });
               },
-              error: (state) {
+              error: (e) {
                 setState(() => loadingDiscountId = '');
-                context.showSnackBar(state.failure.toSnackBarString());
+                context.showSnackBar(e.toSnackBarString());
               },
             );
           },
@@ -113,20 +112,18 @@ class _DiscountsViewState extends State<DiscountsView> {
           listener: (context, state) {
             state.mapOrNull(
               discounts: (state) async {
-                final isLastPage =
-                    state.discounts.length < DiscountCrudBloc.pageSize;
+                final isLastPage = state.discounts.length < DiscountCrudBloc.pageSize;
                 if (smartRefresherCtrl.isRefresh) {
                   pagingController.removePageRequestListener(_loadPage);
 
-                  pagingController.value = const PagingState(
-                      nextPageKey: null, error: null, itemList: null);
+                  pagingController.value =
+                      const PagingState(nextPageKey: null, error: null, itemList: null);
                   await Future.delayed(const Duration(milliseconds: 250));
                 }
                 if (isLastPage) {
                   pagingController.appendLastPage(state.discounts);
                 } else {
-                  final nextPageKey = pagingController.nextPageKey ??
-                      0 + state.discounts.length;
+                  final nextPageKey = pagingController.nextPageKey ?? 0 + state.discounts.length;
                   pagingController.appendPage(state.discounts, nextPageKey);
                 }
                 setState(() => discountCount = state.count);
@@ -152,8 +149,7 @@ class _DiscountsViewState extends State<DiscountsView> {
             const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SearchFloatingActionButton(
-                    searchCategory: SearchCategory.discounts),
+                SearchFloatingActionButton(searchCategory: SearchCategory.discounts),
                 Gap(4.0),
               ],
             ),
@@ -161,8 +157,7 @@ class _DiscountsViewState extends State<DiscountsView> {
             FloatingActionButton.extended(
               heroTag: UniqueKey(),
               onPressed: () async {
-                final result =
-                    await context.pushRoute(AddUpdateDiscountRoute());
+                final result = await context.pushRoute(AddUpdateDiscountRoute());
                 if (result is Promotion) {
                   pagingController.refresh();
                 }
@@ -175,10 +170,7 @@ class _DiscountsViewState extends State<DiscountsView> {
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
-              title: Text(
-                  discountCount > 0
-                      ? 'Discounts ($discountCount)'
-                      : 'Discounts',
+              title: Text(discountCount > 0 ? 'Discounts ($discountCount)' : 'Discounts',
                   overflow: TextOverflow.ellipsis),
             ),
           ],
@@ -196,19 +188,17 @@ class _DiscountsViewState extends State<DiscountsView> {
                   child: DiscountCard(
                     discount,
                     onTap: () async {
-                      final result = await context
-                          .pushRoute(DiscountDetailsRoute(discount: discount));
+                      final result =
+                          await context.pushRoute(DiscountDetailsRoute(discount: discount));
                       // Discount deleted, reload discounts
                       if (result == true) {
-                        smartRefresherCtrl.headerMode?.value =
-                            RefreshStatus.refreshing;
+                        smartRefresherCtrl.headerMode?.value = RefreshStatus.refreshing;
                       }
                     },
                     onDelete: loading
                         ? null
                         : () async {
-                            discountCrudBloc
-                                .add(DiscountCrudEvent.delete(discount.id));
+                            discountCrudBloc.add(DiscountCrudEvent.delete(discount.id));
                           },
                     onToggle: loading
                         ? null
@@ -216,13 +206,12 @@ class _DiscountsViewState extends State<DiscountsView> {
                             discountCrudBloc.add(DiscountCrudEvent.update(
                                 discount.id,
                                 PostPromotionReq(
-                                  // isDisabled: !discount.isDisabled,
-                                )));
+                                    // isDisabled: !discount.isDisabled,
+                                    )));
                           },
                   ),
                 ),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const DiscountsLoadingPage(),
+                firstPageProgressIndicatorBuilder: (context) => const DiscountsLoadingPage(),
                 noItemsFoundIndicatorBuilder: (_) => Center(
                     child: Text('No discounts yet!\n Tap on + to add discount',
                         style: largeTextStyle, textAlign: TextAlign.center)),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,7 +9,6 @@ import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/core/di/medusa_admin_di.dart';
 import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/domain/use_case/auth/auth_use_case.dart';
@@ -42,27 +42,42 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     Emitter<AuthenticationState> emit,
   ) async {
     emit(const _Loading());
-    await MedusaAdminDi.registerMedusaAdminSingleton();
+    // await MedusaAdminDi.registerMedusaAdminSingleton();
 
     // in case baseUrl is not set or not authenticated (no jwt/cookie/token stored) then go to login page
-    if (authPreferenceService.baseUrl == null
-        // || !authPreferenceService.isAuthenticated
-        ) {
-      // without the delay BlocListener in splash view will be created with the
-      // state loggedOut so it won't navigate to login page since there's no change in the state
-      // this is a bug in flutter_bloc
-      await Future.delayed(500.milliseconds).then((value) => emit(const _LoggedOut()));
-    } else {
-      // final cookie = await flutterSecureStorage.read(key: AppConstants.cookieKey);
-      final result = await authenticationUseCase.getCurrentUser();
-      result.when((user) => emit(_LoggedIn(user)), (error) => emit(_Error(error)));
+    // if (authPreferenceService.baseUrl == null
+    //     // || !authPreferenceService.isAuthenticated
+    //     ) {
+    //   // without the delay BlocListener in splash view will be created with the
+    //   // state loggedOut so it won't navigate to login page since there's no change in the state
+    //   // this is a bug in flutter_bloc
+    //   await Future.delayed(500.milliseconds).then((value) => emit(const _LoggedOut()));
+    // } else {
+    final token = await flutterSecureStorage.read(key: AppConstants.jwtKey);
+    log('TOKEN IS $token');
+    if (token == null) {
+      emit(const _LoggedOut());
+      return;
     }
+    final result = await authenticationUseCase.postSession(token);
+    log('Session user : ${result.tryGetSuccess() != null ? 'OK' : 'ERROR'}');
+    final userResult = await authenticationUseCase.getCurrentUser();
+    log('Current user : ${userResult.tryGetSuccess() != null ? 'OK' : 'ERROR'}');
+    if (userResult.isError() || result.isError()) {
+      authPreferenceService.setIsAuthenticated(false);
+      emit(const _LoggedOut());
+      return;
+    }
+    result.when(
+        (user) => emit(_LoggedIn(userResult.tryGetSuccess()!)), (error) => emit(_Error(error)));
+    // }
   }
 
   Future<void> _onLoginCookie(
     _LogInCookie event,
     Emitter<AuthenticationState> emit,
   ) async {
+    throw UnimplementedError();
     emit(const _Loading());
     if (!await InternetConnection().hasInternetAccess) {
       final e =
@@ -96,10 +111,15 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
     await result.when((token) async {
       await flutterSecureStorage.write(key: AppConstants.jwtKey, value: token);
-      authPreferenceService.setIsAuthenticated(true);
-      authPreferenceService.setEmail(event.email);
+      final sessionUser = await authenticationUseCase.postSession(token);
+      sessionUser.when((user) => log('Session user : ${user.actorId}'),
+          (error) => log('Session error : ${error.message}'));
       final user = await authenticationUseCase.getCurrentUser();
-      user.when((user) => emit(_LoggedIn(user)), (e) => emit(_Error(e)));
+      user.when((user) {
+        authPreferenceService.setIsAuthenticated(true);
+        authPreferenceService.setEmail(event.email);
+        emit(_LoggedIn(user));
+      }, (e) => emit(_Error(e)));
     }, (e) {
       emit(_Error(e));
     });
@@ -116,11 +136,12 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       emit(_Error(e));
       return;
     }
-    final result = await authenticationUseCase.getCurrentUser();
-    result.when((user) {
-      authPreferenceService.setIsAuthenticated(true);
-      emit(_LoggedIn(user));
-    }, (e) => emit(_Error(e)));
+    throw UnimplementedError();
+    // final result = await authenticationUseCase.getCurrentUser(token);
+    // result.when((user) {
+    //   authPreferenceService.setIsAuthenticated(true);
+    //   emit(_LoggedIn(user));
+    // }, (e) => emit(_Error(e)));
   }
 
   Future<void> _logOut(

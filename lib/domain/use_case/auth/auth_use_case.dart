@@ -15,6 +15,8 @@ class AuthenticationUseCase {
   static AuthenticationUseCase get instance => getIt<AuthenticationUseCase>();
 
   AuthRepository get _authenticationRepository => _medusaAdminV2.auth;
+
+  UsersRepository get _usersRepository => _medusaAdminV2.users;
   final MedusaAdminV2 _medusaAdminV2;
 
   Future<Result<String, MedusaError>> login(
@@ -64,9 +66,28 @@ class AuthenticationUseCase {
     }
   }
 
-  Future<Result<User, MedusaError>> getCurrentUser() async {
+  Future<Result<SessionUser, MedusaError>> postSession(String token) async {
     try {
-      final result = await _authenticationRepository.postSession();
+      final result = await _authenticationRepository.postSession('Bearer $token');
+      return Success(result.user);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    }
+  }
+
+  Future<Result<User, MedusaError>> getCurrentUser({String? fields}) async {
+    try {
+      final result = await _usersRepository.retrieveMe(fields: fields);
       return Success(result.user);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(

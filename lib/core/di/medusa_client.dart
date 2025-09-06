@@ -5,5 +5,4 @@
 //
 // @singleton
 // class MedusaClient {
-//   static final MedusaAdminV2 instance = getIt<MedusaAdminV2>();
 // }

@@ -41,8 +41,8 @@ class PersonalInfoTile extends StatelessWidget {
                     radius: 25,
                     child: Text(
                         user?.firstName != null
-                            ? user!.firstName[0].capitalize
-                            : user?.email[0].capitalize ?? '',
+                            ? user!.firstName![0].capitalize
+                            : user?.email?[0].capitalize ?? '',
                         style: largeTextStyle?.copyWith(color: Colors.white)),
                   ),
                   const SizedBox(width: 8.0),

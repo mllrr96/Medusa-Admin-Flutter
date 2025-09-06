@@ -34,7 +34,7 @@ class TeamCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
       child: Row(
         children: [
-          UserRoleLabel(userRole: user.role),
+          // UserRoleLabel(userRole: user.role),
           const Gap(5.0),
           Flexible(
             child: Row(
