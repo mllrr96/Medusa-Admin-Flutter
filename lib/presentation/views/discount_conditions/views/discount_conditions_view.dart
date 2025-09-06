@@ -15,7 +15,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     const space = Gap(12);
-//     final disabledConditions = discountConditionReq?.discountTypes ?? [];
+//     final disabledConditions = discountConditionReq?.discountTypes;
 //     return Scaffold(
 //       appBar: AppBar(
 //         leading: const CloseButton(),

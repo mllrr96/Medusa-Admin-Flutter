@@ -33,7 +33,7 @@ class _OrdersViewState extends State<OrdersView> {
   // OrderFilter? orderFilter;
   void _loadPage(int page) {
     context.read<OrdersBloc>().add(OrdersEvent.loadOrders(queryParameters: {
-          'offset': page == 0 ? 0 : pagingController.itemList?.length ?? 0,
+          'offset': page == 0 ? 0 : pagingController.itemList?.length,
           // ...?orderFilter?.toJson()
         }));
   }
@@ -69,7 +69,7 @@ class _OrdersViewState extends State<OrdersView> {
               pagingController.appendLastPage(state.orders);
             } else {
               final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.orders.length;
+                  pagingController.nextPageKey + state.orders.length;
               pagingController.appendPage(state.orders, nextPageKey);
             }
             if (smartRefresherCtrl.isRefresh) {

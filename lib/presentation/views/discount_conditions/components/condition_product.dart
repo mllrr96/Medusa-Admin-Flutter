@@ -31,7 +31,7 @@
 //   final PagingController<int, Product> pagingController =
 //       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
 //   List<Product> selectedProducts = <Product>[];
-//   List<Product> get disabledProducts => widget.disabledProducts ?? [];
+//   List<Product> get disabledProducts => widget.disabledProducts;
 //
 //   bool get updateMode => disabledProducts.isNotEmpty;
 //   final searchCtrl = TextEditingController();
@@ -40,7 +40,7 @@
 //   void _loadPage(int _) {
 //     productCrudBloc.add(ProductCrudEvent.loadAll(queryParameters: {
 //       'is_giftcard': false,
-//       'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+//       'offset': _ == 0 ? 0 : pagingController.itemList?.length,
 //     }));
 //   }
 //
@@ -72,7 +72,7 @@
 //               pagingController.appendLastPage(state.products);
 //             } else {
 //               final nextPageKey =
-//                   pagingController.nextPageKey ?? 0 + state.products.length;
+//                   pagingController.nextPageKey + state.products.length;
 //               pagingController.appendPage(state.products, nextPageKey);
 //             }
 //           },

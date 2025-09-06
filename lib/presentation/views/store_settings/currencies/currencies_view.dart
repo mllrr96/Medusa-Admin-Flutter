@@ -40,7 +40,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
     //   context.read<StoreBloc>().add(const StoreEvent.loadStore());
     //   context.maybePop();
     // }
-    // currencies = store?.currencies ?? [];
+    // currencies = store?.currencies;
     // defaultStoreCurrency = store?.defaultCurrency;
     super.initState();
   }
@@ -265,7 +265,7 @@ class _AllCurrenciesViewState extends State<AllCurrenciesView> {
 
   void _loadPage(int pageKey) {
     currenciesCubit.loadAll(queryParameters: {
-      'offset': pagingController.itemList?.length ?? 0,
+      'offset': pagingController.itemList?.length,
     });
   }
 

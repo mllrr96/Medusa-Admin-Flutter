@@ -32,7 +32,7 @@
 //       DiscountConditionOperator.inn;
 //   final PagingController<int, CustomerGroup> pagingController =
 //       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
-//   List<CustomerGroup> get disabledGroups => widget.disabledGroups ?? [];
+//   List<CustomerGroup> get disabledGroups => widget.disabledGroups;
 //   bool get updateMode => disabledGroups.isNotEmpty;
 //   final searchCtrl = TextEditingController();
 //   String searchTerm = '';
@@ -40,7 +40,7 @@
 //   void _loadPage(int pageKey) {
 //     groupCrudBloc.add(GroupCrudEvent.loadAll(
 //       queryParameters: {
-//         'offset': pagingController.itemList?.length ?? 0,
+//         'offset': pagingController.itemList?.length,
 //         if (searchTerm.isNotEmpty) 'q': searchTerm,
 //       },
 //     ));
@@ -73,7 +73,7 @@
 //               pagingController.appendLastPage(state.groups);
 //             } else {
 //               final nextPageKey =
-//                   pagingController.nextPageKey ?? 0 + state.groups.length;
+//                   pagingController.nextPageKey + state.groups.length;
 //               pagingController.appendPage(state.groups, nextPageKey);
 //             }
 //           },

@@ -392,7 +392,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
 
   void _search(int _) {
     Map<String, dynamic> queryParameters = {
-      'offset': widget.controller.itemList?.length ?? 0,
+      'offset': widget.controller.itemList?.length,
       'limit': SearchBloc.pageSize,
       'q': widget.searchCtrl.text,
     };

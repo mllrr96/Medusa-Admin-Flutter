@@ -17,7 +17,7 @@ class ConditionCustomerGroupTile extends StatelessWidget {
       enabled: enabled,
       controlAffinity: ListTileControlAffinity.trailing,
       title: Text(customerGroup.name ?? '', style: mediumTextStyle),
-      subtitle: Text('Members: ${customerGroup.customers?.length ?? 0}', style: smallTextStyle),
+      subtitle: Text('Members: ${customerGroup.customers?.length}', style: smallTextStyle),
       value: value,
       onChanged: onChanged,
     );

@@ -94,7 +94,7 @@
 //     final result = await regionsUseCase.loadAll();
 //
 //     result.when(
-//         (success) => change(success.regions ?? [], status: RxStatus.success()),
+//         (success) => change(success.regions, status: RxStatus.success()),
 //         (error) => change(null, status: RxStatus.error(error.message)));
 //   }
 // }

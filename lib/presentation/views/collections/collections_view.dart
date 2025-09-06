@@ -34,7 +34,7 @@ class _CollectionsViewState extends State<CollectionsView> {
   void _loadPage(int _) {
     collectionCrudBloc.add(CollectionCrudEvent.loadAll(
         queryParameters: {
-          'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+          'offset': _ == 0 ? 0 : pagingController.itemList?.length,
         }
     ));
   }
@@ -116,7 +116,7 @@ class _CollectionsViewState extends State<CollectionsView> {
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
                 final collectionsCount = collectionCrudBloc.state
-                    .mapOrNull(collections: (state) => state.count) ?? 0;
+                    .mapOrNull(collections: (state) => state.count);
                 return Text(
                     collectionsCount != 0
                         ? 'Collections ($collectionsCount)'

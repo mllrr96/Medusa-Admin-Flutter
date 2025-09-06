@@ -31,7 +31,7 @@ class _SalesChannelsViewState extends State<SalesChannelsView> {
   void _loadPage(int _) {
     salesChannelCrudBloc.add(
       SalesChannelCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
       }),
     );
   }

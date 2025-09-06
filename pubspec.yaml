@@ -95,7 +95,9 @@ dependencies:
       ref: main
 
   medusa_admin_dart_client:
-    path: ../medusa_admin_dart_client_v2
+    git:
+      url: https://github.com/mllrr96/medusa_admin_dart_client_v2.git
+      ref: main
 
   share_plus: ^11.0.0
   file_picker: ^10.1.9

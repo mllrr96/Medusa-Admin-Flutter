@@ -33,7 +33,7 @@
 //   void _loadPage(int _) {
 //     batchJobCrudBloc.add(
 //       BatchJobCrudEvent.loadAll(queryParameters: {
-//         'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+//         'offset': _ == 0 ? 0 : pagingController.itemList?.length,
 //       }),
 //     );
 //   }
@@ -73,7 +73,7 @@
 //               pagingController.appendLastPage(state.batchJobs);
 //             } else {
 //               final nextPageKey =
-//                   pagingController.nextPageKey ?? 0 + state.batchJobs.length;
+//                   pagingController.nextPageKey + state.batchJobs.length;
 //               pagingController.appendPage(state.batchJobs, nextPageKey);
 //             }
 //             if (refreshController.isRefresh) {

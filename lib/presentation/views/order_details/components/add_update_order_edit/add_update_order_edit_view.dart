@@ -207,7 +207,7 @@
 //   Widget build(BuildContext context) {
 //     final tr = context.tr;
 //     final currencyCode = order.currencyCode;
-//     final differenceDue = orderEdit.differenceDue ?? 0;
+//     final differenceDue = orderEdit.differenceDue;
 //     Map<String, int> addedItems = {};
 //     List<LineItem> lineItems = List<LineItem>.from(orderEdit.items!);
 //     lineItems.sort((a, b) => a.id.compareTo(b.id));
@@ -337,8 +337,8 @@
 //                         ),
 //                         Padding(
 //                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-//                           child: Text(((item.quantity ?? 0) +
-//                                   (addedItems[item.id] ?? 0))
+//                           child: Text(((item.quantity) +
+//                                   (addedItems[item.id]))
 //                               .toString()),
 //                         ),
 //                         IconButton(
@@ -385,7 +385,7 @@
 //                 children: [
 //                   Text(tr.editNewTotal, style: context.headlineMedium),
 //                   Text(
-//                       ((orderEdit.total ?? 0) + differenceDue)
+//                       ((orderEdit.total) + differenceDue)
 //                           .formatAsPrice(currencyCode),
 //                       style: context.headlineMedium),
 //                 ],

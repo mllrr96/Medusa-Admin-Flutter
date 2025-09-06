@@ -413,7 +413,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                             //       product: product, prices: priceList.prices),
                             // );
                             // if (result is List<MoneyAmount>) {
-                            //   final originalPrices = priceList.prices ?? [];
+                            //   final originalPrices = priceList.prices;
                             //   priceList = priceList.copyWith(prices: result + originalPrices);
                             //   // update([3]);
                             //   setState(() {});

@@ -46,7 +46,7 @@
 //
 //   @override
 //   void initState() {
-//     refunds = widget.order.refunds ?? [];
+//     refunds = widget.order.refunds;
 //     noteCrudBloc = NoteCrudBloc.instance;
 //     orderEditCrudBloc = OrderEditCrudBloc.instance;
 //     notificationBloc = NotificationBloc.instance;

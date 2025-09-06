@@ -45,7 +45,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
   List<String> selectedProducts = [];
   void _loadPage(int _) {
     Map<String, dynamic> queryParameters = {
-      'offset': pagingController.itemList?.length ?? 0,
+      'offset': pagingController.itemList?.length,
       'sales_channel_id': [salesChannel.id, ''],
       'expand': 'collection,type,sales_channels',
       'fields': 'id,title,thumbnail,status',
@@ -218,7 +218,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                     child: Ink(
                       decoration: BoxDecoration(
                         border: Border.all(
-                            color: (productFilter?.count() ?? 0) != 0
+                            color: (productFilter?.count()) != 0
                                 ? ColorManager.primary
                                 : Colors.transparent),
                         color: Theme.of(context).scaffoldBackgroundColor,

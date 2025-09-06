@@ -47,7 +47,7 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
   void _loadPage(int _) {
     productCrudBloc.add(ProductCrudEvent.loadAll(queryParameters: {
       'is_giftcard': true,
-      'offset': pagingController.itemList?.length ?? 0,
+      'offset': pagingController.itemList?.length,
     }));
   }
 

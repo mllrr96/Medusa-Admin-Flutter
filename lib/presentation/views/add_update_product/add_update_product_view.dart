@@ -126,7 +126,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
               },
               uploaded: (state) {
                 // dismissLoading();
-                // final newImages = List<ImageData>.from(product?.images ?? []);
+                // final newImages = List<ImageData>.from(product?.images);
                 // for (var url in state.urls) {
                 //   newImages.add(ImageData(url: url));
                 // }

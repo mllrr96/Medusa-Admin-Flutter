@@ -27,7 +27,7 @@ class _PricingViewState extends State<PricingView> {
 
   void _loadPage(int _) {
     pricingCrudBloc.add(PricingCrudEvent.loadAll(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': _ == 0 ? 0 : pagingController.itemList?.length,
     }));
   }
 

@@ -40,7 +40,7 @@ class _DiscountsViewState extends State<DiscountsView> {
 
   Future<void> _loadPage(int pageKey) async {
     discountsBloc.add(DiscountCrudEvent.loadAll(queryParameters: {
-      'offset': pageKey == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': pageKey == 0 ? 0 : pagingController.itemList?.length,
     }));
   }
 
@@ -103,7 +103,7 @@ class _DiscountsViewState extends State<DiscountsView> {
               },
               error: (state) {
                 setState(() => loadingDiscountId = '');
-                context.showSnackBar(state.failure.message);
+                context.showSnackBar(state.failure.toSnackBarString());
               },
             );
           },
@@ -134,7 +134,7 @@ class _DiscountsViewState extends State<DiscountsView> {
               },
               loading: (_) {},
               error: (state) {
-                context.showSnackBar(state.failure.message);
+                context.showSnackBar(state.failure.toSnackBarString());
                 smartRefresherCtrl.refreshFailed();
               },
             );

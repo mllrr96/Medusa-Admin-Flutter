@@ -45,7 +45,7 @@ class _GroupsViewState extends State<GroupsView> {
   void _loadPage(int _) {
     groupCrudBloc.add(GroupCrudEvent.loadAll(
       queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
       }
     ));
   }
@@ -127,7 +127,7 @@ class _GroupsViewState extends State<GroupsView> {
                 MedusaSliverAppBar(
                   title: Builder(builder: (context) {
                     final groupsCount = groupCrudBloc.state
-                        .mapOrNull(groups: (state) => state.count) ?? 0;
+                        .mapOrNull(groups: (state) => state.count);
                     return Text(
                         groupsCount != 0 ? 'Groups ($groupsCount)' : 'Groups',
                         overflow: TextOverflow.ellipsis);

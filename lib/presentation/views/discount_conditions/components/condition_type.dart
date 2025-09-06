@@ -34,13 +34,13 @@
 //   bool get updateMode => disabledTypes.isNotEmpty;
 //   final searchCtrl = TextEditingController();
 //   String searchTerm = '';
-//   List<ProductType> get disabledTypes => widget.disabledTypes ?? [];
+//   List<ProductType> get disabledTypes => widget.disabledTypes;
 //   final int _pageSize = 20;
 //
 //   void _loadPage(int pageKey) {
 //     typesCubit.load(
 //       queryParameters: {
-//         'offset': pagingController.itemList?.length ?? 0,
+//         'offset': pagingController.itemList?.length,
 //         'limit': _pageSize,
 //         if (searchTerm.isNotEmpty) 'q': searchTerm,
 //       },
@@ -82,7 +82,7 @@
 //                 pagingController.appendLastPage(types);
 //               } else {
 //                 final nextPageKey =
-//                     pagingController.nextPageKey ?? 0 + types.length;
+//                     pagingController.nextPageKey + types.length;
 //                 pagingController.appendPage(types, nextPageKey);
 //               }
 //               refreshController.refreshCompleted();

@@ -42,7 +42,7 @@ class GiftCardCrudBloc extends Bloc<GiftCardCrudEvent, GiftCardCrudState> {
       ...?event.queryParameters,
     });
     result.when((success) {
-      emit(_GiftCards(success.giftCards ?? [], success.count ?? 0));
+      emit(_GiftCards(success.giftCards, success.count));
     }, (error) {
       emit(_Error(error));
     });

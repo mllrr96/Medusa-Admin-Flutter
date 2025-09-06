@@ -144,7 +144,7 @@
 //                                     }
 //
 //                                     orderFilter.orderDateFilter.number =
-//                                         int.tryParse(numberCtrl.text) ?? 0;
+//                                         int.tryParse(numberCtrl.text);
 //                                     widget.onSubmitted?.call(orderFilter);
 //                                     context.maybePop();
 //                                   },

@@ -38,7 +38,7 @@
 //                       // final result = await Get.toNamed(Routes.PICK_PRODUCT_VARIANTS,
 //                       //     arguments: SelectProductsReq(selectedProducts: controller.selectedProducts));
 //                       // if (result is SelectProductsRes) {
-//                       //   controller.selectedProducts = result.selectedProductVariants ?? [];
+//                       //   controller.selectedProducts = result.selectedProductVariants;
 //                       //   controller.update([0, 1]);
 //                       // }
 //                     },

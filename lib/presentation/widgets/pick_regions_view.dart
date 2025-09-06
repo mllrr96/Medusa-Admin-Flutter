@@ -32,7 +32,7 @@ class _PickRegionsViewState extends State<PickRegionsView> {
   void _loadPage(int _) {
     regionCrudBloc.add(
       RegionCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
       }),
     );
   }

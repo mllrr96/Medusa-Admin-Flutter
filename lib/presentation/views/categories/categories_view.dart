@@ -26,7 +26,7 @@ class _CategoriesViewState extends State<CategoriesView> {
   void _loadPage(int _) {
     categoryCrudBloc.add(
       CategoryCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
       }),
     );
   }

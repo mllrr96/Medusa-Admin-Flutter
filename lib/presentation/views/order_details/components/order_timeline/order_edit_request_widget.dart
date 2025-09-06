@@ -195,8 +195,8 @@
 //                               itemBuilder: (context, index) {
 //                                 final item = addedItems[index];
 //                                 int quantityAdded =
-//                                     (item.lineItem?.quantity ?? 0) -
-//                                         (item.originalLineItem?.quantity ?? 0);
+//                                     (item.lineItem?.quantity) -
+//                                         (item.originalLineItem?.quantity);
 //                                 String quantityAddedString =
 //                                     quantityAdded != 1 && quantityAdded != 0
 //                                         ? '${quantityAdded}x '
@@ -278,7 +278,7 @@
 //                               itemBuilder: (context, index) {
 //                                 final item =
 //                                     removedItems[index].originalLineItem;
-//                                 int quantityRemoved = (item?.quantity ?? 0) -
+//                                 int quantityRemoved = (item?.quantity) -
 //                                     (removedItems[index].lineItem?.quantity ??
 //                                         0);
 //                                 String quantityRemovedString =

@@ -68,7 +68,7 @@ class PricingCrudBloc extends Bloc<PricingCrudEvent, PricingCrudState> {
   //   final result = await priceListCrudUseCase.fetchProducts(id: event.id);
   //   result.when(
   //       (success) =>
-  //           emit(_Products(success., success.count ?? 0)),
+  //           emit(_Products(success., success.count)),
   //       (error) => emit(_Error(error)));
   // }
 

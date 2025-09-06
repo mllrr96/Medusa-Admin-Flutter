@@ -51,7 +51,7 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
   @override
   void initState() {
     // if (widget.discount != null) {
-    //   selectedRegions = widget.discount!.regions ?? [];
+    //   selectedRegions = widget.discount!.regions;
     //   regionCtrl.text = selectedRegions
     //       .map((e) => e.name)
     //       .toList()

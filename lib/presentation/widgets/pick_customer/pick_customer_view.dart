@@ -32,7 +32,7 @@ class _PickCustomerViewState extends State<PickCustomerView> {
   void _loadPage(int _) {
     customerCrudBloc.add(
       CustomerCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
         'q': searchCtrl.text,
       }),
     );

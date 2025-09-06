@@ -23,7 +23,7 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
   @override
   void initState() {
     // for (var e in widget.order.items) {
-    //   if ((e.quantity - (e.fulfilledQuantity ?? 0)) != 0) {
+    //   if ((e.quantity - (e.fulfilledQuantity)) != 0) {
     //     lineItemCount.addAll({e.id: e.quantity});
     //     items.add(e);
     //   }

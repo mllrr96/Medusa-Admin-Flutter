@@ -54,7 +54,7 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
     giftCardBloc.add(
       GiftCardCrudEvent.loadAll(
         queryParameters: {
-          'offset': pagingController.itemList?.length ?? 0,
+          'offset': pagingController.itemList?.length,
         },
       ),
     );

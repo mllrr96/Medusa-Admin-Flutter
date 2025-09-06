@@ -45,7 +45,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
   void _loadPage(int _) {
     taxBloc.add(
       TaxCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
       }),
     );
   }
@@ -217,7 +217,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                             error: (error) => Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(error.failure.message),
+                                    Text(error.failure.toSnackBarString()),
                                     const Gap(6.0),
                                     TextButton(
                                         onPressed: () {

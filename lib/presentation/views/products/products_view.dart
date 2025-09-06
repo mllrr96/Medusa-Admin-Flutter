@@ -46,7 +46,7 @@ class _ProductsViewState extends State<ProductsView> {
     context.read<ProductCrudBloc>().add(ProductCrudEvent.loadAll(queryParameters: {
           'order': sortOptions.map(),
           'is_giftcard': false,
-          'offset': page == 0 ? 0 : pagingController.itemList?.length ?? 0,
+          'offset': page == 0 ? 0 : pagingController.itemList?.length,
           ...?productFilter?.toJson()
         }));
   }

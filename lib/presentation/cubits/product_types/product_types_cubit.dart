@@ -18,7 +18,7 @@ class ProductTypesCubit extends Cubit<ProductTypesState> {
     final result = await productTypeUseCase(queryParameters: queryParameters);
     result.when(
         (success) =>
-            emit(_Types(success.productTypes ?? [], success.count ?? 0)),
+            emit(_Types(success.productTypes, success.count)),
         (error) => emit(_Error(error)));
   }
 

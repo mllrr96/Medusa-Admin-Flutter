@@ -37,7 +37,7 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
 
   void _loadPage(int page) {
     ordersBloc.add(OrdersEvent.loadOrders(queryParameters: {
-      'offset': page == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': page == 0 ? 0 : pagingController.itemList?.length,
       'customer_id': widget.customerId,
     }));
   }

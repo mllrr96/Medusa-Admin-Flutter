@@ -178,7 +178,7 @@
 //                           .replaceAll(RegExp('[^0-9]'), ''));
 //                       prices.add(
 //                         MoneyAmount(
-//                             amount: amount ?? 0,
+//                             amount: amount,
 //                             variantId: element.variantId,
 //                             currencyCode: element.currencyCode,
 //                             variant: variants

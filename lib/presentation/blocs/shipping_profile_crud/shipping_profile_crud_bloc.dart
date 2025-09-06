@@ -35,7 +35,7 @@ class ShippingProfileCrudBloc
     final result = await _useCase.loadAll(queryParams: event.queryParameters);
     result.when(
         (response) => emit(_ShippingProfiles(
-            response.shippingProfiles ?? [], response.count ?? 0)),
+            response.shippingProfiles, response.count)),
         (error) => emit(_Error(error)));
   }
 

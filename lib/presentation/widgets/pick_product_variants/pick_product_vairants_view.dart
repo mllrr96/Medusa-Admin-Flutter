@@ -37,7 +37,7 @@ class _PickProductVariantsViewState extends State<PickProductVariantsView> {
   void _loadPage(int pageKey) {
     productVariantsCubit.retrieveProductVariants(
       queryParameters: {
-        'offset': pagingController.itemList?.length ?? 0,
+        'offset': pagingController.itemList?.length,
       },
     );
   }

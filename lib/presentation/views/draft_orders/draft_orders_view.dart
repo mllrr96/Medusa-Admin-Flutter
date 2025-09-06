@@ -32,7 +32,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
   void _loadPage(int pageKey) {
     draftOrderCrudBloc.add(DraftOrderCrudEvent.loadAll(
       queryParameters: {
-        'offset': pageKey == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': pageKey == 0 ? 0 : pagingController.itemList?.length,
       },
     ));
   }

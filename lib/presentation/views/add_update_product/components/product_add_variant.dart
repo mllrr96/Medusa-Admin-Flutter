@@ -671,7 +671,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
         options: variantOptions,
         manageInventory: manageInventory,
         allowBackorder: allowBackorder,
-        inventoryQuantity: int.tryParse(quantityCtrl.text) ?? 0,
+        inventoryQuantity: int.tryParse(quantityCtrl.text),
         weight: int.tryParse(weightCtrl.text),
         length: int.tryParse(lengthCtrl.text),
         height: int.tryParse(heightCtrl.text),

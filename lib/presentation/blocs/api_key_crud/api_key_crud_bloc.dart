@@ -96,7 +96,7 @@ class ApiKeyCrudBloc extends Bloc<ApiKeyCrudEvent, ApiKeyCrudState> {
     //     queryParameters: event.queryParameters);
     // result.when(
     //     (success) => emit(_ApiKeySalesChannels(
-    //         success.salesChannels ?? [], success.count ?? 0)),
+    //         success.salesChannels, success.count)),
     //     (error) => emit(_Error(error)));
   }
 

@@ -35,7 +35,7 @@ class _PickProductsViewState extends State<PickProductsView> {
   void _loadPage(int page) {
     productsBloc.add(ProductCrudEvent.loadAll(queryParameters: {
       'is_giftcard': false,
-      'offset': page == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': page == 0 ? 0 : pagingController.itemList?.length,
     }));
   }
 

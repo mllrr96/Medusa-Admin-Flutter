@@ -31,7 +31,7 @@
 //   final PagingController<int, ProductTag> pagingController =
 //       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
 //   final int _pageSize = 20;
-//   List<ProductTag> get disabledTags => widget.disabledTags ?? [];
+//   List<ProductTag> get disabledTags => widget.disabledTags;
 //   final searchCtrl = TextEditingController();
 //   String searchTerm = '';
 //   bool get updateMode => disabledTags.isNotEmpty;
@@ -39,7 +39,7 @@
 //   void _loadPage(int pageKey) {
 //     tagsCubit.fetchTags(
 //       queryParameters: {
-//         'offset': pagingController.itemList?.length ?? 0,
+//         'offset': pagingController.itemList?.length,
 //         'limit': _pageSize,
 //         if (searchTerm.isNotEmpty) 'q': searchTerm
 //       },
@@ -74,7 +74,7 @@
 //               pagingController.appendLastPage(tags);
 //             } else {
 //               final nextPageKey =
-//                   pagingController.nextPageKey ?? 0 + tags.length;
+//                   pagingController.nextPageKey + tags.length;
 //               pagingController.appendPage(tags, nextPageKey);
 //             }
 //           },

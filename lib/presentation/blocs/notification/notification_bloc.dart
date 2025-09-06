@@ -26,7 +26,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         await _useCase.loadAll(queryParameters: event.queryParameters);
     result.when(
         (response) => emit(
-            _Notifications(response.notifications ?? [], response.count ?? 0)),
+            _Notifications(response.notifications, response.count)),
         (error) => emit(_Error(error)));
   }
 

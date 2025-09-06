@@ -32,7 +32,7 @@
 //   final PagingController<int, ProductCollection> pagingController =
 //       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
 //   List<ProductCollection> get disabledCollections =>
-//       widget.disabledCollections ?? [];
+//       widget.disabledCollections;
 //   bool get updateMode => disabledCollections.isNotEmpty;
 //   final searchCtrl = TextEditingController();
 //   String searchTerm = '';
@@ -40,7 +40,7 @@
 //   void _loadPage(int pageKey) {
 //     collectionCrudBloc.add(CollectionCrudEvent.loadAll(
 //       queryParameters: {
-//         'offset': pagingController.itemList?.length ?? 0,
+//         'offset': pagingController.itemList?.length,
 //         if (searchTerm.isNotEmpty) 'q': searchTerm,
 //       },
 //     ));
@@ -74,7 +74,7 @@
 //               pagingController.appendLastPage(state.collections);
 //             } else {
 //               final nextPageKey =
-//                   pagingController.nextPageKey ?? 0 + state.collections.length;
+//                   pagingController.nextPageKey + state.collections.length;
 //               pagingController.appendPage(state.collections, nextPageKey);
 //             }
 //           },

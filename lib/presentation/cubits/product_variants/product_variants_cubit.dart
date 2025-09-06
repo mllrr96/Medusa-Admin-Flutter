@@ -24,7 +24,7 @@ class ProductVariantsCubit extends Cubit<ProductVariantsState> {
     });
     result.when(
       (success) {
-        emit(_Variants(success.variants ?? [], success.count ?? 0));
+        emit(_Variants(success.variants, success.count));
       },
       (error) {
         emit(_Error(error));

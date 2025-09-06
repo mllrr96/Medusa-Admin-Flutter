@@ -39,7 +39,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
         // );
     result.when((ordersResponse) {
-      emit(_Orders(ordersResponse.orders, ordersResponse.count.toInt() ?? 0));
+      emit(_Orders(ordersResponse.orders, ordersResponse.count.toInt()));
     }, (error) {
       emit(_Error(error));
     });

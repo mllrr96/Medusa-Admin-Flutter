@@ -95,7 +95,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                 ),
                 error: (e) => Column(
                   children: [
-                    Center(child: Text(e.failure.message)),
+                    Center(child: Text(e.failure.toSnackBarString())),
                     const SizedBox(height: 8.0),
                     ElevatedButton(
                         onPressed: () => userBloc.add(const UserCrudEvent.loadCurrentUser()),
