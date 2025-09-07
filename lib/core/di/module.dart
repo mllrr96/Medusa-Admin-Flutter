@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,13 +26,11 @@ abstract class RegisterCoreDependencies {
   Future<PackageInfo> get packageInfo => PackageInfo.fromPlatform();
 
   @singleton
-  MedusaAdminV2 get client => MedusaAdminV2.initialize(
-        baseUrl: 'http://192.168.0.108:9000',
-    interceptors: [
-          MedusaAdminDi.loggerInterceptor,
-          MedusaAdminDi.authInterceptor,
-    ]
-      );
+  MedusaAdminV2 get client =>
+      MedusaAdminV2.initialize(baseUrl: AuthPreferenceService.baseUrlGetter, interceptors: [
+        MedusaAdminDi.loggerInterceptor,
+        MedusaAdminDi.authInterceptor,
+      ]);
 }
 
 AndroidOptions _getAndroidOptions() => const AndroidOptions();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'presentation/blocs/collection_crud/collection_crud_bloc.dart';
 import 'presentation/blocs/group_crud/group_crud_bloc.dart';
 import 'presentation/blocs/search/search_bloc.dart';
@@ -34,9 +35,9 @@ class CustomMultiBlocProvider extends StatelessWidget {
         create: (_) => AppUpdateBloc.instance,
         lazy: false,
       ),
-      // BlocProvider<StoreBloc>(
-      //   create: (_) => StoreBloc.instance..add(const StoreEvent.loadStore()),
-      // ),
+      BlocProvider<StoreBloc>(
+        create: (_) => StoreBloc.instance..add(StoreEvent.loadStores(null)),
+      ),
       BlocProvider<ResetPasswordCubit>(
         create: (_) => ResetPasswordCubit.instance,
       ),

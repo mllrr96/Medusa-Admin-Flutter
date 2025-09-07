@@ -31,7 +31,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     final result = await productCrudUseCase.fetchProduct(
       event.id,
       queryParameters: {
-        'expand': 'images,options,variants,collection,tags,sales_channels,options.values'
+        'fields': 'images,options,variants,collection,tags,sales_channels,options.values'
       },
     );
     result.when((product) {
@@ -66,12 +66,12 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     emit(_Loading(id: event.id));
     final result = await productCrudUseCase.fetchVariants(
       event.id,
-      queryParameters: {
-        'expand': 'options,prices',
-      },
+      // queryParameters: {
+      //   'expand': 'options,prices',
+      // },
     );
-    result.when((product) {
-      emit(_ProductVariants(product));
+    result.when((result) {
+      emit(_ProductVariants(result.variants));
     }, (error) {
       emit(_Error(error));
     });

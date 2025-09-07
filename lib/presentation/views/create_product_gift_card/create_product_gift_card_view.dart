@@ -235,7 +235,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
     return BlocBuilder<StoreBloc, StoreState>(
       builder: (context, state) {
         List<Currency>? currencies =
-            state.mapOrNull(store: (_) => _.store.supportedCurrencies.map((c)=> c.currency).toList());
+            state.whenOrNull(store: (store) => store.supportedCurrencies?.map((c)=> c.currency).toList());
         Currency? selectedCurrency = (currencies?.isNotEmpty ?? false)
             ? currencies?.firstOrNull
             : const Currency(code: 'usd', symbol: '', symbolNative: '', name: '');

@@ -61,7 +61,7 @@ class ProductCrudUseCase {
     }
   }
 
-  Future<Result<List<ProductVariant>, MedusaError>> fetchVariants(
+  Future<Result<ProductVariantsRes, MedusaError>> fetchVariants(
     String id, {
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -75,10 +75,10 @@ class ProductCrudUseCase {
         cause: e,
       ));
     } catch (error, stack) {
-      if (kDebugMode) {
+      // if (kDebugMode) {
         log(error.toString());
         log(stack.toString());
-      }
+      // }
       return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }

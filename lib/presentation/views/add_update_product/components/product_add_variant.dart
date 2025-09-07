@@ -231,7 +231,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(currentOption.title,
+                                          Text(currentOption.title?? '',
                                               style: mediumTextStyle),
                                           Text(' *',
                                               style: mediumTextStyle?.copyWith(
@@ -334,8 +334,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                      currency.code
-                                                              .toUpperCase() ??
+                                                      currency.code?.toUpperCase() ??
                                                           '',
                                                       style: mediumTextStyle),
                                                   space,
@@ -660,7 +659,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
       prices.add(MoneyAmount(
         amount:
             int.tryParse(value.text.replaceAll(',', '').replaceAll('.', '')) ?? 0,
-        currencyCode: key.code, id: '',
+        currencyCode: key.code!, id: '',
       ));
     });
 

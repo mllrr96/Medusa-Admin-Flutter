@@ -16,6 +16,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
 import 'easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -161,17 +162,17 @@ class _AppDrawerState extends State<AppDrawer> {
                               );
                             },
                           ),
-                          // BlocBuilder<StoreBloc, StoreState>(
-                          //   builder: (context, state) {
-                          //     final storeName = state.mapOrNull(
-                          //         loaded: (r) => r.store.name);
-                          //     return Flexible(
-                          //       child: Text(storeName ?? '',
-                          //           style: context.bodyLarge,
-                          //           overflow: TextOverflow.ellipsis),
-                          //     );
-                          //   },
-                          // ),
+                          BlocBuilder<StoreBloc, StoreState>(
+                            builder: (context, state) {
+                              final storeName = state.mapOrNull(
+                                  stores: (r) => r.response.stores.firstOrNull?.name);
+                              return Flexible(
+                                child: Text(storeName ?? '',
+                                    style: context.bodyLarge,
+                                    overflow: TextOverflow.ellipsis),
+                              );
+                            },
+                          ),
                           const Padding(
                             padding: EdgeInsets.all(16.0),
                             child: SizedBox(),

@@ -139,7 +139,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                       regionCrudBloc.add(RegionCrudEvent.create(
                         CreateRegionReq(
                           name: titleCtrl.text,
-                          currencyCode: selectedCurrency!.code,
+                          currencyCode: selectedCurrency!.code!,
                           // taxRate: double.parse(defaultTaxRateCtrl.text),
                           paymentProviders: selectedPaymentProviders,
                           // fulfillmentProviders: [],
@@ -207,7 +207,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                             },
                             items: currencies
                                 ?.map((e) => DropdownMenuItem(
-                                    value: e, child: Text(e.name)))
+                                    value: e, child: Text(e.name ?? '')))
                                 .toList(),
                             hint: const Text('Choose currency'),
                             initialValue: selectedCurrency,
