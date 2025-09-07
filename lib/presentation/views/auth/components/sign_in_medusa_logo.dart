@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class SignInMedusaLogo extends StatefulWidget {
   const SignInMedusaLogo({super.key, this.rotate = false});
+
   final bool rotate;
 
   @override
   State<SignInMedusaLogo> createState() => _SignInMedusaLogoState();
 }
 
-class _SignInMedusaLogoState extends State<SignInMedusaLogo>
-    with TickerProviderStateMixin {
+class _SignInMedusaLogoState extends State<SignInMedusaLogo> with TickerProviderStateMixin {
   // Create a controller
   late AnimationController _controller;
 
@@ -36,7 +38,7 @@ class _SignInMedusaLogoState extends State<SignInMedusaLogo>
 
   @override
   void didUpdateWidget(covariant SignInMedusaLogo oldWidget) {
-    if(oldWidget.rotate != widget.rotate) {
+    if (oldWidget.rotate != widget.rotate) {
       if (widget.rotate) {
         _controller.repeat();
       } else {
@@ -57,10 +59,19 @@ class _SignInMedusaLogoState extends State<SignInMedusaLogo>
   Widget build(BuildContext context) {
     return RotationTransition(
       turns: _animation,
-      child: Image.asset(
-        'assets/images/medusa.png',
-        scale: 5,
+      child: SvgPicture.asset(
+        context.isDark
+            ? 'assets/images/medusa-logo-light.svg'
+            : 'assets/images/medusa-logo-dark.svg',
+        // width: 150,
+        height: 180,
       ),
+      // Image.asset(
+      //   context.isDark
+      //       ? 'assets/images/medusa-icon-light.png'
+      //       : 'assets/images/medusa-icon-dark.png',
+      //   // scale: 5,
+      // ),
     );
   }
 }
