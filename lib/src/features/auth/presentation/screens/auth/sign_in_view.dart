@@ -1,0 +1,403 @@
+import 'dart:async';
+import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';import 'package:medusa_admin/src/core/extensions/locale_extension.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';import 'package:medusa_admin/src/core/extensions/theme_mode_extension.dart';
+import 'package:medusa_admin/src/core/routing/app_router.dart';
+import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
+import 'package:medusa_admin/src/features/app_settings/presentation/bloc/app_update/app_update_bloc.dart';
+import 'package:medusa_admin/src/features/app_settings/presentation/cubits/language/language_cubit.dart';
+import 'package:medusa_admin/src/features/app_settings/presentation/cubits/theme/theme_cubit.dart';
+import 'package:medusa_admin/src/features/app_settings/presentation/widgets/language_selection/language_selection_view.dart';
+import 'package:medusa_admin/src/features/auth/data/service/auth_preference_service.dart';
+import 'package:medusa_admin/src/features/auth/presentation/bloc/authentication/authentication_bloc.dart';
+import 'package:medusa_admin/src/features/auth/presentation/widgets/email_text_field.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/utils/enums.dart';
+
+import 'components/index.dart';
+
+@RoutePage()
+class SignInView extends StatefulWidget {
+  const SignInView({super.key, this.onResult});
+
+  final void Function(bool)? onResult;
+
+  @override
+  State<SignInView> createState() => _SignInViewState();
+}
+
+class _SignInViewState extends State<SignInView> {
+  final formKey = GlobalKey<FormState>();
+  final emailCtrl = TextEditingController(text: '1@1.com');
+  final passwordCtrl = TextEditingController(text: '12345678');
+  late bool? useBiometric;
+  late bool showAuthenticateButton;
+
+  bool get isSessionExpired => widget.onResult != null;
+  bool showUpdateButton = false;
+  late Timer timer;
+
+  @override
+  void initState() {
+    _onInit();
+    timer = Timer(3.seconds, () {
+      if (mounted) {
+        setState(() => showUpdateButton =
+            context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_) => true) ?? false);
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailCtrl.dispose();
+    passwordCtrl.dispose();
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(context) {
+    final tr = context.tr;
+    final useToken = AuthPreferenceService.authTypeGetter == AuthenticationType.token;
+    const space = Gap(12);
+    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        state.whenOrNull(loggedIn: (user) async {
+          if (!isSessionExpired) {
+            if (context.mounted) {
+              context.router.replaceAll([const MainAppRoute()]);
+            }
+          } else if (isSessionExpired) {
+            widget.onResult?.call(true);
+          }
+        }, error: (e) {
+          if (context.mounted) {
+            context.showSignInErrorSnackBar(e.toSnackBarString());
+          }
+        });
+      },
+      builder: (context, state) {
+        bool loading = state == const AuthenticationState.loading();
+        return PopScope(
+          canPop: !isSessionExpired,
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: context.systemUiOverlayNoAppBarStyle,
+            child: HideKeyboard(
+              child: Scaffold(
+                bottomNavigationBar: AnimatedCrossFade(
+                    firstChild: const SizedBox.shrink(),
+                    secondChild: updateButton,
+                    crossFadeState: showUpdateButton && !loading
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                    duration: 300.ms),
+                persistentFooterAlignment: AlignmentDirectional.center,
+                persistentFooterButtons: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: context.bottomViewPadding),
+                    child: SignInFooterButtons(
+                      isSessionExpired,
+                      onGoToSignInPressed:
+                          loading ? null : () => context.router.replaceAll([SignInRoute()]),
+                      onUrlPressed: loading
+                          ? null
+                          : () async {
+                              final result = await context.pushRoute(const UrlConfigureRoute());
+                              if (result == true) {
+                                _onInit();
+                                setState(() {});
+                              }
+                            },
+                      onUrlLongPressed: loading
+                          ? null
+                          : () async {
+                              final result = await showBarModalBottomSheet(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  context: context,
+                                  overlayStyle: context.systemUiOverlayNoAppBarStyle,
+                                  builder: (context) => const UrlConfigureView());
+                              if (result == true) {
+                                _onInit();
+                                setState(() {});
+                              }
+                            },
+                    ),
+                  )
+                ],
+                body: SafeArea(
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                BlocBuilder<ThemeCubit, ThemeState>(
+                                  builder: (context, state) {
+                                    return ElevatedButton.icon(
+                                      label: Text(state.themeMode.name.capitalize),
+                                      onPressed: () => context
+                                          .read<ThemeCubit>()
+                                          .updateThemeState(themeMode: state.themeMode.next),
+                                      icon: Icon(state.themeMode.icon),
+                                    );
+                                  },
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: () async => await showBarModalBottomSheet(
+                                    backgroundColor: context.theme.scaffoldBackgroundColor,
+                                    overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                                    context: context,
+                                    builder: (context) => const LanguageSelectionView(),
+                                  ),
+                                  icon: const Icon(Icons.language),
+                                  label: Text(context
+                                      .read<LanguageCubit>()
+                                      .state
+                                      .locale
+                                      .languageModel
+                                      .nativeName),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Hero(tag: 'medusa', child: SignInMedusaLogo(rotate: loading)),
+                          space,
+                          Text(
+                            isSessionExpired
+                                ? 'Re-authenticate to Medusa'
+                                : tr.loginCardLogInToMedusa,
+                            style: context.headlineMedium,
+                          ),
+                          space,
+                          space,
+                          if (!useToken)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Column(
+                                children: [
+                                  Hero(
+                                      tag: 'email',
+                                      child: EmailTextField(
+                                        readOnly: showAuthenticateButton &&
+                                            (AuthPreferenceService.email?.isNotEmpty ?? false),
+                                        controller: emailCtrl,
+                                        validator: (val) {
+                                          if (val?.isEmpty ?? true) {
+                                            return 'Email is required';
+                                          }
+
+                                          if (!val!.isEmail) {
+                                            return 'Invalid Email';
+                                          }
+
+                                          return null;
+                                        },
+                                      )),
+                                  const SizedBox(height: 12.0),
+                                  Hero(
+                                    tag: 'password',
+                                    child: PasswordTextField(
+                                      controller: passwordCtrl,
+                                      validator: (val) {
+                                        if (val != null && val.isEmpty) {
+                                          return 'Password is required';
+                                        }
+                                        if (val!.length < 8) {
+                                          return 'Password should be at least 8 characters long';
+                                        }
+
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          space,
+                          if (!isSessionExpired && !useToken)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                    onPressed: loading
+                                        ? null
+                                        : () {
+                                            if (AuthPreferenceService.baseUrlGetter == null) {
+                                              context.showSignInErrorSnackBar(
+                                                  'Please set your backend URL first');
+                                              return;
+                                            }
+                                            context.pushRoute(const ResetPasswordRoute());
+                                          },
+                                    child: Text(
+                                      tr.loginCardForgotYourPassword,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          space,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Hero(
+                              tag: 'continue',
+                              child: FilledButton.icon(
+                                  style: FilledButton.styleFrom(
+                                    minimumSize: const Size(220, 48.0),
+                                  ),
+                                  onPressed: loading
+                                      ? null
+                                      : () async {
+                                          if (!_validate()) {
+                                            return;
+                                          }
+                                          await _signIn();
+                                        },
+                                  icon: const Icon(Icons.login),
+                                  label: Text(tr.analyticsPreferencesContinue)),
+                            ),
+                          ),
+                          space,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Hero(
+                              tag: 'Test Sign In',
+                              child: FilledButton.icon(
+                                  style: FilledButton.styleFrom(
+                                    minimumSize: const Size(220, 48.0),
+                                  ),
+                                  onPressed: loading
+                                      ? null
+                                      : () async {
+                                          emailCtrl.text = '1@1.com';
+                                          passwordCtrl.text = '12345678';
+                                          await _signIn();
+                                        },
+                                  icon: const Icon(Icons.login),
+                                  label: Text('Test Sign In')),
+                            ),
+                          ),
+                          space,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _signIn() async {
+    switch (AuthPreferenceService.authTypeGetter) {
+      case AuthenticationType.cookie:
+        context
+            .read<AuthenticationBloc>()
+            .add(AuthenticationEvent.logInCookie(emailCtrl.text, passwordCtrl.text));
+        break;
+      case AuthenticationType.jwt:
+        context
+            .read<AuthenticationBloc>()
+            .add(AuthenticationEvent.logInJWT(emailCtrl.text, passwordCtrl.text));
+        break;
+      case AuthenticationType.token:
+        context.read<AuthenticationBloc>().add(const AuthenticationEvent.logInToken());
+        break;
+    }
+  }
+
+  void _onInit() {
+    useBiometric = AuthPreferenceService.authPreferenceGetter.useBiometric;
+    emailCtrl.text = AuthPreferenceService.email ?? '';
+    if (useBiometric == true && (AuthPreferenceService.email?.isNotEmpty ?? false)) {
+      showAuthenticateButton = true;
+    } else {
+      showAuthenticateButton = false;
+    }
+  }
+
+  bool _validate() {
+    if (AuthPreferenceService.baseUrlGetter == null) {
+      context.showSignInErrorSnackBar('Please set your backend URL first');
+      return false;
+    }
+    if (!formKey.currentState!.validate()) {
+      return false;
+    }
+    context.unfocus();
+
+    return true;
+  }
+
+  Widget get updateButton => Padding(
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 5),
+        child: Stack(
+          children: [
+            Container(
+              height: 56,
+              width: double.infinity,
+              decoration: const ShapeDecoration(
+                shape: StadiumBorder(),
+                color: Colors.blue,
+              ),
+            )
+                .animate(autoPlay: true, onPlay: (controller) => controller.repeat(reverse: true))
+                .shimmer(
+                    duration: const Duration(seconds: 5),
+                    blendMode: BlendMode.srcIn,
+                    colors: [Colors.blue, Colors.green, Colors.teal]),
+            Material(
+              color: Colors.transparent,
+              shape: const StadiumBorder(),
+              child: InkWell(
+                customBorder: const StadiumBorder(),
+                onTap: () => context.pushRoute(const AppUpdateRoute()),
+                child: Ink(
+                  height: 56,
+                  decoration: const ShapeDecoration(
+                    shape: StadiumBorder(),
+                  ),
+                  child: Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(16, 16, 10, 16),
+                        child: Icon(Icons.update, color: Colors.white),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                              'New Update Available ${context.read<AppUpdateBloc>().state.whenOrNull(updateAvailable: (update) => update)?.tagName ?? ''}',
+                              style: const TextStyle(color: Colors.white)),
+                          Text('Tap to install',
+                              style: context.bodySmall?.copyWith(color: Colors.white)),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+}
