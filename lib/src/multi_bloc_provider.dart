@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
-import 'features/store_settings/presentation/bloc/store/store_bloc.dart';
+import 'package:medusa_admin/src/features/store_details/presentation/bloc/store/store_bloc.dart';
 import 'features/collections/presentation/bloc/collection_crud/collection_crud_bloc.dart';
 import 'features/groups/presentation/bloc/group_crud/group_crud_bloc.dart';
 import 'features/search/presentation/bloc/search/search_bloc.dart';

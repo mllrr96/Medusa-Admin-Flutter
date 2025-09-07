@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 import 'package:medusa_admin/src/features/search/presentation/widgets/search_text_field.dart';
-import 'package:medusa_admin/src/features/store_settings/data/models/select_country_req.dart';
+import 'package:medusa_admin/src/features/regions/data/models/select_country_req.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';

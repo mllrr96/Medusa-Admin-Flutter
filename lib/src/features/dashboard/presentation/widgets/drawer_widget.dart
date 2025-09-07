@@ -19,7 +19,7 @@ import 'package:medusa_admin/src/features/app_settings/presentation/bloc/app_upd
 import 'package:medusa_admin/src/features/app_settings/presentation/cubits/theme/theme_cubit.dart';
 import 'package:medusa_admin/src/features/auth/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/src/features/auth/presentation/bloc/authentication/authentication_bloc.dart';
-import 'package:medusa_admin/src/features/store_settings/presentation/bloc/store/store_bloc.dart';
+import 'package:medusa_admin/src/features/store_details/presentation/bloc/store/store_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';

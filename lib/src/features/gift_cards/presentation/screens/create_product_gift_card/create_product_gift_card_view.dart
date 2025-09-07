@@ -11,7 +11,7 @@ import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
 import 'package:medusa_admin/src/core/utils/labeled_numeric_text_field.dart';
 import 'package:medusa_admin/src/features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
-import 'package:medusa_admin/src/features/store_settings/presentation/bloc/store/store_bloc.dart';
+import 'package:medusa_admin/src/features/store_details/presentation/bloc/store/store_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 

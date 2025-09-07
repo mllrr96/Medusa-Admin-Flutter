@@ -6,7 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/utils/labeled_numeric_text_field.dart';
-import 'package:medusa_admin/src/features/store_settings/data/models/select_country_req.dart';
+import 'package:medusa_admin/src/features/regions/data/models/select_country_req.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/widgets/countries/country_view.dart';
