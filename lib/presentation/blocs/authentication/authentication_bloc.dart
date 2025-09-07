@@ -68,6 +68,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       emit(const _LoggedOut());
       return;
     }
+    authPreferenceService.setIsAuthenticated(true);
     result.when(
         (user) => emit(_LoggedIn(userResult.tryGetSuccess()!)), (error) => emit(_Error(error)));
     // }

@@ -31,12 +31,10 @@ class _CollectionsViewState extends State<CollectionsView> {
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
   late CollectionCrudBloc collectionCrudBloc;
 
-  void _loadPage(int _) {
-    collectionCrudBloc.add(CollectionCrudEvent.loadAll(
-        queryParameters: {
-          'offset': _ == 0 ? 0 : pagingController.itemList?.length,
-        }
-    ));
+  void _loadPage(int page) {
+    collectionCrudBloc.add(CollectionCrudEvent.loadAll(queryParameters: {
+      'offset': page == 0 ? 0 : pagingController.itemList?.length,
+    }));
   }
 
   @override
@@ -60,19 +58,17 @@ class _CollectionsViewState extends State<CollectionsView> {
       listener: (context, state) {
         state.mapOrNull(
           collections: (state) async {
-            final isLastPage =
-                state.collections.length < CollectionCrudBloc.pageSize;
+            final isLastPage = state.collections.length < CollectionCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
+              pagingController.value =
+                  const PagingState(nextPageKey: null, error: null, itemList: null);
               await Future.delayed(const Duration(milliseconds: 250));
             }
             if (isLastPage) {
               pagingController.appendLastPage(state.collections);
             } else {
-              final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.collections.length;
+              final nextPageKey = pagingController.nextPageKey ?? 0 + state.collections.length;
               pagingController.appendPage(state.collections, nextPageKey);
             }
             if (refreshController.isRefresh) {
@@ -97,8 +93,7 @@ class _CollectionsViewState extends State<CollectionsView> {
             const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SearchFloatingActionButton(
-                    searchCategory: SearchCategory.collections),
+                SearchFloatingActionButton(searchCategory: SearchCategory.collections),
                 Gap(4.0),
               ],
             ),
@@ -114,15 +109,16 @@ class _CollectionsViewState extends State<CollectionsView> {
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
-              title: Builder(builder: (context) {
-                final collectionsCount = collectionCrudBloc.state
-                    .mapOrNull(collections: (state) => state.count);
-                return Text(
-                    collectionsCount != 0
-                        ? 'Collections ($collectionsCount)'
-                        : 'Collections',
-                    overflow: TextOverflow.ellipsis);
-              }),
+              title: BlocBuilder<CollectionCrudBloc, CollectionCrudState>(
+                bloc: collectionCrudBloc,
+                builder: (context, state) {
+                  final collectionsCount =
+                      collectionCrudBloc.state.mapOrNull(collections: (state) => state.count) ?? 0;
+                  return Text(
+                      collectionsCount != 0 ? 'Collections ($collectionsCount)' : 'Collections',
+                      overflow: TextOverflow.ellipsis);
+                },
+              ),
             ),
           ],
           body: SmartRefresher(
@@ -133,13 +129,9 @@ class _CollectionsViewState extends State<CollectionsView> {
               padding: const EdgeInsets.only(bottom: kToolbarHeight),
               builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
                 animateTransitions: true,
-                itemBuilder: (context, collection, index) => CollectionListTile(
-                    collection,
-                    tileColor: index.isOdd
-                        ? context.theme.appBarTheme.backgroundColor
-                        : null),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const CollectionsLoadingPage(),
+                itemBuilder: (context, collection, index) => CollectionListTile(collection,
+                    tileColor: index.isOdd ? context.theme.appBarTheme.backgroundColor : null),
+                firstPageProgressIndicatorBuilder: (context) => const CollectionsLoadingPage(),
                 firstPageErrorIndicatorBuilder: (context) =>
                     PaginationErrorPage(pagingController: pagingController),
               ),

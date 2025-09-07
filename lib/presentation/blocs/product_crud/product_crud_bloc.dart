@@ -30,9 +30,9 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     emit(_Loading(id: event.id));
     final result = await productCrudUseCase.fetchProduct(
       event.id,
-      queryParameters: {
-        'fields': 'images,options,variants,collection,tags,sales_channels,options.values'
-      },
+      // queryParameters: {
+        // 'fields': 'images,options,variants,collection,tags,sales_channels,options.values'
+      // },
     );
     result.when((product) {
       emit(_Product(product));

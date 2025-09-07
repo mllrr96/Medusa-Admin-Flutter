@@ -14,6 +14,7 @@ import 'components/index.dart';
 @RoutePage()
 class ProductDetailsView extends StatefulWidget {
   const ProductDetailsView(this.productId, {super.key});
+
   final String productId;
 
   @override
@@ -22,16 +23,21 @@ class ProductDetailsView extends StatefulWidget {
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
   late final ProductCrudBloc productCrudBloc;
+  late final ProductCrudBloc variantsCrudBloc;
+
   @override
   void initState() {
     productCrudBloc = ProductCrudBloc.instance;
-    productCrudBloc.add(ProductCrudEvent.loadProductVariants(widget.productId));
+    variantsCrudBloc = ProductCrudBloc.instance;
+    // variantsCrudBloc.add(ProductCrudEvent.loadProductVariants(widget.productId));
+    productCrudBloc.add(ProductCrudEvent.load(widget.productId));
     super.initState();
   }
 
   @override
   void dispose() {
     productCrudBloc.close();
+    variantsCrudBloc.close();
     super.dispose();
   }
 
@@ -39,6 +45,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   final GlobalKey attributesKey = GlobalKey();
   final GlobalKey thumbnailKey = GlobalKey();
   final GlobalKey imagesKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
@@ -57,15 +64,12 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   builder: (context, state) {
                     return state.maybeMap(
                       product: (state) {
-                        final isPublished =
-                            state.product.status == ProductStatus.published;
+                        final isPublished = state.product.status == ProductStatus.published;
                         return TextButton(
                           onPressed: () async {
                             await showOkCancelAlertDialog(
                               context: context,
-                              title: isPublished
-                                  ? 'Unpublish product?'
-                                  : 'Publish product?',
+                              title: isPublished ? 'Unpublish product?' : 'Publish product?',
                               message:
                                   'Are you sure you want to ${isPublished ? 'unpublish' : 'publish'} this product?',
                               isDestructiveAction: true,
@@ -108,54 +112,46 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       context.maybePop();
                     },
                     updated: (product) {
-                      productCrudBloc
-                          .add(ProductCrudEvent.loadProductVariants(product.id));
+                      productCrudBloc.add(ProductCrudEvent.loadProductVariants(product.id));
                     },
                     orElse: () {},
                   );
                 },
                 builder: (context, state) {
-                  return state.maybeMap(
-                      product: (_) => SingleChildScrollView(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 10.0),
-                            child: Column(
-                              children: [
-                                ProductDetailsOverview(product: _.product),
-                                space,
-                                ProductDetailsVariants(
-                                    product: _.product, key: variantsKey),
-                                space,
-                                ProductDetailsAttributes(
-                                    product: _.product, key: attributesKey),
-                                space,
-                                ProductDetailsThumbnail(
-                                    product: _.product, key: thumbnailKey),
-                                space,
-                                ProductDetailsImages(
-                                    product: _.product, key: imagesKey),
-                              ],
-                            ),
+                  return state.whenOrNull(
+                        product: (product) => SingleChildScrollView(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                          child: Column(
+                            children: [
+                              ProductDetailsOverview(product: product),
+                              space,
+                              ProductDetailsVariants(product: product, key: variantsKey),
+                              space,
+                              ProductDetailsAttributes(product: product, key: attributesKey),
+                              space,
+                              ProductDetailsThumbnail(product: product, key: thumbnailKey),
+                              space,
+                              ProductDetailsImages(product: product, key: imagesKey),
+                            ],
                           ),
-                      loading: (_) => const ProductDetailsLoadingPage(),
-                      error: (e) => Center(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text('Error loading product'),
-                                FilledButton(
-                                    child: const Text('Retry'),
-                                    onPressed: () {
-                                      productCrudBloc.add(
-                                          ProductCrudEvent.loadProductVariants(
-                                              widget.productId));
-                                    }),
-                              ],
-                            ),
+                        ),
+                        loading: (_) => const ProductDetailsLoadingPage(),
+                        error: (e) => Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text('Error loading product'),
+                              FilledButton(
+                                  child: const Text('Retry'),
+                                  onPressed: () {
+                                    productCrudBloc.add(
+                                        ProductCrudEvent.loadProductVariants(widget.productId));
+                                  }),
+                            ],
                           ),
-                      orElse: () {
-                        return const SizedBox.shrink();
-                      });
+                        ),
+                      ) ??
+                      SizedBox.shrink();
                 },
               ),
             ),

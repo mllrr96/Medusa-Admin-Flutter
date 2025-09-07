@@ -21,7 +21,7 @@ class SalesChannelCrudUseCase {
       {required String id, Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _salesChannelRepository.retrieve(id);
-      return Success(result);
+      return Success(result.salesChannel);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -62,7 +62,7 @@ class SalesChannelCrudUseCase {
     try {
       final result =
           await _salesChannelRepository.manageProducts(id, ManageProductsReq(remove: productIds));
-      return Success(result);
+      return Success(result.salesChannel);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -83,7 +83,7 @@ class SalesChannelCrudUseCase {
     try {
       final result =
           await _salesChannelRepository.manageProducts(id, ManageProductsReq(add: productIds));
-      return Success(result);
+      return Success(result.salesChannel);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -121,7 +121,7 @@ class SalesChannelCrudUseCase {
   Future<Result<SalesChannel, MedusaError>> create(CreateSalesChannel payload) async {
     try {
       final result = await _salesChannelRepository.create(payload);
-      return Success(result);
+      return Success(result.salesChannel);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -141,7 +141,7 @@ class SalesChannelCrudUseCase {
       {required String id, required UpdateSalesChannel payload}) async {
     try {
       final result = await _salesChannelRepository.update(id, payload);
-      return Success(result);
+      return Success(result.salesChannel);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

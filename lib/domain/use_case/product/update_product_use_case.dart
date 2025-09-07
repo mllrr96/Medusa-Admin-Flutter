@@ -29,7 +29,7 @@ class UpdateProductUseCase {
   Future<Result<Product, MedusaError>> addProduct(CreateProductReq payload) async {
     try {
       final result = await _productsRepository.create(payload);
-      return Success(result);
+      return Success(result.product);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -51,7 +51,7 @@ class UpdateProductUseCase {
   }) async {
     try {
       final result = await _productsRepository.update(id, userPostUpdateProductReq);
-      return Success(result);
+      return Success(result.product);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
