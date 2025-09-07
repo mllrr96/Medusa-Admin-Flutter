@@ -16,7 +16,8 @@ abstract class RegisterCoreDependencies {
   // Dio dio() => Dio();
 
   @singleton
-  FlutterSecureStorage securePrefs() => FlutterSecureStorage(aOptions: _getAndroidOptions());
+  FlutterSecureStorage securePrefs() =>
+      FlutterSecureStorage(aOptions: _getAndroidOptions());
 
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
@@ -25,11 +26,12 @@ abstract class RegisterCoreDependencies {
   Future<PackageInfo> get packageInfo => PackageInfo.fromPlatform();
 
   @singleton
-  MedusaAdminV2 get client =>
-      MedusaAdminV2.initialize(baseUrl: 'http://192.168.0.108:9000', interceptors: [
-        MedusaAdminDi.loggerInterceptor,
-        MedusaAdminDi.authInterceptor,
-      ]);
+  MedusaAdminV2 get client => MedusaAdminV2.initialize(
+          baseUrl: 'http://192.168.0.108:9000',
+          interceptors: [
+            MedusaAdminDi.loggerInterceptor,
+            MedusaAdminDi.authInterceptor,
+          ]);
 }
 
 AndroidOptions _getAndroidOptions() => const AndroidOptions();

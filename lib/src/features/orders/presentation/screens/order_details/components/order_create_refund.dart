@@ -76,24 +76,28 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
             key: formKey,
             child: SingleChildScrollView(
               child: Container(
-                padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 8.0),
-                margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                padding:
+                    const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 8.0),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 decoration: BoxDecoration(
                     color: Theme.of(context).appBarTheme.backgroundColor,
-                    borderRadius: const BorderRadius.all(Radius.circular(12.0))),
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(12.0))),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.0), child: Text('Details')),
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Text('Details')),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Flexible(
                           child: LabeledTextField(
                             label: 'Currency',
-                            controller:
-                                TextEditingController(text: currencyCode?.toUpperCase() ?? ''),
+                            controller: TextEditingController(
+                                text: currencyCode?.toUpperCase() ?? ''),
                             readOnly: true,
                           ),
                         ),
@@ -116,8 +120,9 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                               text = text.replaceAll(RegExp(r'[^0-9]'), '');
                               var val = int.tryParse(text);
                               val ??= 0;
-                              amountCtrl.text =
-                                  (val + 1).formatAsPrice(currencyCode, includeSymbol: false);
+                              amountCtrl.text = (val + 1).formatAsPrice(
+                                  currencyCode,
+                                  includeSymbol: false);
                             },
                             onMinusPressed: () {
                               var text = amountCtrl.text;
@@ -127,14 +132,16 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                               if (val == 0) {
                                 return;
                               }
-                              amountCtrl.text =
-                                  (val - 1).formatAsPrice(currencyCode, includeSymbol: false);
+                              amountCtrl.text = (val - 1).formatAsPrice(
+                                  currencyCode,
+                                  includeSymbol: false);
                             },
                             validator: (val) {
                               if (val == null || val.isEmpty) {
                                 return 'Field is required';
                               }
-                              final amount = val.replaceAll(RegExp(r'[^0-9]'), '');
+                              final amount =
+                                  val.replaceAll(RegExp(r'[^0-9]'), '');
                               // final total = widget.order.refundableAmount ?? widget.order.total;
                               final total = widget.order.total;
 
@@ -204,10 +211,12 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                           color: ColorManager.primary,
                         ),
                         contentTheme: InfoPopupContentTheme(
-                          infoContainerBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                          infoContainerBackgroundColor:
+                              Theme.of(context).scaffoldBackgroundColor,
                           infoTextStyle: smallTextStyle!,
                           contentPadding: const EdgeInsets.all(8),
-                          contentBorderRadius: const BorderRadius.all(Radius.circular(4)),
+                          contentBorderRadius:
+                              const BorderRadius.all(Radius.circular(4)),
                           infoTextAlign: TextAlign.start,
                         ),
                         contentTitle: 'Notify customer of created return',

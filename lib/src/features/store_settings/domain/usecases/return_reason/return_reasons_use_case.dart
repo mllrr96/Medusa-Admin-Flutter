@@ -13,9 +13,11 @@ class ReturnReasonCrudUseCase {
 
   ReturnReasonCrudUseCase(this._medusaAdmin);
 
-  ReturnReasonsRepository get _returnReasonRepository => _medusaAdmin.returnReasons;
+  ReturnReasonsRepository get _returnReasonRepository =>
+      _medusaAdmin.returnReasons;
 
-  static ReturnReasonCrudUseCase get instance => getIt<ReturnReasonCrudUseCase>();
+  static ReturnReasonCrudUseCase get instance =>
+      getIt<ReturnReasonCrudUseCase>();
 
   Future<Result<ReturnReason, MedusaError>> load(String id,
       {Map<String, dynamic>? queryParameters}) async {
@@ -33,14 +35,16 @@ class ReturnReasonCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<ReturnReasonListRes, MedusaError>> loadAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _returnReasonRepository.retrieveAll(query: queryParameters);
+      final result =
+          await _returnReasonRepository.retrieveAll(query: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -53,7 +57,8 @@ class ReturnReasonCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -72,11 +77,13 @@ class ReturnReasonCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<ReturnReason, MedusaError>> create(CreateReturnReason createReturnReason) async {
+  Future<Result<ReturnReason, MedusaError>> create(
+      CreateReturnReason createReturnReason) async {
     try {
       final result = await _returnReasonRepository.create(createReturnReason);
       return Success(result.returnReason);
@@ -91,7 +98,8 @@ class ReturnReasonCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -100,7 +108,8 @@ class ReturnReasonCrudUseCase {
     required UpdateReturnReason updateReturnReason,
   }) async {
     try {
-      final result = await _returnReasonRepository.update(id, updateReturnReason);
+      final result =
+          await _returnReasonRepository.update(id, updateReturnReason);
       return Success(result.returnReason);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -113,7 +122,8 @@ class ReturnReasonCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

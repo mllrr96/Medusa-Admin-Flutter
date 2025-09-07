@@ -18,7 +18,6 @@ class PreferenceService {
   static PreferenceService get instance => getIt<PreferenceService>();
   final SharedPreferences _prefs;
 
-
   static PackageInfo get packageInfo => instance._packageInfo;
   static AppPreference get appSettingsGetter => instance._appSettings;
   AppPreference get appSettings => _appSettings;

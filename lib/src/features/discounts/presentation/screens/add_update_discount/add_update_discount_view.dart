@@ -3,8 +3,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
-import 'package:medusa_admin/src/core/utils/easy_loading.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
 import 'package:medusa_admin/src/features/discounts/presentation/bloc/discount_crud/discount_crud_bloc.dart';
@@ -130,8 +130,7 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
                           child: GeneralExpansionTile(
                             key: generalKey,
                             discountType: discountType,
-                            onSaved: (regions, code, description, value) {
-                            },
+                            onSaved: (regions, code, description, value) {},
                             discount: widget.promotion,
                           )),
                       space,

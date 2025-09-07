@@ -4,7 +4,6 @@ import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
 import 'package:medusa_admin/src/core/utils/labeled_chip_input_text_field.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
-
 class AddOptionView extends StatefulWidget {
   const AddOptionView({
     super.key,
@@ -34,21 +33,31 @@ class _AddOptionViewState extends State<AddOptionView> {
           top: 8.0,
           left: 12.0,
           right: 12.0,
-          bottom: MediaQuery.of(context).viewInsets.bottom + MediaQuery.of(context).padding.bottom),
+          bottom: MediaQuery.of(context).viewInsets.bottom +
+              MediaQuery.of(context).padding.bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(child: const Text('Cancel'), onPressed: () => context.maybePop()),
+              TextButton(
+                  child: const Text('Cancel'),
+                  onPressed: () => context.maybePop()),
               TextButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      context.maybePop(
-                           ProductOption(
-                              title: optionCtrl.text,
-                              values: variants.map((e) => ProductOptionValue(value: e, optionId: '', variantId: '', id: '')).toList(), productId: null, id: ''));
+                      context.maybePop(ProductOption(
+                          title: optionCtrl.text,
+                          values: variants
+                              .map((e) => ProductOptionValue(
+                                  value: e,
+                                  optionId: '',
+                                  variantId: '',
+                                  id: ''))
+                              .toList(),
+                          productId: null,
+                          id: ''));
                     }
                   },
                   child: const Text('Add')),

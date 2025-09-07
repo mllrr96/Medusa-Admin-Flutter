@@ -20,7 +20,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../auth/presentation/screens/auth/components/url_configure_view.dart';
 
-
 @RoutePage()
 class AppDevSettingsView extends StatefulWidget {
   const AppDevSettingsView({super.key});
@@ -73,21 +72,21 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                     'Clears ${authType.toString()} used for authentication',
                     style: const TextStyle(color: manatee)),
                 onTap: () async {
-                    final key = switch (authType) {
-                      AuthenticationType.cookie => AppConstants.cookieKey,
-                      AuthenticationType.token => AppConstants.tokenKey,
-                      AuthenticationType.jwt => AppConstants.jwtKey,
-                    };
-                    final value =
-                        await getIt<FlutterSecureStorage>().read(key: key);
-                    if (context.mounted) {
-                      context.showSnackBar(value ?? 'No ',
-                          action: SnackBarAction(
-                              label: 'Copy',
-                              onPressed: () async {
-                                context.copyToClipboard(value ?? '');
-                              }));
-                    }
+                  final key = switch (authType) {
+                    AuthenticationType.cookie => AppConstants.cookieKey,
+                    AuthenticationType.token => AppConstants.tokenKey,
+                    AuthenticationType.jwt => AppConstants.jwtKey,
+                  };
+                  final value =
+                      await getIt<FlutterSecureStorage>().read(key: key);
+                  if (context.mounted) {
+                    context.showSnackBar(value ?? 'No ',
+                        action: SnackBarAction(
+                            label: 'Copy',
+                            onPressed: () async {
+                              context.copyToClipboard(value ?? '');
+                            }));
+                  }
                 },
                 onLongPress: () async {
                   await authPrefService.clearLoginKey();

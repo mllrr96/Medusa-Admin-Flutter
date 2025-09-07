@@ -11,7 +11,8 @@ class SignInMedusaLogo extends StatefulWidget {
   State<SignInMedusaLogo> createState() => _SignInMedusaLogoState();
 }
 
-class _SignInMedusaLogoState extends State<SignInMedusaLogo> with TickerProviderStateMixin {
+class _SignInMedusaLogoState extends State<SignInMedusaLogo>
+    with TickerProviderStateMixin {
   // Create a controller
   late AnimationController _controller;
 

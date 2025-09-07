@@ -11,7 +11,8 @@ class UpdateConditionUseCase {
   ProductTypesRepository get _typeRepository => _medusaAdminV2.productTypes;
   CollectionsRepository get _collectionRepository => _medusaAdminV2.collections;
   ProductTagsRepository get _tagRepository => _medusaAdminV2.productTags;
-  CustomerGroupsRepository get _groupRepository => _medusaAdminV2.customerGroups;
+  CustomerGroupsRepository get _groupRepository =>
+      _medusaAdminV2.customerGroups;
   final MedusaAdminV2 _medusaAdminV2;
 
   UpdateConditionUseCase(this._medusaAdminV2);
@@ -31,16 +32,15 @@ class UpdateConditionUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<ProductTypeListResponse, MedusaError>> retrieveProductTypes(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _typeRepository.list(
-          query: queryParameters);
+      final result = await _typeRepository.list(query: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -49,8 +49,8 @@ class UpdateConditionUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -67,16 +67,15 @@ class UpdateConditionUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<ProductTagListResponse, MedusaError>> retrieveProductTags(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _tagRepository.list(
-          query: queryParameters);
+      final result = await _tagRepository.list(query: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -85,16 +84,16 @@ class UpdateConditionUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<CustomerGroupsListRes, MedusaError>> retrieveCustomerGroups(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _groupRepository.list(
-          queryParameters: queryParameters);
+      final result =
+          await _groupRepository.list(queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -103,8 +102,8 @@ class UpdateConditionUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

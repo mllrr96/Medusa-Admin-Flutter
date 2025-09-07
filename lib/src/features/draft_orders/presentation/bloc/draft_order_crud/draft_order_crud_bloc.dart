@@ -25,9 +25,7 @@ class DraftOrderCrudBloc
   Future<void> _load(_Load event, Emitter<DraftOrderCrudState> emit) async {
     emit(const _Loading());
     final result = await draftCrudUseCase.retrieveDraftOrder(
-      id: event.id,
-      fields: 'order,cart'
-    );
+        id: event.id, fields: 'order,cart');
     result.when(
       (draftOrder) {
         emit(_DraftOrder(draftOrder));
@@ -38,7 +36,8 @@ class DraftOrderCrudBloc
     );
   }
 
-  Future<void> _loadAll(_LoadAll event, Emitter<DraftOrderCrudState> emit) async {
+  Future<void> _loadAll(
+      _LoadAll event, Emitter<DraftOrderCrudState> emit) async {
     emit(const _Loading());
     final result = await draftCrudUseCase.retrieveDraftOrders(
       queryParameters: {
@@ -99,8 +98,8 @@ class DraftOrderCrudBloc
 
   Future<void> _create(_Create event, Emitter<DraftOrderCrudState> emit) async {
     emit(const _Loading());
-    final result = await draftCrudUseCase.create(
-        payload: event.userCreateDraftOrderReq);
+    final result =
+        await draftCrudUseCase.create(payload: event.userCreateDraftOrderReq);
     result.when(
       (draftOrder) {
         emit(_DraftOrder(draftOrder));

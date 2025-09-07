@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'discount_rule_type_label.dart';
 
 class DiscountCard extends StatelessWidget {
   const DiscountCard(this.discount,
@@ -39,8 +38,9 @@ class DiscountCard extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 10.0, ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10.0,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -59,7 +59,7 @@ class DiscountCard extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         onPressed: () async {
                           await showModalActionSheet<int>(
                               title: 'Manage discount',

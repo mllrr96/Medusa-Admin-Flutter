@@ -1,12 +1,14 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/features/orders/presentation/screens/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
 
 class OrderFulfillment extends StatelessWidget {
   const OrderFulfillment(this.order, {super.key, this.onExpansionChanged});
@@ -21,8 +23,7 @@ class OrderFulfillment extends StatelessWidget {
     return FlexExpansionTile(
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
-      childPadding:
-          const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+      childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       title: Text(tr.detailsFulfillment),
       trailing: order.fulfillmentStatus == FulfillmentStatus.fulfilled ||
               order.fulfillmentStatus == FulfillmentStatus.shipped
@@ -44,7 +45,8 @@ class OrderFulfillment extends StatelessWidget {
             children: [
               Text(tr.detailsShippingMethod,
                   style: mediumTextStyle!.copyWith(color: manatee)),
-              FulfillmentStatusLabel(fulfillmentStatus: order.fulfillmentStatus! ),
+              FulfillmentStatusLabel(
+                  fulfillmentStatus: order.fulfillmentStatus!),
             ],
           ),
           ListView.builder(
@@ -58,7 +60,8 @@ class OrderFulfillment extends StatelessWidget {
             const Divider(),
           if (order.fulfillments != null)
             ListView.separated(
-              separatorBuilder: (_, __) => const Divider(height: 0, indent: 16.0),
+              separatorBuilder: (_, __) =>
+                  const Divider(height: 0, indent: 16.0),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: order.fulfillments!.length,
@@ -81,48 +84,50 @@ class OrderFulfillment extends StatelessWidget {
                             style: smallTextStyle),
                       if (canceled) const SizedBox(height: 6.0),
                       Text(
-                          shipped ? tr.templatesTracking : tr.templatesNotShipped,
+                          shipped
+                              ? tr.templatesTracking
+                              : tr.templatesNotShipped,
                           style: smallTextStyle?.copyWith(color: manatee)),
                     ],
                   ),
                   trailing: canceled || shipped
                       ? null
                       : IconButton(
-                      onPressed: () async {
-                        await showModalActionSheet<int>(
-                            context: context,
-                            actions: <SheetAction<int>>[
-                              SheetAction(
-                                  label: tr.templatesMarkShipped, key: 0),
-                              SheetAction(
-                                  label: tr.templatesCancelFulfillment,
-                                  isDestructiveAction: true,
-                                  key: 1),
-                            ]).then((val) async {
-                          switch (val) {
-                            case 0:
-                              // await controller.createOrderShipment(
-                              //     fulfillmentId: fulfillment.id!);
-                              break;
-                            case 1:
-                              await showOkCancelAlertDialog(
+                          onPressed: () async {
+                            await showModalActionSheet<int>(
                                 context: context,
-                                title: tr.templatesCancelFulfillment,
-                                message: tr
-                                    .templatesAreYouSureYouWantToCancelTheFulfillment,
-                                okLabel: tr.newYesCancel,
-                                isDestructiveAction: true,
-                              ).then((value) async {
-                                if (value == OkCancelResult.ok) {
-                                  // await controller
-                                  //     .cancelFulfillment(fulfillment.id!);
-                                }
-                              });
-                              break;
-                          }
-                        });
-                      },
-                      icon: const Icon(Icons.more_horiz)),
+                                actions: <SheetAction<int>>[
+                                  SheetAction(
+                                      label: tr.templatesMarkShipped, key: 0),
+                                  SheetAction(
+                                      label: tr.templatesCancelFulfillment,
+                                      isDestructiveAction: true,
+                                      key: 1),
+                                ]).then((val) async {
+                              switch (val) {
+                                case 0:
+                                  // await controller.createOrderShipment(
+                                  //     fulfillmentId: fulfillment.id!);
+                                  break;
+                                case 1:
+                                  await showOkCancelAlertDialog(
+                                    context: context,
+                                    title: tr.templatesCancelFulfillment,
+                                    message: tr
+                                        .templatesAreYouSureYouWantToCancelTheFulfillment,
+                                    okLabel: tr.newYesCancel,
+                                    isDestructiveAction: true,
+                                  ).then((value) async {
+                                    if (value == OkCancelResult.ok) {
+                                      // await controller
+                                      //     .cancelFulfillment(fulfillment.id!);
+                                    }
+                                  });
+                                  break;
+                              }
+                            });
+                          },
+                          icon: const Icon(Icons.more_horiz)),
                 );
               },
             ),

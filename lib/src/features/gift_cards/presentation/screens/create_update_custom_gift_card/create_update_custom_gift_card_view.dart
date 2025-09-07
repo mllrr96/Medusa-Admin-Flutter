@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 import 'package:medusa_admin/src/core/utils/currency_formatter.dart';
 
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
@@ -17,13 +19,14 @@ import 'package:medusa_admin/src/features/regions/data/models/pick_region_req.da
 import 'package:medusa_admin/src/features/regions/data/models/pick_region_res.dart';
 import 'package:medusa_admin/src/features/regions/presentation/widgets/pick_regions_view.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';import 'package:medusa_admin/src/core/extensions/num_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:medusa_admin/src/core/extensions/num_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 @RoutePage()
 class CreateUpdateCustomGiftCardView extends StatefulWidget {
   const CreateUpdateCustomGiftCardView({super.key, this.giftCard});
   final GiftCard? giftCard;
-
 
   @override
   State<CreateUpdateCustomGiftCardView> createState() =>

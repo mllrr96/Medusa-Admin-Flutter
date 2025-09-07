@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/src/core/extensions/theme_mode_extension.dart';
 import 'package:medusa_admin/src/core/utils/enums.dart';
 
-
 class AppPreference {
   final bool useAndroidPicker;
   final bool useMaterial3;

@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
 import 'package:medusa_admin/src/core/utils/date_time_card.dart';
@@ -92,7 +95,8 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
             }
           },
           title: const Text('Price List Type'),
-          childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          childPadding:
+              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -137,7 +141,8 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
           }
         },
         title: const Text('General'),
-        childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+        childPadding:
+            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -188,7 +193,8 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
             }
           },
           title: const Text('Configuration'),
-          childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          childPadding:
+              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -200,7 +206,8 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
               SwitchListTile.adaptive(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Price overrides has a start date?'),
-                subtitle: const Text('Schedule the price overrides to activate in the future.',
+                subtitle: const Text(
+                    'Schedule the price overrides to activate in the future.',
                     style: TextStyle(color: manatee)),
                 value: priceList.startsAt != null,
                 onChanged: (val) async {
@@ -227,7 +234,8 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                       return null;
                     },
                     onTap: () async {
-                      final result = await context.adaptiveDateTimePicker(date: priceList.startsAt);
+                      final result = await context.adaptiveDateTimePicker(
+                          date: priceList.startsAt);
                       if (result != null) {
                         priceList = priceList.copyWith(startsAt: result);
                         // update([2]);
@@ -241,13 +249,14 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
               SwitchListTile.adaptive(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Price overrides has a expiry date?'),
-                subtitle: const Text('Schedule the price overrides to deactivate in the future.',
+                subtitle: const Text(
+                    'Schedule the price overrides to deactivate in the future.',
                     style: TextStyle(color: manatee)),
                 value: priceList.endsAt != null,
                 onChanged: (val) async {
                   if (val) {
-                    priceList =
-                        priceList.copyWith(endsAt: DateTime.now().add(const Duration(days: 7)));
+                    priceList = priceList.copyWith(
+                        endsAt: DateTime.now().add(const Duration(days: 7)));
                     // update([2]);
                     setState(() {});
                     await configKey.currentContext.ensureVisibility();
@@ -269,7 +278,8 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                         return null;
                       },
                       onTap: () async {
-                        final result = await context.adaptiveDateTimePicker(date: priceList.endsAt);
+                        final result = await context.adaptiveDateTimePicker(
+                            date: priceList.endsAt);
                         if (result != null) {
                           priceList = priceList.copyWith(endsAt: result);
                           // update([2]);
@@ -379,7 +389,8 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
           }
         },
         title: const Text('Prices'),
-        childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+        childPadding:
+            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Text(
             'You will be able to override the prices for the products you add here',
@@ -398,7 +409,10 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                           context: context,
                           actions: <SheetAction<int>>[
                             const SheetAction(label: 'Edit prices', key: 0),
-                            const SheetAction(label: 'Remove', isDestructiveAction: true, key: 1),
+                            const SheetAction(
+                                label: 'Remove',
+                                isDestructiveAction: true,
+                                key: 1),
                           ]).then((result) async {
                         switch (result) {
                           case 0:
@@ -417,7 +431,8 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                             // }
                             return;
                           case 1:
-                            products.removeWhere((element) => element.id == product.id);
+                            products.removeWhere(
+                                (element) => element.id == product.id);
                             // update([3]);
                             setState(() {});
                             return;
@@ -426,11 +441,13 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                     },
                     child: Ink(
                       width: double.maxFinite,
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 12.0),
                       // margin: const EdgeInsets.only(bottom: 10.0),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
-                          borderRadius: const BorderRadius.all(Radius.circular(6))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(6))),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -443,22 +460,27 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                   const Gap(6.0),
                   if (product.variants != null && product.variants!.isNotEmpty)
                     ...product.variants!.map((e) {
-                      final priceCount =
-                          priceList.prices.where((element) => element.id == e.id).toList().length;
+                      final priceCount = priceList.prices
+                          .where((element) => element.id == e.id)
+                          .toList()
+                          .length;
                       if (priceCount == 0) {
                         return const SizedBox.shrink();
                       }
                       return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 8.0),
                         margin: const EdgeInsets.only(bottom: 10.0, left: 14),
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey),
-                            borderRadius: const BorderRadius.all(Radius.circular(6))),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(6))),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(e.title ?? '', style: smallTextStyle),
-                            Text('${priceCount == 0 ? 'Add' : priceCount} prices',
+                            Text(
+                                '${priceCount == 0 ? 'Add' : priceCount} prices',
                                 style: smallTextStyle),
                           ],
                         ),
@@ -469,8 +491,8 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
           space,
           TextButton(
             onPressed: () async {
-              final result = await context.pushRoute(
-                  PickProductsRoute(pickProductsReq: PickProductsReq(includeVariantCount: true)));
+              final result = await context.pushRoute(PickProductsRoute(
+                  pickProductsReq: PickProductsReq(includeVariantCount: true)));
               if (result is PickProductsRes) {
                 products = result.selectedProducts;
                 // update([3]);
@@ -530,7 +552,9 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
           appBar: AppBar(
             systemOverlayStyle: context.defaultSystemUiOverlayStyle,
             leading: const CloseButton(),
-            title: updateMode ? const Text('Update price list') : const Text('Create price list'),
+            title: updateMode
+                ? const Text('Update price list')
+                : const Text('Create price list'),
             actions: [
               TextButton(
                 onPressed: () async {
@@ -544,7 +568,9 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                             startsAt: priceList.startsAt,
                             endsAt: priceList.endsAt,
                             // customerGroupIds: priceList.customerGroups?.map((e) => e.id!).toList(),
-                            status: saveAsDraft ? PriceListStatus.draft : PriceListStatus.active,
+                            status: saveAsDraft
+                                ? PriceListStatus.draft
+                                : PriceListStatus.active,
                           ),
                         ))
                       : pricingCrudBloc.add(PricingCrudEvent.create(
@@ -563,7 +589,9 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                             startsAt: priceList.createdAt,
                             endsAt: priceList.endsAt,
                             // customerGroupIds: priceList.customerGroups?.map((e) => e.id!).toList(),
-                            status: saveAsDraft ? PriceListStatus.draft : PriceListStatus.active,
+                            status: saveAsDraft
+                                ? PriceListStatus.draft
+                                : PriceListStatus.active,
                           ),
                         ));
                 },
@@ -573,7 +601,8 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
           ),
           body: SafeArea(
             child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
               children: [
                 SwitchListTile.adaptive(
                   contentPadding: EdgeInsets.zero,
@@ -583,7 +612,9 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                     // update();
                     setState(() {});
                   },
-                  title: updateMode ? const Text('Unpublish') : const Text('Save as draft'),
+                  title: updateMode
+                      ? const Text('Unpublish')
+                      : const Text('Save as draft'),
                 ),
                 const Divider(),
                 buildPriceListType(),

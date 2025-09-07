@@ -8,13 +8,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import 'package:info_popup/info_popup.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 import 'package:medusa_admin/src/features/regions/presentation/bloc/region_crud/region_crud_bloc.dart';
 
 import 'package:medusa_admin/src/core/utils/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
-import 'components/index.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'components/index.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 @RoutePage()
 class RegionDetailsView extends StatefulWidget {
@@ -87,7 +90,8 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                             ]).then((result) async {
                           switch (result) {
                             case 0:
-                              context.pushRoute(AddUpdateRegionRoute(region: region));
+                              context.pushRoute(
+                                  AddUpdateRegionRoute(region: region));
                               break;
                             case 1:
                               await showTextAnswerDialog(
@@ -231,12 +235,12 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                               Center(
                                 child: TextButton(
                                   onPressed: () {
-                                  //   context
-                                  //     .pushRoute(AddUpdateShippingOptionRoute(
-                                  //   addUpdateShippingOptionReq:
-                                  //       AddUpdateShippingOptionReq(
-                                  //           region: region),
-                                  // ));
+                                    //   context
+                                    //     .pushRoute(AddUpdateShippingOptionRoute(
+                                    //   addUpdateShippingOptionReq:
+                                    //       AddUpdateShippingOptionReq(
+                                    //           region: region),
+                                    // ));
                                   },
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -283,7 +287,7 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                                     //   region: region,
                                     //   returnShippingOption: true,
                                     // ),
-                                  // ));
+                                    // ));
                                   },
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -381,7 +385,7 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
         paymentProviders = payment.id;
       }
     }
-      return paymentProviders.capitalize;
+    return paymentProviders.capitalize;
   }
 
   String getFulfilmentProviders(Region region) {
@@ -393,6 +397,6 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
     //     fulfilmentProviders = fulfillment.id!;
     //   }
     // }
-      return fulfilmentProviders.capitalize;
+    return fulfilmentProviders.capitalize;
   }
 }

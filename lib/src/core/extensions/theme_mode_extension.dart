@@ -23,8 +23,8 @@ extension ThemeModeExtension on ThemeMode {
         return ThemeMode.system;
     }
   }
-
 }
+
 extension ThemeModeInt on int? {
   ThemeMode get getThemeMode {
     switch (this) {

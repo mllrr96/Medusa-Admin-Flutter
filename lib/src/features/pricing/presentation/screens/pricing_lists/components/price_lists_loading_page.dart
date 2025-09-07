@@ -13,7 +13,10 @@ class PriceListsLoadingPage extends StatelessWidget {
         title: 'Medusa Js',
         description: 'Medusa Js Price List',
         type: PriceListType.sale,
-        status: PriceListStatus.active, id: '', rules: {}, prices: []);
+        status: PriceListStatus.active,
+        id: '',
+        rules: {},
+        prices: []);
     return Skeletonizer(
       enabled: true,
       child: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class UserRoleLabel extends StatelessWidget {
   const UserRoleLabel({super.key, required this.userRole});

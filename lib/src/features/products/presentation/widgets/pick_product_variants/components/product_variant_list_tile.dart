@@ -1,10 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class ProductVariantListTile extends StatelessWidget {
   const ProductVariantListTile(
-      {super.key, required this.productVariant, this.value, this.onChanged, required this.index});
+      {super.key,
+      required this.productVariant,
+      this.value,
+      this.onChanged,
+      required this.index});
   final ProductVariant productVariant;
   final bool? value;
   final void Function(bool?)? onChanged;
@@ -60,8 +65,10 @@ class ProductVariantListTile extends StatelessWidget {
               child: CachedNetworkImage(
                 key: ValueKey(productVariant.product!.thumbnail!),
                 imageUrl: productVariant.product!.thumbnail!,
-                placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
-                errorWidget: (context, string, error) => const Icon(Icons.warning_rounded, color: Colors.redAccent),
+                placeholder: (context, text) =>
+                    const Center(child: CircularProgressIndicator.adaptive()),
+                errorWidget: (context, string, error) =>
+                    const Icon(Icons.warning_rounded, color: Colors.redAccent),
               ))
           : null,
       value: value,

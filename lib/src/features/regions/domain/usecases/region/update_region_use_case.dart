@@ -6,6 +6,7 @@ import 'package:multiple_result/multiple_result.dart';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+
 @lazySingleton
 class UpdateRegionUseCase {
   final MedusaAdminV2 _medusaAdmin;
@@ -38,8 +39,7 @@ class UpdateRegionUseCase {
   Future<Result<Region, MedusaError>> create(
       CreateRegionReq userCreateRegionReq) async {
     try {
-      final result = await _regionsRepository.create(
-          userCreateRegionReq);
+      final result = await _regionsRepository.create(userCreateRegionReq);
       return Success(result.region);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -52,7 +52,8 @@ class UpdateRegionUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -61,8 +62,7 @@ class UpdateRegionUseCase {
     required UpdateRegionReq userUpdateRegionReq,
   }) async {
     try {
-      final result = await _regionsRepository.update(
-          id, userUpdateRegionReq);
+      final result = await _regionsRepository.update(id, userUpdateRegionReq);
       return Success(result.region);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -75,7 +75,8 @@ class UpdateRegionUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

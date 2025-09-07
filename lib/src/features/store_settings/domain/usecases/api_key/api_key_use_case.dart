@@ -18,7 +18,8 @@ class ApiKeyUseCase {
   Future<Result<ApiKey, MedusaError>> create(String title) async {
     try {
       // TODO : handle type
-      final result = await _apiKeyRepository.create(CreateApiKeyReq(title: title, type: ''));
+      final result = await _apiKeyRepository
+          .create(CreateApiKeyReq(title: title, type: ''));
       return Success(result.apiKey);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -27,13 +28,15 @@ class ApiKeyUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<ApiKey, MedusaError>> update(String id, String title) async {
     try {
-      final result = await _apiKeyRepository.update(id, UpdateApiKeyReq(title: title));
+      final result =
+          await _apiKeyRepository.update(id, UpdateApiKeyReq(title: title));
       return Success(result.apiKey);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -42,7 +45,8 @@ class ApiKeyUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -57,7 +61,8 @@ class ApiKeyUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -72,7 +77,8 @@ class ApiKeyUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -87,13 +93,16 @@ class ApiKeyUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<ApiKeysListRes, MedusaError>> loadAll({Map<String, dynamic>? queryParameters}) async {
+  Future<Result<ApiKeysListRes, MedusaError>> loadAll(
+      {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _apiKeyRepository.list(queryParameters: queryParameters);
+      final result =
+          await _apiKeyRepository.list(queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -102,7 +111,8 @@ class ApiKeyUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 

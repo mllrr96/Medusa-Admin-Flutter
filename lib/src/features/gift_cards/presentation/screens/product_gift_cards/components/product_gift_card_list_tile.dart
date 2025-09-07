@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 
@@ -31,7 +32,7 @@ class GiftCardListTile extends StatelessWidget {
               )
             : null,
         trailing: IconButton(
-          padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             onPressed: () async {
               await showModalActionSheet<int>(
                   title: 'Manage gift card',

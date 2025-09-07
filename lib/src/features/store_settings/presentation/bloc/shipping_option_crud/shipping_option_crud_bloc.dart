@@ -26,20 +26,20 @@ class ShippingOptionCrudBloc
   Future<void> _load(_Load event, Emitter<ShippingOptionCrudState> emit) async {
     emit(const _Loading());
     final result = await _useCase.load(event.id);
-    result.when((shippingOption) => emit(_ShippingOption(shippingOption.shippingOption)),
+    result.when(
+        (shippingOption) =>
+            emit(_ShippingOption(shippingOption.shippingOption)),
         (error) => emit(_Error(error)));
   }
 
   Future<void> _loadAll(
       _LoadAll event, Emitter<ShippingOptionCrudState> emit) async {
     emit(const _Loading());
-    final result = await _useCase.loadAll(queryParams: {
-      'limit': pageSize,
-      ...?event.queryParameters
-    });
+    final result = await _useCase
+        .loadAll(queryParams: {'limit': pageSize, ...?event.queryParameters});
     result.when(
-      (response) => emit(_ShippingOptions(
-          response.shippingOptions, response.count)),
+      (response) =>
+          emit(_ShippingOptions(response.shippingOptions, response.count)),
       (error) => emit(_Error(error)),
     );
   }
@@ -58,8 +58,7 @@ class ShippingOptionCrudBloc
       _Update event, Emitter<ShippingOptionCrudState> emit) async {
     emit(const _Loading());
     final result = await _useCase.update(
-        id: event.id,
-        payload: event.userUpdateShippingOptionReq);
+        id: event.id, payload: event.userUpdateShippingOptionReq);
     result.when(
       (response) => emit(_ShippingOption(response)),
       (error) => emit(_Error(error)),

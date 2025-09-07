@@ -1,8 +1,13 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:flutter/material.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class SalesChannelFAB extends StatelessWidget {
-  const SalesChannelFAB({super.key, required this.selectedProductsCount, this.onRemove, this.onClear});
+  const SalesChannelFAB(
+      {super.key,
+      required this.selectedProductsCount,
+      this.onRemove,
+      this.onClear});
   final int selectedProductsCount;
   final void Function()? onRemove;
   final void Function()? onClear;
@@ -14,7 +19,8 @@ class SalesChannelFAB extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(12, 10, 0, 10),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-          color: Theme.of(context).appBarTheme.backgroundColor?.withOpacity(0.7),
+          color:
+              Theme.of(context).appBarTheme.backgroundColor?.withOpacity(0.7),
         ),
         child: SizedBox(
           height: 40,
@@ -30,7 +36,8 @@ class SalesChannelFAB extends StatelessWidget {
                   await showOkCancelAlertDialog(
                     context: context,
                     title: 'Remove products?',
-                    message: 'Are you sure you want to remove selected products from this sales channel?',
+                    message:
+                        'Are you sure you want to remove selected products from this sales channel?',
                     okLabel: 'Yes, remove',
                     isDestructiveAction: true,
                   ).then((value) async {
@@ -41,12 +48,15 @@ class SalesChannelFAB extends StatelessWidget {
                   });
                 },
                 child: Ink(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                     border: Border.all(color: Colors.grey),
                   ),
-                  child: Text('Remove', style: mediumTextStyle?.copyWith(color: Colors.redAccent)),
+                  child: Text('Remove',
+                      style:
+                          mediumTextStyle?.copyWith(color: Colors.redAccent)),
                 ),
               ),
               // InkWell(

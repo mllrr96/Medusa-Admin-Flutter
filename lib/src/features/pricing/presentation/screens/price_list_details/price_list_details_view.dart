@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin/src/features/pricing/presentation/bloc/pricing/pricing_crud_bloc.dart';
@@ -117,7 +118,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
             title: const Text('Price List Details'),
             actions: [
               IconButton(
-                padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   onPressed: () async {
                     await showModalActionSheet<int>(
                         context: context,
@@ -136,7 +137,8 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                           return;
                         case 1:
                           final pickProductsRes = await addProduct;
-                          if (pickProductsRes is PickProductsRes && context.mounted) {
+                          if (pickProductsRes is PickProductsRes &&
+                              context.mounted) {
                             final prices = await showBarModalBottomSheet(
                               context: context,
                               backgroundColor:

@@ -18,8 +18,7 @@ class DraftCrudUseCase {
     String? fields,
   }) async {
     try {
-      final result = await _draftRepository.getDraftOrder(
-          id, fields: fields );
+      final result = await _draftRepository.getDraftOrder(id, fields: fields);
       return Success(result.draftOrder);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -28,18 +27,16 @@ class DraftCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
-
 
   Future<Result<DraftOrderListResponse, MedusaError>> retrieveDraftOrders({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result =
-          await _draftRepository.getDraftOrders();
+      final result = await _draftRepository.getDraftOrders();
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -48,8 +45,8 @@ class DraftCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -58,7 +55,7 @@ class DraftCrudUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-       await _draftRepository.cancelEdit(id);
+      await _draftRepository.cancelEdit(id);
       return Success(unit);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -67,8 +64,8 @@ class DraftCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -87,8 +84,8 @@ class DraftCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -97,7 +94,8 @@ class DraftCrudUseCase {
     String? fields,
   }) async {
     try {
-      final result = await _draftRepository.createDraftOrder(payload, fields: fields);
+      final result =
+          await _draftRepository.createDraftOrder(payload, fields: fields);
       return Success(result.draftOrder);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -106,8 +104,8 @@ class DraftCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 

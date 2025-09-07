@@ -29,7 +29,8 @@ class DraftsUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

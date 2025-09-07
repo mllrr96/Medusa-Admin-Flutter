@@ -17,7 +17,8 @@ class UpdateStoreUseCase {
 
   static UpdateStoreUseCase get instance => getIt<UpdateStoreUseCase>();
 
-  Future<Result<Store, MedusaError>> call(String id, UpdateStoreReq payload) async {
+  Future<Result<Store, MedusaError>> call(
+      String id, UpdateStoreReq payload) async {
     try {
       final result = await _storeRepository.update(id, payload);
       return Success(result.store);
@@ -32,7 +33,8 @@ class UpdateStoreUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

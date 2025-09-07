@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+
 class DraftOrderStatusLabel extends StatelessWidget {
-  const DraftOrderStatusLabel(this.draftOrderStatus,{super.key});
+  const DraftOrderStatusLabel(this.draftOrderStatus, {super.key});
   final String draftOrderStatus;
   @override
   Widget build(BuildContext context) {

@@ -54,8 +54,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Future<void> _searchDrafts(
       _SearchDrafts event, Emitter<SearchState> emit) async {
     emit(const _Loading());
-    final result = await searchUseCase.fetchDraftOrders(
-        queryParameters: event.query);
+    final result =
+        await searchUseCase.fetchDraftOrders(queryParameters: event.query);
     result.when((response) {
       emit(_Loaded(response.draftOrders, response.count));
     }, (error) {
@@ -135,11 +135,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     });
   }
 
-  Future<void> _searchTags(
-      _SearchTags event, Emitter<SearchState> emit) async {
+  Future<void> _searchTags(_SearchTags event, Emitter<SearchState> emit) async {
     emit(const _Loading());
-    final result = await searchUseCase.fetchTags(
-        queryParameters: event.queryParameters);
+    final result =
+        await searchUseCase.fetchTags(queryParameters: event.queryParameters);
     result.when((response) {
       emit(_Loaded(response.productTags, response.count));
     }, (error) {

@@ -17,8 +17,7 @@ class TypesUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _typeRepo.list(
-          query: queryParameters);
+      final result = await _typeRepo.list(query: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -27,8 +26,8 @@ class TypesUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

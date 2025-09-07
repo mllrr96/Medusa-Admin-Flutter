@@ -7,14 +7,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/features/collections/presentation/bloc/collection_crud/collection_crud_bloc.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_req.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_res.dart';
 import 'package:medusa_admin/src/features/products/presentation/widgets/pick_products_view.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 @RoutePage()
 class CollectionDetailsView extends StatefulWidget {
@@ -76,7 +78,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                           if (result == 0) {
                             await context
                                 .pushRoute(CreateCollectionRoute(
-                                collection: _.collection))
+                                    collection: _.collection))
                                 .then((result) async {
                               if (result != null) {
                                 context.read<CollectionCrudBloc>().add(
@@ -250,8 +252,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                           children: [
                             _getStatusIcon(product.status),
                             const Gap(4),
-                            Text(
-                                product.status.name.capitalize,
+                            Text(product.status.name.capitalize,
                                 style: context.bodySmall),
                           ],
                         ),
@@ -270,7 +271,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                 ))
                             : null,
                         trailing: IconButton(
-                          padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(16.0),
                             onPressed: () async {
                               if (await _showDeleteCollectionDialog &&
                                   context.mounted) {

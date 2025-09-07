@@ -37,8 +37,7 @@ class ApiKeyCrudBloc extends Bloc<ApiKeyCrudEvent, ApiKeyCrudState> {
     emit(const _Loading());
     final result = await _useCase.loadAll(
         queryParameters: {'limit': pageSize, ...?event.queryParameters});
-    result.when(
-        (success) => emit(_ApiKeys(success.apiKeys, success.count)),
+    result.when((success) => emit(_ApiKeys(success.apiKeys, success.count)),
         (error) => emit(_Error(error)));
   }
 

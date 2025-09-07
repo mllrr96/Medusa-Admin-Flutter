@@ -15,7 +15,8 @@ class CustomerUseCase {
   Future<Result<Customer, MedusaError>> retrieve(
       {required String id, Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _customerRepository.retrieve( id, query: queryParameters);
+      final result =
+          await _customerRepository.retrieve(id, query: queryParameters);
       return Success(result.customer);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -24,16 +25,15 @@ class CustomerUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<CustomersListRes, MedusaError>> retrieveCustomers(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result =
-          await _customerRepository.list(query: queryParameters);
+      final result = await _customerRepository.list(query: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -42,8 +42,8 @@ class CustomerUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

@@ -1,10 +1,15 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class PickCustomerAppBar extends StatefulWidget {
-  const PickCustomerAppBar({super.key, required this.searchCtrl, this.onChanged, this.searchFocusNode});
+  const PickCustomerAppBar(
+      {super.key,
+      required this.searchCtrl,
+      this.onChanged,
+      this.searchFocusNode});
   final TextEditingController searchCtrl;
   final void Function(String)? onChanged;
   final FocusNode? searchFocusNode;
@@ -85,7 +90,8 @@ class _PickCustomerAppBarState extends State<PickCustomerAppBar> {
           ],
         ),
       ),
-      crossFadeState: expanded ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      crossFadeState:
+          expanded ? CrossFadeState.showFirst : CrossFadeState.showSecond,
       duration: kDuration,
     );
   }

@@ -8,7 +8,8 @@ import 'package:multiple_result/multiple_result.dart';
 @lazySingleton
 class CollectionsUseCase {
   static CollectionsUseCase get instance => getIt<CollectionsUseCase>();
-  CollectionsRepository get _collectionsRepository => _medusaAdminV2.collections;
+  CollectionsRepository get _collectionsRepository =>
+      _medusaAdminV2.collections;
   final MedusaAdminV2 _medusaAdminV2;
 
   CollectionsUseCase(this._medusaAdminV2);
@@ -27,8 +28,8 @@ class CollectionsUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

@@ -5,10 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/constants/strings.dart';import 'package:medusa_admin/src/core/extensions/color_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';import 'package:medusa_admin/src/core/extensions/theme_mode_extension.dart';
+import 'package:medusa_admin/src/core/constants/strings.dart';
+import 'package:medusa_admin/src/core/extensions/color_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/theme_mode_extension.dart';
 import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/medusa_icons_icons.dart';
-import 'package:medusa_admin/src/features/app_settings/data/service/preference_service.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/features/app_settings/data/service/preference_service.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/features/app_settings/presentation/bloc/app_update/app_update_bloc.dart';
@@ -161,7 +165,8 @@ class _AppDrawerState extends State<AppDrawer> {
                           BlocBuilder<StoreBloc, StoreState>(
                             builder: (context, state) {
                               final storeName = state.mapOrNull(
-                                  stores: (r) => r.response.stores.firstOrNull?.name);
+                                  stores: (r) =>
+                                      r.response.stores.firstOrNull?.name);
                               return Flexible(
                                 child: Text(storeName ?? '',
                                     style: context.bodyLarge,
@@ -198,76 +203,72 @@ class _AppDrawerState extends State<AppDrawer> {
               builder: (context, state) {
                 return state.maybeMap(
                     updateAvailable: (r) => Padding(
-                      padding:
-                          const EdgeInsets.fromLTRB(12, 10, 12, 5),
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: 56,
-                            width: double.infinity,
-                            decoration: const ShapeDecoration(
-                              shape: StadiumBorder(),
-                              color: Colors.blue,
-                            ),
-                          )
-                              .animate(
-                                  autoPlay: true,
-                                  onPlay: (controller) => controller
-                                      .repeat(reverse: true))
-                              .shimmer(
-                                  duration:
-                                      const Duration(seconds: 5),
-                                  blendMode: BlendMode.srcIn,
-                                  colors: [
-                                Colors.blue,
-                                Colors.green,
-                                Colors.teal
-                              ]),
-                          Material(
-                            color: Colors.transparent,
-                            shape: const StadiumBorder(),
-                            child: InkWell(
-                              customBorder: const StadiumBorder(),
-                              onTap: () => context
-                                  .pushRoute(const AppUpdateRoute()),
-                              child: Ink(
+                          padding: const EdgeInsets.fromLTRB(12, 10, 12, 5),
+                          child: Stack(
+                            children: [
+                              Container(
                                 height: 56,
+                                width: double.infinity,
                                 decoration: const ShapeDecoration(
                                   shape: StadiumBorder(),
+                                  color: Colors.blue,
                                 ),
-                                child: Row(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.fromLTRB(
-                                          16, 16, 10, 16),
-                                      child: Icon(Icons.update,
-                                          color: Colors.white),
+                              )
+                                  .animate(
+                                      autoPlay: true,
+                                      onPlay: (controller) =>
+                                          controller.repeat(reverse: true))
+                                  .shimmer(
+                                      duration: const Duration(seconds: 5),
+                                      blendMode: BlendMode.srcIn,
+                                      colors: [
+                                    Colors.blue,
+                                    Colors.green,
+                                    Colors.teal
+                                  ]),
+                              Material(
+                                color: Colors.transparent,
+                                shape: const StadiumBorder(),
+                                child: InkWell(
+                                  customBorder: const StadiumBorder(),
+                                  onTap: () =>
+                                      context.pushRoute(const AppUpdateRoute()),
+                                  child: Ink(
+                                    height: 56,
+                                    decoration: const ShapeDecoration(
+                                      shape: StadiumBorder(),
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                    child: Row(
                                       children: [
-                                        Text(
-                                            'New Update Available ${r.appUpdate.tagName ?? ''}',
-                                            style: const TextStyle(
-                                                color: Colors.white)),
-                                        Text('Tap to install',
-                                            style: smallTextStyle
-                                                ?.copyWith(
-                                                    color: Colors
-                                                        .white)),
+                                        const Padding(
+                                          padding: EdgeInsets.fromLTRB(
+                                              16, 16, 10, 16),
+                                          child: Icon(Icons.update,
+                                              color: Colors.white),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                                'New Update Available ${r.appUpdate.tagName ?? ''}',
+                                                style: const TextStyle(
+                                                    color: Colors.white)),
+                                            Text('Tap to install',
+                                                style: smallTextStyle?.copyWith(
+                                                    color: Colors.white)),
+                                          ],
+                                        ),
                                       ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
+                        ),
                     orElse: () => const SizedBox.shrink());
               },
             ),
@@ -303,8 +304,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                   ),
                                 ),
                                 Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(appName,
@@ -327,8 +327,8 @@ class _AppDrawerState extends State<AppDrawer> {
                   const Gap(5.0),
                   IconButton(
                     style: IconButton.styleFrom(
-                      backgroundColor: context.getAlphaBlend(
-                          context.theme.scaffoldBackgroundColor),
+                      backgroundColor: context
+                          .getAlphaBlend(context.theme.scaffoldBackgroundColor),
                     ),
                     padding: const EdgeInsets.all(16.0),
                     onPressed: () async {

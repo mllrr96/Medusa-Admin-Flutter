@@ -13,7 +13,8 @@ import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
 import 'package:medusa_admin/src/features/customers/data/models/pick_customer_req.dart';
 import 'package:medusa_admin/src/features/customers/data/models/pick_customer_res.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:flex_expansion_tile/flex_expansion_tile.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 class CreateDraftOrderAddressView extends StatefulWidget {
@@ -59,8 +60,20 @@ class _CreateDraftOrderAddressViewState
   final billingPostalCodeCtrl = TextEditingController();
   final billingCityCtrl = TextEditingController();
   final billingProvinceCtrl = TextEditingController();
-  Address shippingAddress = const Address(id: '', address1: '', city: '', countryCode: '', province: '', postalCode: '');
-  Address billingAddress = const Address(id: '', address1: '', city: '', countryCode: '', province: '', postalCode: '');
+  Address shippingAddress = const Address(
+      id: '',
+      address1: '',
+      city: '',
+      countryCode: '',
+      province: '',
+      postalCode: '');
+  Address billingAddress = const Address(
+      id: '',
+      address1: '',
+      city: '',
+      countryCode: '',
+      province: '',
+      postalCode: '');
   Customer? selectedCustomer;
   bool customCustomer = true;
   bool sameAddress = false;
@@ -175,7 +188,7 @@ class _CreateDraftOrderAddressViewState
               return 'Field is required';
             }
 
-            if(val != null && val.isNotEmpty && !val.isEmail) {
+            if (val != null && val.isNotEmpty && !val.isEmail) {
               return 'Invalid email';
             }
 
@@ -392,7 +405,13 @@ class _CreateDraftOrderAddressViewState
               billingCityCtrl.clear();
               billingProvinceCtrl.clear();
             } else {
-              billingAddress = const Address(id: '', address1: '', city: '', countryCode: '', province: '', postalCode: '');
+              billingAddress = const Address(
+                  id: '',
+                  address1: '',
+                  city: '',
+                  countryCode: '',
+                  province: '',
+                  postalCode: '');
               sameAddress = false;
             }
             setState(() {});

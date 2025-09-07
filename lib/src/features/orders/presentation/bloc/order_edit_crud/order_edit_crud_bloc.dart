@@ -88,9 +88,8 @@ class OrderEditCrudBloc extends Bloc<OrderEditCrudEvent, OrderEditCrudState> {
   Future<void> _create(_Create event, Emitter<OrderEditCrudState> emit) async {
     emit(const _Loading());
     final orderEdit = await _useCase.createOrderEdit(
-       payload: CreateOrderEditReq(
-          orderId: event.id, internalNote: event.internalNote
-       ));
+        payload: CreateOrderEditReq(
+            orderId: event.id, internalNote: event.internalNote));
     orderEdit.when(
         (success) => emit(_OrderEdit(success)), (error) => emit(_Error(error)));
   }
@@ -108,8 +107,7 @@ class OrderEditCrudBloc extends Bloc<OrderEditCrudEvent, OrderEditCrudState> {
     final orderEdits =
         await _useCase.fetchOrderEdits(queryParameters: event.queryParameters);
     orderEdits.when(
-        (success) =>
-            emit(_OrderEdits(success.orderEdits, success.count)),
+        (success) => emit(_OrderEdits(success.orderEdits, success.count)),
         (error) => emit(_Error(error)));
   }
 

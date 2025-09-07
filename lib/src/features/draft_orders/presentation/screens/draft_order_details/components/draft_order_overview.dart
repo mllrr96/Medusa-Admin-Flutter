@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';import 'package:medusa_admin/src/core/extensions/num_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/num_extension.dart';
 
 import '../../draft_orders/components/index.dart';
+
 class DraftOrderOverview extends StatelessWidget {
   const DraftOrderOverview(this.draftOrder, {super.key});
   final DraftOrder draftOrder;
@@ -37,7 +40,7 @@ class DraftOrderOverview extends StatelessWidget {
                 children: [
                   Text('#${draftOrder.displayId!}', style: context.bodyLarge),
                   halfSpace,
-                  if ( draftOrder.createdAt != null)
+                  if (draftOrder.createdAt != null)
                     Text(
                       'on ${draftOrder.createdAt?.formatDate()} at ${draftOrder.createdAt?.formatTime()}',
                       style: context.bodyMedium,

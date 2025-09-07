@@ -69,7 +69,8 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
               if (isLastPage) {
                 pagingController.appendLastPage(r.items);
               } else {
-                final nextPageKey = pagingController.nextPageKey ?? 1 + r.items.length;
+                final nextPageKey =
+                    pagingController.nextPageKey ?? 1 + r.items.length;
                 pagingController.appendPage(r.items, nextPageKey);
               }
             },
@@ -103,7 +104,8 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                         case SearchCategory.customers:
                           return const SizedBox.shrink();
                         case SearchCategory.groups:
-                          return Divider(height: 0, indent: Platform.isIOS ? 16.0 : 0);
+                          return Divider(
+                              height: 0, indent: Platform.isIOS ? 16.0 : 0);
                         case SearchCategory.giftCards:
                           return const Divider(height: 0);
                         case SearchCategory.discounts:
@@ -174,7 +176,8 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                                 return ListTile(
                                   title: Text(object.title),
                                   subtitle: Text(object.description,
-                                      style: smallTextStyle?.copyWith(color: manatee)),
+                                      style: smallTextStyle?.copyWith(
+                                          color: manatee)),
                                 );
                               } else {
                                 return const SizedBox();
@@ -182,10 +185,13 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                           }
                         },
                         firstPageProgressIndicatorBuilder: (context) =>
-                            const Center(child: CircularProgressIndicator.adaptive()),
+                            const Center(
+                                child: CircularProgressIndicator.adaptive()),
                         firstPageErrorIndicatorBuilder: (context) =>
-                            PaginationErrorPage(pagingController: pagingController),
-                        noItemsFoundIndicatorBuilder: (context) => SearchHistoryView(
+                            PaginationErrorPage(
+                                pagingController: pagingController),
+                        noItemsFoundIndicatorBuilder: (context) =>
+                            SearchHistoryView(
                               searchCtrl,
                               onTap: (searchHistory) {
                                 searchCategory = searchHistory.searchableFields;
@@ -246,13 +252,15 @@ class SearchHistoryView extends StatelessWidget {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final searchHistory = PreferenceService.searchHistory;
-    if (searchCtrl.text.removeAllWhitespace.isEmpty && searchHistory.isNotEmpty) {
+    if (searchCtrl.text.removeAllWhitespace.isEmpty &&
+        searchHistory.isNotEmpty) {
       return SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               child: Text(
                 'Search history',
                 style: smallTextStyle?.copyWith(color: manatee),
@@ -263,7 +271,8 @@ class SearchHistoryView extends StatelessWidget {
                       searchHistory: e,
                       onTap: () => onTap?.call(e),
                       onDeleteTap: () async {
-                        await PreferenceService.instance.updateSearchHistory(e, delete: true);
+                        await PreferenceService.instance
+                            .updateSearchHistory(e, delete: true);
                         // controller.update();
                       },
                     ))
@@ -272,7 +281,8 @@ class SearchHistoryView extends StatelessWidget {
           ],
         ),
       );
-    } else if (searchCtrl.text.removeAllWhitespace.isEmpty && searchHistory.isEmpty) {
+    } else if (searchCtrl.text.removeAllWhitespace.isEmpty &&
+        searchHistory.isEmpty) {
       return const Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 // ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:collection/collection.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 
@@ -13,10 +14,12 @@ class OrderCreateFulfillmentView extends StatefulWidget {
   const OrderCreateFulfillmentView({required this.order, super.key});
   final Order order;
   @override
-  State<OrderCreateFulfillmentView> createState() => _OrderCreateFulfillmentViewState();
+  State<OrderCreateFulfillmentView> createState() =>
+      _OrderCreateFulfillmentViewState();
 }
 
-class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView> {
+class _OrderCreateFulfillmentViewState
+    extends State<OrderCreateFulfillmentView> {
   Map<String, int> lineItemCount = {};
   List<LineItem> items = [];
   @override
@@ -69,7 +72,8 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
             halfSpace,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Text('Select the number of items that you wish to fulfill.',
+              child: Text(
+                  'Select the number of items that you wish to fulfill.',
                   style: mediumTextStyle?.copyWith(color: manatee)),
             ),
             halfSpace,
@@ -80,7 +84,8 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
               itemBuilder: (context, index) {
                 final item = items[index];
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -88,16 +93,20 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
                         child: Row(
                           children: [
                             SizedBox(
-                                    height: 50,
-                                    width: 50,
-                                    child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail),
-                                  ),
+                              height: 50,
+                              width: 50,
+                              child: CachedNetworkImage(
+                                  key: ValueKey(item.thumbnail),
+                                  imageUrl: item.thumbnail),
+                            ),
                             Flexible(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(item.title ?? '', style: mediumTextStyle),
-                                  Text(item.variant?.title ?? '', style: smallTextStyle),
+                                  Text(item.title ?? '',
+                                      style: mediumTextStyle),
+                                  Text(item.variant?.title ?? '',
+                                      style: smallTextStyle),
                                 ],
                               ),
                             ),
@@ -105,20 +114,25 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 4.0),
                         decoration: BoxDecoration(
-                            color: Theme.of(context).appBarTheme.backgroundColor,
-                            borderRadius: const BorderRadius.all(Radius.circular(12.0))),
+                            color:
+                                Theme.of(context).appBarTheme.backgroundColor,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(12.0))),
                         child: Row(
                           children: [
-                            Text('${lineItemCount[item.id]!.toString()} / ${item.quantity}'),
+                            Text(
+                                '${lineItemCount[item.id]!.toString()} / ${item.quantity}'),
                             IconButton(
                               onPressed: () {
                                 if (lineItemCount[item.id] == 0) {
                                   return;
                                 }
                                 setState(() {
-                                  lineItemCount[item.id] = lineItemCount[item.id]! - 1;
+                                  lineItemCount[item.id] =
+                                      lineItemCount[item.id]! - 1;
                                 });
                               },
                               icon: const Icon(CupertinoIcons.minus),
@@ -129,7 +143,8 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
                                   return;
                                 }
                                 setState(() {
-                                  lineItemCount[item.id] = lineItemCount[item.id]! + 1;
+                                  lineItemCount[item.id] =
+                                      lineItemCount[item.id]! + 1;
                                 });
                               },
                               icon: const Icon(CupertinoIcons.add),

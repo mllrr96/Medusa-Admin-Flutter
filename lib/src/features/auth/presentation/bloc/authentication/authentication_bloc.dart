@@ -20,7 +20,8 @@ part 'authentication_state.dart';
 part 'authentication_bloc.freezed.dart';
 
 @injectable
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc(
     this.authPreferenceService,
     this.authenticationUseCase,
@@ -68,8 +69,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       return;
     }
     authPreferenceService.setIsAuthenticated(true);
-    result.when(
-        (user) => emit(_LoggedIn(userResult.tryGetSuccess()!)), (error) => emit(_Error(error)));
+    result.when((user) => emit(_LoggedIn(userResult.tryGetSuccess()!)),
+        (error) => emit(_Error(error)));
     // }
   }
 
@@ -80,15 +81,19 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     throw UnimplementedError();
     emit(const _Loading());
     if (!await InternetConnection().hasInternetAccess) {
-      final e =
-          MedusaError(code: '', type: 'Network error', message: AppConstants.noInternetMessage);
+      final e = MedusaError(
+          code: '',
+          type: 'Network error',
+          message: AppConstants.noInternetMessage);
       emit(_Error(e));
       return;
     }
 
-    final result = await authenticationUseCase.login(email: event.email, password: event.password);
+    final result = await authenticationUseCase.login(
+        email: event.email, password: event.password);
     result.when((token) async {
-      await flutterSecureStorage.write(key: AppConstants.cookieKey, value: token);
+      await flutterSecureStorage.write(
+          key: AppConstants.cookieKey, value: token);
       authPreferenceService.setIsAuthenticated(true);
       authPreferenceService.setEmail(event.email);
       final userResult = await authenticationUseCase.getCurrentUser();
@@ -102,12 +107,15 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   ) async {
     emit(const _Loading());
     if (!await InternetConnection().hasInternetAccess) {
-      final e =
-          MedusaError(code: '', type: 'Network error', message: AppConstants.noInternetMessage);
+      final e = MedusaError(
+          code: '',
+          type: 'Network error',
+          message: AppConstants.noInternetMessage);
       emit(_Error(e));
       return;
     }
-    final result = await authenticationUseCase.login(email: event.email, password: event.password);
+    final result = await authenticationUseCase.login(
+        email: event.email, password: event.password);
 
     await result.when((token) async {
       await flutterSecureStorage.write(key: AppConstants.jwtKey, value: token);
@@ -131,8 +139,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   ) async {
     emit(const _Loading());
     if (!await InternetConnection().hasInternetAccess) {
-      final e =
-          MedusaError(code: '', type: 'Network error', message: AppConstants.noInternetMessage);
+      final e = MedusaError(
+          code: '',
+          type: 'Network error',
+          message: AppConstants.noInternetMessage);
       emit(_Error(e));
       return;
     }
@@ -150,8 +160,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   ) async {
     emit(const _Loading());
     if (!await InternetConnection().hasInternetAccess) {
-      final e =
-          MedusaError(code: '', type: 'Network error', message: AppConstants.noInternetMessage);
+      final e = MedusaError(
+          code: '',
+          type: 'Network error',
+          message: AppConstants.noInternetMessage);
       emit(_Error(e));
       return;
     }

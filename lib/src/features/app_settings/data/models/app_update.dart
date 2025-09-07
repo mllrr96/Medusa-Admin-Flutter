@@ -33,7 +33,9 @@ class AppUpdate {
       preRelease: json['prerelease'] as bool?,
       createdAt: json['created_at'] as String?,
       publishedAt: json['published_at'] as String?,
-      assets: json['assets'] != null ? List<Assets>.from(json['assets'].map((x) => Assets.fromJson(x))): null,
+      assets: json['assets'] != null
+          ? List<Assets>.from(json['assets'].map((x) => Assets.fromJson(x)))
+          : null,
       body: json['body'] as String?,
     );
   }

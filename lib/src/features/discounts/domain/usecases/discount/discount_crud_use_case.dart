@@ -31,7 +31,8 @@ class DiscountCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -50,7 +51,8 @@ class DiscountCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -65,7 +67,8 @@ class DiscountCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -82,7 +85,8 @@ class DiscountCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -91,7 +95,7 @@ class DiscountCrudUseCase {
     required PostPromotionReq payload,
   }) async {
     try {
-      final result = await _discountRepository.update( id: id, payload: payload);
+      final result = await _discountRepository.update(id: id, payload: payload);
       return Success(result.promotion);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -100,7 +104,8 @@ class DiscountCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 

@@ -57,7 +57,13 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
             title: const Text('Products Filter'),
           ),
           bottomNavigationBar: Padding(
-              padding: EdgeInsets.fromLTRB(12, 0, 12, context.bottomViewPadding != 0 ? context.bottomViewPadding : 12),
+              padding: EdgeInsets.fromLTRB(
+                  12,
+                  0,
+                  12,
+                  context.bottomViewPadding != 0
+                      ? context.bottomViewPadding
+                      : 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -181,8 +187,8 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                                         }
                                         setState(() {});
                                       },
-                                      title: Text(e.title,
-                                          style: smallTextStyle),
+                                      title:
+                                          Text(e.title, style: smallTextStyle),
                                     ))
                             ],
                           ),

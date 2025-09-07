@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class PersonalInfoTile extends StatelessWidget {
   const PersonalInfoTile(this.user, {super.key, this.onTap});

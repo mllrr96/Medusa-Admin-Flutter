@@ -1,14 +1,19 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 class GroupCard extends StatelessWidget {
   const GroupCard(
-      {super.key, required this.customerGroup, required this.index, this.onDelete, this.afterUpdate});
+      {super.key,
+      required this.customerGroup,
+      required this.index,
+      this.onDelete,
+      this.afterUpdate});
   final CustomerGroup customerGroup;
   final int index;
   final void Function()? onDelete;
@@ -26,7 +31,10 @@ class GroupCard extends StatelessWidget {
         children: [
           SlidableAction(
             onPressed: (_) async {
-              await context.pushRoute(CreateUpdateGroupRoute(customerGroup: customerGroup)).then((value) {
+              await context
+                  .pushRoute(
+                      CreateUpdateGroupRoute(customerGroup: customerGroup))
+                  .then((value) {
                 if (value is CustomerGroup) {
                   afterUpdate?.call();
                 }

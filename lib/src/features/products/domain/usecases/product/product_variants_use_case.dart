@@ -13,15 +13,15 @@ class ProductVariantsUseCase {
   final MedusaAdminV2 _medusaAdmin;
 
   ProductVariantsUseCase(this._medusaAdmin);
-  ProductVariantsRepository get _productVariantRepository => _medusaAdmin.productVariants;
-  static ProductVariantsUseCase get instance =>
-      getIt<ProductVariantsUseCase>();
+  ProductVariantsRepository get _productVariantRepository =>
+      _medusaAdmin.productVariants;
+  static ProductVariantsUseCase get instance => getIt<ProductVariantsUseCase>();
   Future<Result<ProductVariantListResponse, MedusaError>> call({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _productVariantRepository.list(
-          query: queryParameters);
+      final result =
+          await _productVariantRepository.list(query: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -34,7 +34,8 @@ class ProductVariantsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

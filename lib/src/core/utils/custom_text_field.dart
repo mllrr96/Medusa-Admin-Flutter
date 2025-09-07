@@ -30,7 +30,9 @@ class LabeledTextField extends StatelessWidget {
     this.decoration,
     this.isDense,
     this.inputFormatters,
-    this.includeSpace = true, this.style, this.onSaved,
+    this.includeSpace = true,
+    this.style,
+    this.onSaved,
   });
 
   final bool required;
@@ -72,8 +74,14 @@ class LabeledTextField extends StatelessWidget {
         children: [
           Row(
             children: [
-              Flexible(child: Text(label, style: mediumTextStyle!.copyWith(color: lightLabelColor ? manatee : null), maxLines: 1, overflow: TextOverflow.ellipsis)),
-              if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
+              Flexible(
+                  child: Text(label,
+                      style: mediumTextStyle!
+                          .copyWith(color: lightLabelColor ? manatee : null),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis)),
+              if (required)
+                Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
             ],
           ),
           halfSpace,
@@ -94,15 +102,15 @@ class LabeledTextField extends StatelessWidget {
             keyboardType: keyboardType,
             maxLines: maxLines,
             minLines: minLines,
-            style: style  ?? smallTextStyle?.copyWith(color: enabled ? null : manatee),
+            style: style ??
+                smallTextStyle?.copyWith(color: enabled ? null : manatee),
             decoration: decoration ??
                 InputDecoration(
                   isDense: isDense,
                   hintText: hintText,
                 ),
           ),
-          if(includeSpace)
-          space,
+          if (includeSpace) space,
         ],
       ),
     );

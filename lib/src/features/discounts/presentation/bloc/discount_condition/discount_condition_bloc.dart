@@ -24,9 +24,7 @@ class DiscountConditionBloc
       _LoadTypes event, Emitter<DiscountConditionState> emit) async {
     final result = await updateConditionUseCase.retrieveProductTypes(
         queryParameters: event.queryParameters);
-    result.when(
-        (success) =>
-            emit(_Loaded(success.productTypes, success.count)),
+    result.when((success) => emit(_Loaded(success.productTypes, success.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -35,8 +33,7 @@ class DiscountConditionBloc
     final result = await updateConditionUseCase.retrieveCustomerGroups(
         queryParameters: event.queryParameters);
     result.when(
-        (success) =>
-            emit(_Loaded(success.customerGroups, success.count)),
+        (success) => emit(_Loaded(success.customerGroups, success.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -44,8 +41,7 @@ class DiscountConditionBloc
       _LoadProducts event, Emitter<DiscountConditionState> emit) async {
     final result = await updateConditionUseCase.retrieveProducts(
         queryParameters: event.queryParameters);
-    result.when(
-        (success) => emit(_Loaded(success.products, success.count )),
+    result.when((success) => emit(_Loaded(success.products, success.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -53,8 +49,7 @@ class DiscountConditionBloc
       _LoadTags event, Emitter<DiscountConditionState> emit) async {
     final result = await updateConditionUseCase.retrieveProductTags(
         queryParameters: event.queryParameters);
-    result.when(
-        (success) => emit(_Loaded(success.productTags, success.count)),
+    result.when((success) => emit(_Loaded(success.productTags, success.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -62,9 +57,7 @@ class DiscountConditionBloc
       _LoadCollections event, Emitter<DiscountConditionState> emit) async {
     final result = await updateConditionUseCase.retrieveCollections(
         queryParameters: event.queryParameters);
-    result.when(
-        (success) =>
-            emit(_Loaded(success.collections, success.count)),
+    result.when((success) => emit(_Loaded(success.collections, success.count)),
         (error) => emit(_Error(error)));
   }
 

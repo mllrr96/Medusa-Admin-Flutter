@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 
 class PriceListTile extends StatelessWidget {
-  const PriceListTile(this.priceList,{super.key});
+  const PriceListTile(this.priceList, {super.key});
   final PriceList priceList;
   @override
   Widget build(BuildContext context) {
@@ -29,18 +30,19 @@ class PriceListTile extends StatelessWidget {
         ],
       );
     }
+
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return ListTile(
-      onTap: () => context.pushRoute(PriceListDetailsRoute(priceList: priceList)),
-      onLongPress: () => context.pushRoute(AddUpdatePriceListRoute(id: priceList.id)),
-      title: Text(priceList.title ),
-      subtitle: Text(priceList.description ,
+      onTap: () =>
+          context.pushRoute(PriceListDetailsRoute(priceList: priceList)),
+      onLongPress: () =>
+          context.pushRoute(AddUpdatePriceListRoute(id: priceList.id)),
+      title: Text(priceList.title),
+      subtitle: Text(priceList.description,
           style: smallTextStyle?.copyWith(color: manatee)),
-      trailing: statusIcon(
-          priceList.status == PriceListStatus.active
-              ? true
-              : false),
+      trailing:
+          statusIcon(priceList.status == PriceListStatus.active ? true : false),
     );
   }
 }

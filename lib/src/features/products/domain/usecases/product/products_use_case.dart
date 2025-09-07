@@ -22,7 +22,8 @@ class ProductsUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _productsRepository.retrieveAll(queryParameters: queryParameters);
+      final result = await _productsRepository.retrieveAll(
+          queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -35,7 +36,8 @@ class ProductsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -56,7 +58,8 @@ class ProductsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -78,7 +81,8 @@ class ProductsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -97,7 +101,8 @@ class ProductsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

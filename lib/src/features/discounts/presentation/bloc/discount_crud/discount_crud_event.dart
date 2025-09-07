@@ -3,11 +3,11 @@ part of 'discount_crud_bloc.dart';
 @freezed
 class DiscountCrudEvent with _$DiscountCrudEvent {
   const factory DiscountCrudEvent.load(String id) = _Load;
-  const factory DiscountCrudEvent.loadAll({Map<String, dynamic>? queryParameters}) = _LoadAll;
-  const factory DiscountCrudEvent.update(
-      String id, PostPromotionReq payload) = _Update;
-  const factory DiscountCrudEvent.create(
-      PostPromotionReq payload) = _Create;
+  const factory DiscountCrudEvent.loadAll(
+      {Map<String, dynamic>? queryParameters}) = _LoadAll;
+  const factory DiscountCrudEvent.update(String id, PostPromotionReq payload) =
+      _Update;
+  const factory DiscountCrudEvent.create(PostPromotionReq payload) = _Create;
   const factory DiscountCrudEvent.delete(String discountId) = _Delete;
   // const factory DiscountCrudEvent.addCondition(
   //         String discountId, CreateConditionReq userCreateConditionReq) =

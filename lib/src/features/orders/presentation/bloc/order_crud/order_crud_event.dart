@@ -7,8 +7,8 @@ sealed class OrderCrudEvent with _$OrderCrudEvent {
   const factory OrderCrudEvent.update(
       String id, PostOrdersOrderReq updateOrderReq) = _Update;
   const factory OrderCrudEvent.cancel(String id) = _Cancel;
-  const factory OrderCrudEvent.createFulfillment(CreateFulfillmentReq userCreateFulfillmentReq) =
-      _CreateFulfillment;
+  const factory OrderCrudEvent.createFulfillment(
+      CreateFulfillmentReq userCreateFulfillmentReq) = _CreateFulfillment;
   const factory OrderCrudEvent.cancelFulfillment(
       String id, String fulfillmentId) = _CancelFulfillment;
   // const factory OrderCrudEvent.createRefund(

@@ -15,7 +15,8 @@ class PriceListCrudUseCase {
 
   static PriceListCrudUseCase get instance => getIt<PriceListCrudUseCase>();
 
-  Future<Result<PriceList, MedusaError>> create(CreatePriceListReq payload) async {
+  Future<Result<PriceList, MedusaError>> create(
+      CreatePriceListReq payload) async {
     try {
       final result = await _priceListRepository.create(payload);
       return Success(result.priceList);
@@ -26,8 +27,8 @@ class PriceListCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -45,8 +46,8 @@ class PriceListCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -64,8 +65,8 @@ class PriceListCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -103,8 +104,8 @@ class PriceListCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -121,8 +122,8 @@ class PriceListCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -130,8 +131,8 @@ class PriceListCrudUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result =
-          await _priceListRepository.retrieveAll(queryParameters: queryParameters);
+      final result = await _priceListRepository.retrieveAll(
+          queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -140,8 +141,8 @@ class PriceListCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 

@@ -9,7 +9,8 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 import 'components/index.dart';
 

@@ -1,4 +1,6 @@
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/num_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/num_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -6,7 +8,7 @@ import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
-class DraftOrderPayment extends StatelessWidget{
+class DraftOrderPayment extends StatelessWidget {
   const DraftOrderPayment(this.draftOrder, {super.key, this.markAsPaid});
   final DraftOrder draftOrder;
   final void Function()? markAsPaid;
@@ -58,9 +60,7 @@ class DraftOrderPayment extends StatelessWidget{
                 Text('Subtotal', style: mediumTextStyle),
                 Row(
                   children: [
-                    Text(
-                        draftOrder.subtotal.formatAsPrice(currencyCode) ??
-                            '',
+                    Text(draftOrder.subtotal.formatAsPrice(currencyCode) ?? '',
                         style: mediumTextStyle),
                     // Text(' ${draftOrder.currencyCode?.toUpperCase() ?? ''}',
                     //     style: mediumTextStyle?.copyWith(color: manatee)),
@@ -76,9 +76,7 @@ class DraftOrderPayment extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Shipping', style: mediumTextStyle),
-                Text(
-                    draftOrder.shippingTotal
-                            .formatAsPrice(currencyCode),
+                Text(draftOrder.shippingTotal.formatAsPrice(currencyCode),
                     style: mediumTextStyle),
               ],
             ),
@@ -90,8 +88,7 @@ class DraftOrderPayment extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Tax', style: mediumTextStyle),
-                Text(
-                    draftOrder.taxTotal.formatAsPrice(currencyCode),
+                Text(draftOrder.taxTotal.formatAsPrice(currencyCode),
                     style: mediumTextStyle),
               ],
             ),

@@ -12,7 +12,7 @@ class GiftCardsLoadingPage extends StatelessWidget {
     const product = Product(
         title: 'Medusa LongSleeve',
         description:
-        'Reimagine the feeling of a classic long-sleeve. With our cotton long-sleeve, everyday essentials no longer have to be ordinary. Made with 100% cotton.',
+            'Reimagine the feeling of a classic long-sleeve. With our cotton long-sleeve, everyday essentials no longer have to be ordinary. Made with 100% cotton.',
         subtitle: 'subtitle',
         handle: 'medusa-longsleeve',
         id: 'id',

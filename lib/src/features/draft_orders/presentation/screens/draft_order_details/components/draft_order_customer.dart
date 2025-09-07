@@ -20,13 +20,21 @@ class DraftOrderCustomer extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     final email = draftOrder.email;
-    final name = '${draftOrder.customer?.firstName ?? ''} ${draftOrder.customer?.lastName ?? ''}';
+    final name =
+        '${draftOrder.customer?.firstName ?? ''} ${draftOrder.customer?.lastName ?? ''}';
     String getCountry() {
       String countryName = '';
       final countryCode = draftOrder.shippingAddress?.countryCode;
       if (countryCode != null) {
-        final country = countries.firstWhere((element) => element.iso2 == countryCode,
-            orElse: () => const Country(iso2: '', iso3: '', numCode: '0', name: '', displayOnStore: '', id: 0));
+        final country = countries.firstWhere(
+            (element) => element.iso2 == countryCode,
+            orElse: () => const Country(
+                iso2: '',
+                iso3: '',
+                numCode: '0',
+                name: '',
+                displayOnStore: '',
+                id: 0));
         countryName = country.name;
       }
       return countryName.capitalize;
@@ -42,15 +50,19 @@ class DraftOrderCustomer extends StatelessWidget {
       title: const Text('Customer'),
       trailing: IconButton(
           onPressed: () async {
-            await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
-              const SheetAction(label: 'Go to Customer', icon: Icons.person, key: 0),
-              const SheetAction(label: 'Edit Shipping Address', key: 1),
-              const SheetAction(label: 'Edit Billing Address', key: 2),
-            ]).then((value) async {
+            await showModalActionSheet<int>(
+                context: context,
+                actions: <SheetAction<int>>[
+                  const SheetAction(
+                      label: 'Go to Customer', icon: Icons.person, key: 0),
+                  const SheetAction(label: 'Edit Shipping Address', key: 1),
+                  const SheetAction(label: 'Edit Billing Address', key: 2),
+                ]).then((value) async {
               if (value == null) return;
               switch (value) {
                 case 0:
-                  await context.pushRoute(CustomerDetailsRoute(customerId: draftOrder.customerId));
+                  await context.pushRoute(
+                      CustomerDetailsRoute(customerId: draftOrder.customerId));
                   break;
                 case 1:
                   break;
@@ -70,7 +82,9 @@ class DraftOrderCustomer extends StatelessWidget {
                     CircleAvatar(
                         backgroundColor: ColorManager.getAvatarColor(email),
                         child: Text(
-                          name.isNotEmpty ? name[0].toUpperCase() : email[0].toUpperCase(),
+                          name.isNotEmpty
+                              ? name[0].toUpperCase()
+                              : email[0].toUpperCase(),
                           style: largeTextStyle?.copyWith(color: Colors.white),
                         )),
                     const SizedBox(width: 14.0),
@@ -79,7 +93,8 @@ class DraftOrderCustomer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(name, style: mediumTextStyle),
-                          Text('${draftOrder.shippingAddress?.city ?? ''}, ${getCountry()}',
+                          Text(
+                              '${draftOrder.shippingAddress?.city ?? ''}, ${getCountry()}',
                               style: mediumTextStyle?.copyWith(color: manatee))
                         ],
                       ),
@@ -92,7 +107,8 @@ class DraftOrderCustomer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(email, style: context.bodyMedium),
-                    if (draftOrder.billingAddress != null && draftOrder.billingAddress!.phone != null)
+                    if (draftOrder.billingAddress != null &&
+                        draftOrder.billingAddress!.phone != null)
                       Text(
                         draftOrder.billingAddress!.phone.toString(),
                         style: context.bodyMedium,
@@ -110,7 +126,8 @@ class DraftOrderCustomer extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Shipping', style: mediumTextStyle!.copyWith(color: manatee)),
+                    Text('Shipping',
+                        style: mediumTextStyle!.copyWith(color: manatee)),
                     const SizedBox(height: 5.0),
                     Text(
                         '${draftOrder.shippingAddress?.address1 ?? ''} ${draftOrder.shippingAddress?.address2 ?? ''}',
@@ -125,7 +142,8 @@ class DraftOrderCustomer extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Billing', style: mediumTextStyle.copyWith(color: manatee)),
+                    Text('Billing',
+                        style: mediumTextStyle.copyWith(color: manatee)),
                     const SizedBox(height: 5.0),
                     Text(
                       '${draftOrder.billingAddress?.address1 ?? ''} ${draftOrder.billingAddress?.address2 ?? ''}',

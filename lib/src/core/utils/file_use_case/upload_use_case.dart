@@ -17,8 +17,7 @@ class UploadUseCase {
   Future<Result<List<Upload>, MedusaError>> call(FormData files,
       {Map<String, dynamic>? customHeaders}) async {
     try {
-      final result = await _uploadRepository.create(
-        files);
+      final result = await _uploadRepository.create(files);
       return Success(result.files);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -27,8 +26,8 @@ class UploadUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 

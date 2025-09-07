@@ -3,7 +3,8 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 
 class ProductDetailsOverview extends StatelessWidget {
@@ -180,8 +181,7 @@ class ProductDetailsOverview extends StatelessWidget {
                           style: mediumTextStyle.copyWith(color: manatee))),
                   Flexible(
                       flex: 2,
-                      child: Text(
-                          product.discountable.toString().capitalize,
+                      child: Text(product.discountable.toString().capitalize,
                           style: mediumTextStyle.copyWith(color: manatee),
                           textAlign: TextAlign.right)),
                 ],

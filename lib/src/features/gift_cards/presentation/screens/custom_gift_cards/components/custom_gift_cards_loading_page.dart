@@ -20,13 +20,23 @@ class CustomGiftCardsLoadingPage extends StatelessWidget {
       referenceId: '',
       note: 'note',
       reference: 'reference',
-      lineItem: LineItem(id: '', title: '', description: '', thumbnail: '', isGiftcard: false, quantity: 0, unitPrice: 2),
+      lineItem: LineItem(
+          id: '',
+          title: '',
+          description: '',
+          thumbnail: '',
+          isGiftcard: false,
+          quantity: 0,
+          unitPrice: 2),
     );
     return Skeletonizer(
       enabled: true,
       child: Column(
         children: List.generate(
-            19, (index) => index.isEven ? CustomGiftCardTile(giftCard) : const Divider(height: 0)),
+            19,
+            (index) => index.isEven
+                ? CustomGiftCardTile(giftCard)
+                : const Divider(height: 0)),
       ),
     );
   }

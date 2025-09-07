@@ -14,7 +14,8 @@ class CollectionCrudUseCase {
 
   static CollectionCrudUseCase get instance => getIt<CollectionCrudUseCase>();
 
-  Future<Result<bool, MedusaError>> deleteCollection(String collectionId) async {
+  Future<Result<bool, MedusaError>> deleteCollection(
+      String collectionId) async {
     try {
       await _collectionRepository.delete(collectionId);
       return Success(true);
@@ -25,11 +26,13 @@ class CollectionCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<ProductCollection, MedusaError>> getCollection(String collectionId,
+  Future<Result<ProductCollection, MedusaError>> getCollection(
+      String collectionId,
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _collectionRepository.retrieve(collectionId);
@@ -41,14 +44,16 @@ class CollectionCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<CollectionListRes, MedusaError>> getCollections(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _collectionRepository.retrieveAll(queryParameters: queryParameters);
+      final result = await _collectionRepository.retrieveAll(
+          queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -57,7 +62,8 @@ class CollectionCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -76,9 +82,11 @@ class CollectionCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
+
   Future<Result<ProductCollection, MedusaError>> addProducts(
       String id, List<String> productIds) async {
     try {
@@ -94,7 +102,8 @@ class CollectionCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -131,7 +140,8 @@ class CollectionCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -140,8 +150,8 @@ class CollectionCrudUseCase {
     required UpdateCollectionReq updateCollectionReq,
   }) async {
     try {
-      final result = await _collectionRepository.update(
-          id, updateCollectionReq);
+      final result =
+          await _collectionRepository.update(id, updateCollectionReq);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -150,7 +160,8 @@ class CollectionCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

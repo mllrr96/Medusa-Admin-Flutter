@@ -3,7 +3,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:gap/gap.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
@@ -63,12 +64,15 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   builder: (context, state) {
                     return state.maybeMap(
                       product: (state) {
-                        final isPublished = state.product.status == ProductStatus.published;
+                        final isPublished =
+                            state.product.status == ProductStatus.published;
                         return TextButton(
                           onPressed: () async {
                             await showOkCancelAlertDialog(
                               context: context,
-                              title: isPublished ? 'Unpublish product?' : 'Publish product?',
+                              title: isPublished
+                                  ? 'Unpublish product?'
+                                  : 'Publish product?',
                               message:
                                   'Are you sure you want to ${isPublished ? 'unpublish' : 'publish'} this product?',
                               isDestructiveAction: true,
@@ -111,7 +115,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       context.maybePop();
                     },
                     updated: (product) {
-                      productCrudBloc.add(ProductCrudEvent.loadProductVariants(product.id));
+                      productCrudBloc.add(
+                          ProductCrudEvent.loadProductVariants(product.id));
                     },
                     orElse: () {},
                   );
@@ -119,18 +124,23 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 builder: (context, state) {
                   return state.whenOrNull(
                         product: (product) => SingleChildScrollView(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 10.0),
                           child: Column(
                             children: [
                               ProductDetailsOverview(product: product),
                               space,
-                              ProductDetailsVariants(product: product, key: variantsKey),
+                              ProductDetailsVariants(
+                                  product: product, key: variantsKey),
                               space,
-                              ProductDetailsAttributes(product: product, key: attributesKey),
+                              ProductDetailsAttributes(
+                                  product: product, key: attributesKey),
                               space,
-                              ProductDetailsThumbnail(product: product, key: thumbnailKey),
+                              ProductDetailsThumbnail(
+                                  product: product, key: thumbnailKey),
                               space,
-                              ProductDetailsImages(product: product, key: imagesKey),
+                              ProductDetailsImages(
+                                  product: product, key: imagesKey),
                             ],
                           ),
                         ),
@@ -144,7 +154,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                   child: const Text('Retry'),
                                   onPressed: () {
                                     productCrudBloc.add(
-                                        ProductCrudEvent.loadProductVariants(widget.productId));
+                                        ProductCrudEvent.loadProductVariants(
+                                            widget.productId));
                                   }),
                             ],
                           ),

@@ -9,15 +9,14 @@ class DiscountsLoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final discount = Promotion(
-        code: 'MEDUSA', id: '');
+    final discount = Promotion(code: 'MEDUSA', id: '');
     return Skeletonizer(
       enabled: true,
       child: Column(
         children: List.generate(
-            12,
-            (index) =>
-                index.isEven?  DiscountCard(discount): const Gap(12.0),),
+          12,
+          (index) => index.isEven ? DiscountCard(discount) : const Gap(12.0),
+        ),
       ),
     );
   }

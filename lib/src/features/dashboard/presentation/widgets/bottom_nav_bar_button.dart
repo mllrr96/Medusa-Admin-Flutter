@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 
-
 class BottomNavigationBarButton extends StatelessWidget {
   const BottomNavigationBarButton({
     super.key,
@@ -32,8 +31,10 @@ class BottomNavigationBarButton extends StatelessWidget {
   final bool noShadow;
   @override
   Widget build(BuildContext context) {
-    final TextStyle filledTextStyle = GoogleFonts.aBeeZee(fontSize: 16.0, color: textColor ?? ColorManager.white);
-    const EdgeInsets kBackgroundButtonPadding = EdgeInsets.symmetric(vertical: 14.0, horizontal: 64.0);
+    final TextStyle filledTextStyle = GoogleFonts.aBeeZee(
+        fontSize: 16.0, color: textColor ?? ColorManager.white);
+    const EdgeInsets kBackgroundButtonPadding =
+        EdgeInsets.symmetric(vertical: 14.0, horizontal: 64.0);
     const double kContainerHeight = 50.0;
     // final BoxShadow boxShadow = BoxShadow(
     //   color: Colors.grey.withOpacity(0.5),
@@ -45,16 +46,21 @@ class BottomNavigationBarButton extends StatelessWidget {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(color: backgroundColor ?? context.theme.bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom / 2),
+          Container(
+              color: backgroundColor ??
+                  context.theme.bottomNavigationBarTheme.backgroundColor,
+              height: MediaQuery.of(context).padding.bottom / 2),
           Container(
             decoration: BoxDecoration(
-              color: backgroundColor ?? context.theme.bottomNavigationBarTheme.backgroundColor,
+              color: backgroundColor ??
+                  context.theme.bottomNavigationBarTheme.backgroundColor,
               // boxShadow: noShadow ? null : [boxShadow],
             ),
             height: containerHeight ?? kContainerHeight,
             alignment: Alignment.center,
             child: CupertinoTheme(
-              data: CupertinoThemeData(primaryColor: buttonColor ?? ColorManager.primary),
+              data: CupertinoThemeData(
+                  primaryColor: buttonColor ?? ColorManager.primary),
               child: SizedBox(
                 width: buttonWidth,
                 child: CupertinoButton.filled(
@@ -67,17 +73,24 @@ class BottomNavigationBarButton extends StatelessWidget {
               ),
             ),
           ),
-          Container(color: backgroundColor ?? context.theme.bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom),
+          Container(
+              color: backgroundColor ??
+                  context.theme.bottomNavigationBarTheme.backgroundColor,
+              height: MediaQuery.of(context).padding.bottom),
         ],
       );
     }
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(color: backgroundColor ??Theme.of(context).bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom / 2),
+        Container(
+            color: backgroundColor ??
+                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            height: MediaQuery.of(context).padding.bottom / 2),
         Container(
           decoration: BoxDecoration(
-            color: backgroundColor ?? Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            color: backgroundColor ??
+                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
             // boxShadow:noShadow ? null : [boxShadow],
           ),
           height: containerHeight ?? kContainerHeight,
@@ -94,7 +107,10 @@ class BottomNavigationBarButton extends StatelessWidget {
             ),
           ),
         ),
-        Container(color: backgroundColor ?? Theme.of(context).bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom),
+        Container(
+            color: backgroundColor ??
+                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            height: MediaQuery.of(context).padding.bottom),
       ],
     );
   }

@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
-import 'package:medusa_admin/src/core/routing/app_router.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/routing/app_router.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
 
 class NetworkImageCard extends StatelessWidget {

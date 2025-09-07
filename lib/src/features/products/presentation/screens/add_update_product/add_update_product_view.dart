@@ -166,7 +166,9 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
             appBar: AppBar(
               systemOverlayStyle: context.defaultSystemUiOverlayStyle,
               leading: const CloseButton(),
-              title: updateMode ? const Text('Update Product') : const Text('New Product'),
+              title: updateMode
+                  ? const Text('Update Product')
+                  : const Text('New Product'),
               actions: [
                 TextButton(
                     onPressed: () async {
@@ -182,13 +184,16 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                         await createProduct();
                       }
                     },
-                    child: updateMode ? const Text('Save') : const Text('Publish')),
+                    child: updateMode
+                        ? const Text('Save')
+                        : const Text('Publish')),
               ],
             ),
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 10.0),
                   child: Form(
                     key: keyForm,
                     child: Column(

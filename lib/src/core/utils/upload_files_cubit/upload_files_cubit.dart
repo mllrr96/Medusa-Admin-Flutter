@@ -17,7 +17,8 @@ part 'upload_files_cubit.freezed.dart';
 
 @injectable
 class UploadFilesCubit extends Cubit<UploadFilesState> {
-  UploadFilesCubit(this.uploadUseCase, this.deleteFileUseCase, this.getFileUrlUseCase)
+  UploadFilesCubit(
+      this.uploadUseCase, this.deleteFileUseCase, this.getFileUrlUseCase)
       : super(const _Initial());
 
   Future<void> uploadFiles(List<File> files) async {
@@ -45,7 +46,8 @@ class UploadFilesCubit extends Cubit<UploadFilesState> {
   Future<void> getFileUrl(String url) async {
     emit(const _Uploading());
     // TODO: fix this
-    final result = await getFileUrlUseCase(UploadsPresignedUrlReq(originalName: '', size: 0, mimeType: ''));
+    final result = await getFileUrlUseCase(
+        UploadsPresignedUrlReq(originalName: '', size: 0, mimeType: ''));
     result.when((url) {
       emit(_Uploaded([url.url]));
     }, (error) {

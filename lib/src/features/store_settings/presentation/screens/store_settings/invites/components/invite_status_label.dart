@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+
 class InviteStatusLabel extends StatelessWidget {
   const InviteStatusLabel({super.key, required this.accepted});
   final bool? accepted;
@@ -11,7 +12,7 @@ class InviteStatusLabel extends StatelessWidget {
     var textColor = ColorManager.primary;
     String text = 'Admin';
 
-    if(accepted == null || accepted! == false){
+    if (accepted == null || accepted! == false) {
       containerColor = Colors.orange.withOpacity(0.17);
       textColor = Colors.orange;
       text = 'Pending';

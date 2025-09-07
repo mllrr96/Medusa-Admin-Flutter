@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:gap/gap.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/utils/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/src/features/draft_orders/presentation/bloc/draft_order_crud/draft_order_crud_bloc.dart';
-import 'components/index.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'components/index.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 @RoutePage()
 class DraftOrderDetailsView extends StatefulWidget {
@@ -118,61 +120,63 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
               ),
             ],
             body: state.maybeMap(
-                draftOrder: (_) => SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 10.0),
-                        child: Column(
-                          children: [
-                            DraftOrderOverview(_.draftOrder),
-                            space,
-                            DraftOrderSummery(
-                              _.draftOrder,
-                              key: summeryKey,
-                            ),
-                            space,
-                            DraftOrderPayment(
-                              _.draftOrder,
-                              key: paymentKey,
-                              markAsPaid: () {
-                                draftOrderCrudBloc.add(
-                                    DraftOrderCrudEvent.registerPayment(
-                                        widget.draftId));
-                              },
-                            ),
-                            space,
-                            DraftOrderShipping(
-                              _.draftOrder,
-                              key: shippingKey,
-                            ),
-                            space,
-                            DraftOrderCustomer(
-                              _.draftOrder,
-                              key: customerKey,
-                            ),
-                            space,
-                          ],
-                        ),
+              draftOrder: (_) => SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 10.0),
+                  child: Column(
+                    children: [
+                      DraftOrderOverview(_.draftOrder),
+                      space,
+                      DraftOrderSummery(
+                        _.draftOrder,
+                        key: summeryKey,
                       ),
-                    ),
-                error: (_) => Center(
-                        child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.error, color: Colors.red),
-                          const SizedBox(width: 12.0),
-                          Flexible(
-                              child: Text(
-                            _.error.toString(),
-                            style: smallTextStyle,
-                          )),
-                        ],
+                      space,
+                      DraftOrderPayment(
+                        _.draftOrder,
+                        key: paymentKey,
+                        markAsPaid: () {
+                          draftOrderCrudBloc.add(
+                              DraftOrderCrudEvent.registerPayment(
+                                  widget.draftId));
+                        },
                       ),
+                      space,
+                      DraftOrderShipping(
+                        _.draftOrder,
+                        key: shippingKey,
+                      ),
+                      space,
+                      DraftOrderCustomer(
+                        _.draftOrder,
+                        key: customerKey,
+                      ),
+                      space,
+                    ],
+                  ),
+                ),
+              ),
+              error: (_) => Center(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error, color: Colors.red),
+                    const SizedBox(width: 12.0),
+                    Flexible(
+                        child: Text(
+                      _.error.toString(),
+                      style: smallTextStyle,
                     )),
-                // orElse: () => const DraftOrderLoadingPage(),
-                orElse: () => Center(child: CircularProgressIndicator(),),
+                  ],
+                ),
+              )),
+              // orElse: () => const DraftOrderLoadingPage(),
+              orElse: () => Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
           ),
         );

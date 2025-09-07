@@ -104,8 +104,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
             const Gap(6.0),
             FloatingActionButton.extended(
               heroTag: UniqueKey(),
-              onPressed: () =>
-                  context.pushRoute(const CreateDraftOrderRoute()),
+              onPressed: () => context.pushRoute(const CreateDraftOrderRoute()),
               label: const Text('Draft Order'),
               icon: const Icon(Icons.add),
             ),
@@ -116,8 +115,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
                 final ordersCount = draftOrderCrudBloc.state.maybeMap(
-                    draftOrders: (state) =>
-                        state.count, orElse: () => 0 );
+                    draftOrders: (state) => state.count, orElse: () => 0);
                 return Text(
                     ordersCount > 0 ? 'Drafts ($ordersCount)' : 'Drafts',
                     overflow: TextOverflow.ellipsis);
@@ -132,15 +130,15 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
               padding: const EdgeInsets.only(
                   bottom: 120, top: 8.0, left: 8.0, right: 8.0),
               builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
-                  animateTransitions: true,
-                  itemBuilder: (context, draftOrder, index) =>
-                      DraftOrderCard(draftOrder),
-                  noItemsFoundIndicatorBuilder: (_) =>
-                      const Center(child: Text('No draft orders yet!')),
-                  firstPageProgressIndicatorBuilder: (context) =>
-                      const DraftsLoadingPage(),
-                  firstPageErrorIndicatorBuilder: (context) =>
-                      PaginationErrorPage(pagingController: pagingController),
+                animateTransitions: true,
+                itemBuilder: (context, draftOrder, index) =>
+                    DraftOrderCard(draftOrder),
+                noItemsFoundIndicatorBuilder: (_) =>
+                    const Center(child: Text('No draft orders yet!')),
+                firstPageProgressIndicatorBuilder: (context) =>
+                    const DraftsLoadingPage(),
+                firstPageErrorIndicatorBuilder: (context) =>
+                    PaginationErrorPage(pagingController: pagingController),
               ),
               separatorBuilder: (_, __) => const Gap(8.0),
             ),

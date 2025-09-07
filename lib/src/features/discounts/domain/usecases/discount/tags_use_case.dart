@@ -17,8 +17,7 @@ class TagsUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result =
-          await _tagRepo.list(query: queryParameters);
+      final result = await _tagRepo.list(query: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -27,8 +26,8 @@ class TagsUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

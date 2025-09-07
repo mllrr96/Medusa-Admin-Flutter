@@ -9,7 +9,8 @@ import 'package:multiple_result/multiple_result.dart';
 class CollectionUseCase {
   CollectionUseCase(this._medusaAdminV2);
   final MedusaAdminV2 _medusaAdminV2;
-  CollectionsRepository get _collectionsRepository => _medusaAdminV2.collections;
+  CollectionsRepository get _collectionsRepository =>
+      _medusaAdminV2.collections;
 
   static CollectionUseCase get instance => getIt<CollectionUseCase>();
 
@@ -17,8 +18,8 @@ class CollectionUseCase {
     required CreateCollectionReq userCreateCollectionReq,
   }) async {
     try {
-      final result = await _collectionsRepository.create(
-           userCreateCollectionReq);
+      final result =
+          await _collectionsRepository.create(userCreateCollectionReq);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -27,8 +28,8 @@ class CollectionUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -37,8 +38,8 @@ class CollectionUseCase {
     required UpdateCollectionReq updateCollectionReq,
   }) async {
     try {
-      final result = await _collectionsRepository.update(
-          id,  updateCollectionReq);
+      final result =
+          await _collectionsRepository.update(id, updateCollectionReq);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -47,8 +48,8 @@ class CollectionUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -56,7 +57,8 @@ class CollectionUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _collectionsRepository.retrieveAll(queryParameters: queryParameters);
+      final result = await _collectionsRepository.retrieveAll(
+          queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -65,8 +67,8 @@ class CollectionUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

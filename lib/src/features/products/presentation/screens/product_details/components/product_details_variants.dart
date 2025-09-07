@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/features/products/data/models/product_variant_req.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
@@ -77,8 +78,8 @@ class ProductDetailsVariants extends StatelessWidget {
                         spacing: 8.0,
                         children: option.values
                                 ?.map((e) => Chip(
-                                    label: Text(e.value,
-                                        style: smallTextStyle)))
+                                    label:
+                                        Text(e.value, style: smallTextStyle)))
                                 .toList() ??
                             [],
                       ),

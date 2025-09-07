@@ -5,7 +5,8 @@ import 'package:medusa_admin/src/core/utils/enums.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 
 class SearchFloatingActionButton extends StatelessWidget {
-  const SearchFloatingActionButton({super.key, this.onTap, this.searchCategory});
+  const SearchFloatingActionButton(
+      {super.key, this.onTap, this.searchCategory});
   final void Function()? onTap;
   final SearchCategory? searchCategory;
   @override

@@ -8,7 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 import 'package:medusa_admin/src/core/utils/currency_formatter.dart';
 
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
@@ -18,7 +20,8 @@ import 'package:medusa_admin/src/features/products/data/models/product_variant_r
 import 'package:medusa_admin/src/features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/widgets/countries/country_view.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/src/core/utils/easy_loading.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/utils/easy_loading.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
@@ -150,7 +153,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
               title: Text(updateMode ? 'Update Attributes' : 'Create Variant'),
               actions: [
                 TextButton(
-                  onPressed: (){},
+                    onPressed: () {},
                     // onPressed: () async => updateMode
                     //     ? productCrudBloc.add(ProductCrudEvent.update(
                     //         product.id,
@@ -229,7 +232,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(currentOption.title?? '',
+                                          Text(currentOption.title ?? '',
                                               style: mediumTextStyle),
                                           Text(' *',
                                               style: mediumTextStyle?.copyWith(
@@ -332,7 +335,8 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                      currency.code?.toUpperCase() ??
+                                                      currency.code
+                                                              ?.toUpperCase() ??
                                                           '',
                                                       style: mediumTextStyle),
                                                   space,
@@ -566,7 +570,8 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                     builder: (context) =>
                                         const SelectCountryView());
                                 if (result is List<Country>) {
-                                  countryCtrl.text = result.first.displayOnStore;
+                                  countryCtrl.text =
+                                      result.first.displayOnStore;
                                   setState(() {});
                                 }
                               },
@@ -656,8 +661,10 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
     currencyCtrlMap.forEach((key, value) {
       prices.add(MoneyAmount(
         amount:
-            int.tryParse(value.text.replaceAll(',', '').replaceAll('.', '')) ?? 0,
-        currencyCode: key.code!, id: '',
+            int.tryParse(value.text.replaceAll(',', '').replaceAll('.', '')) ??
+                0,
+        currencyCode: key.code!,
+        id: '',
       ));
     });
 

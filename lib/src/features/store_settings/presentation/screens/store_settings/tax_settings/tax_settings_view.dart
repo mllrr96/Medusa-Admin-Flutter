@@ -5,7 +5,8 @@ import 'package:gap/gap.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin/src/features/tax_settings/data/models/add_update_tax_rate_req.dart';
@@ -14,7 +15,8 @@ import 'package:medusa_admin/src/features/tax_settings/presentation/cubits/tax_p
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:skeletonizer/skeletonizer.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 import 'components/tax_rate_card.dart';
 
@@ -375,12 +377,20 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                     child: Column(
                       children: [
                         TaxRateCard(
-                            taxRate:
-                                TaxRate(name: 'Default', rate: '0.0', code: '-', id: '', regionId: '')),
+                            taxRate: TaxRate(
+                                name: 'Default',
+                                rate: '0.0',
+                                code: '-',
+                                id: '',
+                                regionId: '')),
                         Gap(6.0),
                         TaxRateCard(
-                          taxRate:
-                              TaxRate(name: 'Default', rate: '0.0', code: '-', id: '', regionId: ''),
+                          taxRate: TaxRate(
+                              name: 'Default',
+                              rate: '0.0',
+                              code: '-',
+                              id: '',
+                              regionId: ''),
                         ),
                       ],
                     ),
@@ -390,8 +400,12 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                   noItemsFoundIndicatorBuilder: (_) => const Column(
                     children: [
                       TaxRateCard(
-                          taxRate:
-                              TaxRate(name: 'Default', rate: '0.0', code: '-', id: '', regionId: '')),
+                          taxRate: TaxRate(
+                              name: 'Default',
+                              rate: '0.0',
+                              code: '-',
+                              id: '',
+                              regionId: '')),
                     ],
                   ),
                 ),

@@ -9,7 +9,8 @@ import 'package:gap/gap.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/utils/image_picker_helper.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -273,8 +274,7 @@ class _RenameFileViewState extends State<RenameFileView> {
 
     return Container(
       padding: EdgeInsets.only(
-          bottom: context.viewInsets.bottom +
-              context.viewInsets.bottom),
+          bottom: context.viewInsets.bottom + context.viewInsets.bottom),
       color: context.theme.scaffoldBackgroundColor,
       child: Column(
         mainAxisSize: MainAxisSize.min,

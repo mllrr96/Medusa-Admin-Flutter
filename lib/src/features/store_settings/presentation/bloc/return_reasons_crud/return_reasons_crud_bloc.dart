@@ -35,8 +35,8 @@ class ReturnReasonsCrudBloc
     final result = await _useCase.loadAll(
         queryParameters: {'limit': pageSize, ...?event.queryParameters});
     result.when(
-        (response) => emit(
-            _ReturnReasons(response.returnReasons, response.count)),
+        (response) =>
+            emit(_ReturnReasons(response.returnReasons, response.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -50,8 +50,7 @@ class ReturnReasonsCrudBloc
   void _update(_Update event, Emitter<ReturnReasonsCrudState> emit) async {
     emit(const _Loading());
     final result = await _useCase.update(
-        id: event.id,
-        updateReturnReason: event.updateReturnReason);
+        id: event.id, updateReturnReason: event.updateReturnReason);
     result.when((returnReason) => emit(_ReturnReason(returnReason)),
         (error) => emit(_Error(error)));
   }

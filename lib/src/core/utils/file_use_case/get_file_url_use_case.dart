@@ -14,8 +14,10 @@ class GetFileUrlUseCase {
 
   static GetFileUrlUseCase get instance => getIt<GetFileUrlUseCase>();
 
-  Future<Result<UploadsPresignedUrlRes, MedusaError>> call(UploadsPresignedUrlReq payload,
-      {Map<String, dynamic>? context, bool dryRun = false}) async {
+  Future<Result<UploadsPresignedUrlRes, MedusaError>> call(
+      UploadsPresignedUrlReq payload,
+      {Map<String, dynamic>? context,
+      bool dryRun = false}) async {
     try {
       final result = await _uploadRepository.getPresignedUrl(payload);
 
@@ -27,8 +29,8 @@ class GetFileUrlUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

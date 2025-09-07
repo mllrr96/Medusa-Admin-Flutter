@@ -12,9 +12,11 @@ class ShippingOptionCrudUseCase {
 
   ShippingOptionCrudUseCase(this._medusaAdmin);
 
-  ShippingOptionsRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptions;
+  ShippingOptionsRepository get _shippingOptionsRepository =>
+      _medusaAdmin.shippingOptions;
 
-  Future<Result<ShippingOption, MedusaError>> create(CreateShippingOptionReq payload) async {
+  Future<Result<ShippingOption, MedusaError>> create(
+      CreateShippingOptionReq payload) async {
     try {
       final result = await _shippingOptionsRepository.create(body: payload);
       return Success(result.shippingOption);
@@ -29,14 +31,16 @@ class ShippingOptionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<ShippingOption, MedusaError>> update(
       {required String id, required UpdateShippingOptionReq payload}) async {
     try {
-      final result = await _shippingOptionsRepository.update(id: id, body: payload);
+      final result =
+          await _shippingOptionsRepository.update(id: id, body: payload);
       return Success(result.shippingOption);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -49,7 +53,8 @@ class ShippingOptionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -68,7 +73,8 @@ class ShippingOptionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -88,14 +94,16 @@ class ShippingOptionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<ShippingOptionRes, MedusaError>> load(String id,
       {Map<String, dynamic>? queryParams}) async {
     try {
-      final result = await _shippingOptionsRepository.retrieve(id: id, query: queryParams);
+      final result =
+          await _shippingOptionsRepository.retrieve(id: id, query: queryParams);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -108,7 +116,8 @@ class ShippingOptionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

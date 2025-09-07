@@ -23,9 +23,10 @@ class DraftsLoadingPage extends StatelessWidget {
       customerId: '',
       salesChannelId: '',
       email: '',
-      paymentStatus:PaymentStatus.canceled,
+      paymentStatus: PaymentStatus.canceled,
       fulfillmentStatus: FulfillmentStatus.delivered,
-      summary: OrderSummary(paidTotal: 0,
+      summary: OrderSummary(
+          paidTotal: 0,
           refundedTotal: 0,
           pendingDifference: 0,
           currentOrderTotal: 0,
@@ -61,8 +62,7 @@ class DraftsLoadingPage extends StatelessWidget {
       child: Column(
           children: List.generate(
               20,
-                  (index) =>
-              index.isEven
+              (index) => index.isEven
                   ? DraftOrderCard(draftOrder, shimmer: true)
                   : const Gap(12.0))),
     );

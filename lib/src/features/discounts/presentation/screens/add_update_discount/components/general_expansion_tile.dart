@@ -1,4 +1,7 @@
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/num_extension.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/num_extension.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -88,7 +91,7 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
     return FlexExpansionTile(
       // key: controller.generalKey,
       controller: widget.tileController,
-      initiallyExpanded: widget.discount !=null,
+      initiallyExpanded: widget.discount != null,
       onExpansionChanged: (expanded) async {
         if (expanded && widget.key is GlobalKey) {
           await (widget.key as GlobalKey).currentContext.ensureVisibility();
@@ -103,10 +106,10 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
           LabeledTextField(
             onSaved: (_) {
               widget.onSaved(
-             selectedRegions,
-              codeCtrl.text,
-             descriptionCtrl.text,
-            discountType == PromotionType.standard
+                  selectedRegions,
+                  codeCtrl.text,
+                  descriptionCtrl.text,
+                  discountType == PromotionType.standard
                       ? int.tryParse(
                           amountCtrl.text.replaceAll(RegExp('[^0-9]'), ''))
                       : int.tryParse(percentageCtrl.text

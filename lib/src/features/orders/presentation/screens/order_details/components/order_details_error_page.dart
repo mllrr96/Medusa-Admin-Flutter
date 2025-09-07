@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:gap/gap.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class OrderDetailsErrorPage extends StatelessWidget {
-  const OrderDetailsErrorPage(this.message,{super.key, this.onRetryTap, });
+  const OrderDetailsErrorPage(
+    this.message, {
+    super.key,
+    this.onRetryTap,
+  });
   final String message;
   final void Function()? onRetryTap;
 
@@ -13,9 +18,7 @@ class OrderDetailsErrorPage extends StatelessWidget {
       children: [
         Text('Error retrieving data', style: context.bodyLarge),
         const Gap(10.0),
-        FilledButton(
-            onPressed: onRetryTap,
-            child: const Text('   Retry   ')),
+        FilledButton(onPressed: onRetryTap, child: const Text('   Retry   ')),
         const Gap(10.0),
         Text(message),
       ],

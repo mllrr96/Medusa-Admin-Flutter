@@ -114,7 +114,8 @@ class LabeledChipTextFieldState extends State<LabeledChipTextField> {
   final TextEditingController textCtrl = TextEditingController();
 
   /// checks whether the chips has reached the maximum number of chips allowed
-  bool get _hasReachedMaxChips => widget.maxChips != null && chips.length >= widget.maxChips!;
+  bool get _hasReachedMaxChips =>
+      widget.maxChips != null && chips.length >= widget.maxChips!;
 
   @override
   void initState() {
@@ -162,8 +163,11 @@ class LabeledChipTextFieldState extends State<LabeledChipTextField> {
             Row(
               children: [
                 Text(widget.label!,
-                    style: mediumTextStyle?.copyWith(color: widget.lightLabelColor ? manatee : null)),
-                if (widget.required) Text('*', style: mediumTextStyle?.copyWith(color: Colors.red)),
+                    style: mediumTextStyle?.copyWith(
+                        color: widget.lightLabelColor ? manatee : null)),
+                if (widget.required)
+                  Text('*',
+                      style: mediumTextStyle?.copyWith(color: Colors.red)),
               ],
             ),
           halfSpace,
@@ -172,7 +176,8 @@ class LabeledChipTextFieldState extends State<LabeledChipTextField> {
               children: chips
                   .map((e) => Chip(
                         label: Text(e, overflow: widget.textOverflow),
-                        onDeleted: widget.chipCanDelete ? () => deleteChip(e) : null,
+                        onDeleted:
+                            widget.chipCanDelete ? () => deleteChip(e) : null,
                         deleteIcon: widget.chipDeleteIcon,
                         backgroundColor: widget.chipBackgroundColor,
                         labelStyle: widget.chipTextStyle ?? smallTextStyle,

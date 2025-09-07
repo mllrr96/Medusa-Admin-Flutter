@@ -15,7 +15,8 @@ class DateTimeCard extends StatelessWidget {
       this.dateTimeTextStyle,
       this.dateTextStyle,
       this.borderColor,
-      this.validator, this.onSaved});
+      this.validator,
+      this.onSaved});
   final DateTime? dateTime;
   final void Function()? onTap;
   final void Function(DateTime?)? onSaved;

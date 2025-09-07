@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';import 'package:medusa_admin/src/core/extensions/num_extension.dart';import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/num_extension.dart';
+import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
 
 class RefundWidget extends StatelessWidget {
   const RefundWidget(this.refund, {super.key, required this.currencyCode});
@@ -9,7 +12,8 @@ class RefundWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final durationDiff = DateTime.now().difference(refund.createdAt ?? DateTime.now());
+    final durationDiff =
+        DateTime.now().difference(refund.createdAt ?? DateTime.now());
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return Column(

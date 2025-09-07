@@ -69,8 +69,7 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
 
   Future<void> _update(_Update event, Emitter<CategoryCrudState> emit) async {
     emit(const _Loading());
-    final result =
-        await _useCase.update(event.id, event.payload);
+    final result = await _useCase.update(event.id, event.payload);
     result.when(
       (success) {
         emit(_Category(success));
@@ -97,8 +96,7 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
   Future<void> _addProducts(
       _AddProducts event, Emitter<CategoryCrudState> emit) async {
     emit(const _Loading());
-    final result =
-        await _useCase.addProducts(event.id, event.productIds);
+    final result = await _useCase.addProducts(event.id, event.productIds);
     result.when(
       (success) {
         emit(_Category(success));
@@ -112,8 +110,7 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
   Future<void> _removeProducts(
       _RemoveProducts event, Emitter<CategoryCrudState> emit) async {
     emit(const _Loading());
-    final result =
-        await _useCase.removeProducts(event.id, event.productIds);
+    final result = await _useCase.removeProducts(event.id, event.productIds);
     result.when(
       (success) {
         emit(_Category(success));

@@ -92,10 +92,8 @@ class _PickGroupsViewState extends State<PickGroupsView> {
               animateTransitions: true,
               itemBuilder: (context, group, index) => CheckboxListTile(
                 title: Text(group.name),
-                value: selectedGroups
-                    .map((e) => e.id)
-                    .toList()
-                    .contains(group.id),
+                value:
+                    selectedGroups.map((e) => e.id).toList().contains(group.id),
                 onChanged: (val) {
                   if (!multipleSelect) {
                     selectedGroups = [group];

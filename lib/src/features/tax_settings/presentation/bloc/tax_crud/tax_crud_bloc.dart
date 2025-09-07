@@ -51,8 +51,8 @@ class TaxCrudBloc extends Bloc<TaxCrudEvent, TaxCrudState> {
 
   void _update(_Update event, Emitter<TaxCrudState> emit) async {
     emit(const _Loading());
-    final result = await _useCase.update(
-        id: event.id, taxRateUpdateReq: event.payload);
+    final result =
+        await _useCase.update(id: event.id, taxRateUpdateReq: event.payload);
     result.when(
       (taxRate) => emit(_TaxRate(taxRate)),
       (error) => emit(_Error(error)),
@@ -66,8 +66,7 @@ class TaxCrudBloc extends Bloc<TaxCrudEvent, TaxCrudState> {
       ...?event.queryParameters,
     });
     result.when(
-      (taxRates) =>
-          emit(_TaxRates(taxRates.taxRates, taxRates.count)),
+      (taxRates) => emit(_TaxRates(taxRates.taxRates, taxRates.count)),
       (error) => emit(_Error(error)),
     );
   }

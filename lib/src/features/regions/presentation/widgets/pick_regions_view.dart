@@ -7,7 +7,6 @@ import 'package:medusa_admin/src/features/regions/data/models/pick_region_res.da
 import 'package:medusa_admin/src/features/regions/presentation/bloc/region_crud/region_crud_bloc.dart';
 import 'package:medusa_admin/src/core/utils/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
-import 'package:medusa_admin/src/features/regions/presentation/bloc/region_crud/region_crud_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 @RoutePage()
@@ -21,7 +20,8 @@ class PickRegionsView extends StatefulWidget {
 }
 
 class _PickRegionsViewState extends State<PickRegionsView> {
-  PickRegionsReq get pickRegionsReq => widget.pickRegionsReq ?? PickRegionsReq();
+  PickRegionsReq get pickRegionsReq =>
+      widget.pickRegionsReq ?? PickRegionsReq();
 
   bool get multipleSelect => pickRegionsReq.multipleSelect;
 
@@ -66,7 +66,8 @@ class _PickRegionsViewState extends State<PickRegionsView> {
             if (isLastPage) {
               pagingController.appendLastPage(state.regions);
             } else {
-              final nextPageKey = pagingController.nextPageKey ?? 0 + state.regions.length;
+              final nextPageKey =
+                  pagingController.nextPageKey ?? 0 + state.regions.length;
               pagingController.appendPage(state.regions, nextPageKey);
             }
           },
@@ -80,11 +81,14 @@ class _PickRegionsViewState extends State<PickRegionsView> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
               leading: const CloseButton(),
-              title: multipleSelect ? const Text('Pick Regions') : const Text('Pick Region'),
+              title: multipleSelect
+                  ? const Text('Pick Regions')
+                  : const Text('Pick Region'),
               actions: [
                 TextButton(
                     onPressed: selectedRegions.isNotEmpty
-                        ? () => context.maybePop(PickRegionsRes(regions: selectedRegions))
+                        ? () => context
+                            .maybePop(PickRegionsRes(regions: selectedRegions))
                         : null,
                     child: const Text('Done'))
               ],
@@ -97,7 +101,10 @@ class _PickRegionsViewState extends State<PickRegionsView> {
               animateTransitions: true,
               itemBuilder: (context, region, index) => CheckboxListTile(
                   title: Text(region.name ?? ''),
-                  value: selectedRegions.map((e) => e.id).toList().contains(region.id),
+                  value: selectedRegions
+                      .map((e) => e.id)
+                      .toList()
+                      .contains(region.id),
                   onChanged: (val) {
                     if (!multipleSelect) {
                       setState(() => selectedRegions = [region]);
@@ -106,7 +113,8 @@ class _PickRegionsViewState extends State<PickRegionsView> {
                     if (val != null && val) {
                       selectedRegions.add(region);
                     } else {
-                      selectedRegions.removeWhere((element) => element.id == region.id);
+                      selectedRegions
+                          .removeWhere((element) => element.id == region.id);
                     }
                     setState(() {});
                   }),

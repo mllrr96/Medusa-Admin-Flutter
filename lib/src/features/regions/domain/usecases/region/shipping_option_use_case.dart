@@ -13,7 +13,8 @@ class ShippingOptionUseCase {
 
   ShippingOptionUseCase(this._medusaAdmin);
 
-  ShippingOptionsRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptions;
+  ShippingOptionsRepository get _shippingOptionsRepository =>
+      _medusaAdmin.shippingOptions;
 
   static ShippingOptionUseCase get instance => getIt<ShippingOptionUseCase>();
 
@@ -33,7 +34,8 @@ class ShippingOptionUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

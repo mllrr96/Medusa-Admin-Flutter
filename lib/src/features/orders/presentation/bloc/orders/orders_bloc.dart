@@ -23,21 +23,20 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     Emitter<OrdersState> emit,
   ) async {
     emit(const _Loading());
-    final result = await ordersUseCase.retrieveOrders(
-      event.queryParameters);
-        //     queryParameters:
-        //         // TODO: add event.queryParameters if needed
-        //         GetOrdersQueryParameters(
-        //   limit: pageSize,
-        //   fields: _expandParameters['fields'] as String?,
-        // )
-        // {
-        //   'limit': pageSize,
-        //   ..._expandParameters,
-        //   ...?event.queryParameters,
-        // }
+    final result = await ordersUseCase.retrieveOrders(event.queryParameters);
+    //     queryParameters:
+    //         // TODO: add event.queryParameters if needed
+    //         GetOrdersQueryParameters(
+    //   limit: pageSize,
+    //   fields: _expandParameters['fields'] as String?,
+    // )
+    // {
+    //   'limit': pageSize,
+    //   ..._expandParameters,
+    //   ...?event.queryParameters,
+    // }
 
-        // );
+    // );
     result.when((ordersResponse) {
       emit(_Orders(ordersResponse.orders, ordersResponse.count.toInt()));
     }, (error) {

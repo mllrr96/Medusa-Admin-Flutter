@@ -18,7 +18,8 @@ class CreateDraftUseCase {
     PostDraftOrdersReq userCreateDraftOrderReq,
   ) async {
     try {
-      final result = await _draftRepository.createDraftOrder(userCreateDraftOrderReq);
+      final result =
+          await _draftRepository.createDraftOrder(userCreateDraftOrderReq);
       return Success(result.draftOrder);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -27,7 +28,8 @@ class CreateDraftUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

@@ -13,9 +13,11 @@ class ShippingProfileCrudUseCase {
 
   ShippingProfileCrudUseCase(this.medusaAdmin);
 
-  ShippingProfilesRepository get _shippingProfileRepository => medusaAdmin.shippingProfiles;
+  ShippingProfilesRepository get _shippingProfileRepository =>
+      medusaAdmin.shippingProfiles;
 
-  Future<Result<ShippingProfile, MedusaError>> create(CreateShippingProfileReq payload) async {
+  Future<Result<ShippingProfile, MedusaError>> create(
+      CreateShippingProfileReq payload) async {
     try {
       final result = await _shippingProfileRepository.create(payload);
       return Success(result);
@@ -30,7 +32,8 @@ class ShippingProfileCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -39,7 +42,8 @@ class ShippingProfileCrudUseCase {
     required UpdateShippingProfileReq userUpdateShippingProfileReq,
   }) async {
     try {
-      final result = await _shippingProfileRepository.update(id, userUpdateShippingProfileReq);
+      final result = await _shippingProfileRepository.update(
+          id, userUpdateShippingProfileReq);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -52,14 +56,16 @@ class ShippingProfileCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<ShippingProfileListRes, MedusaError>> loadAll(
       {Map<String, dynamic>? queryParams}) async {
     try {
-      final result = await _shippingProfileRepository.retrieveAll(queryParameters: queryParams);
+      final result = await _shippingProfileRepository.retrieveAll(
+          queryParameters: queryParams);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -72,7 +78,8 @@ class ShippingProfileCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -92,7 +99,8 @@ class ShippingProfileCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -111,7 +119,8 @@ class ShippingProfileCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

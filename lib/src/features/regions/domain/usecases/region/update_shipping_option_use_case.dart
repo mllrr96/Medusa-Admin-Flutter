@@ -15,11 +15,14 @@ class UpdateShippingOptionUseCase {
 
   // RegionsRepository get _regionsRepository => _medusaAdmin.regions;
 
-  ShippingOptionsRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptions;
+  ShippingOptionsRepository get _shippingOptionsRepository =>
+      _medusaAdmin.shippingOptions;
 
-  ShippingProfilesRepository get _profileRepository => _medusaAdmin.shippingProfiles;
+  ShippingProfilesRepository get _profileRepository =>
+      _medusaAdmin.shippingProfiles;
 
-  static UpdateShippingOptionUseCase get instance => getIt<UpdateShippingOptionUseCase>();
+  static UpdateShippingOptionUseCase get instance =>
+      getIt<UpdateShippingOptionUseCase>();
 
   // Future<Result<List<FulfillmentOption>, MedusaError>> fetchFulfillmentOptions(
   //     String id) async {
@@ -58,15 +61,16 @@ class UpdateShippingOptionUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<ShippingOption, MedusaError>> updateShippingOption(
       {required String id, required UpdateShippingOptionReq payload}) async {
     try {
-      final result = await _shippingOptionsRepository.update(
-          body: payload, id: id);
+      final result =
+          await _shippingOptionsRepository.update(body: payload, id: id);
       return Success(result.shippingOption);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -79,7 +83,8 @@ class UpdateShippingOptionUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -87,7 +92,8 @@ class UpdateShippingOptionUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _profileRepository.retrieveAll(queryParameters: queryParameters);
+      final result = await _profileRepository.retrieveAll(
+          queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -100,7 +106,8 @@ class UpdateShippingOptionUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

@@ -42,10 +42,13 @@ class CheckUpdateUseCase {
           }
         } else {
           return Error(MedusaError(
-              code: 'unknown', type: 'parsing_error', message: 'Error parsing update'));
+              code: 'unknown',
+              type: 'parsing_error',
+              message: 'Error parsing update'));
         }
       } else {
-        return Error(MedusaError.fromHttp(status: response.statusCode, body: response.data));
+        return Error(MedusaError.fromHttp(
+            status: response.statusCode, body: response.data));
       }
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -54,7 +57,8 @@ class CheckUpdateUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

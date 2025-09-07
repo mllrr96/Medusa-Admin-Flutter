@@ -16,7 +16,8 @@ part 'store_bloc.freezed.dart';
 
 @injectable
 class StoreBloc extends Bloc<StoreEvent, StoreState> {
-  StoreBloc(this.loadStoreUseCase, this.updateStoreUseCase, this.loadStoresUseCase)
+  StoreBloc(
+      this.loadStoreUseCase, this.updateStoreUseCase, this.loadStoresUseCase)
       : super(const _Initial()) {
     on<_LoadStore>(_loadStore);
     on<_LoadStores>(_loadStores);
@@ -38,7 +39,8 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
   ) async {
     emit(const _Loading());
     final result = await loadStoresUseCase(event.query);
-    result.when((store) => emit(_Stores(store)), (error) => emit(_Error(error)));
+    result.when(
+        (store) => emit(_Stores(store)), (error) => emit(_Error(error)));
   }
 
   Future<void> _updateStore(

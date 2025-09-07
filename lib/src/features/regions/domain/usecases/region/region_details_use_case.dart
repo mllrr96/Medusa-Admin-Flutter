@@ -15,7 +15,8 @@ class RegionDetailsUseCase {
 
   RegionsRepository get _regionsRepository => _medusaAdmin.regions;
 
-  ShippingOptionsRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptions;
+  ShippingOptionsRepository get _shippingOptionsRepository =>
+      _medusaAdmin.shippingOptions;
 
   static RegionDetailsUseCase get instance => getIt<RegionDetailsUseCase>();
 
@@ -24,7 +25,8 @@ class RegionDetailsUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _regionsRepository.retrieve(id, query: queryParameters);
+      final result =
+          await _regionsRepository.retrieve(id, query: queryParameters);
       return Success(result.region);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -37,7 +39,8 @@ class RegionDetailsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -56,11 +59,13 @@ class RegionDetailsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<ShippingOptionDeleteRes, MedusaError>> deleteShippingOption(String id) async {
+  Future<Result<ShippingOptionDeleteRes, MedusaError>> deleteShippingOption(
+      String id) async {
     try {
       final result = await _shippingOptionsRepository.delete(id: id);
       return Success(result);
@@ -75,7 +80,8 @@ class RegionDetailsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -83,7 +89,8 @@ class RegionDetailsUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _shippingOptionsRepository.list(query: queryParameters);
+      final result =
+          await _shippingOptionsRepository.list(query: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -96,7 +103,8 @@ class RegionDetailsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

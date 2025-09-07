@@ -16,6 +16,7 @@ extension PagingControllerExtension<T> on PagingController<int, T> {
       error: null,
     );
   }
+
   void removeAt(int index) {
     value = PagingState(
       itemList: itemList?..removeAt(index),

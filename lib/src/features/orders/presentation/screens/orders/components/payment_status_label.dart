@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 class PaymentStatusLabel extends StatelessWidget {
-  const PaymentStatusLabel({super.key, required this.paymentStatus, this.dotOnly = false});
+  const PaymentStatusLabel(
+      {super.key, required this.paymentStatus, this.dotOnly = false});
   final PaymentStatus paymentStatus;
   final bool dotOnly;
   @override
@@ -58,7 +60,7 @@ class PaymentStatusLabel extends StatelessWidget {
         throw UnimplementedError();
     }
 
-    if(dotOnly){
+    if (dotOnly) {
       return Stack(
         alignment: AlignmentDirectional.center,
         children: [
@@ -81,4 +83,3 @@ class PaymentStatusLabel extends StatelessWidget {
     );
   }
 }
-

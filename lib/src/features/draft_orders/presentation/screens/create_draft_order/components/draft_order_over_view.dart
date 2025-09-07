@@ -2,9 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/num_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/num_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:flex_expansion_tile/flex_expansion_tile.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 class CreateDraftOrderOverViewView extends StatelessWidget {
@@ -204,14 +206,17 @@ class OverViewListTile extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final productVariant = lineItem.variant ??
-        ProductVariant(title: lineItem.title,
-            allowBackorder: false,manageInventory: false,
+        ProductVariant(
+            title: lineItem.title,
+            allowBackorder: false,
+            manageInventory: false,
             prices: [
-          MoneyAmount(
-            amount: lineItem.unitPrice.toInt(),
-            currencyCode: currencyCode, id: '',
-          )
-        ]);
+              MoneyAmount(
+                amount: lineItem.unitPrice.toInt(),
+                currencyCode: currencyCode,
+                id: '',
+              )
+            ]);
     MoneyAmount? moneyAmount;
     final priceList =
         productVariant.prices?.where((e) => e.currencyCode == currencyCode);

@@ -14,7 +14,7 @@ class PickProductsUseCase {
 
   PickProductsUseCase(this._medusaAdmin);
   static PickProductsUseCase get instance => getIt<PickProductsUseCase>();
-  ProductsRepository get _productsRepository =>  _medusaAdmin.products;
+  ProductsRepository get _productsRepository => _medusaAdmin.products;
   Future<Result<ProductsRes, MedusaError>> call(
       {Map<String, dynamic>? queryParameters}) async {
     try {
@@ -32,7 +32,8 @@ class PickProductsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

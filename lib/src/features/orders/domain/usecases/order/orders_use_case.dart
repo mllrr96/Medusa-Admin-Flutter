@@ -20,7 +20,8 @@ class OrdersUseCase {
   Future<Result<OrdersListRes, MedusaError>> retrieveOrders(
       Map<String, dynamic>? queryParameters) async {
     try {
-      final result = await _ordersRepository.list(queryParameters: queryParameters);
+      final result =
+          await _ordersRepository.list(queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -33,7 +34,8 @@ class OrdersUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -56,7 +58,8 @@ class OrdersUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

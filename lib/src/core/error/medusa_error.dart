@@ -15,20 +15,21 @@ enum MedusaHttpStatus {
   static MedusaHttpStatus fromCode(int? code) {
     if (code == null) return MedusaHttpStatus.unknown;
     return MedusaHttpStatus.values.firstWhere(
-          (e) => e.code == code,
+      (e) => e.code == code,
       orElse: () => MedusaHttpStatus.unknown,
     );
   }
 }
 
 class MedusaError implements Exception {
-  final String? message;        // human-friendly message
-  final String? type;           // e.g., not_found, invalid_data, invalid_request, invalid_state, unauthorized
-  final String? code;           // e.g., api_error, unknown_error
-  final int? statusCode;        // raw HTTP status code
+  final String? message; // human-friendly message
+  final String?
+      type; // e.g., not_found, invalid_data, invalid_request, invalid_state, unauthorized
+  final String? code; // e.g., api_error, unknown_error
+  final int? statusCode; // raw HTTP status code
   final MedusaHttpStatus status; // enum for ergonomic switching
   final List<MedusaError>? errors; // nested validation errors
-  final Object? cause;          // original exception (e.g., DioException)
+  final Object? cause; // original exception (e.g., DioException)
 
   MedusaError({
     this.message,
@@ -38,15 +39,15 @@ class MedusaError implements Exception {
     MedusaHttpStatus? status,
     this.errors,
     this.cause,
-  })  : status = status ?? MedusaHttpStatus.fromCode(statusCode);
+  }) : status = status ?? MedusaHttpStatus.fromCode(statusCode);
 
   // ---- Factories ----
 
   factory MedusaError.fromJson(
-      Map<String, dynamic> json, {
-        int? status,
-        Object? cause,
-      }) {
+    Map<String, dynamic> json, {
+    int? status,
+    Object? cause,
+  }) {
     final err = MedusaError(
       message: _asString(json['message']),
       type: _asString(json['type']),
@@ -121,10 +122,13 @@ class MedusaError implements Exception {
   // ---- Convenience ----
 
   bool get hasDetails => (errors?.isNotEmpty ?? false);
-  bool get isUnauthorized => status == MedusaHttpStatus.unauthorized || type == 'unauthorized';
-  bool get isNotFound => status == MedusaHttpStatus.notFound || type == 'not_found';
+  bool get isUnauthorized =>
+      status == MedusaHttpStatus.unauthorized || type == 'unauthorized';
+  bool get isNotFound =>
+      status == MedusaHttpStatus.notFound || type == 'not_found';
   bool get isValidation => type == 'invalid_data' || type == 'invalid_request';
-  bool get isConflict => status == MedusaHttpStatus.conflict || type == 'invalid_state';
+  bool get isConflict =>
+      status == MedusaHttpStatus.conflict || type == 'invalid_state';
 
   /// Short, friendly string for SnackBars/Toasts.
   /// Keeps it human, trims noise, and surfaces nested validation details nicely.
@@ -139,7 +143,9 @@ class MedusaError implements Exception {
           .toList();
       if (nestedMsgs.isNotEmpty) {
         final head = nestedMsgs.take(maxNested).join('\n• ');
-        final more = nestedMsgs.length > maxNested ? '\n• …and ${nestedMsgs.length - maxNested} more' : '';
+        final more = nestedMsgs.length > maxNested
+            ? '\n• …and ${nestedMsgs.length - maxNested} more'
+            : '';
         return [
           // Show a short header based on status/type if base is generic
           if (base != null && base.isNotEmpty) base else _shortHeading(),
@@ -166,14 +172,19 @@ class MedusaError implements Exception {
       case MedusaHttpStatus.internalServerError:
         return 'Server error. Try again shortly.';
       case MedusaHttpStatus.unknown:
-      // Fall back to type or generic label
-        if (type != null && type!.isNotEmpty) return _titleCase(type!.replaceAll('_', ' '));
+        // Fall back to type or generic label
+        if (type != null && type!.isNotEmpty)
+          return _titleCase(type!.replaceAll('_', ' '));
         return 'Something went wrong.';
     }
   }
 
-  String _titleCase(String s) =>
-      s.isEmpty ? s : s.split(' ').map((w) => w.isEmpty ? w : '${w[0].toUpperCase()}${w.substring(1)}').join(' ');
+  String _titleCase(String s) => s.isEmpty
+      ? s
+      : s
+          .split(' ')
+          .map((w) => w.isEmpty ? w : '${w[0].toUpperCase()}${w.substring(1)}')
+          .join(' ');
 
   @override
   String toString() =>
@@ -181,11 +192,16 @@ class MedusaError implements Exception {
 
   // ---- Internals ----
 
-  static List<MedusaError>? _parseErrorsList(dynamic v, {int? status, Object? cause}) {
+  static List<MedusaError>? _parseErrorsList(dynamic v,
+      {int? status, Object? cause}) {
     if (v is List) {
       return v.map((e) {
-        if (e is Map<String, dynamic>) return MedusaError.fromJson(e, status: status, cause: cause);
-        return MedusaError(message: _asString(e) ?? 'Unknown error', statusCode: status, cause: cause);
+        if (e is Map<String, dynamic>)
+          return MedusaError.fromJson(e, status: status, cause: cause);
+        return MedusaError(
+            message: _asString(e) ?? 'Unknown error',
+            statusCode: status,
+            cause: cause);
       }).toList();
     }
     return null;

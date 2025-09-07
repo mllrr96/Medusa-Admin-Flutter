@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/utils/medusa_icons_icons.dart';
 
 class SearchTextField extends StatelessWidget {
@@ -69,7 +70,8 @@ class SearchTextField extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           color: fillColor ?? context.theme.appBarTheme.backgroundColor,
           child: InkWell(
-            borderRadius: const BorderRadius.horizontal(right: Radius.circular(4.0)),
+            borderRadius:
+                const BorderRadius.horizontal(right: Radius.circular(4.0)),
             onTap: onSuffixTap,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -82,7 +84,8 @@ class SearchTextField extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Gap(12),
-            Icon(prefixIconData ?? MedusaIcons.magnifying_glass_mini, color: manatee),
+            Icon(prefixIconData ?? MedusaIcons.magnifying_glass_mini,
+                color: manatee),
             const Gap(12),
           ],
         ),

@@ -18,15 +18,13 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<_LoadAll>(_loadAll);
   }
 
-
-
   void _loadAll(_LoadAll event, Emitter<NotificationState> emit) async {
     emit(const _Loading());
     final result =
         await _useCase.loadAll(queryParameters: event.queryParameters);
     result.when(
-        (response) => emit(
-            _Notifications(response.notifications, response.count)),
+        (response) =>
+            emit(_Notifications(response.notifications, response.count)),
         (error) => emit(_Error(error)));
   }
 

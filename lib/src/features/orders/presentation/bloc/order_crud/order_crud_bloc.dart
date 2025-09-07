@@ -45,15 +45,19 @@ class OrderCrudBloc extends Bloc<OrderCrudEvent, OrderCrudState> {
   Future<void> _createFulfillment(
       _CreateFulfillment event, Emitter<OrderCrudState> emit) async {
     emit(const _Loading());
-    final result = await orderCrudUseCase.createFulfillment(payload: event.userCreateFulfillmentReq);
-    result.when((order) => emit(_Fulfillment(order)), (error) => emit(_Error(error)));
+    final result = await orderCrudUseCase.createFulfillment(
+        payload: event.userCreateFulfillmentReq);
+    result.when(
+        (order) => emit(_Fulfillment(order)), (error) => emit(_Error(error)));
   }
 
   Future<void> _cancelFulfillment(
       _CancelFulfillment event, Emitter<OrderCrudState> emit) async {
     emit(const _Loading());
-    final result = await orderCrudUseCase.cancelFulfillment(fulfillmentId: event.fulfillmentId);
-    result.when((order) => emit(_Fulfillment(order)), (error) => emit(_Error(error)));
+    final result = await orderCrudUseCase.cancelFulfillment(
+        fulfillmentId: event.fulfillmentId);
+    result.when(
+        (order) => emit(_Fulfillment(order)), (error) => emit(_Error(error)));
   }
 
   // Future<void> _createRefund(

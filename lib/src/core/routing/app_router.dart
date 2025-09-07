@@ -83,7 +83,6 @@ import 'package:medusa_admin/src/features/products/presentation/widgets/pick_pro
 import 'package:medusa_admin/src/features/search/presentation/screens/search/medusa_search_view.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/screens/store_settings/regions/regions_view.dart';
 
-
 part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'View|Screen|Wrapper|Page,Route')
@@ -135,7 +134,10 @@ class AppRouter extends RootStackRouter {
       ]),
 
       AutoRoute(page: MainAppRoute.page, children: [
-        AutoRoute(page: DashboardRoute.page, initial: true, children: dashboardChildren),
+        AutoRoute(
+            page: DashboardRoute.page,
+            initial: true,
+            children: dashboardChildren),
         AutoRoute(page: PickProductsRoute.page),
         AutoRoute(page: SelectCountryRoute.page),
         AutoRoute(page: PickGroupsRoute.page),

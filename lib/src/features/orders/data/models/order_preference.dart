@@ -13,10 +13,10 @@ class OrderPreference {
   });
   OrderPreference.defaultSettings(
       {this.hideFlag = false,
-        this.paymentStatusDot = true,
-        this.includeEmail = false,
-        this.alternativeCard = true,
-        this.padding = 8.0});
+      this.paymentStatusDot = true,
+      this.includeEmail = false,
+      this.alternativeCard = true,
+      this.padding = 8.0});
 
   factory OrderPreference.fromJson(Map<String, dynamic>? json) {
     return OrderPreference(

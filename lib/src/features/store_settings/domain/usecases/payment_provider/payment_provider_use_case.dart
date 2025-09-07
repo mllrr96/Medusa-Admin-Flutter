@@ -20,7 +20,8 @@ class PaymentProviderUseCase {
   Future<Result<PaymentProviderListRes, MedusaError>> call(
       {Map<String, dynamic>? queryParam}) async {
     try {
-      final result = await _paymentsRepository.listPaymentProviders(query: queryParam);
+      final result =
+          await _paymentsRepository.listPaymentProviders(query: queryParam);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -33,7 +34,8 @@ class PaymentProviderUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

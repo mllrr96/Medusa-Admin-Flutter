@@ -34,8 +34,7 @@ class PricingCrudBloc extends Bloc<PricingCrudEvent, PricingCrudState> {
     final result = await priceListCrudUseCase.fetchAll(
         queryParameters: event.queryParameters);
     result.when(
-        (success) =>
-            emit(_PricingLists(success.priceLists, success.count)),
+        (success) => emit(_PricingLists(success.priceLists, success.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -50,16 +49,16 @@ class PricingCrudBloc extends Bloc<PricingCrudEvent, PricingCrudState> {
     emit(const PricingCrudState.loading());
     final result =
         await priceListCrudUseCase.create(event.userCreatePriceListReq);
-    result.when(
-        (priceList) => emit(_PricingList(priceList)), (error) => emit(_Error(error)));
+    result.when((priceList) => emit(_PricingList(priceList)),
+        (error) => emit(_Error(error)));
   }
 
   Future<void> _update(_Update event, Emitter<PricingCrudState> emit) async {
     emit(const PricingCrudState.loading());
     final result = await priceListCrudUseCase.update(
         id: event.id, payload: event.userUpdatePriceListReq);
-    result.when(
-        (priceList) => emit(_PricingList(priceList)), (error) => emit(_Error(error)));
+    result.when((priceList) => emit(_PricingList(priceList)),
+        (error) => emit(_Error(error)));
   }
 
   // Future<void> _loadProducts(

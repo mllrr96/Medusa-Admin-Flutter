@@ -81,7 +81,7 @@ class RegionCard extends StatelessWidget {
         countries = country.displayOnStore;
       }
     }
-      if (countries.isEmpty) {
+    if (countries.isEmpty) {
       return 'No countries configured';
     }
     return '($countries)';
@@ -96,7 +96,7 @@ class RegionCard extends StatelessWidget {
         paymentProviders = payment.id;
       }
     }
-      return paymentProviders.capitalize;
+    return paymentProviders.capitalize;
   }
 
   String getFulfilmentProviders() {
@@ -108,6 +108,6 @@ class RegionCard extends StatelessWidget {
     //     fulfilmentProviders = fulfillment.id!;
     //   }
     // }
-      return fulfilmentProviders.capitalize;
+    return fulfilmentProviders.capitalize;
   }
 }

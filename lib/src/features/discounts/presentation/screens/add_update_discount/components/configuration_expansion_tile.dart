@@ -28,10 +28,12 @@ class ConfigurationExpansionTile extends StatefulWidget {
   ) onSaved;
 
   @override
-  State<ConfigurationExpansionTile> createState() => _ConfigurationExpansionTileState();
+  State<ConfigurationExpansionTile> createState() =>
+      _ConfigurationExpansionTileState();
 }
 
-class _ConfigurationExpansionTileState extends State<ConfigurationExpansionTile> {
+class _ConfigurationExpansionTileState
+    extends State<ConfigurationExpansionTile> {
   DateTime? startDate;
   DateTime? endDate;
   TextEditingController? limitCtrl;
@@ -84,7 +86,8 @@ class _ConfigurationExpansionTileState extends State<ConfigurationExpansionTile>
         },
         initiallyExpanded: widget.initiallyExpanded,
         title: Text('Configuration', style: largeTextStyle),
-        childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+        childPadding:
+            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(
           children: <Widget>[
             Text(
@@ -108,7 +111,9 @@ class _ConfigurationExpansionTileState extends State<ConfigurationExpansionTile>
 
                         if (enabled) {
                           startDate = DateTime.now();
-                          (widget.key as GlobalKey?)?.currentContext.ensureVisibility();
+                          (widget.key as GlobalKey?)
+                              ?.currentContext
+                              .ensureVisibility();
                         } else {
                           startDate = null;
                         }
@@ -121,7 +126,8 @@ class _ConfigurationExpansionTileState extends State<ConfigurationExpansionTile>
                         // }
                       },
                       title: const Text('Start date'),
-                      subtitle: const Text('Schedule the discount to activate in the future.',
+                      subtitle: const Text(
+                          'Schedule the discount to activate in the future.',
                           style: TextStyle(color: manatee)),
                     ),
                     halfSpace,
@@ -157,7 +163,8 @@ class _ConfigurationExpansionTileState extends State<ConfigurationExpansionTile>
             SwitchListTile.adaptive(
               contentPadding: EdgeInsets.zero,
               title: const Text('Discount has an expiry date?'),
-              subtitle: const Text('Schedule the discount to deactivate in the future.',
+              subtitle: const Text(
+                  'Schedule the discount to deactivate in the future.',
                   style: TextStyle(color: manatee)),
               onChanged: (enabled) async {
                 if (enabled) {
@@ -192,7 +199,9 @@ class _ConfigurationExpansionTileState extends State<ConfigurationExpansionTile>
                       dateTime: endDate,
                       dateText: 'Expiry',
                       onTap: () async {
-                        await context.adaptiveDateTimePicker(date: endDate).then((result) {
+                        await context
+                            .adaptiveDateTimePicker(date: endDate)
+                            .then((result) {
                           if (result != null) {
                             setState(() => endDate = result);
                           }
@@ -205,7 +214,8 @@ class _ConfigurationExpansionTileState extends State<ConfigurationExpansionTile>
             SwitchListTile.adaptive(
               contentPadding: EdgeInsets.zero,
               title: const Text('Limit the number of redemptions?'),
-              subtitle: const Text('Limit applies across all customers, not per customer.',
+              subtitle: const Text(
+                  'Limit applies across all customers, not per customer.',
                   style: TextStyle(color: manatee)),
               value: hasLimit,
               onChanged: (enabled) async {

@@ -14,13 +14,14 @@ class GroupsUseCase {
 
   GroupsUseCase(this._medusaAdmin);
   static GroupsUseCase get instance => getIt<GroupsUseCase>();
-  CustomerGroupsRepository get _customerGroupRepository => _medusaAdmin.customerGroups;
+  CustomerGroupsRepository get _customerGroupRepository =>
+      _medusaAdmin.customerGroups;
 
   Future<Result<CustomerGroupsListRes, MedusaError>> retrieveCustomerGroups(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _customerGroupRepository.list(
-          queryParameters: queryParameters);
+      final result =
+          await _customerGroupRepository.list(queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -33,7 +34,8 @@ class GroupsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -53,7 +55,8 @@ class GroupsUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

@@ -34,7 +34,8 @@ class TaxSettingsCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -59,7 +60,8 @@ class TaxSettingsCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -78,11 +80,13 @@ class TaxSettingsCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<TaxRate, MedusaError>> create(TaxRateCreateReq taxRateCreateReq) async {
+  Future<Result<TaxRate, MedusaError>> create(
+      TaxRateCreateReq taxRateCreateReq) async {
     try {
       final result = await _taxRateRepository.create(
         taxRateCreateReq,
@@ -99,7 +103,8 @@ class TaxSettingsCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -124,7 +129,8 @@ class TaxSettingsCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

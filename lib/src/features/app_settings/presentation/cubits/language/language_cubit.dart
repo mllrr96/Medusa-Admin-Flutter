@@ -10,28 +10,32 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'language_state.dart';
 part 'language_cubit.freezed.dart';
+
 @injectable
 class LanguageCubit extends Cubit<LanguageState> {
-  LanguageCubit(this.sharedPreferences) : super(const LanguageState.language(Locale('en'))) {
+  LanguageCubit(this.sharedPreferences)
+      : super(const LanguageState.language(Locale('en'))) {
     loadLanguage();
   }
 
   void loadLanguage() {
     Locale locale;
     try {
-      locale = Locale(sharedPreferences.getString(AppConstants.languageKey) ?? 'en');
+      locale =
+          Locale(sharedPreferences.getString(AppConstants.languageKey) ?? 'en');
     } catch (e) {
       locale = const Locale('en');
     }
-    if(locale == state.locale) {
+    if (locale == state.locale) {
       return;
     }
     emit(LanguageState.language(locale));
   }
 
   Future<void> changeLanguage(Locale locale) async {
-    try{
-      await sharedPreferences.setString(AppConstants.languageKey, locale.languageCode);
+    try {
+      await sharedPreferences.setString(
+          AppConstants.languageKey, locale.languageCode);
     } catch (e) {
       log(e.toString());
     }

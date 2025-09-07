@@ -8,10 +8,12 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
-import 'product_add_option.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'product_add_option.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class ProductVariants extends StatefulWidget {
-  const ProductVariants({super.key, this.controller, this.product, this.onSaved});
+  const ProductVariants(
+      {super.key, this.controller, this.product, this.onSaved});
 
   final FlexExpansionTileController? controller;
   final Product? product;
@@ -75,7 +77,8 @@ class _ProductVariantsState extends State<ProductVariants> {
           }
         },
         title: Text('Variants', style: context.theme.textTheme.bodyLarge),
-        childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+        childPadding:
+            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(
           children: [
             Text(
@@ -135,7 +138,8 @@ class _ProductVariantsState extends State<ProductVariants> {
                   ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => ProductVariantCard(variant: variants[index]),
+                      itemBuilder: (context, index) =>
+                          ProductVariantCard(variant: variants[index]),
                       separatorBuilder: (_, __) => const SizedBox(height: 6.0),
                       itemCount: variants.length),
                 ],
@@ -144,9 +148,10 @@ class _ProductVariantsState extends State<ProductVariants> {
               onPressed: options.isEmpty
                   ? null
                   : () async {
-                      final result = await context.pushRoute(ProductAddVariantRoute(
-                          productVariantReq: ProductVariantReq(
-                              product: product.copyWith(
+                      final result =
+                          await context.pushRoute(ProductAddVariantRoute(
+                              productVariantReq: ProductVariantReq(
+                                  product: product.copyWith(
                         options: options,
                       ))));
                       if (result is ProductVariant) {
@@ -194,10 +199,13 @@ class ProductVariantCard extends StatelessWidget {
           )),
           Row(
             children: [
-              Text(variant.inventoryQuantity.toString() ?? '', style: mediumTextStyle),
+              Text(variant.inventoryQuantity.toString() ?? '',
+                  style: mediumTextStyle),
               const SizedBox(width: 10.0),
-              if (isVariantCompleted(variant)) const Icon(Icons.check_circle, color: Colors.green),
-              if (!isVariantCompleted(variant)) const Icon(Icons.error, color: Colors.orange),
+              if (isVariantCompleted(variant))
+                const Icon(Icons.check_circle, color: Colors.green),
+              if (!isVariantCompleted(variant))
+                const Icon(Icons.error, color: Colors.orange),
               IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
             ],
           )
@@ -212,7 +220,8 @@ class ProductVariantCard extends StatelessWidget {
 }
 
 class ProductOptionCard extends StatelessWidget {
-  const ProductOptionCard({super.key, required this.productOption, this.delete});
+  const ProductOptionCard(
+      {super.key, required this.productOption, this.delete});
 
   final ProductOption productOption;
   final void Function()? delete;
@@ -238,7 +247,8 @@ class ProductOptionCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Option title', style: smallTextStyle!.copyWith(color: manatee)),
+                    Text('Option title',
+                        style: smallTextStyle!.copyWith(color: manatee)),
                     Text(productOption.title ?? '', style: smallTextStyle),
                   ],
                 ),
@@ -256,7 +266,8 @@ class ProductOptionCard extends StatelessWidget {
               runSpacing: 5.0,
               spacing: 5.0,
               children: productOption.values!
-                  .map((e) => Chip(label: Text(e.value), labelStyle: smallTextStyle))
+                  .map((e) =>
+                      Chip(label: Text(e.value), labelStyle: smallTextStyle))
                   .toList(),
             ),
         ],

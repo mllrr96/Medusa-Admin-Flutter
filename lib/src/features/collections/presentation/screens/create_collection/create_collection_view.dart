@@ -4,12 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
 import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
 import 'package:medusa_admin/src/features/collections/presentation/bloc/collection_crud/collection_crud_bloc.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 @RoutePage()
 class CreateCollectionView extends StatefulWidget {
@@ -108,8 +110,8 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                           if (!formKey.currentState!.validate()) {
                             return;
                           }
-                          collectionCrudBloc.add(CollectionCrudEvent.create(
-                              CreateCollectionReq(
+                          collectionCrudBloc.add(
+                              CollectionCrudEvent.create(CreateCollectionReq(
                             title: titleCtrl.text,
                             handle: handleCtrl.text,
                           )));

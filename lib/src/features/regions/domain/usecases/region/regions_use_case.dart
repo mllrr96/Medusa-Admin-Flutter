@@ -17,9 +17,11 @@ class RegionCrudUseCase {
 
   static RegionCrudUseCase get instance => getIt<RegionCrudUseCase>();
 
-  Future<Result<RegionsRes, MedusaError>> loadAll({Map<String, dynamic>? queryParameters}) async {
+  Future<Result<RegionsRes, MedusaError>> loadAll(
+      {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _regionsRepository.retrieveAll(query: queryParameters);
+      final result =
+          await _regionsRepository.retrieveAll(query: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -32,7 +34,8 @@ class RegionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -41,7 +44,8 @@ class RegionCrudUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _regionsRepository.retrieve(id, query: queryParameters);
+      final result =
+          await _regionsRepository.retrieve(id, query: queryParameters);
       return Success(result.region);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -54,7 +58,8 @@ class RegionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -63,7 +68,8 @@ class RegionCrudUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _regionsRepository.create(createRegionReq, query: queryParameters);
+      final result = await _regionsRepository.create(createRegionReq,
+          query: queryParameters);
       return Success(result.region);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -76,7 +82,8 @@ class RegionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -85,8 +92,7 @@ class RegionCrudUseCase {
     required UpdateRegionReq userUpdateRegionReq,
   }) async {
     try {
-      final result =
-          await _regionsRepository.update(id, userUpdateRegionReq);
+      final result = await _regionsRepository.update(id, userUpdateRegionReq);
       return Success(result.region);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -99,7 +105,8 @@ class RegionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -118,7 +125,8 @@ class RegionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -128,9 +136,8 @@ class RegionCrudUseCase {
     required String countryCode,
   }) async {
     try {
-      final result = await _regionsRepository.update(id, UpdateRegionReq(
-        countries: [countryCode]
-      ));
+      final result = await _regionsRepository.update(
+          id, UpdateRegionReq(countries: [countryCode]));
       return Success(result.region);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -143,7 +150,8 @@ class RegionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -153,9 +161,7 @@ class RegionCrudUseCase {
     required String countryCode,
   }) async {
     try {
-      final result =
-          await _regionsRepository.update(id,  UpdateRegionReq(
-          ));
+      final result = await _regionsRepository.update(id, UpdateRegionReq());
       return Success(result.region);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -168,7 +174,8 @@ class RegionCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 

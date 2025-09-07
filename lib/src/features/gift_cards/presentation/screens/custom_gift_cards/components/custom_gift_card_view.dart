@@ -2,12 +2,16 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:flutter/services.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
+import 'package:flutter/services.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
 
 class CustomGiftCardView extends StatefulWidget {
-  const CustomGiftCardView(this.giftCard, {super.key, this.onEdit, this.onToggle});
+  const CustomGiftCardView(this.giftCard,
+      {super.key, this.onEdit, this.onToggle});
 
   final GiftCard giftCard;
   final void Function()? onEdit;
@@ -76,20 +80,23 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
                     onTap: () async {
-                      await Clipboard.setData(ClipboardData(text: widget.giftCard.code ?? ''))
+                      await Clipboard.setData(
+                              ClipboardData(text: widget.giftCard.code ?? ''))
                           .then((_) {
                         context.showSnackBar('Gift card code copied');
                       });
                     },
                     child: Center(
-                        child:
-                            Chip(label: Text(widget.giftCard.code ?? '', style: largeTextStyle)))),
+                        child: Chip(
+                            label: Text(widget.giftCard.code ?? '',
+                                style: largeTextStyle)))),
                 const SizedBox(height: 12.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,7 +104,8 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Original amount', style: mediumTextStyle?.copyWith(color: manatee)),
+                        Text('Original amount',
+                            style: mediumTextStyle?.copyWith(color: manatee)),
                         Text(
                             // widget.giftCard.value.formatAsPrice(
                             //     widget.giftCard.region?.currencyCode),
@@ -108,7 +116,8 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('Balance', style: mediumTextStyle?.copyWith(color: manatee)),
+                        Text('Balance',
+                            style: mediumTextStyle?.copyWith(color: manatee)),
                         Text(
                             // widget.giftCard.balance.formatAsPrice(
                             //     widget.giftCard.region?.currencyCode),
@@ -125,7 +134,8 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Region', style: mediumTextStyle?.copyWith(color: manatee)),
+                        Text('Region',
+                            style: mediumTextStyle?.copyWith(color: manatee)),
                         Text(
                             // widget.giftCard.region?.name?.toUpperCase() ?? '',
                             '',
@@ -135,8 +145,10 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('Created', style: mediumTextStyle?.copyWith(color: manatee)),
-                        Text(widget.giftCard.createdAt.formatDate(), style: mediumTextStyle),
+                        Text('Created',
+                            style: mediumTextStyle?.copyWith(color: manatee)),
+                        Text(widget.giftCard.createdAt.formatDate(),
+                            style: mediumTextStyle),
                       ],
                     ),
                   ],
@@ -154,7 +166,8 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Status', style: mediumTextStyle?.copyWith(color: manatee)),
+                        Text('Status',
+                            style: mediumTextStyle?.copyWith(color: manatee)),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -191,10 +204,12 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
     );
   }
 
-  Future<bool> confirmToggle(bool isDisabled) async => await showOkCancelAlertDialog(
+  Future<
+      bool> confirmToggle(bool isDisabled) async => await showOkCancelAlertDialog(
           context: context,
           title: isDisabled ? 'Enable' : 'Disable',
-          message: 'Are you sure you want to ${isDisabled ? 'enable' : 'disable'} this gift card?',
+          message:
+              'Are you sure you want to ${isDisabled ? 'enable' : 'disable'} this gift card?',
           okLabel: 'Yes, ${isDisabled ? 'enable' : 'disable'}',
           isDestructiveAction: true)
       .then((value) => value == OkCancelResult.ok);

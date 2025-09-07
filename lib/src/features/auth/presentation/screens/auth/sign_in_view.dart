@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';import 'package:medusa_admin/src/core/extensions/locale_extension.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';
-import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';import 'package:medusa_admin/src/core/extensions/theme_mode_extension.dart';
+import 'package:gap/gap.dart';
+import 'package:medusa_admin/src/core/extensions/locale_extension.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/theme_mode_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
 import 'package:medusa_admin/src/features/app_settings/presentation/bloc/app_update/app_update_bloc.dart';
@@ -48,8 +52,11 @@ class _SignInViewState extends State<SignInView> {
     _onInit();
     timer = Timer(3.seconds, () {
       if (mounted) {
-        setState(() => showUpdateButton =
-            context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_) => true) ?? false);
+        setState(() => showUpdateButton = context
+                .read<AppUpdateBloc>()
+                .state
+                .mapOrNull(updateAvailable: (_) => true) ??
+            false);
       }
     });
     super.initState();
@@ -66,7 +73,8 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(context) {
     final tr = context.tr;
-    final useToken = AuthPreferenceService.authTypeGetter == AuthenticationType.token;
+    final useToken =
+        AuthPreferenceService.authTypeGetter == AuthenticationType.token;
     const space = Gap(12);
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
@@ -105,12 +113,14 @@ class _SignInViewState extends State<SignInView> {
                     padding: EdgeInsets.only(bottom: context.bottomViewPadding),
                     child: SignInFooterButtons(
                       isSessionExpired,
-                      onGoToSignInPressed:
-                          loading ? null : () => context.router.replaceAll([SignInRoute()]),
+                      onGoToSignInPressed: loading
+                          ? null
+                          : () => context.router.replaceAll([SignInRoute()]),
                       onUrlPressed: loading
                           ? null
                           : () async {
-                              final result = await context.pushRoute(const UrlConfigureRoute());
+                              final result = await context
+                                  .pushRoute(const UrlConfigureRoute());
                               if (result == true) {
                                 _onInit();
                                 setState(() {});
@@ -122,8 +132,10 @@ class _SignInViewState extends State<SignInView> {
                               final result = await showBarModalBottomSheet(
                                   clipBehavior: Clip.antiAliasWithSaveLayer,
                                   context: context,
-                                  overlayStyle: context.systemUiOverlayNoAppBarStyle,
-                                  builder: (context) => const UrlConfigureView());
+                                  overlayStyle:
+                                      context.systemUiOverlayNoAppBarStyle,
+                                  builder: (context) =>
+                                      const UrlConfigureView());
                               if (result == true) {
                                 _onInit();
                                 setState(() {});
@@ -140,27 +152,34 @@ class _SignInViewState extends State<SignInView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 BlocBuilder<ThemeCubit, ThemeState>(
                                   builder: (context, state) {
                                     return ElevatedButton.icon(
-                                      label: Text(state.themeMode.name.capitalize),
+                                      label:
+                                          Text(state.themeMode.name.capitalize),
                                       onPressed: () => context
                                           .read<ThemeCubit>()
-                                          .updateThemeState(themeMode: state.themeMode.next),
+                                          .updateThemeState(
+                                              themeMode: state.themeMode.next),
                                       icon: Icon(state.themeMode.icon),
                                     );
                                   },
                                 ),
                                 ElevatedButton.icon(
-                                  onPressed: () async => await showBarModalBottomSheet(
-                                    backgroundColor: context.theme.scaffoldBackgroundColor,
-                                    overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                                  onPressed: () async =>
+                                      await showBarModalBottomSheet(
+                                    backgroundColor:
+                                        context.theme.scaffoldBackgroundColor,
+                                    overlayStyle: context
+                                        .theme.appBarTheme.systemOverlayStyle,
                                     context: context,
-                                    builder: (context) => const LanguageSelectionView(),
+                                    builder: (context) =>
+                                        const LanguageSelectionView(),
                                   ),
                                   icon: const Icon(Icons.language),
                                   label: Text(context
@@ -173,7 +192,9 @@ class _SignInViewState extends State<SignInView> {
                               ],
                             ),
                           ),
-                          Hero(tag: 'medusa', child: SignInMedusaLogo(rotate: loading)),
+                          Hero(
+                              tag: 'medusa',
+                              child: SignInMedusaLogo(rotate: loading)),
                           space,
                           Text(
                             isSessionExpired
@@ -185,14 +206,17 @@ class _SignInViewState extends State<SignInView> {
                           space,
                           if (!useToken)
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
                               child: Column(
                                 children: [
                                   Hero(
                                       tag: 'email',
                                       child: EmailTextField(
                                         readOnly: showAuthenticateButton &&
-                                            (AuthPreferenceService.email?.isNotEmpty ?? false),
+                                            (AuthPreferenceService
+                                                    .email?.isNotEmpty ??
+                                                false),
                                         controller: emailCtrl,
                                         validator: (val) {
                                           if (val?.isEmpty ?? true) {
@@ -229,7 +253,8 @@ class _SignInViewState extends State<SignInView> {
                           space,
                           if (!isSessionExpired && !useToken)
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -237,12 +262,15 @@ class _SignInViewState extends State<SignInView> {
                                     onPressed: loading
                                         ? null
                                         : () {
-                                            if (AuthPreferenceService.baseUrlGetter == null) {
+                                            if (AuthPreferenceService
+                                                    .baseUrlGetter ==
+                                                null) {
                                               context.showSignInErrorSnackBar(
                                                   'Please set your backend URL first');
                                               return;
                                             }
-                                            context.pushRoute(const ResetPasswordRoute());
+                                            context.pushRoute(
+                                                const ResetPasswordRoute());
                                           },
                                     child: Text(
                                       tr.loginCardForgotYourPassword,
@@ -253,7 +281,8 @@ class _SignInViewState extends State<SignInView> {
                             ),
                           space,
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Hero(
                               tag: 'continue',
                               child: FilledButton.icon(
@@ -274,7 +303,8 @@ class _SignInViewState extends State<SignInView> {
                           ),
                           space,
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Hero(
                               tag: 'Test Sign In',
                               child: FilledButton.icon(
@@ -309,17 +339,17 @@ class _SignInViewState extends State<SignInView> {
   Future<void> _signIn() async {
     switch (AuthPreferenceService.authTypeGetter) {
       case AuthenticationType.cookie:
-        context
-            .read<AuthenticationBloc>()
-            .add(AuthenticationEvent.logInCookie(emailCtrl.text, passwordCtrl.text));
+        context.read<AuthenticationBloc>().add(
+            AuthenticationEvent.logInCookie(emailCtrl.text, passwordCtrl.text));
         break;
       case AuthenticationType.jwt:
-        context
-            .read<AuthenticationBloc>()
-            .add(AuthenticationEvent.logInJWT(emailCtrl.text, passwordCtrl.text));
+        context.read<AuthenticationBloc>().add(
+            AuthenticationEvent.logInJWT(emailCtrl.text, passwordCtrl.text));
         break;
       case AuthenticationType.token:
-        context.read<AuthenticationBloc>().add(const AuthenticationEvent.logInToken());
+        context
+            .read<AuthenticationBloc>()
+            .add(const AuthenticationEvent.logInToken());
         break;
     }
   }
@@ -327,7 +357,8 @@ class _SignInViewState extends State<SignInView> {
   void _onInit() {
     useBiometric = AuthPreferenceService.authPreferenceGetter.useBiometric;
     emailCtrl.text = AuthPreferenceService.email ?? '';
-    if (useBiometric == true && (AuthPreferenceService.email?.isNotEmpty ?? false)) {
+    if (useBiometric == true &&
+        (AuthPreferenceService.email?.isNotEmpty ?? false)) {
       showAuthenticateButton = true;
     } else {
       showAuthenticateButton = false;
@@ -359,7 +390,9 @@ class _SignInViewState extends State<SignInView> {
                 color: Colors.blue,
               ),
             )
-                .animate(autoPlay: true, onPlay: (controller) => controller.repeat(reverse: true))
+                .animate(
+                    autoPlay: true,
+                    onPlay: (controller) => controller.repeat(reverse: true))
                 .shimmer(
                     duration: const Duration(seconds: 5),
                     blendMode: BlendMode.srcIn,
@@ -389,7 +422,8 @@ class _SignInViewState extends State<SignInView> {
                               'New Update Available ${context.read<AppUpdateBloc>().state.whenOrNull(updateAvailable: (update) => update)?.tagName ?? ''}',
                               style: const TextStyle(color: Colors.white)),
                           Text('Tap to install',
-                              style: context.bodySmall?.copyWith(color: Colors.white)),
+                              style: context.bodySmall
+                                  ?.copyWith(color: Colors.white)),
                         ],
                       ),
                     ],

@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
@@ -10,7 +12,11 @@ import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 
 class CustomerListTile extends StatelessWidget {
   const CustomerListTile(this.customer,
-      {super.key, required this.index, this.onEditTap, this.onDeleteTap, this.shimmer = false});
+      {super.key,
+      required this.index,
+      this.onEditTap,
+      this.onDeleteTap,
+      this.shimmer = false});
   final Customer customer;
   final int index;
   final void Function(BuildContext)? onEditTap;
@@ -49,13 +55,17 @@ class CustomerListTile extends StatelessWidget {
           tileColor:
               index.isOdd ? context.theme.appBarTheme.backgroundColor : null,
           leading: CircleAvatar(
-            backgroundColor:shimmer ? context.theme.scaffoldBackgroundColor: ColorManager.getAvatarColor(customer.email),
+            backgroundColor: shimmer
+                ? context.theme.scaffoldBackgroundColor
+                : ColorManager.getAvatarColor(customer.email),
             maxRadius: 18,
-            child:shimmer ? null: Text(
-                customer.firstName == null
-                    ? customer.email[0].capitalize
-                    : customer.firstName![0],
-                style: largeTextStyle!.copyWith(color: Colors.white)),
+            child: shimmer
+                ? null
+                : Text(
+                    customer.firstName == null
+                        ? customer.email[0].capitalize
+                        : customer.firstName![0],
+                    style: largeTextStyle!.copyWith(color: Colors.white)),
           ),
           title: customer.firstName != null
               ? Text('${customer.firstName ?? ''} ${customer.lastName ?? ''}',

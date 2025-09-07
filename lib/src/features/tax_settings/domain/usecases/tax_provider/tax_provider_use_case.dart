@@ -6,9 +6,11 @@ import 'package:multiple_result/multiple_result.dart';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+
 @lazySingleton
 class TaxProviderUseCase {
-  TaxProvidersRepository get _taxProviderRepository => _medusaAdmin.taxProviders;
+  TaxProvidersRepository get _taxProviderRepository =>
+      _medusaAdmin.taxProviders;
 
   static TaxProviderUseCase get instance => getIt<TaxProviderUseCase>();
   final MedusaAdminV2 _medusaAdmin;
@@ -30,7 +32,8 @@ class TaxProviderUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

@@ -14,7 +14,8 @@ class NotificationUseCase {
 
   NotificationUseCase(this._medusaAdmin);
 
-  NotificationsRepository get _notificationRepository => _medusaAdmin.notifications;
+  NotificationsRepository get _notificationRepository =>
+      _medusaAdmin.notifications;
 
   static NotificationUseCase get instance => getIt<NotificationUseCase>();
 
@@ -54,7 +55,8 @@ class NotificationUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 import 'package:medusa_admin/src/features/search/presentation/widgets/search_text_field.dart';
 import 'package:medusa_admin/src/features/store_settings/data/models/select_country_req.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/widgets/countries/components/countries.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 @RoutePage()
 class SelectCountryView extends StatefulWidget {
@@ -30,8 +32,9 @@ class _SelectCountryViewState extends State<SelectCountryView> {
     countriesList.addAll(countries);
     selectCountryOptions = widget.selectCountryReq ?? const SelectCountryReq();
     selectedCountries.addAll(selectCountryOptions.selectedCountries);
-    countriesList.sort((a, b) =>
-        a.displayOnStore.toLowerCase().compareTo(b.displayOnStore.toLowerCase()));
+    countriesList.sort((a, b) => a.displayOnStore
+        .toLowerCase()
+        .compareTo(b.displayOnStore.toLowerCase()));
     searchCtrl.addListener(() => search());
     super.initState();
   }

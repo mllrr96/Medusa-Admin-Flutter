@@ -16,7 +16,8 @@ class UpdateGroupUseCase {
 
   static UpdateGroupUseCase get instance => getIt<UpdateGroupUseCase>();
 
-  CustomerGroupsRepository get _customerGroupRepository => _medusaAdmin.customerGroups;
+  CustomerGroupsRepository get _customerGroupRepository =>
+      _medusaAdmin.customerGroups;
 
   Future<Result<CustomerGroup, MedusaError>> updateCustomerGroup({
     required String id,
@@ -36,7 +37,8 @@ class UpdateGroupUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -57,7 +59,8 @@ class UpdateGroupUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

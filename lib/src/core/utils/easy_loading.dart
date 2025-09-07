@@ -6,15 +6,15 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../features/app_settings/data/service/preference_service.dart';
 
 import 'enums.dart';
-import 'enums.dart';
 
 Future<void> loading({String? status}) async {
-  final color = FlexColor.schemes[PreferenceService.appSettingsGetter.colorScheme]!.light.primary;
+  final color = FlexColor
+      .schemes[PreferenceService.appSettingsGetter.colorScheme]!.light.primary;
   await EasyLoading.show(
       status: status,
       maskType: EasyLoadingMaskType.black,
-      indicator: LoadingAnimationWidget.threeArchedCircle(
-          color: color, size: 50));
+      indicator:
+          LoadingAnimationWidget.threeArchedCircle(color: color, size: 50));
 }
 
 Future<void> dismissLoading() async {

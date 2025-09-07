@@ -6,7 +6,6 @@ import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/utils/enums.dart';
 import 'package:medusa_admin/src/core/utils/medusa_icons_icons.dart';
 
-
 class SearchChip extends StatelessWidget {
   const SearchChip(
       {super.key,
@@ -87,8 +86,7 @@ class SearchChip extends StatelessWidget {
             ),
             if (onTap != null && !selected)
               const Icon(Icons.keyboard_arrow_down, color: Colors.white),
-            if (selected)
-              const Icon(Icons.check, color: Colors.white)
+            if (selected) const Icon(Icons.check, color: Colors.white)
           ],
         ),
       ),

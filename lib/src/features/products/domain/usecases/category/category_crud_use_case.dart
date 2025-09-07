@@ -7,7 +7,8 @@ import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class CategoryCrudUseCase {
-  ProductCategoriesRepository get _categoryRepository => _medusaAdminV2.categories;
+  ProductCategoriesRepository get _categoryRepository =>
+      _medusaAdminV2.categories;
   final MedusaAdminV2 _medusaAdminV2;
 
   CategoryCrudUseCase(this._medusaAdminV2);
@@ -18,7 +19,8 @@ class CategoryCrudUseCase {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _categoryRepository.retrieveAll(query: queryParameters);
+      final result =
+          await _categoryRepository.retrieveAll(query: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -27,7 +29,8 @@ class CategoryCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -45,7 +48,8 @@ class CategoryCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -63,7 +67,8 @@ class CategoryCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -84,11 +89,13 @@ class CategoryCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<ProductCategoryDeleteRes, MedusaError>> delete(String id) async {
+  Future<Result<ProductCategoryDeleteRes, MedusaError>> delete(
+      String id) async {
     try {
       final result = await _categoryRepository.delete(
         id,
@@ -101,7 +108,8 @@ class CategoryCrudUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 

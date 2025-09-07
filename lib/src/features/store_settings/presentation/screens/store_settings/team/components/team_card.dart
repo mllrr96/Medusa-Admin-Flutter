@@ -1,10 +1,11 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';import 'package:medusa_admin/src/core/extensions/medusa_model_extension.dart';
+import 'package:gap/gap.dart';
+import 'package:medusa_admin/src/core/extensions/medusa_model_extension.dart';
 import 'package:medusa_admin/src/features/auth/data/service/auth_preference_service.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'user_role_label.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class TeamCard extends StatelessWidget {
   const TeamCard({
@@ -40,8 +41,7 @@ class TeamCard extends StatelessWidget {
                   CircleAvatar(
                     backgroundColor: ColorManager.getAvatarColor(email),
                     child: Text(firstLetter ?? email[0].toUpperCase(),
-                        style:
-                            largeTextStyle?.copyWith(color: Colors.white)),
+                        style: largeTextStyle?.copyWith(color: Colors.white)),
                   ),
                 if (firstLetter != null || email.isNotEmpty)
                   const SizedBox(width: 6.0),
@@ -59,20 +59,19 @@ class TeamCard extends StatelessWidget {
             ),
           ),
           IconButton(
-            padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               onPressed: () async {
                 await showModalActionSheet<int>(
                     title: 'Manage user',
-                    message:
-                        '${user.firstName ?? ''} ${user.lastName ?? ''}',
+                    message: '${user.firstName ?? ''} ${user.lastName ?? ''}',
                     context: context,
                     actions: <SheetAction<int>>[
                       const SheetAction(label: 'Edit User', key: 0),
-                      if(AuthPreferenceService.email != user.email)
-                      const SheetAction(
-                          label: 'Remove User',
-                          isDestructiveAction: true,
-                          key: 1),
+                      if (AuthPreferenceService.email != user.email)
+                        const SheetAction(
+                            label: 'Remove User',
+                            isDestructiveAction: true,
+                            key: 1),
                     ]).then((result) async {
                   switch (result) {
                     case 0:

@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/utils/labeled_numeric_text_field.dart';
 import 'package:medusa_admin/src/features/store_settings/data/models/select_country_req.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/widgets/countries/components/countries.dart';
@@ -15,7 +16,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductAttributes extends StatefulWidget {
-  const ProductAttributes({super.key, this.controller, this.onSaved, this.product});
+  const ProductAttributes(
+      {super.key, this.controller, this.onSaved, this.product});
 
   final FlexExpansionTileController? controller;
   final void Function(Product? product)? onSaved;
@@ -47,7 +49,8 @@ class _ProductAttributesState extends State<ProductAttributes> {
       hsCodeCtrl.text = widget.product!.hsCode ?? '';
       originCountryIso = widget.product!.originCountry;
       countryCtrl.text = countries
-              .where((element) => element.iso2 == widget.product?.originCountry?.toLowerCase())
+              .where((element) =>
+                  element.iso2 == widget.product?.originCountry?.toLowerCase())
               .firstOrNull
               ?.displayOnStore ??
           '';
@@ -117,11 +120,13 @@ class _ProductAttributesState extends State<ProductAttributes> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: LabeledNumericTextField(controller: widthCtrl, label: 'Width'),
+                    child: LabeledNumericTextField(
+                        controller: widthCtrl, label: 'Width'),
                   ),
                   const SizedBox(width: 12.0),
                   Flexible(
-                    child: LabeledNumericTextField(controller: lengthCtrl, label: 'Length'),
+                    child: LabeledNumericTextField(
+                        controller: lengthCtrl, label: 'Length'),
                   ),
                 ],
               ),
@@ -131,11 +136,13 @@ class _ProductAttributesState extends State<ProductAttributes> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: LabeledNumericTextField(controller: heightCtrl, label: 'Height'),
+                    child: LabeledNumericTextField(
+                        controller: heightCtrl, label: 'Height'),
                   ),
                   const SizedBox(width: 12.0),
                   Flexible(
-                    child: LabeledNumericTextField(controller: weightCtrl, label: 'Weight'),
+                    child: LabeledNumericTextField(
+                        controller: weightCtrl, label: 'Weight'),
                   ),
                 ],
               ),
@@ -165,12 +172,20 @@ class _ProductAttributesState extends State<ProductAttributes> {
                       overlayStyle: context.defaultSystemUiOverlayStyle,
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       builder: (context) => SelectCountryView(
-                            selectCountryReq: SelectCountryReq(selectedCountries: [
+                            selectCountryReq:
+                                SelectCountryReq(selectedCountries: [
                               countries.firstWhere(
                                   (element) =>
-                                      element.iso2 == widget.product?.originCountry?.toLowerCase(),
+                                      element.iso2 ==
+                                      widget.product?.originCountry
+                                          ?.toLowerCase(),
                                   orElse: () => const Country(
-                                      iso2: '', iso3: '', numCode: '0', name: '', id: 0, displayOnStore: ''))
+                                      iso2: '',
+                                      iso3: '',
+                                      numCode: '0',
+                                      name: '',
+                                      id: 0,
+                                      displayOnStore: ''))
                             ]),
                           ));
                   if (result is List<Country>) {
@@ -187,7 +202,8 @@ class _ProductAttributesState extends State<ProductAttributes> {
                   ),
                   hintText: 'Choose a country',
                   prefix: originCountryIso != null
-                      ? Flag.fromString(originCountryIso!, height: 16, width: 35)
+                      ? Flag.fromString(originCountryIso!,
+                          height: 16, width: 35)
                       : null,
                   suffixIcon: countryCtrl.text.isEmpty
                       ? const Icon(Icons.keyboard_arrow_down_outlined)

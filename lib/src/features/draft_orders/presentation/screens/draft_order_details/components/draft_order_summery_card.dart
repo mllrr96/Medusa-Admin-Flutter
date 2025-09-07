@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';import 'package:medusa_admin/src/core/extensions/num_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin/src/core/extensions/num_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class DraftOrderSummeryCard extends StatelessWidget {
   const DraftOrderSummeryCard({
@@ -22,7 +24,8 @@ class DraftOrderSummeryCard extends StatelessWidget {
           SizedBox(
               height: 50,
               width: 50,
-              child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail)),
+              child: CachedNetworkImage(
+                  key: ValueKey(item.thumbnail), imageUrl: item.thumbnail)),
           const SizedBox(width: 6.0),
           Expanded(
             child: Column(
@@ -50,8 +53,10 @@ class DraftOrderSummeryCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('${item.unitPrice.formatAsPrice(currencyCode)} x ${item.quantity}',
-                    style: smallTextStyle, maxLines: 1),
+                Text(
+                    '${item.unitPrice.formatAsPrice(currencyCode)} x ${item.quantity}',
+                    style: smallTextStyle,
+                    maxLines: 1),
                 const Divider(height: 5),
                 // Text(item.total.formatAsPrice(currencyCode), style: mediumTextStyle, maxLines: 1),
               ],

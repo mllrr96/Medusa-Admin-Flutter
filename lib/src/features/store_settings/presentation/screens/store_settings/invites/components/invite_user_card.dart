@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:flutter/material.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 
-import 'package:medusa_admin/src/core/utils/custom_text_field.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class InviteUserCard extends StatefulWidget {
   const InviteUserCard({super.key, this.onInvite});
@@ -29,8 +31,8 @@ class _InviteUserCardState extends State<InviteUserCard> {
     final mediumTextStyle = context.bodyMedium;
     return Padding(
       padding: EdgeInsets.only(
-        bottom:
-            MediaQuery.of(context).viewPadding.bottom + MediaQuery.of(context).viewInsets.bottom,
+        bottom: MediaQuery.of(context).viewPadding.bottom +
+            MediaQuery.of(context).viewInsets.bottom,
         left: 12.0,
         right: 12.0,
         top: 8.0,
@@ -43,7 +45,9 @@ class _InviteUserCardState extends State<InviteUserCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: () => context.maybePop(), child: const Text('Cancel')),
+                TextButton(
+                    onPressed: () => context.maybePop(),
+                    child: const Text('Cancel')),
                 TextButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
@@ -82,7 +86,8 @@ class _InviteUserCardState extends State<InviteUserCard> {
                 }
               },
               items: ['member', 'admin', 'developer']
-                  .map((e) => DropdownMenuItem<String>(value: e, child: Text(e.capitalize)))
+                  .map((e) => DropdownMenuItem<String>(
+                      value: e, child: Text(e.capitalize)))
                   .toList(),
               decoration: InputDecoration(
                   enabledBorder: const OutlineInputBorder(

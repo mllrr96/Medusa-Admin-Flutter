@@ -32,8 +32,8 @@ class ProductsView extends StatefulWidget {
 }
 
 class _ProductsViewState extends State<ProductsView> {
-  final pagingController =
-      PagingController<int, Product>(firstPageKey: 0, invisibleItemsThreshold: 3);
+  final pagingController = PagingController<int, Product>(
+      firstPageKey: 0, invisibleItemsThreshold: 3);
   RefreshController refreshController = RefreshController();
   SortOptions sortOptions = SortOptions.dateRecent;
   ProductFilter? productFilter;
@@ -43,7 +43,9 @@ class _ProductsViewState extends State<ProductsView> {
   bool get loading => loadingProductId.isNotEmpty;
 
   void _loadPage(int page) {
-    context.read<ProductCrudBloc>().add(ProductCrudEvent.loadAll(queryParameters: {
+    context
+        .read<ProductCrudBloc>()
+        .add(ProductCrudEvent.loadAll(queryParameters: {
           'order': sortOptions.map(),
           'is_giftcard': false,
           'offset': page == 0 ? 0 : pagingController.itemList?.length,
@@ -75,17 +77,19 @@ class _ProductsViewState extends State<ProductsView> {
           listener: (context, state) {
             state.mapOrNull(
               products: (state) async {
-                final isLastPage = state.products.length < ProductCrudBloc.pageSize;
+                final isLastPage =
+                    state.products.length < ProductCrudBloc.pageSize;
                 if (refreshController.isRefresh) {
                   pagingController.removePageRequestListener(_loadPage);
-                  pagingController.value =
-                      const PagingState(nextPageKey: null, error: null, itemList: null);
+                  pagingController.value = const PagingState(
+                      nextPageKey: null, error: null, itemList: null);
                   await Future.delayed(const Duration(milliseconds: 250));
                 }
                 if (isLastPage) {
                   pagingController.appendLastPage(state.products);
                 } else {
-                  final nextPageKey = pagingController.nextPageKey ?? 0 + state.products.length;
+                  final nextPageKey =
+                      pagingController.nextPageKey ?? 0 + state.products.length;
                   pagingController.appendPage(state.products, nextPageKey);
                 }
                 if (refreshController.isRefresh) {
@@ -164,7 +168,8 @@ class _ProductsViewState extends State<ProductsView> {
               const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SearchFloatingActionButton(searchCategory: SearchCategory.products),
+                  SearchFloatingActionButton(
+                      searchCategory: SearchCategory.products),
                   Gap(4.0),
                 ],
               ),
@@ -181,7 +186,8 @@ class _ProductsViewState extends State<ProductsView> {
                     labelStyle: smallTextStyle,
                     onTap: () async {
                       await context
-                          .pushRoute(AddUpdateProductRoute(updateProductReq: null))
+                          .pushRoute(
+                              AddUpdateProductRoute(updateProductReq: null))
                           .then((result) {
                         if (result is Product) {
                           pagingController.addItem(result);
@@ -226,9 +232,15 @@ class _ProductsViewState extends State<ProductsView> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
-                final productsCount = context.select<ProductCrudBloc, int>((ProductCrudBloc bloc) =>
-                    bloc.state.mapOrNull(products: (state) => state.count) ?? 0);
-                return Text(productsCount > 0 ? 'Products ($productsCount)' : 'Products',
+                final productsCount = context.select<ProductCrudBloc, int>(
+                    (ProductCrudBloc bloc) =>
+                        bloc.state
+                            .mapOrNull(products: (state) => state.count) ??
+                        0);
+                return Text(
+                    productsCount > 0
+                        ? 'Products ($productsCount)'
+                        : 'Products',
                     overflow: TextOverflow.ellipsis);
               }),
               actions: [
@@ -243,8 +255,8 @@ class _ProductsViewState extends State<ProductsView> {
                       }
                     },
                     itemBuilder: (context) {
-                      TextStyle textStyle(SortOptions a) =>
-                          TextStyle(color: a == sortOptions ? Colors.red : null);
+                      TextStyle textStyle(SortOptions a) => TextStyle(
+                          color: a == sortOptions ? Colors.red : null);
                       return [
                         PopupMenuItem(
                           value: SortOptions.aZ,
@@ -256,7 +268,8 @@ class _ProductsViewState extends State<ProductsView> {
                         ),
                         PopupMenuItem(
                           value: SortOptions.dateRecent,
-                          child: Text('Creation Date', style: textStyle(SortOptions.dateRecent)),
+                          child: Text('Creation Date',
+                              style: textStyle(SortOptions.dateRecent)),
                         ),
                         PopupMenuItem(
                           value: SortOptions.dateOld,
@@ -267,7 +280,8 @@ class _ProductsViewState extends State<ProductsView> {
                     }),
                 Builder(
                   builder: (context) {
-                    final iconColor = (productFilter?.count() ?? -1) > 0 ? Colors.red : null;
+                    final iconColor =
+                        (productFilter?.count() ?? -1) > 0 ? Colors.red : null;
                     return IconButton(
                         padding: const EdgeInsets.all(16.0),
                         onPressed: () => context.openEndDrawer(),
@@ -300,7 +314,8 @@ class _ProductsViewState extends State<ProductsView> {
                     },
                     onDelete: () async {
                       if (await confirmDelete) {
-                        productCrudBloc.add(ProductCrudEvent.delete(product.id));
+                        productCrudBloc
+                            .add(ProductCrudEvent.delete(product.id));
                       }
                     },
                     onPublish: () async {
@@ -320,7 +335,8 @@ class _ProductsViewState extends State<ProductsView> {
                     },
                   ),
                 ),
-                firstPageProgressIndicatorBuilder: (_) => const ProductsLoadingPage(),
+                firstPageProgressIndicatorBuilder: (_) =>
+                    const ProductsLoadingPage(),
                 noItemsFoundIndicatorBuilder: (_) {
                   if ((productFilter?.count() ?? -1) > 0) {
                     return Column(
@@ -330,7 +346,8 @@ class _ProductsViewState extends State<ProductsView> {
                         const Gap(10.0),
                         FilledButton(
                             onPressed: () {
-                              if (productFilter == null || productFilter?.count() == 0) {
+                              if (productFilter == null ||
+                                  productFilter?.count() == 0) {
                                 return;
                               }
                               productFilter = null;
@@ -364,11 +381,13 @@ class _ProductsViewState extends State<ProductsView> {
   Future<bool> get confirmDelete async => await showOkCancelAlertDialog(
           context: context,
           title: 'Confirm product deletion',
-          message: 'Are you sure you want to delete this product? \n This action is irreversible',
+          message:
+              'Are you sure you want to delete this product? \n This action is irreversible',
           isDestructiveAction: true)
       .then((value) => value == OkCancelResult.ok);
 
-  Future<SortOptions?> get sortOptionsSheet async => await showModalActionSheet<SortOptions>(
+  Future<SortOptions?> get sortOptionsSheet async =>
+      await showModalActionSheet<SortOptions>(
           context: context,
           title: 'Sort products',
           actions: <SheetAction<SortOptions>>[

@@ -1,12 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
 import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+
 class EditAddress extends StatefulWidget {
   const EditAddress(
       {super.key,
@@ -79,16 +81,16 @@ class _EditAddressState extends State<EditAddress> {
 
     bool sameAddress() {
       if (
-      // firstNameCtrl.text == address.firstName &&
-      //     lastNameCtrl.text == address.lastName &&
+          // firstNameCtrl.text == address.firstName &&
+          //     lastNameCtrl.text == address.lastName &&
           companyCtrl.text == address.company &&
-          phoneCtrl.text == address.phone &&
-          address1Ctrl.text == address.address1 &&
-          address2Ctrl.text == address.address2 &&
-          postalCodeCtrl.text == address.postalCode &&
-          cityCtrl.text == address.city &&
-          provinceCtrl.text == address.province &&
-          selectedCountry?.iso2 == address.countryCode) {
+              phoneCtrl.text == address.phone &&
+              address1Ctrl.text == address.address1 &&
+              address2Ctrl.text == address.address2 &&
+              postalCodeCtrl.text == address.postalCode &&
+              cityCtrl.text == address.city &&
+              provinceCtrl.text == address.province &&
+              selectedCountry?.iso2 == address.countryCode) {
         return true;
       }
       return false;

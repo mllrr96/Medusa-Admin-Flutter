@@ -34,7 +34,8 @@ class InviteCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -53,7 +54,8 @@ class InviteCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -61,7 +63,8 @@ class InviteCrudUseCase {
     required String email,
   }) async {
     try {
-      final result = await _inviteRepository.create(CreateInviteReq(email: email));
+      final result =
+          await _inviteRepository.create(CreateInviteReq(email: email));
       return Success(result.invite);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -74,7 +77,8 @@ class InviteCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -93,11 +97,13 @@ class InviteCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<User, MedusaError>> acceptInvite(InviteAcceptReq payload) async {
+  Future<Result<User, MedusaError>> acceptInvite(
+      InviteAcceptReq payload) async {
     try {
       final result = await _inviteRepository.accept(payload);
       return Success(result);
@@ -112,11 +118,13 @@ class InviteCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<DeleteInviteRes, MedusaError>> deleteInvite(String inviteId) async {
+  Future<Result<DeleteInviteRes, MedusaError>> deleteInvite(
+      String inviteId) async {
     try {
       final result = await _inviteRepository.delete(inviteId);
       return Success(result);
@@ -131,7 +139,8 @@ class InviteCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -140,7 +149,7 @@ class InviteCrudUseCase {
     required UserUpdateReq payload,
   }) async {
     try {
-      final result = await _userRepository.update( id, payload);
+      final result = await _userRepository.update(id, payload);
       return Success(result.user);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -153,7 +162,8 @@ class InviteCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -174,7 +184,8 @@ class InviteCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

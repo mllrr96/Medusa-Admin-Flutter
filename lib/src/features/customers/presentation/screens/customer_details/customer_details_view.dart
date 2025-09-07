@@ -70,7 +70,8 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
             if (isLastPage) {
               pagingController.appendLastPage(state.orders);
             } else {
-              final nextPageKey = pagingController.nextPageKey ?? 0 + state.orders.length;
+              final nextPageKey =
+                  pagingController.nextPageKey ?? 0 + state.orders.length;
               pagingController.appendPage(state.orders, nextPageKey);
             }
           },
@@ -96,15 +97,19 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                                     title: customer.fullName,
                                     context: context,
                                     actions: <SheetAction<int>>[
-                                      SheetAction(label: context.tr.customerTableEdit, key: 0),
+                                      SheetAction(
+                                          label: context.tr.customerTableEdit,
+                                          key: 0),
                                     ]).then((value) async {
                                   switch (value) {
                                     case 0:
-                                      final result = await context
-                                          .pushRoute(AddUpdateCustomerRoute(customer: customer));
+                                      final result = await context.pushRoute(
+                                          AddUpdateCustomerRoute(
+                                              customer: customer));
                                       if (result is bool) {
-                                        customerCrudBloc
-                                            .add(CustomerCrudEvent.load(widget.customerId));
+                                        customerCrudBloc.add(
+                                            CustomerCrudEvent.load(
+                                                widget.customerId));
                                       }
                                       break;
                                     case 1:
@@ -129,13 +134,16 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                           delegate: Delegate(
                               _.customer,
                               ordersBloc.state.mapOrNull(
-                                      orders: (state) => state.count > 0 ? state.count : null) ??
+                                      orders: (state) => state.count > 0
+                                          ? state.count
+                                          : null) ??
                                   0, onUpdateDone: () {
-                            customerCrudBloc.add(CustomerCrudEvent.load(widget.customerId));
+                            customerCrudBloc
+                                .add(CustomerCrudEvent.load(widget.customerId));
                           }),
                         ),
-                    error: (e) =>
-                        SliverToBoxAdapter(child: Center(child: Text(e.failure.toString()))),
+                    error: (e) => SliverToBoxAdapter(
+                        child: Center(child: Text(e.failure.toString()))),
                     loading: (_) => SliverPersistentHeader(
                           pinned: true,
                           delegate: Delegate(
@@ -147,7 +155,8 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                               0,
                               isSkeleton: true),
                         ),
-                    orElse: () => const SliverToBoxAdapter(child: SizedBox.shrink()));
+                    orElse: () =>
+                        const SliverToBoxAdapter(child: SizedBox.shrink()));
               },
             ),
             SliverSafeArea(
@@ -175,10 +184,12 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                     //   },
                     // ),
                   ),
-                  noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No orders yet')),
+                  noItemsFoundIndicatorBuilder: (_) =>
+                      const Center(child: Text('No orders yet')),
                   firstPageErrorIndicatorBuilder: (_) =>
                       PaginationErrorPage(pagingController: pagingController),
-                  firstPageProgressIndicatorBuilder: (context) => const OrdersLoadingPage(),
+                  firstPageProgressIndicatorBuilder: (context) =>
+                      const OrdersLoadingPage(),
                 ),
               ),
             ),
@@ -195,10 +206,12 @@ class Delegate extends SliverPersistentHeaderDelegate {
   final bool isSkeleton;
   final void Function()? onUpdateDone;
 
-  Delegate(this.customer, this.ordersCount, {this.isSkeleton = false, this.onUpdateDone});
+  Delegate(this.customer, this.ordersCount,
+      {this.isSkeleton = false, this.onUpdateDone});
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
@@ -220,7 +233,8 @@ class Delegate extends SliverPersistentHeaderDelegate {
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundColor: ColorManager.getAvatarColor(customer.email),
+                    backgroundColor:
+                        ColorManager.getAvatarColor(customer.email),
                     child: Text(
                         customer.firstName == null
                             ? customer.email[0].toUpperCase()
@@ -229,7 +243,10 @@ class Delegate extends SliverPersistentHeaderDelegate {
                   ),
                   const Gap(12.0),
                   Flexible(
-                    child: Text(customer.fullName != null ? customer.fullName! : customer.email,
+                    child: Text(
+                        customer.fullName != null
+                            ? customer.fullName!
+                            : customer.email,
                         style: mediumTextStyle),
                   ),
                 ],

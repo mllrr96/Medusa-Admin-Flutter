@@ -4,7 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductDetailsAttributes extends StatelessWidget {

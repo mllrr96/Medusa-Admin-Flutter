@@ -14,11 +14,11 @@ class ProductsFilterUseCase {
 
   ProductsFilterUseCase(this._medusaAdmin);
   static ProductsFilterUseCase get instance => getIt<ProductsFilterUseCase>();
-  CollectionsRepository get _collectionRepository =>_medusaAdmin .collections;
-  ProductTagsRepository get _productTagRepository =>  _medusaAdmin.productTags;
+  CollectionsRepository get _collectionRepository => _medusaAdmin.collections;
+  ProductTagsRepository get _productTagRepository => _medusaAdmin.productTags;
 
   Future<Result<(CollectionListRes, ProductTagListResponse), MedusaError>>
-  call() async {
+      call() async {
     try {
       final collections = await _collectionRepository.retrieveAll();
       final tags = await _productTagRepository.list();
@@ -34,7 +34,8 @@ class ProductsFilterUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

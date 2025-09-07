@@ -9,7 +9,10 @@ class SalesChannelsLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const salesChannel = SalesChannel(
-        name: 'Default Sales Channel', description: 'Created by Medusa', id: '', isDisabled: false);
+        name: 'Default Sales Channel',
+        description: 'Created by Medusa',
+        id: '',
+        isDisabled: false);
     return Skeletonizer(
       enabled: true,
       child: Column(

@@ -6,7 +6,10 @@ import 'package:medusa_admin/src/core/constants/colors.dart';
 
 class PriceListTypeCard extends StatelessWidget {
   const PriceListTypeCard(
-      {super.key, required this.priceListType, this.onTap, required this.groupValue});
+      {super.key,
+      required this.priceListType,
+      this.onTap,
+      required this.groupValue});
   final PriceListType priceListType;
   final PriceListType groupValue;
   final void Function(PriceListType priceListType)? onTap;
@@ -34,7 +37,8 @@ class PriceListTypeCard extends StatelessWidget {
     final ShapeBorder shapeBorder = RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
       side: selected
-          ? BorderSide(color: context.theme.colorScheme.primaryContainer, width: 1)
+          ? BorderSide(
+              color: context.theme.colorScheme.primaryContainer, width: 1)
           : BorderSide.none,
     );
 
@@ -58,7 +62,7 @@ class PriceListTypeCard extends StatelessWidget {
                   groupValue: groupValue,
                   onChanged: (val) {
                     if (val != null) {
-                      if (onTap != null ) {
+                      if (onTap != null) {
                         onTap!(priceListType);
                       }
                     }

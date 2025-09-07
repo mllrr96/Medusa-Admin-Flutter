@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 
-
 abstract class ColorManager {
   static const Color primary = Color(0xFF8B5DF6);
   // static Color primaryAlt = const Color(0xFF7C3AED);
@@ -90,4 +89,3 @@ abstract class ColorManager {
     }
   }
 }
-

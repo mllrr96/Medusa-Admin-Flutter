@@ -5,7 +5,8 @@ import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/localization/app_localizations.dart';
 import 'package:medusa_admin/src/features/app_settings/presentation/cubits/language/language_cubit.dart';
 
-import 'language_locale.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'language_locale.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class LanguageSelectionView extends StatelessWidget {
   const LanguageSelectionView({super.key});

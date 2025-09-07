@@ -55,7 +55,7 @@ class _PaginationErrorPageState extends State<PaginationErrorPage> {
               Column(
                 children: <Widget>[
                   if (type != null) Text('type: $type'),
-                  if (message !=null) Text('message : $message'),
+                  if (message != null) Text('message : $message'),
                   Text('code : $code'),
                 ],
               ),

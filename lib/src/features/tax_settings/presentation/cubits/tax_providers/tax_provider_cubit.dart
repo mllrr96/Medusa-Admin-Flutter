@@ -8,6 +8,7 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 part 'tax_provider_state.dart';
 part 'tax_provider_cubit.freezed.dart';
+
 @injectable
 class TaxProviderCubit extends Cubit<TaxProviderState> {
   TaxProviderCubit(TaxProviderUseCase taxProviderUseCase)

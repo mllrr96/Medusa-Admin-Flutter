@@ -10,11 +10,11 @@ import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
-import 'package:medusa_admin/src/features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'components/index.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'components/index.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 @RoutePage()
 class ProductGiftCardsView extends StatefulWidget {
@@ -55,9 +55,8 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final bottomPadding = context.viewPadding.bottom == 0
-        ? 12.0
-        : context.viewPadding.bottom;
+    final bottomPadding =
+        context.viewPadding.bottom == 0 ? 12.0 : context.viewPadding.bottom;
     return BlocListener<ProductCrudBloc, ProductCrudState>(
       bloc: productCrudBloc,
       listener: (context, state) {

@@ -8,5 +8,6 @@ class OrderEditCrudState with _$OrderEditCrudState {
   const factory OrderEditCrudState.error(MedusaError failure) = _Error;
   const factory OrderEditCrudState.orderEdit(OrderEdit orderEdit) = _OrderEdit;
   const factory OrderEditCrudState.order(Order order) = _Order;
-  const factory OrderEditCrudState.orderEdits(List<OrderEdit> orderEdits, int count) = _OrderEdits;
+  const factory OrderEditCrudState.orderEdits(
+      List<OrderEdit> orderEdits, int count) = _OrderEdits;
 }

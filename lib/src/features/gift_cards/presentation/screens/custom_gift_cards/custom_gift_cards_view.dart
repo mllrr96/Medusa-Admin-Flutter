@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/paging_controller.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/paging_controller.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/enums.dart';
 import 'package:medusa_admin/src/core/utils/medusa_sliver_app_bar.dart';
@@ -228,7 +230,7 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
                     // } else {
                     //   return listTile;
                     // }
-                  return listTile;
+                    return listTile;
                   },
                   noItemsFoundIndicatorBuilder: (_) =>
                       const Center(child: Text('No Gift cards')),

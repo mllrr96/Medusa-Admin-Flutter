@@ -16,9 +16,7 @@ class ProductTypesCubit extends Cubit<ProductTypesState> {
   Future<void> load({Map<String, dynamic>? queryParameters}) async {
     emit(const _Loading());
     final result = await productTypeUseCase(queryParameters: queryParameters);
-    result.when(
-        (success) =>
-            emit(_Types(success.productTypes, success.count)),
+    result.when((success) => emit(_Types(success.productTypes, success.count)),
         (error) => emit(_Error(error)));
   }
 

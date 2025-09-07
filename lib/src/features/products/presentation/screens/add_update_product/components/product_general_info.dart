@@ -7,7 +7,8 @@ import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:flex_expansion_tile/flex_expansion_tile.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class ProductGeneralInformation extends StatefulWidget {
   const ProductGeneralInformation({
@@ -88,7 +89,8 @@ class _ProductGeneralInformationState extends State<ProductGeneralInformation> {
                 subtitle: subtitleCtrl.text.isEmpty ? null : subtitleCtrl.text,
                 handle: handleCtrl.text ?? '',
                 material: materialCtrl.text.isEmpty ? null : materialCtrl.text,
-                description: descriptionCtrl.text.isEmpty ? null : descriptionCtrl.text,
+                description:
+                    descriptionCtrl.text.isEmpty ? null : descriptionCtrl.text,
                 discountable: discountable,
                 id: '',
                 isGiftcard: false,

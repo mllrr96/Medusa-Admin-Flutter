@@ -3,8 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/utils/date_time_card.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';import 'package:medusa_admin/src/core/extensions/color_extension.dart';
-
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/color_extension.dart';
 
 class ConfigurationsCard extends StatelessWidget {
   const ConfigurationsCard(this.discount, {super.key});
@@ -32,8 +33,8 @@ class ConfigurationsCard extends StatelessWidget {
           halfSpace,
           if (discount.createdAt != null)
             DateTimeCard(
-              validator: (date){
-                if(date == null){
+              validator: (date) {
+                if (date == null) {
                   return 'Please select a date';
                 }
                 return null;

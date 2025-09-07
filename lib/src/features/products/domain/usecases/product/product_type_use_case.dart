@@ -14,12 +14,11 @@ class ProductTypeUseCase {
 
   ProductTypeUseCase(this._medusaAdmin);
   static ProductTypeUseCase get instance => getIt<ProductTypeUseCase>();
-  ProductTypesRepository get _typesRepository => _medusaAdmin .productTypes;
+  ProductTypesRepository get _typesRepository => _medusaAdmin.productTypes;
   Future<Result<ProductTypeListResponse, MedusaError>> call(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _typesRepository.list(
-          query: queryParameters);
+      final result = await _typesRepository.list(query: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -32,7 +31,8 @@ class ProductTypeUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

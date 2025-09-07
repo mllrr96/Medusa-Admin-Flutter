@@ -10,5 +10,6 @@ class InviteCrudEvent with _$InviteCrudEvent {
 
   const factory InviteCrudEvent.create(String email) = _Create;
 
-  const factory InviteCrudEvent.accept(InviteAcceptReq userAcceptInvitationReq) = _Accept;
+  const factory InviteCrudEvent.accept(
+      InviteAcceptReq userAcceptInvitationReq) = _Accept;
 }

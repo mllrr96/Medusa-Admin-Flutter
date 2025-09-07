@@ -14,7 +14,7 @@ class PersonalInfoCrudUseCase {
 
   PersonalInfoCrudUseCase(this._medusaAdmin);
   UsersRepository get _userRepository => _medusaAdmin.users;
-  AuthRepository get _authRepository =>  _medusaAdmin.auth;
+  AuthRepository get _authRepository => _medusaAdmin.auth;
 
   static PersonalInfoCrudUseCase get instance =>
       getIt<PersonalInfoCrudUseCase>();
@@ -54,7 +54,8 @@ class PersonalInfoCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -75,7 +76,8 @@ class PersonalInfoCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -84,8 +86,7 @@ class PersonalInfoCrudUseCase {
     required UserUpdateReq payload,
   }) async {
     try {
-      final result = await _userRepository.update(
-          id, payload);
+      final result = await _userRepository.update(id, payload);
       return Success(result.user);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -98,7 +99,8 @@ class PersonalInfoCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
   //
@@ -128,11 +130,10 @@ class PersonalInfoCrudUseCase {
     required String password,
   }) async {
     try {
-      await _authRepository.resetPassword('emailpass'
-          ,{
-           'email': email,
-           'password': password,
-          });
+      await _authRepository.resetPassword('emailpass', {
+        'email': email,
+        'password': password,
+      });
       return Success(unit);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -145,7 +146,8 @@ class PersonalInfoCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -164,7 +166,8 @@ class PersonalInfoCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 

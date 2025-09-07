@@ -4,7 +4,6 @@ import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
-
 class DiscountTypeCard extends StatelessWidget {
   const DiscountTypeCard(
       {super.key,
@@ -29,7 +28,8 @@ class DiscountTypeCard extends StatelessWidget {
     final ShapeBorder shapeBorder = RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
       side: selected
-          ? BorderSide(color: context.theme.colorScheme.primaryContainer, width: 1)
+          ? BorderSide(
+              color: context.theme.colorScheme.primaryContainer, width: 1)
           : BorderSide.none,
     );
     String title = '';

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
 
 class ApiKeyTile extends StatelessWidget {
-  const ApiKeyTile(this.apiKey,{super.key});
+  const ApiKeyTile(this.apiKey, {super.key});
   final ApiKey apiKey;
   @override
   Widget build(BuildContext context) {
@@ -22,9 +24,7 @@ class ApiKeyTile extends StatelessWidget {
                   height: 45,
                   width: 4,
                   decoration: BoxDecoration(
-                      color: revoked
-                          ? Colors.redAccent
-                          : Colors.green,
+                      color: revoked ? Colors.redAccent : Colors.green,
                       borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(12),
                           bottomRight: Radius.circular(12))),
@@ -32,13 +32,11 @@ class ApiKeyTile extends StatelessWidget {
                 const SizedBox(width: 12.0),
                 Flexible(
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(apiKey.title ?? ''),
                       Text(apiKey.id ?? '',
-                          style: smallTextStyle?.copyWith(
-                              color: manatee)),
+                          style: smallTextStyle?.copyWith(color: manatee)),
                     ],
                   ),
                 ),
@@ -48,10 +46,8 @@ class ApiKeyTile extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(apiKey.createdAt.formatDate(),
-                  style: smallTextStyle),
-              Text(apiKey.createdAt.formatTime(),
-                  style: smallTextStyle),
+              Text(apiKey.createdAt.formatDate(), style: smallTextStyle),
+              Text(apiKey.createdAt.formatTime(), style: smallTextStyle),
             ],
           ),
         ],

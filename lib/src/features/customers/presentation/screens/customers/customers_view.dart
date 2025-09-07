@@ -13,7 +13,6 @@ import 'package:medusa_admin/src/core/utils/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/features/search/presentation/widgets/search_floating_action_button.dart';
-import 'package:medusa_admin/src/features/search/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'components/index.dart';

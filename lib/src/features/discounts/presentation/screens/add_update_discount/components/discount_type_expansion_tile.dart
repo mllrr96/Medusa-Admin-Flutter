@@ -1,4 +1,5 @@
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
@@ -7,13 +8,13 @@ import 'discount_type_card.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class DiscountTypeExpansionTile extends StatelessWidget {
-  const DiscountTypeExpansionTile(
-      {super.key,
-      required this.discountType,
-      // required this.allocationType,
-      this.onTypeChange,
-      // this.onAllocationChange
-      });
+  const DiscountTypeExpansionTile({
+    super.key,
+    required this.discountType,
+    // required this.allocationType,
+    this.onTypeChange,
+    // this.onAllocationChange
+  });
   final PromotionType discountType;
   // final AllocationType allocationType;
   final void Function(PromotionType)? onTypeChange;
@@ -80,10 +81,10 @@ class DiscountTypeExpansionTile extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Row(
                           children: [
-                            Text('Allocation',
-                                style: context.bodyLarge),
+                            Text('Allocation', style: context.bodyLarge),
                             Text('*',
-                                style: context.bodyLarge?.copyWith(color: Colors.redAccent)),
+                                style: context.bodyLarge
+                                    ?.copyWith(color: Colors.redAccent)),
                           ],
                         ),
                       ),

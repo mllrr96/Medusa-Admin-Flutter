@@ -13,9 +13,11 @@ class SalesChannelCrudUseCase {
 
   SalesChannelCrudUseCase(this._medusaAdmin);
 
-  SalesChannelsRepository get _salesChannelRepository => _medusaAdmin.salesChannels;
+  SalesChannelsRepository get _salesChannelRepository =>
+      _medusaAdmin.salesChannels;
 
-  static SalesChannelCrudUseCase get instance => getIt<SalesChannelCrudUseCase>();
+  static SalesChannelCrudUseCase get instance =>
+      getIt<SalesChannelCrudUseCase>();
 
   Future<Result<SalesChannel, MedusaError>> load(
       {required String id, Map<String, dynamic>? queryParameters}) async {
@@ -33,14 +35,16 @@ class SalesChannelCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<SalesChannelListRes, MedusaError>> loadAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _salesChannelRepository.retrieveAll(queryParameters: queryParameters);
+      final result = await _salesChannelRepository.retrieveAll(
+          queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -53,15 +57,16 @@ class SalesChannelCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<SalesChannel, MedusaError>> removeProducts(
       {required String id, required List<String> productIds}) async {
     try {
-      final result =
-          await _salesChannelRepository.manageProducts(id, ManageProductsReq(remove: productIds));
+      final result = await _salesChannelRepository.manageProducts(
+          id, ManageProductsReq(remove: productIds));
       return Success(result.salesChannel);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -74,15 +79,16 @@ class SalesChannelCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<SalesChannel, MedusaError>> addProducts(
       {required String id, required List<String> productIds}) async {
     try {
-      final result =
-          await _salesChannelRepository.manageProducts(id, ManageProductsReq(add: productIds));
+      final result = await _salesChannelRepository.manageProducts(
+          id, ManageProductsReq(add: productIds));
       return Success(result.salesChannel);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -95,7 +101,8 @@ class SalesChannelCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -114,11 +121,13 @@ class SalesChannelCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<SalesChannel, MedusaError>> create(CreateSalesChannel payload) async {
+  Future<Result<SalesChannel, MedusaError>> create(
+      CreateSalesChannel payload) async {
     try {
       final result = await _salesChannelRepository.create(payload);
       return Success(result.salesChannel);
@@ -133,7 +142,8 @@ class SalesChannelCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -153,7 +163,8 @@ class SalesChannelCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

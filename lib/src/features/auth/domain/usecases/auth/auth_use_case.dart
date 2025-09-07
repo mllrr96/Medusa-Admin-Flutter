@@ -43,7 +43,8 @@ class AuthenticationUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -62,13 +63,15 @@ class AuthenticationUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<SessionUser, MedusaError>> postSession(String token) async {
     try {
-      final result = await _authenticationRepository.postSession('Bearer $token');
+      final result =
+          await _authenticationRepository.postSession('Bearer $token');
       return Success(result.user);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -81,7 +84,8 @@ class AuthenticationUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -100,7 +104,8 @@ class AuthenticationUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

@@ -20,11 +20,13 @@ class OrderCrudUseCase {
 
   OrderEditsRepository get _orderEditRepository => _medusaAdmin.orderEdits;
 
-  NotificationsRepository get _notificationRepository => _medusaAdmin.notifications;
+  NotificationsRepository get _notificationRepository =>
+      _medusaAdmin.notifications;
 
   UsersRepository get _userRepository => _medusaAdmin.users;
 
-  FulfillmentsRepository get _fulfillmentRepository => _medusaAdmin.fulfillments;
+  FulfillmentsRepository get _fulfillmentRepository =>
+      _medusaAdmin.fulfillments;
 
   Future<Result<Order, MedusaError>> retrieveOrder({
     required String id,
@@ -47,7 +49,8 @@ class OrderCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -70,7 +73,8 @@ class OrderCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -114,7 +118,8 @@ class OrderCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -136,7 +141,8 @@ class OrderCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -159,7 +165,8 @@ class OrderCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -180,7 +187,8 @@ class OrderCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -201,7 +209,8 @@ class OrderCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -221,7 +230,8 @@ class OrderCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -309,7 +319,7 @@ class OrderCrudUseCase {
   }) async {
     try {
       final response = await _fulfillmentRepository.cancel(fulfillmentId);
-     return Success(response.fulfillment);
+      return Success(response.fulfillment);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -321,7 +331,8 @@ class OrderCrudUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

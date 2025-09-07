@@ -2,7 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
-import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 import 'package:medusa_admin/src/core/utils/currency_formatter.dart';
 
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
@@ -11,7 +12,8 @@ import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
 import 'package:medusa_admin/src/core/utils/labeled_numeric_text_field.dart';
 import 'package:medusa_admin/src/features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/bloc/store/store_bloc.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class CreateProductGiftCardView extends StatefulWidget {
   const CreateProductGiftCardView({super.key});
@@ -232,11 +234,13 @@ class _DenominationWidgetState extends State<DenominationWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<StoreBloc, StoreState>(
       builder: (context, state) {
-        List<Currency>? currencies =
-            state.whenOrNull(store: (store) => store.supportedCurrencies?.map((c)=> c.currency).toList());
+        List<Currency>? currencies = state.whenOrNull(
+            store: (store) =>
+                store.supportedCurrencies?.map((c) => c.currency).toList());
         Currency? selectedCurrency = (currencies?.isNotEmpty ?? false)
             ? currencies?.firstOrNull
-            : const Currency(code: 'usd', symbol: '', symbolNative: '', name: '');
+            : const Currency(
+                code: 'usd', symbol: '', symbolNative: '', name: '');
         return Column(
           children: [
             Row(
@@ -291,8 +295,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                 // controller.denominations[widget.index] =
                 //     (selectedCurrency, val, widget.index);
               },
-              prefixText:
-                  '    ${selectedCurrency?.code.getCurrencySymbol} | ',
+              prefixText: '    ${selectedCurrency?.code.getCurrencySymbol} | ',
               noEndSpace: true,
               inputFormatters: [
                 if (selectedCurrency != null)

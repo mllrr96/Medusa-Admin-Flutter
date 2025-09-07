@@ -22,11 +22,13 @@ class UpdateProductUseCase {
 
   UploadsRepository get _uploadRepository => _medusaAdmin.uploads;
 
-  SalesChannelsRepository get _salesChannelRepository => _medusaAdmin.salesChannels;
+  SalesChannelsRepository get _salesChannelRepository =>
+      _medusaAdmin.salesChannels;
 
   static UpdateProductUseCase get instance => getIt<UpdateProductUseCase>();
 
-  Future<Result<Product, MedusaError>> addProduct(CreateProductReq payload) async {
+  Future<Result<Product, MedusaError>> addProduct(
+      CreateProductReq payload) async {
     try {
       final result = await _productsRepository.create(payload);
       return Success(result.product);
@@ -41,7 +43,8 @@ class UpdateProductUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -50,7 +53,8 @@ class UpdateProductUseCase {
     required String id,
   }) async {
     try {
-      final result = await _productsRepository.update(id, userPostUpdateProductReq);
+      final result =
+          await _productsRepository.update(id, userPostUpdateProductReq);
       return Success(result.product);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -63,7 +67,8 @@ class UpdateProductUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -83,14 +88,16 @@ class UpdateProductUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<CollectionListRes, MedusaError>> retrieveCollections(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _collectionRepository.retrieveAll(queryParameters: queryParameters);
+      final result = await _collectionRepository.retrieveAll(
+          queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -103,7 +110,8 @@ class UpdateProductUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -127,7 +135,8 @@ class UpdateProductUseCase {
     // }
   }
 
-  Future<Result<UploadsDeleteRes, MedusaError>> deleteFile({required String fileKey}) async {
+  Future<Result<UploadsDeleteRes, MedusaError>> deleteFile(
+      {required String fileKey}) async {
     try {
       final result = await _uploadRepository.delete(fileKey);
       return Success(result);
@@ -142,14 +151,16 @@ class UpdateProductUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<SalesChannelListRes, MedusaError>> retrieveSalesChannels(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _salesChannelRepository.retrieveAll(queryParameters: queryParameters);
+      final result = await _salesChannelRepository.retrieveAll(
+          queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -162,7 +173,8 @@ class UpdateProductUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

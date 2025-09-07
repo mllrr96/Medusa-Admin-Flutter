@@ -37,7 +37,8 @@ class CustomerCrudBloc extends Bloc<CustomerCrudEvent, CustomerCrudState> {
     Emitter<CustomerCrudState> emit,
   ) async {
     emit(const _Loading());
-    final result = await customerCrudUseCase.create(event.userCreateCustomerReq);
+    final result =
+        await customerCrudUseCase.create(event.userCreateCustomerReq);
     result.when((customer) {
       emit(_Customer(customer));
     }, (error) {
@@ -50,7 +51,8 @@ class CustomerCrudBloc extends Bloc<CustomerCrudEvent, CustomerCrudState> {
     Emitter<CustomerCrudState> emit,
   ) async {
     emit(const _Loading());
-    final result = await customerCrudUseCase.update(event.id, event.userUpdateCustomerReq);
+    final result =
+        await customerCrudUseCase.update(event.id, event.userUpdateCustomerReq);
     result.when((customer) {
       emit(_Customer(customer));
     }, (error) {
@@ -76,14 +78,14 @@ class CustomerCrudBloc extends Bloc<CustomerCrudEvent, CustomerCrudState> {
     Emitter<CustomerCrudState> emit,
   ) async {
     emit(const _Loading());
-    final result = await customerCrudUseCase.retrieveAll(queryParameters: {'limit': pageSize, ...?event.queryParameters});
+    final result = await customerCrudUseCase.retrieveAll(
+        queryParameters: {'limit': pageSize, ...?event.queryParameters});
     result.when((response) {
       emit(_Customers(response.customers, response.count));
     }, (error) {
       emit(_Error(error));
     });
   }
-
 
   final CustomerCrudUseCase customerCrudUseCase;
   static const int pageSize = 20;

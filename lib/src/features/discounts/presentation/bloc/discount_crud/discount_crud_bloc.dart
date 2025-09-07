@@ -73,8 +73,8 @@ class DiscountCrudBloc extends Bloc<DiscountCrudEvent, DiscountCrudState> {
     Emitter<DiscountCrudState> emit,
   ) async {
     emit(const _Loading());
-    final result = await discountDetailsUseCase.createDiscount(
-        payload: event.payload);
+    final result =
+        await discountDetailsUseCase.createDiscount(payload: event.payload);
     result.when((promotion) => emit(_Discount(promotion)),
         (error) => emit(_Error(error)));
   }
@@ -109,16 +109,16 @@ class DiscountCrudBloc extends Bloc<DiscountCrudEvent, DiscountCrudState> {
   //   Emitter<DiscountCrudState> emit,
   // ) async {
   //   throw UnimplementedError();
-    // emit(_Loading(discountId: event.discountId));
-    // final result = await discountDetailsUseCase.deleteDiscountCondition(
-    //     discountId: event.discountId, conditionId: event.conditionId);
-    // result.when((discount) {
-    //   if (discount.discount == null) {
-    //     emit(_Error(Failure(message: 'Discount not found', type: '')));
-    //   } else {
-    //     emit(_Discount(discount.discount!));
-    //   }
-    // }, (error) => emit(_Error(error)));
+  // emit(_Loading(discountId: event.discountId));
+  // final result = await discountDetailsUseCase.deleteDiscountCondition(
+  //     discountId: event.discountId, conditionId: event.conditionId);
+  // result.when((discount) {
+  //   if (discount.discount == null) {
+  //     emit(_Error(Failure(message: 'Discount not found', type: '')));
+  //   } else {
+  //     emit(_Discount(discount.discount!));
+  //   }
+  // }, (error) => emit(_Error(error)));
   // }
 
   // Future<void> _addItemsToCondition(

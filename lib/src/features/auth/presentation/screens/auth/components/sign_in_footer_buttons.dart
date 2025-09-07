@@ -4,7 +4,10 @@ import 'package:medusa_admin/src/features/auth/data/service/auth_preference_serv
 
 class SignInFooterButtons extends StatelessWidget {
   const SignInFooterButtons(this.reAuthenticate,
-      {super.key, this.onGoToSignInPressed, this.onUrlPressed, this.onUrlLongPressed});
+      {super.key,
+      this.onGoToSignInPressed,
+      this.onUrlPressed,
+      this.onUrlLongPressed});
 
   final bool reAuthenticate;
   final void Function()? onGoToSignInPressed;
@@ -32,7 +35,9 @@ class SignInFooterButtons extends StatelessWidget {
         minimumSize: const Size(110, 48.0),
       ),
       label: Text('Configure URL',
-          style: isUrlSet ? null : context.bodySmall?.copyWith(color: Colors.white)),
+          style: isUrlSet
+              ? null
+              : context.bodySmall?.copyWith(color: Colors.white)),
       icon: Icon(
         Icons.link,
         color: isUrlSet ? null : Colors.white,

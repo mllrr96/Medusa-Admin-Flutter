@@ -44,8 +44,7 @@ class CollectionCrudBloc
       queryParameters: {'limit': pageSize, ...?event.queryParameters},
     );
     result.when(
-        (response) =>
-            emit(_Collections(response.collections, response.count)),
+        (response) => emit(_Collections(response.collections, response.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -67,7 +66,8 @@ class CollectionCrudBloc
   ) async {
     emit(const _Loading());
     final result = await collectionCrudUseCase.update(
-     id: event.id, updateCollectionReq: event.payload,
+      id: event.id,
+      updateCollectionReq: event.payload,
     );
     result.when((collection) => emit(_Collection(collection)),
         (error) => emit(_Error(error)));
@@ -88,10 +88,9 @@ class CollectionCrudBloc
     Emitter<CollectionCrudState> emit,
   ) async {
     emit(const _Loading());
-    final result = await collectionCrudUseCase
-        .removeProducts(event.id ,event.productIds);
-    result.when(
-        (success) => emit(_ProductsRemoved([])),
+    final result =
+        await collectionCrudUseCase.removeProducts(event.id, event.productIds);
+    result.when((success) => emit(_ProductsRemoved([])),
         (error) => emit(_Error(error)));
   }
 
@@ -100,8 +99,8 @@ class CollectionCrudBloc
     Emitter<CollectionCrudState> emit,
   ) async {
     emit(const _Loading());
-    final result = await collectionCrudUseCase
-        .removeProducts(event.id ,event.productIds);
+    final result =
+        await collectionCrudUseCase.removeProducts(event.id, event.productIds);
     result.when((collection) => emit(_Collection(collection)),
         (error) => emit(_Error(error)));
   }

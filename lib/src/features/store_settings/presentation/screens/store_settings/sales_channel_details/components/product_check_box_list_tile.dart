@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class ProductCheckboxListTile extends StatelessWidget {
   const ProductCheckboxListTile(this.product,

@@ -43,11 +43,9 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   void _loadPage(int _) {
-    groupCrudBloc.add(GroupCrudEvent.loadAll(
-      queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
-      }
-    ));
+    groupCrudBloc.add(GroupCrudEvent.loadAll(queryParameters: {
+      'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+    }));
   }
 
   @override
@@ -113,7 +111,7 @@ class _GroupsViewState extends State<GroupsView> {
                 icon: const Icon(Icons.group_add),
                 onPressed: () async {
                   final result =
-                  await context.pushRoute(CreateUpdateGroupRoute());
+                      await context.pushRoute(CreateUpdateGroupRoute());
                   if (result is bool && result) {
                     pagingController.refresh();
                   }

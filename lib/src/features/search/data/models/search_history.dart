@@ -21,11 +21,11 @@ class SearchHistory {
   }
 
   static String encode(List<SearchHistory> searchHistoryList) => json.encode(
-    searchHistoryList
-        .map<Map<String, dynamic>>(
-            (searchHistory) => SearchHistory.toJson(searchHistory))
-        .toList(),
-  );
+        searchHistoryList
+            .map<Map<String, dynamic>>(
+                (searchHistory) => SearchHistory.toJson(searchHistory))
+            .toList(),
+      );
   static List<SearchHistory> decode(String searchHistoryList) =>
       (json.decode(searchHistoryList) as List<dynamic>)
           .map<SearchHistory>(

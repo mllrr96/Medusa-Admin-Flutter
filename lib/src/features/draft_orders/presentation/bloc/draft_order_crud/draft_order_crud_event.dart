@@ -11,6 +11,6 @@ class DraftOrderCrudEvent with _$DraftOrderCrudEvent {
       PostDraftOrdersReq userCreateDraftOrderReq) = _Create;
   const factory DraftOrderCrudEvent.update(
       String id, UpdateDraftOrder userUpdateDraftOrderReq) = _Update;
-  const factory DraftOrderCrudEvent.registerPayment(
-      String id) = _RegisterPayment;
+  const factory DraftOrderCrudEvent.registerPayment(String id) =
+      _RegisterPayment;
 }

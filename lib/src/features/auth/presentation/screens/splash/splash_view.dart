@@ -6,7 +6,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/features/auth/presentation/bloc/authentication/authentication_bloc.dart';
 
@@ -67,7 +69,10 @@ class _SplashViewState extends State<SplashView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Hero(tag: 'medusa', child: Image.asset('assets/images/medusa.png', scale: 5)),
+                    Hero(
+                        tag: 'medusa',
+                        child:
+                            Image.asset('assets/images/medusa.png', scale: 5)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text('Medusa Admin', style: context.headlineLarge),
@@ -93,7 +98,9 @@ class _SplashViewState extends State<SplashView> {
                               .add(const AuthenticationEvent.cancel());
                         },
                         child: const Text('Go to login')),
-                    Gap(context.bottomViewPadding != 0 ? context.bottomViewPadding : 10),
+                    Gap(context.bottomViewPadding != 0
+                        ? context.bottomViewPadding
+                        : 10),
                   ],
                 )
                     .animate()

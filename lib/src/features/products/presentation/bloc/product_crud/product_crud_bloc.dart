@@ -31,7 +31,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     final result = await productCrudUseCase.fetchProduct(
       event.id,
       // queryParameters: {
-        // 'fields': 'images,options,variants,collection,tags,sales_channels,options.values'
+      // 'fields': 'images,options,variants,collection,tags,sales_channels,options.values'
       // },
     );
     result.when((product) {
@@ -82,7 +82,8 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     Emitter<ProductCrudState> emit,
   ) async {
     emit(const _Loading());
-    final result = await productCrudUseCase.createProduct(payload: event.payload);
+    final result =
+        await productCrudUseCase.createProduct(payload: event.payload);
     result.when((product) {
       emit(_Product(product));
     }, (error) {
@@ -108,7 +109,8 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     Emitter<ProductCrudState> emit,
   ) async {
     emit(_Loading(id: event.id));
-    final result = await productCrudUseCase.updateProduct(id: event.id, payload: event.payload);
+    final result = await productCrudUseCase.updateProduct(
+        id: event.id, payload: event.payload);
     result.when((success) {
       emit(_Updated(success));
     }, (error) {

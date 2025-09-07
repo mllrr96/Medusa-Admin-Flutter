@@ -18,7 +18,8 @@ class OrdersFilterUseCase {
 
   RegionsRepository get _regionsRepository => _medusaAdmin.regions;
 
-  SalesChannelsRepository get _salesChannelRepository => _medusaAdmin.salesChannels;
+  SalesChannelsRepository get _salesChannelRepository =>
+      _medusaAdmin.salesChannels;
 
   Future<Result<(RegionsRes, SalesChannelListRes), MedusaError>> call() async {
     try {
@@ -36,7 +37,8 @@ class OrdersFilterUseCase {
         log(error.toString());
         log(stack.toString());
       }
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

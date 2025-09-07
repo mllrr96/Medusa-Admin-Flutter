@@ -7,12 +7,12 @@ import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 
-
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'draft_order_status_label.dart';
 
 class DraftOrderCard extends StatelessWidget {
-  const DraftOrderCard(this.draftOrder, {super.key, this.onTap, this.shimmer = false});
+  const DraftOrderCard(this.draftOrder,
+      {super.key, this.onTap, this.shimmer = false});
 
   final DraftOrder draftOrder;
   final void Function()? onTap;
@@ -30,10 +30,13 @@ class DraftOrderCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 4),
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-        onTap: onTap ?? () => context.pushRoute(DraftOrderDetailsRoute(draftId: draftOrder.id)),
+        onTap: onTap ??
+            () => context
+                .pushRoute(DraftOrderDetailsRoute(draftId: draftOrder.id)),
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Column(
             children: [
               Row(
@@ -41,7 +44,8 @@ class DraftOrderCard extends StatelessWidget {
                 children: [
                   Text('#${draftOrder.displayId}', style: mediumTextStyle),
                   if (draftOrder.displayId != null)
-                    Text('Order #${draftOrder.displayId}', style: mediumTextStyle),
+                    Text('Order #${draftOrder.displayId}',
+                        style: mediumTextStyle),
                 ],
               ),
               Padding(
@@ -74,13 +78,17 @@ class DraftOrderCard extends StatelessWidget {
                               : Text(
                                   customerName?[0].capitalize ??
                                       draftOrder.email[0].capitalize,
-                                  style: largeTextStyle?.copyWith(color: Colors.white)),
+                                  style: largeTextStyle?.copyWith(
+                                      color: Colors.white)),
                         ),
                         const SizedBox(width: 6.0),
                         if (customerName != null)
-                          Flexible(child: Text(customerName, style: smallTextStyle)),
+                          Flexible(
+                              child: Text(customerName, style: smallTextStyle)),
                         if (customerName == null)
-                          Flexible(child: Text(draftOrder.email, style: mediumTextStyle)),
+                          Flexible(
+                              child: Text(draftOrder.email,
+                                  style: mediumTextStyle)),
                       ],
                     ),
                   ),

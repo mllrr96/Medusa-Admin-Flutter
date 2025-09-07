@@ -61,7 +61,9 @@ class ConditionsCard extends StatelessWidget {
                     //       )));
                     // }
                   },
-                  icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add)),
+                  icon: Platform.isIOS
+                      ? const Icon(CupertinoIcons.add)
+                      : const Icon(Icons.add)),
             ],
           ),
           halfSpace,

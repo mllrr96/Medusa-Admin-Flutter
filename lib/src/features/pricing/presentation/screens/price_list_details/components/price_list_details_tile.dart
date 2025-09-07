@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
 import 'package:medusa_admin/src/features/discounts/presentation/screens/discounts/components/discount_rule_type_label.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
 
 class PriceListDetailsTile extends StatelessWidget {
   const PriceListDetailsTile(this.priceList, {super.key, this.shimmer = false});
@@ -33,17 +34,13 @@ class PriceListDetailsTile extends StatelessWidget {
       // return names;
     }
 
-
     return Skeletonizer(
       enabled: shimmer,
       child: Container(
-        margin: const EdgeInsets.symmetric(
-            horizontal: 12.0, vertical: 8.0),
-        padding: const EdgeInsets.symmetric(
-            horizontal: 12.0, vertical: 8.0),
+        margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         decoration: BoxDecoration(
-          borderRadius:
-          const BorderRadius.all(Radius.circular(12.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
           color: context.theme.cardColor,
         ),
         child: Column(
@@ -57,14 +54,12 @@ class PriceListDetailsTile extends StatelessWidget {
                   style: context.headlineMedium,
                 ),
                 DiscountStatusDot(
-                    disabled: priceList.status !=
-                        PriceListStatus.active),
+                    disabled: priceList.status != PriceListStatus.active),
               ],
             ),
             space,
             Text(priceList.description ?? '',
-                style:
-                smallTextStyle?.copyWith(color: manatee)),
+                style: smallTextStyle?.copyWith(color: manatee)),
             // if (priceList.customerGroups?.isNotEmpty ?? false)
             //   space,
             // if (priceList.customerGroups?.isNotEmpty ?? false)
@@ -102,19 +97,15 @@ class PriceListDetailsTile extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 12.0, vertical: 6.0),
                   decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(
-                          Radius.circular(4.0)),
-                      color: context
-                          .theme.scaffoldBackgroundColor),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(4.0)),
+                      color: context.theme.scaffoldBackgroundColor),
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Last edited',
-                          style: smallTextStyle?.copyWith(
-                              color: manatee)),
+                          style: smallTextStyle?.copyWith(color: manatee)),
                       Text(priceList.updatedAt.formatDate(),
                           style: mediumTextStyle),
                     ],
@@ -124,22 +115,16 @@ class PriceListDetailsTile extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 12.0, vertical: 6.0),
                   decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(
-                          Radius.circular(4.0)),
-                      color: context
-                          .theme.scaffoldBackgroundColor),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(4.0)),
+                      color: context.theme.scaffoldBackgroundColor),
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Price overrides',
-                          style: smallTextStyle?.copyWith(
-                              color: manatee)),
-                      Text(
-                          priceList.prices.length.toString() ??
-                              '0',
+                          style: smallTextStyle?.copyWith(color: manatee)),
+                      Text(priceList.prices.length.toString() ?? '0',
                           style: mediumTextStyle),
                     ],
                   ),

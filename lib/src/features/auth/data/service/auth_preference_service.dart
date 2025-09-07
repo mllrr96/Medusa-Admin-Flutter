@@ -21,7 +21,8 @@ class AuthPreferenceService {
   final FlutterSecureStorage _securePrefs;
 
   static String? get baseUrlGetter => instance._baseUrl;
-  static AuthenticationType get authTypeGetter => instance._authPreference.authType;
+  static AuthenticationType get authTypeGetter =>
+      instance._authPreference.authType;
   static AuthPreference get authPreferenceGetter => instance._authPreference;
   static String? get email => instance._email;
   static bool get isAuthenticatedGetter => instance._isAuthenticated;
@@ -181,9 +182,11 @@ class AuthPreferenceService {
       debugPrint(e.toString());
     }
   }
+
   Future<void> clearUpdateFiles() async {
     try {
-      Directory dir = await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
+      Directory dir = await getDownloadsDirectory() ??
+          await getApplicationDocumentsDirectory();
       await Directory(dir.path).delete(recursive: true);
     } catch (e) {
       debugPrint(e.toString());

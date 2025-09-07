@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
@@ -67,10 +68,10 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                         }
 
                         if (user.firstName == firstNameCtrl.text &&
-                            user.lastName == lastNameCtrl.text
+                                user.lastName == lastNameCtrl.text
                             // user.apiToken == tokenCtrl.text
 
-                        ) {
+                            ) {
                           context.maybePop();
                           return;
                         }

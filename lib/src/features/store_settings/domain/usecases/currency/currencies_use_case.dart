@@ -4,6 +4,7 @@ import 'package:medusa_admin/src/core/di/di.dart';
 import 'package:medusa_admin/src/core/error/medusa_error.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
+
 @lazySingleton
 class CurrenciesUseCase {
   CurrenciesRepository get _currencyRepository => _medusaAdminV2.currencies;
@@ -27,8 +28,8 @@ class CurrenciesUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

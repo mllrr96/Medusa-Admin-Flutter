@@ -42,8 +42,7 @@ class RegionCrudBloc extends Bloc<RegionCrudEvent, RegionCrudState> {
       'limit': pageSize,
       ...?event.queryParameters,
     });
-    result.when(
-        (regions) => emit(_Regions(regions.regions, regions.count)),
+    result.when((regions) => emit(_Regions(regions.regions, regions.count)),
         (error) => emit(_Error(error)));
   }
 

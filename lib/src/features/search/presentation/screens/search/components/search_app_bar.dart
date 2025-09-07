@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/utils/enums.dart';
 import 'package:medusa_admin/src/features/app_settings/data/service/preference_service.dart';
 import 'package:medusa_admin/src/core/utils/easy_loading.dart';
@@ -19,7 +21,10 @@ import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   const SearchAppBar(
-      {super.key, required this.controller, required this.searchCategory, required this.searchCtrl});
+      {super.key,
+      required this.controller,
+      required this.searchCategory,
+      required this.searchCtrl});
   final PagingController<int, Object> controller;
   final SearchCategory searchCategory;
   final TextEditingController searchCtrl;
@@ -57,7 +62,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
       SortOptions.dateOld => CupertinoIcons.calendar_badge_minus,
     };
 
-    int orderFilterCount =  0;
+    int orderFilterCount = 0;
     int productFilterCount = productFilter?.count() ?? 0;
     Color filterBorderColor =
         (searchCategory == SearchCategory.orders && orderFilterCount > 0) ||
@@ -87,8 +92,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     }
                   },
                   hintText: getHintText(searchCategory),
-                  padding:
-                      WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
+                  padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
                   leading: IconButton(
                     padding: const EdgeInsets.all(16),
                     icon: const Icon(Icons.arrow_back),
@@ -274,30 +278,30 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                       });
 
                                     case SearchCategory.orders:
-                                      // await showBarModalBottomSheet<
-                                      //         OrderFilter>(
-                                      //     context: context,
-                                      //     backgroundColor: context
-                                      //         .theme.scaffoldBackgroundColor,
-                                      //     enableDrag: false,
-                                      //     overlayStyle: context.theme
-                                      //         .appBarTheme.systemOverlayStyle,
-                                      //     builder: (context) =>
-                                      //         OrdersFilterView(
-                                      //           orderFilter: orderFilter,
-                                      //           onResetTap: () {
-                                      //             orderFilter = null;
-                                      //             setState(() {});
-                                      //             widget. controller.refresh();
-                                      //             context.maybePop();
-                                      //           },
-                                      //         )).then((result) {
-                                      //   if (result is OrderFilter) {
-                                      //     orderFilter = result;
-                                      //     setState(() {});
-                                      //     widget. controller.refresh();
-                                      //   }
-                                      // });
+                                    // await showBarModalBottomSheet<
+                                    //         OrderFilter>(
+                                    //     context: context,
+                                    //     backgroundColor: context
+                                    //         .theme.scaffoldBackgroundColor,
+                                    //     enableDrag: false,
+                                    //     overlayStyle: context.theme
+                                    //         .appBarTheme.systemOverlayStyle,
+                                    //     builder: (context) =>
+                                    //         OrdersFilterView(
+                                    //           orderFilter: orderFilter,
+                                    //           onResetTap: () {
+                                    //             orderFilter = null;
+                                    //             setState(() {});
+                                    //             widget. controller.refresh();
+                                    //             context.maybePop();
+                                    //           },
+                                    //         )).then((result) {
+                                    //   if (result is OrderFilter) {
+                                    //     orderFilter = result;
+                                    //     setState(() {});
+                                    //     widget. controller.refresh();
+                                    //   }
+                                    // });
                                     case SearchCategory.draftOrders:
                                     case SearchCategory.collections:
                                     case SearchCategory.customers:
@@ -412,9 +416,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
             .add(SearchEvent.searchOrders(queryParameters: queryParameters));
       // -----------------------------------------------------------
       case SearchCategory.draftOrders:
-        context
-            .read<SearchBloc>()
-            .add(SearchEvent.searchDrafts());
+        context.read<SearchBloc>().add(SearchEvent.searchDrafts());
       // -----------------------------------------------------------
       case SearchCategory.products:
         queryParameters.addAll({

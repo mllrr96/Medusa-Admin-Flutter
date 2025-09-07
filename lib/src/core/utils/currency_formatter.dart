@@ -95,7 +95,8 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
       _newString =
           '${_isNegative ? '-' : ''}${NumberFormat.simpleCurrency(name: name?.toUpperCase()).currencySymbol} ${format.format(_newNum).trim().split(format.currencyName!)[1]}';
     } else {
-      _newString = (_isNegative ? '-' : '') + format.format(_newNum).trim().split(format.currencyName!)[1];
+      _newString = (_isNegative ? '-' : '') +
+          format.format(_newNum).trim().split(format.currencyName!)[1];
     }
   }
 
@@ -108,7 +109,8 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
     //     oldValue.text.length + 1 == newValue.text.length &&
     //         newValue.text.startsWith(oldValue.text);
     final bool isRemovedCharacter =
-        oldValue.text.length - 1 == newValue.text.length && oldValue.text.startsWith(newValue.text);
+        oldValue.text.length - 1 == newValue.text.length &&
+            oldValue.text.startsWith(newValue.text);
     // Apparently, Flutter has a bug where the framework calls
     // formatEditUpdate twice, or even four times, after a backspace press (see
     // https://github.com/gtgalone/currency_text_input_formatter/issues/11).

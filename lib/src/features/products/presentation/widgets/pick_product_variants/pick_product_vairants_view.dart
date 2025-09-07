@@ -66,8 +66,7 @@ class _PickProductVariantsViewState extends State<PickProductVariantsView> {
       listener: (context, state) {
         state.maybeWhen(
           variants: (variants, _) {
-            final isLastPage =
-                variants.length < ProductVariantsCubit.pageSize;
+            final isLastPage = variants.length < ProductVariantsCubit.pageSize;
             if (isLastPage) {
               pagingController.appendLastPage(variants);
             } else {
@@ -88,43 +87,41 @@ class _PickProductVariantsViewState extends State<PickProductVariantsView> {
                 onPressed: isEqual
                     ? null
                     : () => context.maybePop(SelectProductsRes(
-                    selectedProductVariants: newlySelectedProducts)),
+                        selectedProductVariants: newlySelectedProducts)),
                 child: const Text('Add'))
           ],
         ),
         body: SafeArea(
             child: PagedListView.separated(
-              pagingController: pagingController,
-              separatorBuilder: (_, __) =>
-              const Divider(height: 0, indent: 16.0),
-              builderDelegate: PagedChildBuilderDelegate<ProductVariant>(
-                animateTransitions: true,
-                itemBuilder: (context, productVariant, index) =>
-                    ProductVariantListTile(
-                      productVariant: productVariant,
-                      value: newlySelectedProducts
-                          .map((e) => e.id)
-                          .toList()
-                          .contains(productVariant.id),
-                      onChanged: (value) {
-                        if (value != null && value) {
-                          newlySelectedProducts.add(productVariant);
-                        } else if (value != null && !value) {
-                          newlySelectedProducts.removeWhere(
-                                  (element) => element.id == productVariant.id);
-                        }
-                        setState(() {});
-                      },
-                      index: index,
-                    ),
-                firstPageProgressIndicatorBuilder: (context) =>
+          pagingController: pagingController,
+          separatorBuilder: (_, __) => const Divider(height: 0, indent: 16.0),
+          builderDelegate: PagedChildBuilderDelegate<ProductVariant>(
+            animateTransitions: true,
+            itemBuilder: (context, productVariant, index) =>
+                ProductVariantListTile(
+              productVariant: productVariant,
+              value: newlySelectedProducts
+                  .map((e) => e.id)
+                  .toList()
+                  .contains(productVariant.id),
+              onChanged: (value) {
+                if (value != null && value) {
+                  newlySelectedProducts.add(productVariant);
+                } else if (value != null && !value) {
+                  newlySelectedProducts.removeWhere(
+                      (element) => element.id == productVariant.id);
+                }
+                setState(() {});
+              },
+              index: index,
+            ),
+            firstPageProgressIndicatorBuilder: (context) =>
                 const Center(child: CircularProgressIndicator.adaptive()),
-                firstPageErrorIndicatorBuilder: (_) =>
-                    PaginationErrorPage(pagingController: pagingController),
-              ),
-            )),
+            firstPageErrorIndicatorBuilder: (_) =>
+                PaginationErrorPage(pagingController: pagingController),
+          ),
+        )),
       ),
     );
-
   }
 }

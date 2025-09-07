@@ -8,6 +8,7 @@ class ShippingProfileCrudEvent with _$ShippingProfileCrudEvent {
   const factory ShippingProfileCrudEvent.delete(String id) = _Delete;
   const factory ShippingProfileCrudEvent.create(
       CreateShippingProfileReq userCreateShippingProfileReq) = _Create;
-  const factory ShippingProfileCrudEvent.update(String id,
-      UpdateShippingProfileReq userUpdateShippingProfileReq) = _Update;
+  const factory ShippingProfileCrudEvent.update(
+          String id, UpdateShippingProfileReq userUpdateShippingProfileReq) =
+      _Update;
 }

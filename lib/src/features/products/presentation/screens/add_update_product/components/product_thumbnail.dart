@@ -13,7 +13,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'image_card.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
-import 'product_media.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'product_media.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class ProductThumbnail extends StatefulWidget {
   const ProductThumbnail(

@@ -18,7 +18,8 @@ class PersonalInformationView extends StatefulWidget {
   const PersonalInformationView({super.key});
 
   @override
-  State<PersonalInformationView> createState() => _PersonalInformationViewState();
+  State<PersonalInformationView> createState() =>
+      _PersonalInformationViewState();
 }
 
 class _PersonalInformationViewState extends State<PersonalInformationView> {
@@ -83,11 +84,11 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                 loading: (_) => const Skeletonizer(
                     enabled: true,
                     child: PersonalInfoTile(User(
-                        email: 'admin@medusa-test.com',
-                        firstName: 'Medusa',
-                        lastName: 'Js',
-                        id: '',
-                        ))),
+                      email: 'admin@medusa-test.com',
+                      firstName: 'Medusa',
+                      lastName: 'Js',
+                      id: '',
+                    ))),
                 user: (_) => PersonalInfoTile(
                   _.user,
                   onTap: () async => await updatePersonalInformation(_.user),
@@ -97,7 +98,8 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                     Center(child: Text(e.failure.toSnackBarString())),
                     const SizedBox(height: 8.0),
                     ElevatedButton(
-                        onPressed: () => userBloc.add(const UserCrudEvent.loadCurrentUser()),
+                        onPressed: () =>
+                            userBloc.add(const UserCrudEvent.loadCurrentUser()),
                         child: const Text('Retry')),
                   ],
                 ),
@@ -127,7 +129,9 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(child: const Text('Cancel'), onPressed: () => context.maybePop()),
+                TextButton(
+                    child: const Text('Cancel'),
+                    onPressed: () => context.maybePop()),
                 TextButton(
                   child: const Text('Update'),
                   onPressed: () async {
@@ -142,7 +146,8 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                       userCrudBloc.add(UserCrudEvent.update(
                           user.id,
                           UserUpdateReq(
-                              firstName: firstNameCtrl.text, lastName: lastNameCtrl.text)));
+                              firstName: firstNameCtrl.text,
+                              lastName: lastNameCtrl.text)));
                       context.maybePop();
                     }
                   },
@@ -182,7 +187,8 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                           userCrudBloc.add(UserCrudEvent.update(
                               user.id,
                               UserUpdateReq(
-                                  firstName: firstNameCtrl.text, lastName: lastNameCtrl.text)));
+                                  firstName: firstNameCtrl.text,
+                                  lastName: lastNameCtrl.text)));
                           context.maybePop();
                         }
                       },
@@ -201,7 +207,8 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
     }
 
     if (Platform.isIOS) {
-      await showCupertinoModalBottomSheet(context: context, builder: widgetBuilder);
+      await showCupertinoModalBottomSheet(
+          context: context, builder: widgetBuilder);
     } else {
       await showModalBottomSheet(
           context: context, builder: widgetBuilder, isScrollControlled: true);

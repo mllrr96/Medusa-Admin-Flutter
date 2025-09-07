@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'order_summery_card.dart';
-import 'package:flex_expansion_tile/flex_expansion_tile.dart';import 'package:medusa_admin/src/core/extensions/num_extension.dart';
-
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
+import 'package:medusa_admin/src/core/extensions/num_extension.dart';
 
 class OrderSummery extends StatelessWidget {
   const OrderSummery(this.order, {super.key, this.onExpansionChanged});
@@ -16,7 +17,7 @@ class OrderSummery extends StatelessWidget {
     const halfSpace = SizedBox(height: 6.0);
     final mediumTextStyle = context.bodyMedium;
     // final totalTextTheme = refunded ? mediumTextStyle : context.bodyLarge;
-    final totalTextTheme =  context.bodyLarge;
+    final totalTextTheme = context.bodyLarge;
     final tr = context.tr;
 
     return FlexExpansionTile(

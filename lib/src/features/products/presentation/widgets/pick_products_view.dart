@@ -3,13 +3,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/list_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/list_extension.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_req.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_res.dart';
 import 'package:medusa_admin/src/features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 import '../screens/products/components/products_loading_page.dart';
 

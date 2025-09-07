@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'custom_text_field.dart';
 
 class MetadataCard extends StatelessWidget {
-  const MetadataCard({super.key, required this.keyCtrl, required this.valueCtrl, this.onDelete});
+  const MetadataCard(
+      {super.key,
+      required this.keyCtrl,
+      required this.valueCtrl,
+      this.onDelete});
   final TextEditingController keyCtrl;
   final TextEditingController valueCtrl;
   final void Function()? onDelete;

@@ -28,11 +28,13 @@ class DiscountsUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<DeletePromotionRes, MedusaError>> deleteDiscount({required String id}) async {
+  Future<Result<DeletePromotionRes, MedusaError>> deleteDiscount(
+      {required String id}) async {
     try {
       final result = await _discountRepository.delete(id: id);
       return Success(result);
@@ -43,7 +45,8 @@ class DiscountsUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -61,7 +64,8 @@ class DiscountsUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

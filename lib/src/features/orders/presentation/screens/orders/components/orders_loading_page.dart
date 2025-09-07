@@ -21,7 +21,6 @@ class OrdersLoadingPage extends StatelessWidget {
       status: OrderStatus.canceled,
     );
 
-
     final loadingWidget = PreferenceService.orderPreference.alternativeCard
         ? AlternativeOrderCard(order, shimmer: true)
         : OrderCard(order, shimmer: true);
@@ -30,10 +29,7 @@ class OrdersLoadingPage extends StatelessWidget {
       enabled: true,
       child: Column(
           children: List.generate(
-              20,
-              (index) => index.isEven
-                  ? loadingWidget
-                  : const Gap(8.0))),
+              20, (index) => index.isEven ? loadingWidget : const Gap(8.0))),
     );
   }
 }

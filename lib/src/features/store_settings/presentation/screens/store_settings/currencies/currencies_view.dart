@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/src/core/constants/colors.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+import 'package:medusa_admin/src/core/constants/colors.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
@@ -12,7 +13,8 @@ import 'package:medusa_admin/src/features/store_settings/presentation/bloc/store
 import 'package:medusa_admin/src/features/store_settings/presentation/cubits/currencies/currencies_cubit.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 @RoutePage()
 class CurrenciesView extends StatefulWidget {

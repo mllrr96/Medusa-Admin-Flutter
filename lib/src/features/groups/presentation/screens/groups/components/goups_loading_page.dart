@@ -14,8 +14,7 @@ class GroupsLoadingPage extends StatelessWidget {
       enabled: true,
       child: Column(
         children: List.generate(
-            10,
-            (index) => GroupCard(customerGroup: group, index: index)),
+            10, (index) => GroupCard(customerGroup: group, index: index)),
       ),
     );
   }

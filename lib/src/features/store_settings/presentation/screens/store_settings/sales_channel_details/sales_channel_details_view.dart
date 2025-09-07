@@ -6,7 +6,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_req.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_res.dart';
 import 'package:medusa_admin/src/features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
@@ -16,7 +17,8 @@ import 'package:medusa_admin/src/features/products/presentation/screens/products
 import 'package:medusa_admin/src/features/products/presentation/widgets/pick_products_view.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/bloc/sales_channel_crud/sales_channel_crud_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'components/index.dart';
 
@@ -86,9 +88,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
-    final disabled = salesChannel.isDisabled
-        ? true
-        : false;
+    final disabled = salesChannel.isDisabled ? true : false;
     return MultiBlocListener(
       listeners: [
         BlocListener<ProductCrudBloc, ProductCrudState>(
@@ -285,17 +285,16 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                           ),
                         );
                         if (result is PickProductsRes) {
-                          final ids = result.selectedProducts
-                              .map((e) => e.id)
-                              .toList();
+                          final ids =
+                              result.selectedProducts.map((e) => e.id).toList();
                           salesChannelCrudBloc.add(
                               SalesChannelCrudEvent.addProducts(
                                   salesChannel.id, ids));
                         }
                         break;
                       case 2:
-                        salesChannelCrudBloc.add(
-                            SalesChannelCrudEvent.delete(salesChannel.id));
+                        salesChannelCrudBloc
+                            .add(SalesChannelCrudEvent.delete(salesChannel.id));
                         break;
                     }
                   });

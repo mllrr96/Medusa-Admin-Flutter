@@ -11,7 +11,8 @@ import 'package:medusa_admin/src/core/utils/labeled_chip_input_text_field.dart';
 import 'package:medusa_admin/src/features/collections/presentation/bloc/collection_crud/collection_crud_bloc.dart';
 import 'package:medusa_admin/src/features/products/presentation/cubits/product_types/product_types_cubit.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/bloc/sales_channel_crud/sales_channel_crud_bloc.dart';
-import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductOrganize extends StatefulWidget {
@@ -118,9 +119,11 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                           },
                           items: state.types
                               .map((e) => DropdownMenuItem<ProductType>(
-                                  value: e, child: Text(e.value.capitalize ?? e.value)))
+                                  value: e,
+                                  child: Text(e.value.capitalize ?? e.value)))
                               .toList(),
-                          decoration: const InputDecoration(hintText: 'Choose a type'),
+                          decoration:
+                              const InputDecoration(hintText: 'Choose a type'),
                         );
                       },
                       error: (state) => Column(
@@ -129,7 +132,8 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                                 child: Text('Error loading types'),
                               ),
                               TextButton(
-                                  onPressed: () async => await productTypesCubit.load(),
+                                  onPressed: () async =>
+                                      await productTypesCubit.load(),
                                   child: const Text('Retry'))
                             ],
                           ),
@@ -165,7 +169,8 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                               tags: tags.isEmpty ? null : tags,
                               salesChannels: selectedSalesChannels.isNotEmpty
                                   ? selectedSalesChannels
-                                      .map((e) => SalesChannel(name: '', id: e, isDisabled: false))
+                                      .map((e) => SalesChannel(
+                                          name: '', id: e, isDisabled: false))
                                       .toList()
                                   : null,
                               id: '',
@@ -193,7 +198,8 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                               borderSide: BorderSide(color: Colors.grey),
                             ),
                             filled: true,
-                            fillColor: Theme.of(context).scaffoldBackgroundColor,
+                            fillColor:
+                                Theme.of(context).scaffoldBackgroundColor,
                           ),
                         );
                       },
@@ -203,8 +209,8 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                                 child: Text('Error loading collections'),
                               ),
                               TextButton(
-                                  onPressed: () async =>
-                                      collectionCrudBloc.add(const CollectionCrudEvent.loadAll()),
+                                  onPressed: () async => collectionCrudBloc
+                                      .add(const CollectionCrudEvent.loadAll()),
                                   child: const Text('Retry'))
                             ],
                           ),
@@ -216,9 +222,11 @@ class _ProductOrganizeState extends State<ProductOrganize> {
           space,
           LabeledChipTextField(
             label: 'Tags',
-            initialValue: product?.tags?.map((e) => e.value ?? '').toList() ?? [],
+            initialValue:
+                product?.tags?.map((e) => e.value ?? '').toList() ?? [],
             onChanged: (List<String> value) {
-              final tags = value.map((e) => ProductTag(value: e, id: '')).toList();
+              final tags =
+                  value.map((e) => ProductTag(value: e, id: '')).toList();
               setState(() => this.tags = tags);
             },
             padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -243,7 +251,9 @@ class _ProductOrganizeState extends State<ProductOrganize> {
               style: TextStyle(color: manatee),
             ),
             value: enableSalesChannels,
-            onChanged: updateMode ? null : (val) async => setState(() => enableSalesChannels = val),
+            onChanged: updateMode
+                ? null
+                : (val) async => setState(() => enableSalesChannels = val),
             activeColor: Platform.isIOS ? ColorManager.primary : null,
           ),
           BlocBuilder<SalesChannelCrudBloc, SalesChannelCrudState>(
@@ -259,21 +269,25 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                       child: enableSalesChannels
                           ? Column(
                               children: [
-                                ...state.salesChannels.map((channel) => CheckboxListTile(
-                                      contentPadding: EdgeInsets.zero,
-                                      title: Text(channel.name ?? ''),
-                                      value: selectedSalesChannels.contains(channel.id),
-                                      onChanged: (val) {
-                                        if (val != null) {
-                                          if (val) {
-                                            selectedSalesChannels.add(channel.id);
-                                          } else {
-                                            selectedSalesChannels.remove(channel.id);
-                                          }
-                                          setState(() {});
-                                        }
-                                      },
-                                    ))
+                                ...state.salesChannels
+                                    .map((channel) => CheckboxListTile(
+                                          contentPadding: EdgeInsets.zero,
+                                          title: Text(channel.name ?? ''),
+                                          value: selectedSalesChannels
+                                              .contains(channel.id),
+                                          onChanged: (val) {
+                                            if (val != null) {
+                                              if (val) {
+                                                selectedSalesChannels
+                                                    .add(channel.id);
+                                              } else {
+                                                selectedSalesChannels
+                                                    .remove(channel.id);
+                                              }
+                                              setState(() {});
+                                            }
+                                          },
+                                        ))
                               ],
                             )
                           : const SizedBox.shrink(),

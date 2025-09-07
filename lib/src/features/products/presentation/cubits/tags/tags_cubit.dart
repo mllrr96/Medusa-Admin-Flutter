@@ -19,7 +19,8 @@ class TagsCubit extends Cubit<TagsState> {
   void fetchTags({Map<String, dynamic>? queryParameters}) async {
     emit(const _Loading());
     final result = await _useCase(queryParameters: queryParameters);
-    result.when((success) => _Tags(success.productTags, success.count), (error) => _Error(error));
+    result.when((success) => _Tags(success.productTags, success.count),
+        (error) => _Error(error));
   }
 
   final TagsUseCase _useCase;

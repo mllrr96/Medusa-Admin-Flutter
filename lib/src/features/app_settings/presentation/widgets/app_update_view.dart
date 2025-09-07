@@ -9,7 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/constants/strings.dart';
 import 'package:medusa_admin/src/core/di/di.dart';
-import 'package:medusa_admin/src/core/extensions/context_extension.dart';import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/utils/enums.dart';
 import 'package:medusa_admin/src/features/app_settings/data/service/preference_service.dart';
 import 'package:medusa_admin/src/core/utils/medusa_sliver_app_bar.dart';
@@ -69,8 +71,13 @@ class _AppUpdateViewState extends State<AppUpdateView> {
               state.mapOrNull(updateAvailable: (state) => state.appUpdate);
           return Scaffold(
             bottomNavigationBar: Padding(
-              padding:
-              EdgeInsets.fromLTRB(12, 8, 12, context.bottomViewPadding != 0 ? context.bottomViewPadding : 8),
+              padding: EdgeInsets.fromLTRB(
+                  12,
+                  8,
+                  12,
+                  context.bottomViewPadding != 0
+                      ? context.bottomViewPadding
+                      : 8),
               child: FilledButton(
                   style: FilledButton.styleFrom(
                     minimumSize: const Size(double.infinity, 48),
