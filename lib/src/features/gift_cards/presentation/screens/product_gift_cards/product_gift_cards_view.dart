@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/src/features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
+import 'package:medusa_admin/src/features/gift_cards/presentation/bloc/gift_card_crud/gift_card_crud_bloc.dart';
 import 'package:medusa_admin/src/features/dashboard/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/src/core/utils/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
@@ -25,14 +25,14 @@ class ProductGiftCardsView extends StatefulWidget {
 }
 
 class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
-  final pagingController = PagingController<int, Product>(
+  final pagingController = PagingController<int, GiftCard>(
       firstPageKey: 0, invisibleItemsThreshold: 3);
   final refreshController = RefreshController();
-  late ProductCrudBloc productCrudBloc;
+  late GiftCardCrudBloc giftCardCrudBloc;
 
   @override
   void initState() {
-    productCrudBloc = ProductCrudBloc.instance;
+    giftCardCrudBloc = GiftCardCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
@@ -40,13 +40,12 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
   @override
   void dispose() {
     pagingController.dispose();
-    productCrudBloc.close();
+    giftCardCrudBloc.close();
     super.dispose();
   }
 
   void _loadPage(int _) {
-    productCrudBloc.add(ProductCrudEvent.loadAll(queryParameters: {
-      'is_giftcard': true,
+    giftCardCrudBloc.add(GiftCardCrudEvent.loadAll(queryParameters: {
       'offset': pagingController.itemList?.length,
     }));
   }
@@ -57,12 +56,12 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
     final smallTextStyle = context.bodySmall;
     final bottomPadding =
         context.viewPadding.bottom == 0 ? 12.0 : context.viewPadding.bottom;
-    return BlocListener<ProductCrudBloc, ProductCrudState>(
-      bloc: productCrudBloc,
+    return BlocListener<GiftCardCrudBloc, GiftCardCrudState>(
+      bloc: giftCardCrudBloc,
       listener: (context, state) {
-        state.mapOrNull(
-          products: (state) async {
-            final isLastPage = state.products.length < ProductCrudBloc.pageSize;
+        state.whenOrNull(
+          giftCards: (giftCards, length) async {
+            final isLastPage = length < GiftCardCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
               pagingController.value = const PagingState(
@@ -70,20 +69,20 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
               await Future.delayed(const Duration(milliseconds: 250));
             }
             if (isLastPage) {
-              pagingController.appendLastPage(state.products);
+              pagingController.appendLastPage(giftCards);
             } else {
               final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.products.length;
-              pagingController.appendPage(state.products, nextPageKey);
+                  pagingController.nextPageKey ?? 0 + giftCards.length;
+              pagingController.appendPage(giftCards, nextPageKey);
             }
             if (refreshController.isRefresh) {
               pagingController.addPageRequestListener(_loadPage);
               refreshController.refreshCompleted();
             }
           },
-          error: (state) {
+          error: (e) {
             refreshController.refreshFailed();
-            pagingController.error = state.failure;
+            pagingController.error = e;
           },
         );
       },
@@ -118,16 +117,19 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
-              title: Builder(builder: (context) {
-                final productsCount = productCrudBloc.state
-                        .mapOrNull(products: (state) => state.count) ??
-                    0;
-                return Text(
-                    productsCount != 0
-                        ? 'Gift Cards ($productsCount)'
-                        : 'Gift Cards',
-                    overflow: TextOverflow.ellipsis);
-              }),
+              title: BlocBuilder<GiftCardCrudBloc, GiftCardCrudState>(
+                bloc: giftCardCrudBloc,
+                builder: (context, state) {
+                  final productsCount = giftCardCrudBloc.state
+                          .mapOrNull(giftCards: (state) => state.count) ??
+                      0;
+                  return Text(
+                      productsCount != 0
+                          ? 'Gift Cards ($productsCount)'
+                          : 'Gift Cards',
+                      overflow: TextOverflow.ellipsis);
+                },
+              ),
             ),
           ],
           body: SmartRefresher(
