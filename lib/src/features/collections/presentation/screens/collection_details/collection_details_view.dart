@@ -127,7 +127,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Text(collection.title ?? '',
+                                Text(collection.title,
                                     style: largeTextStyle),
                                 // const SizedBox(height: 6.0),
                                 Text('/${collection.handle ?? ''}',

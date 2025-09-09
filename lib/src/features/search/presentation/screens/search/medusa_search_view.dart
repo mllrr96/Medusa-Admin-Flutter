@@ -89,7 +89,7 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
             body: BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
                 return state.maybeWhen(
-                  initial: (_) => SearchHistoryView(searchCtrl),
+                  initial: () => SearchHistoryView(searchCtrl),
                   orElse: () => PagedListView.separated(
                     pagingController: pagingController,
                     separatorBuilder: (context, index) {

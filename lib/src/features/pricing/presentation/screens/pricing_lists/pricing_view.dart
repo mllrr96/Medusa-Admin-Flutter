@@ -95,7 +95,7 @@ class _PricingViewState extends State<PricingView> {
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
                 final count = pricingCrudBloc.state.maybeWhen(
-                  pricingLists: (state) => state.priceLists.length,
+                  pricingLists: (priceLists, _) => priceLists.length,
                   orElse: () => 0,
                 );
                 return Text(

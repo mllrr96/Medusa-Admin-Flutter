@@ -6,7 +6,9 @@ import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
 
 class ApiKeyTile extends StatelessWidget {
   const ApiKeyTile(this.apiKey, {super.key});
+
   final ApiKey apiKey;
+
   @override
   Widget build(BuildContext context) {
     final revoked = apiKey.revokedAt != null;
@@ -34,8 +36,8 @@ class ApiKeyTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(apiKey.title ?? ''),
-                      Text(apiKey.id ?? '',
+                      Text(apiKey.title),
+                      Text(apiKey.id,
                           style: smallTextStyle?.copyWith(color: manatee)),
                     ],
                   ),

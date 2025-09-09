@@ -188,7 +188,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                       bloc: taxProviderCubit,
                       builder: (context, state) {
                         return state.maybeWhen(
-                            loading: (_) => const Skeletonizer(
+                            loading: () => const Skeletonizer(
                                   enabled: true,
                                   child: TextField(
                                     enabled: false,
@@ -198,10 +198,10 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                                     ),
                                   ),
                                 ),
-                            taxProviders: (_) =>
+                            taxProviders: (taxProviders) =>
                                 DropdownButtonFormField<TaxProvider>(
                                   style: context.bodyMedium,
-                                  items: _.taxProviders
+                                  items: taxProviders
                                       .map((e) => DropdownMenuItem<TaxProvider>(
                                             value: e,
                                             child: Text(e.id ?? ''),
@@ -218,7 +218,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                             error: (error) => Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(error.failure.toSnackBarString()),
+                                    Text(error.toSnackBarString()),
                                     const Gap(6.0),
                                     TextButton(
                                         onPressed: () {

@@ -52,7 +52,7 @@ class DiscountDetailsFab extends StatelessWidget {
         bloc: discountCrudBloc,
         builder: (context, state) {
           return state.maybeWhen(
-              discount: (_) => SpeedDial(
+              discount: (promotion) => SpeedDial(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16.0))),
                     animatedIcon: AnimatedIcons.menu_close,
@@ -66,7 +66,7 @@ class DiscountDetailsFab extends StatelessWidget {
                         foregroundColor: Colors.white,
                         labelStyle:
                             smallTextStyle?.copyWith(color: Colors.white),
-                        onTap: () => onDeleteTap(_.discount.id),
+                        onTap: () => onDeleteTap(promotion.id),
                         onLongPress: () {},
                       ),
                       SpeedDialChild(
@@ -87,14 +87,14 @@ class DiscountDetailsFab extends StatelessWidget {
       bloc: discountCrudBloc,
       builder: (context, state) {
         return state.maybeWhen(
-            discount: (_) => Row(
+            discount: (promotion) => Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     FloatingActionButton(
                         heroTag: null,
                         backgroundColor: Colors.redAccent,
                         foregroundColor: Colors.white,
-                        onPressed: () => onDeleteTap(_.discount.id),
+                        onPressed: () => onDeleteTap(promotion.id),
                         child: const Icon(MedusaIcons.trash)),
                     const SizedBox(width: 12.0),
                     FloatingActionButton(
