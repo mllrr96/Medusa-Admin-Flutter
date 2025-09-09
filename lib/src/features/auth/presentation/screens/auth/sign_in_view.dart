@@ -192,9 +192,7 @@ class _SignInViewState extends State<SignInView> {
                               ],
                             ),
                           ),
-                          Hero(
-                              tag: 'medusa',
-                              child: SignInMedusaLogo(rotate: loading)),
+                          SignInMedusaLogo(rotate: loading),
                           space,
                           Text(
                             isSessionExpired

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -70,9 +71,15 @@ class _SplashViewState extends State<SplashView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Hero(
-                        tag: 'medusa',
-                        child:
-                            Image.asset('assets/images/medusa.png', scale: 5)),
+                      tag: 'medusa',
+                      child: SvgPicture.asset(
+                        context.isDark
+                            ? 'assets/images/medusa-logo-light.svg'
+                            : 'assets/images/medusa-logo-dark.svg',
+                        // width: 150,
+                        height: 180,
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text('Medusa Admin', style: context.headlineLarge),

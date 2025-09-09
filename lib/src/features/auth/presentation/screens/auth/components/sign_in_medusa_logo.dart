@@ -60,12 +60,15 @@ class _SignInMedusaLogoState extends State<SignInMedusaLogo>
   Widget build(BuildContext context) {
     return RotationTransition(
       turns: _animation,
-      child: SvgPicture.asset(
-        context.isDark
-            ? 'assets/images/medusa-logo-light.svg'
-            : 'assets/images/medusa-logo-dark.svg',
-        // width: 150,
-        height: 180,
+      child: Hero(
+        tag: 'medusa',
+        child: SvgPicture.asset(
+          context.isDark
+              ? 'assets/images/medusa-logo-light.svg'
+              : 'assets/images/medusa-logo-dark.svg',
+          // width: 150,
+          height: 180,
+        ),
       ),
       // Image.asset(
       //   context.isDark
