@@ -307,7 +307,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                     case SearchCategory.customers:
                                     case SearchCategory.groups:
                                     case SearchCategory.giftCards:
-                                    case SearchCategory.discounts:
+                                    case SearchCategory.promotions:
                                     case SearchCategory.priceLists:
                                   }
                                 },
@@ -366,7 +366,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
         SearchCategory.collections => false,
         SearchCategory.customers => false,
         SearchCategory.giftCards => false,
-        SearchCategory.discounts => false,
+        SearchCategory.promotions => false,
       };
 
   String getHintText(SearchCategory searchableField) {
@@ -385,7 +385,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
         return 'Search for group name';
       case SearchCategory.giftCards:
         return 'Search for gift card code, ID';
-      case SearchCategory.discounts:
+      case SearchCategory.promotions:
         return 'Search for discount code';
       case SearchCategory.priceLists:
         return 'Search for price lists\' description, name, and customer group\'s name';
@@ -455,7 +455,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
             .read<SearchBloc>()
             .add(SearchEvent.searchGiftCards(queryParameters: queryParameters));
       // -----------------------------------------------------------
-      case SearchCategory.discounts:
+      case SearchCategory.promotions:
         context
             .read<SearchBloc>()
             .add(SearchEvent.searchDiscounts(queryParameters: queryParameters));

@@ -32,7 +32,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
     orderCrudBloc.add(OrderCrudEvent.load(
       widget.orderId,
       queryParameters: {
-        'expand': 'customer,billing_address,shipping_address,discounts,discounts.rule,shipping_methods,payments,items,'
+        'expand': 'customer,billing_address,shipping_address,promotions,promotions.rule,shipping_methods,payments,items,'
             'fulfillments,fulfillments.tracking_links,returns,returns.shipping_method,returns.shipping_method.tax_lines,'
             'refunds,claims,claims.claim_items,claims.claim_items.item,claims.fulfillments,claims.return_order,'
             'claims.additional_items,claims.additional_items.variant,claims.additional_items.variant.product,'

@@ -252,7 +252,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<PromotionsListResponse, MedusaError>> fetchDiscounts(
+  Future<Result<PromotionsListResponse, MedusaError>> fetchPromotions(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _discountRepository.list(

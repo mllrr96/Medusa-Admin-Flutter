@@ -159,7 +159,7 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
                       context.unfocus();
                       // draftOrderCrudBloc.add(
                       //   DraftOrderCrudEvent.create(CreateDraftOrderReq(
-                      //       discounts: [],
+                      //       promotions: [],
                       //       email: customer!.email,
                       //       customerId: customer?.id,
                       //       regionId: selectedRegion!.id,

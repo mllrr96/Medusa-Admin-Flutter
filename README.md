@@ -54,13 +54,13 @@ Medusa Admin Mobile is built with [Flutter](https://flutter.dev/) with the aim t
         </tr>
         <tr>
             <td style="text-align: center">
-                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/discount-1.png" width="220"/>
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/promotion-1.png" width="220"/>
             </td>            
             <td style="text-align: center">
-                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/discount-2.png" width="220"/>
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/promotion-2.png" width="220"/>
             </td>
             <td style="text-align: center">
-                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/discount-3.png" width="220"/>
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/promotion-3.png" width="220"/>
             </td>
         </tr>
         <tr>
@@ -127,7 +127,7 @@ flutter build ipa
 - [x] View and add new products
 - [x] View, add and update collection groups
 - [x] View, add and update customers and customer groups
-- [x] View, add and update discounts
+- [x] View, add and update promotions
 - [x] View and add/update pricing list
 - [x] View and add/update gift cards
 - [x] Update order items

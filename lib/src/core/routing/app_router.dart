@@ -22,7 +22,7 @@ import 'package:medusa_admin/src/features/customers/presentation/screens/add_upd
 import 'package:medusa_admin/src/features/customers/presentation/screens/customer_details/customer_details_view.dart';
 import 'package:medusa_admin/src/features/customers/presentation/screens/customers/customers_view.dart';
 import 'package:medusa_admin/src/features/dashboard/presentation/screens/dashboard_view.dart';
-import 'package:medusa_admin/src/features/discounts/presentation/screens/add_update_discount/add_update_discount_view.dart';
+import 'package:medusa_admin/src/features/promotions/presentation/screens/add_update_promotion/add_update_promotion_view.dart';
 import 'package:medusa_admin/src/features/draft_orders/presentation/screens/create_draft_order/create_draft_order_view.dart';
 import 'package:medusa_admin/src/features/gift_cards/presentation/screens/create_update_custom_gift_card/create_update_custom_gift_card_view.dart';
 import 'package:medusa_admin/src/features/gift_cards/presentation/screens/custom_gift_cards/custom_gift_cards_view.dart';
@@ -46,7 +46,7 @@ import 'package:medusa_admin/src/features/dashboard/presentation/screens/main_ap
 import 'package:medusa_admin/src/features/orders/presentation/screens/orders/orders_view.dart';
 import 'package:medusa_admin/src/features/draft_orders/presentation/screens/draft_orders/draft_orders_view.dart';
 import 'package:medusa_admin/src/features/products/presentation/screens/products/products_view.dart';
-import 'package:medusa_admin/src/features/discounts/presentation/screens/discounts/discounts_view.dart';
+import 'package:medusa_admin/src/features/promotions/presentation/screens/promotions/promotions_view.dart';
 import 'package:medusa_admin/src/features/gift_cards/presentation/screens/product_gift_cards/product_gift_cards_view.dart';
 import 'package:medusa_admin/src/features/pricing/presentation/screens/pricing_lists/pricing_view.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/screens/store_settings/store_settings_view.dart';
@@ -55,7 +55,7 @@ import 'package:medusa_admin/src/features/customers/presentation/widgets/pick_cu
 import 'package:medusa_admin/src/features/groups/presentation/widgets/pick_groups_view.dart';
 import 'package:medusa_admin/src/features/regions/presentation/widgets/pick_regions_view.dart';
 import 'package:medusa_admin/src/features/orders/presentation/screens/transfer_order/transfer_order_view.dart';
-import 'package:medusa_admin/src/features/discounts/presentation/screens/discount_details/discount_details_view.dart';
+import 'package:medusa_admin/src/features/promotions/presentation/screens/promotion_details/promotion_details_view.dart';
 import 'package:medusa_admin/src/features/draft_orders/presentation/screens/draft_order_details/draft_order_details_view.dart';
 import 'package:medusa_admin/src/features/groups/presentation/screens/group_details/group_details_view.dart';
 import 'package:medusa_admin/src/features/orders/presentation/screens/order_details/order_details_view.dart';
@@ -114,7 +114,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: CollectionsRoute.page),
     AutoRoute(page: CustomersRoute.page),
     AutoRoute(page: GroupsRoute.page),
-    AutoRoute(page: DiscountsRoute.page),
+    AutoRoute(page: PromotionsRoute.page),
     AutoRoute(page: ProductGiftCardsRoute.page),
     AutoRoute(page: PricingRoute.page),
     AutoRoute(page: StoreSettingsRoute.page),
@@ -154,10 +154,10 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: CustomerDetailsRoute.page),
         AutoRoute(page: TransferOrderRoute.page),
 
-        // Discount module
-        AutoRoute(page: AddUpdateDiscountRoute.page),
-        AutoRoute(page: DiscountDetailsRoute.page),
-        // AutoRoute(page: DiscountConditionsRoute.page),
+        // Promotions module
+        AutoRoute(page: AddUpdatePromotionRoute.page),
+        AutoRoute(page: PromotionDetailsRoute.page),
+        // AutoRoute(page: PromotionConditionsRoute.page),
         // AutoRoute(page: UpdateConditionRoute.page),
         // AutoRoute(page: ConditionProductRoute.page),
         // AutoRoute(page: ConditionCustomerGroupRoute.page),

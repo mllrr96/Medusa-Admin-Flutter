@@ -15,11 +15,11 @@ import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/utils/enums.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin/src/features/app_settings/data/service/preference_service.dart';
-import 'package:medusa_admin/src/features/discounts/presentation/screens/discounts/components/discount_card.dart';
 import 'package:medusa_admin/src/features/draft_orders/presentation/screens/draft_orders/components/draft_order_card.dart';
 import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
 import 'package:medusa_admin/src/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/src/features/orders/presentation/screens/orders/components/order_card.dart';
+import 'package:medusa_admin/src/features/promotions/presentation/screens/promotions/components/promotion_card.dart';
 import 'package:medusa_admin/src/features/search/data/models/search_history.dart';
 import 'package:medusa_admin/src/features/search/presentation/bloc/search/search_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
@@ -108,7 +108,7 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                               height: 0, indent: Platform.isIOS ? 16.0 : 0);
                         case SearchCategory.giftCards:
                           return const Divider(height: 0);
-                        case SearchCategory.discounts:
+                        case SearchCategory.promotions:
                           return const Gap(12.0);
                         case SearchCategory.priceLists:
                           return const Divider(height: 0, indent: 16.0);
@@ -165,9 +165,9 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                               } else {
                                 return const SizedBox();
                               }
-                            case SearchCategory.discounts:
+                            case SearchCategory.promotions:
                               if (object is Promotion) {
-                                return DiscountCard(object);
+                                return PromotionCard(object);
                               } else {
                                 return const SizedBox();
                               }

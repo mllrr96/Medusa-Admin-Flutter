@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/src/core/di/di.dart';
 import 'package:medusa_admin/src/core/error/medusa_error.dart';
-import 'package:medusa_admin/src/features/discounts/domain/usecases/discount/tags_use_case.dart';
+import 'package:medusa_admin/src/features/promotions/domain/usecases/promotion/tags_use_case.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 part 'tags_state.dart';

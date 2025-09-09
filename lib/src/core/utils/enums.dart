@@ -164,7 +164,7 @@ enum SearchCategory {
   customers,
   groups,
   giftCards,
-  discounts,
+  promotions,
   priceLists;
 
   factory SearchCategory.fromJson(int? val) {
@@ -186,7 +186,7 @@ enum SearchCategory {
       case 6:
         return SearchCategory.giftCards;
       case 7:
-        return SearchCategory.discounts;
+        return SearchCategory.promotions;
       case 8:
         return SearchCategory.priceLists;
 

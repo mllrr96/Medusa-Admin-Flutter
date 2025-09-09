@@ -78,7 +78,7 @@ class _AppDrawerState extends State<AppDrawer> {
       divider,
       const NavigationDrawerDestination(
         icon: Icon(Icons.discount_outlined),
-        label: Text('Discounts'),
+        label: Text('Promotions'),
       ),
       const NavigationDrawerDestination(
         icon: Icon(CupertinoIcons.gift),

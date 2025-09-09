@@ -114,7 +114,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Future<void> _searchDiscounts(
       _SearchDiscounts event, Emitter<SearchState> emit) async {
     emit(const _Loading());
-    final result = await searchUseCase.fetchDiscounts(
+    final result = await searchUseCase.fetchPromotions(
         queryParameters: event.queryParameters);
     result.when((response) {
       emit(_Loaded(response.promotions, response.count));

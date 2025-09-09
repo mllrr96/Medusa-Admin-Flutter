@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
-import 'package:medusa_admin/src/features/discounts/presentation/screens/discounts/components/discount_rule_type_label.dart';
+import 'package:medusa_admin/src/features/promotions/presentation/screens/promotions/components/promotion_rule_type_label.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
@@ -53,7 +53,7 @@ class PriceListDetailsTile extends StatelessWidget {
                   priceList.title ?? '',
                   style: context.headlineMedium,
                 ),
-                DiscountStatusDot(
+                PromotionStatusDot(
                     disabled: priceList.status != PriceListStatus.active),
               ],
             ),

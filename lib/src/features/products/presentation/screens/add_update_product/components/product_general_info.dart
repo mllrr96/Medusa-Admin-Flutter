@@ -142,7 +142,7 @@ class _ProductGeneralInformationState extends State<ProductGeneralInformation> {
             contentPadding: EdgeInsets.zero,
             title: Text('Discountable', style: largeTextStyle),
             subtitle: Text(
-                'When unchecked discounts will not be applied to this product.',
+                'When unchecked promotions will not be applied to this product.',
                 style: smallTextStyle.copyWith(color: manatee)),
           ),
         ],
