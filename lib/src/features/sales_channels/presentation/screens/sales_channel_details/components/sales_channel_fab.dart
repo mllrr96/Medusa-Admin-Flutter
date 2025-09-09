@@ -19,8 +19,10 @@ class SalesChannelFAB extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(12, 10, 0, 10),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-          color:
-              Theme.of(context).appBarTheme.backgroundColor?.withValues(alpha: 0.7),
+          color: Theme.of(context)
+              .appBarTheme
+              .backgroundColor
+              ?.withValues(alpha: 0.7),
         ),
         child: SizedBox(
           height: 40,

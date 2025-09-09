@@ -73,7 +73,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                   ),
                   const Gap(8.0),
                   state.maybeWhen(
-                    loaded: (_,__) => Expanded(
+                    loaded: (_, __) => Expanded(
                       flex: 4,
                       child: FilledButton(
                           onPressed: () {

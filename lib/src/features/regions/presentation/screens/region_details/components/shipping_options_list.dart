@@ -103,7 +103,7 @@ class _ShippingOptionsListState extends State<ShippingOptionsList> {
                 ],
               );
             },
-            shippingOptions: (shippingOptions,count) {
+            shippingOptions: (shippingOptions, count) {
               return ListView.separated(
                 padding: EdgeInsets.zero,
                 separatorBuilder: (_, __) => const SizedBox(height: 6.0),

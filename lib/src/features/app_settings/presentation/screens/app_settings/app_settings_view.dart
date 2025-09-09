@@ -146,11 +146,11 @@ class _AppSettingsViewState extends State<AppSettingsView> {
                             await Future.delayed(
                                     const Duration(milliseconds: 150))
                                 .then((value) {
-                                  if (!context.mounted) return;
-                                  context
-                                    .read<ThemeCubit>()
-                                    .updateThemeState(flexScheme: result);
-                                });
+                              if (!context.mounted) return;
+                              context
+                                  .read<ThemeCubit>()
+                                  .updateThemeState(flexScheme: result);
+                            });
                           }),
                         ),
                       ],

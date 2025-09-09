@@ -93,7 +93,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                               _getStatusIcon(product.status),
                               const SizedBox(width: 4.0),
                               Text(
-                               product.status.name.capitalize,
+                                product.status.name.capitalize,
                                 style: context.bodySmall,
                               ),
                             ],

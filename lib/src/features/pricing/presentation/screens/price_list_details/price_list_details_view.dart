@@ -196,7 +196,8 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                     child: BlocBuilder<PricingCrudBloc, PricingCrudState>(
                       bloc: pricingCrudBloc,
                       builder: (context, state) => state.maybeWhen(
-                        pricingList: (priceList) => PriceListDetailsTile(priceList),
+                        pricingList: (priceList) =>
+                            PriceListDetailsTile(priceList),
                         loading: () => PriceListDetailsTile(widget.priceList,
                             shimmer: true),
                         orElse: () => const SizedBox.shrink(),
