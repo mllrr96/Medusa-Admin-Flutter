@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -142,8 +141,8 @@ class _ProductMediaState extends State<ProductMedia> {
                           images.removeAt(index);
                           setState(() {});
                         } catch (e) {
-                          await Fluttertoast.showToast(
-                              msg: 'Error deleting image');
+                          // await Fluttertoast.showToast(
+                          //     msg: 'Error deleting image');
                         }
                       },
                       onCrop: () async {
@@ -154,8 +153,8 @@ class _ProductMediaState extends State<ProductMedia> {
                             images[index] = result;
                             setState(() {});
                           } catch (e) {
-                            await Fluttertoast.showToast(
-                                msg: 'Error cropping image');
+                            // await Fluttertoast.showToast(
+                            //     msg: 'Error cropping image');
                           }
                         }
                       },

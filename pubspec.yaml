@@ -48,7 +48,6 @@ dependencies:
   super_banners: ^0.0.1
   google_fonts: ^6.1.0
   skeletonizer: ^2.0.1
-  fluttertoast: ^8.2.4
   info_popup: ^4.3.1
   #--------------------
 

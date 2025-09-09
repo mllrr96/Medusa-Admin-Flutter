@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/constants/strings.dart';
 import 'package:medusa_admin/src/core/di/di.dart';
@@ -90,7 +89,7 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                 },
                 onLongPress: () async {
                   await authPrefService.clearLoginKey();
-                  Fluttertoast.showToast(msg: 'Cookie cleared');
+                  // Fluttertoast.showToast(msg: 'Cookie cleared');
                 },
               ),
               divider,
@@ -109,7 +108,7 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                 },
                 onLongPress: () async {
                   await storageService.resetFirstRun();
-                  Fluttertoast.showToast(msg: 'First run reset');
+                  // Fluttertoast.showToast(msg: 'First run reset');
                 },
               ),
               divider,
@@ -120,7 +119,7 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                     style: TextStyle(color: manatee)),
                 onLongPress: () async {
                   await authPrefService.clearLoginData();
-                  Fluttertoast.showToast(msg: 'Login data cleared');
+                  // Fluttertoast.showToast(msg: 'Login data cleared');
                 },
               ),
               divider,
@@ -131,7 +130,7 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                     style: TextStyle(color: manatee)),
                 onLongPress: () async {
                   await authPrefService.clearExportFiles();
-                  Fluttertoast.showToast(msg: 'Exports files cleared');
+                  // Fluttertoast.showToast(msg: 'Exports files cleared');
                 },
               ),
               divider,
@@ -142,7 +141,7 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                     style: TextStyle(color: manatee)),
                 onLongPress: () async {
                   await authPrefService.clearUpdateFiles();
-                  Fluttertoast.showToast(msg: 'Update files cleared');
+                  // Fluttertoast.showToast(msg: 'Update files cleared');
                 },
               ),
               divider,
@@ -218,6 +217,7 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                   await storageService
                       .updateAppSettings(AppPreference.defaultSettings())
                       .then((_) {
+                    if (!context.mounted) return;
                     context.read<ThemeCubit>().loadThemeState();
                     context.showSnackBar('App settings reset');
                   });
