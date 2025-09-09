@@ -13,6 +13,8 @@ import 'package:medusa_admin/src/core/utils/enums.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
 import 'package:medusa_admin/src/features/auth/data/service/auth_preference_service.dart';
+import 'package:flutter/services.dart';
+import 'dart:io';
 
 @RoutePage()
 class UrlConfigureView extends StatefulWidget {
@@ -27,11 +29,12 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
   final tokenFormKey = GlobalKey<FormState>();
   final textCtrl = TextEditingController();
   final tokenTextCtrl = TextEditingController();
-  AuthPreferenceService get authPreferenceService =>
-      AuthPreferenceService.instance;
+
+  AuthPreferenceService get authPreferenceService => AuthPreferenceService.instance;
   late bool setupUrl;
   bool advancedOption = false;
   late AuthenticationType authType;
+
   @override
   void initState() {
     _loadInit();
@@ -58,31 +61,19 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
       textCtrl.text = authPreferenceService.baseUrl ?? '';
     }
     if (authType == AuthenticationType.token) {
-      tokenTextCtrl.text = await getIt<FlutterSecureStorage>()
-              .read(key: AppConstants.tokenKey) ??
-          '';
-    }
-  }
-
-  Future<void> _handleMedusaSingleton() async {
-    if (setupUrl) {
-      // await MedusaAdminDi.registerMedusaAdminSingleton();
-    } else {
-      // await MedusaAdminDi.resetMedusaAdminSingleton();
+      tokenTextCtrl.text =
+          await getIt<FlutterSecureStorage>().read(key: AppConstants.tokenKey) ?? '';
     }
   }
 
   Future<void> _save({bool skipValidation = false}) async {
     final savedBaseUrl = authPreferenceService.baseUrl;
     final savedAuthType = authPreferenceService.authPreference.authType;
-    final savedToken =
-        await getIt<FlutterSecureStorage>().read(key: AppConstants.tokenKey);
+    final savedToken = await getIt<FlutterSecureStorage>().read(key: AppConstants.tokenKey);
     // if nothing changed just pop the route
     if (textCtrl.text == savedBaseUrl &&
         savedAuthType == authType &&
-        (savedAuthType == AuthenticationType.token
-            ? tokenTextCtrl.text == savedToken
-            : true) &&
+        (savedAuthType == AuthenticationType.token ? tokenTextCtrl.text == savedToken : true) &&
         mounted) {
       context.maybePop();
       return;
@@ -101,21 +92,19 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
         : textCtrl.text;
 
     await authPreferenceService.updateUrl(url).then(
-      (result) async {
-        if (result) {
+      (updated) async {
+        if (updated) {
           await authPreferenceService.clearLoginData();
           await authPreferenceService.clearEmail();
-          await _handleMedusaSingleton().then((_) {
-            if (!mounted) return;
-            context.maybePop(true);
-            context.showSnackBar(setupUrl ? 'URL set' : 'URL updated');
-          });
+          // close the app
+          if (Platform.isAndroid) {
+            SystemNavigator.pop();
+          } else if (Platform.isIOS) {
+            exit(0);
+          }
         } else {
-          if (!mounted) return;
-          context.maybePop(false);
-          context.showSnackBar(setupUrl
-              ? 'Could not set URL, try again'
-              : 'Could not update URL, try again');
+          context.showSnackBar(
+              setupUrl ? 'Could not set URL, try again' : 'Could not update URL, try again');
         }
       },
     );
@@ -133,26 +122,22 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
       authPreferenceService.setIsAuthenticated(true);
     }
     try {
-      await authPreferenceService.updateAuthPreference(
-          authPreferenceService.authPreference.copyWith(authType: authType));
+      await authPreferenceService
+          .updateAuthPreference(authPreferenceService.authPreference.copyWith(authType: authType));
 
       switch (authType) {
         case AuthenticationType.cookie:
-          await getIt<FlutterSecureStorage>()
-              .delete(key: AppConstants.tokenKey);
+          await getIt<FlutterSecureStorage>().delete(key: AppConstants.tokenKey);
           await getIt<FlutterSecureStorage>().delete(key: AppConstants.jwtKey);
           break;
         case AuthenticationType.token:
           await getIt<FlutterSecureStorage>().delete(key: AppConstants.jwtKey);
-          await getIt<FlutterSecureStorage>()
-              .delete(key: AppConstants.cookieKey);
+          await getIt<FlutterSecureStorage>().delete(key: AppConstants.cookieKey);
           break;
 
         case AuthenticationType.jwt:
-          await getIt<FlutterSecureStorage>()
-              .delete(key: AppConstants.tokenKey);
-          await getIt<FlutterSecureStorage>()
-              .delete(key: AppConstants.cookieKey);
+          await getIt<FlutterSecureStorage>().delete(key: AppConstants.tokenKey);
+          await getIt<FlutterSecureStorage>().delete(key: AppConstants.cookieKey);
           break;
       }
       return true;
@@ -165,12 +150,9 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
     String infoText = switch (authType) {
-      AuthenticationType.cookie =>
-        'Use a cookie session to send authenticated requests.',
-      AuthenticationType.token =>
-        'Use a user\'s API Token to send authenticated requests.',
-      AuthenticationType.jwt =>
-        'Use a JWT token to send authenticated requests. (Default)',
+      AuthenticationType.cookie => 'Use a cookie session to send authenticated requests.',
+      AuthenticationType.token => 'Use a user\'s API Token to send authenticated requests.',
+      AuthenticationType.jwt => 'Use a JWT token to send authenticated requests. (Default)',
     };
     return HideKeyboard(
       child: Scaffold(
@@ -186,8 +168,7 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.fromLTRB(
-              12.0, 8.0, 12.0, context.bottomViewInsetPadding + 8.0),
+          padding: EdgeInsets.fromLTRB(12.0, 8.0, 12.0, context.bottomViewInsetPadding + 8.0),
           child: Column(
             children: [
               const SizedBox(height: 20),
@@ -196,8 +177,7 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
                 child: TextFormField(
                   controller: textCtrl,
                   style: smallTextStyle,
-                  decoration:
-                      const InputDecoration(hintText: 'https://medusajs.com'),
+                  decoration: const InputDecoration(hintText: 'https://medusajs.com'),
                   validator: (val) {
                     if (val == null || val.isEmpty) {
                       return 'Field is required';
@@ -214,8 +194,7 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
                 Align(
                     alignment: Alignment.centerRight,
                     child: TextButton.icon(
-                      onPressed: () =>
-                          setState(() => advancedOption = !advancedOption),
+                      onPressed: () => setState(() => advancedOption = !advancedOption),
                       label: const Text('Advanced Options'),
                       icon: const Icon(Icons.add_link),
                     )),
@@ -231,8 +210,7 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
                       width: double.maxFinite,
                       child: SegmentedButton<AuthenticationType>(
                           showSelectedIcon: false,
-                          onSelectionChanged: (value) =>
-                              setState(() => authType = value.first),
+                          onSelectionChanged: (value) => setState(() => authType = value.first),
                           segments: AuthenticationType.values
                               .map((e) => ButtonSegment<AuthenticationType>(
                                   value: e, label: Text(e.toString())))
@@ -246,14 +224,12 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
                       padding: const EdgeInsets.all(12.0),
                       child: Row(
                         children: [
-                          const Icon(Icons.info_outline,
-                              color: ColorManager.manatee),
+                          const Icon(Icons.info_outline, color: ColorManager.manatee),
                           const Gap(12.0),
                           Flexible(
                               child: Text(
                             infoText,
-                            style: context.bodySmall
-                                ?.copyWith(color: ColorManager.manatee),
+                            style: context.bodySmall?.copyWith(color: ColorManager.manatee),
                           )),
                         ],
                       ),
@@ -265,8 +241,7 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
                         child: TextFormField(
                           controller: tokenTextCtrl,
                           style: smallTextStyle,
-                          decoration:
-                              const InputDecoration(hintText: 'Api token'),
+                          decoration: const InputDecoration(hintText: 'Api token'),
                           validator: (val) {
                             if (val == null || val.isEmpty) {
                               return 'Field is required';
