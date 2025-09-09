@@ -106,10 +106,12 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
           await authPreferenceService.clearLoginData();
           await authPreferenceService.clearEmail();
           await _handleMedusaSingleton().then((_) {
+            if (!mounted) return;
             context.maybePop(true);
             context.showSnackBar(setupUrl ? 'URL set' : 'URL updated');
           });
         } else {
+          if (!mounted) return;
           context.maybePop(false);
           context.showSnackBar(setupUrl
               ? 'Could not set URL, try again'

@@ -70,13 +70,16 @@ class OrderCustomer extends StatelessWidget {
               if (value == null) return;
               switch (value) {
                 case 0:
+                  if (!context.mounted) return;
                   await context.pushRoute(
                       CustomerDetailsRoute(customerId: order.customerId!));
                   break;
                 case 1:
+                  if (!context.mounted) return;
                   await context.pushRoute(TransferOrderRoute(order: order));
                   break;
                 case 2:
+                  if (!context.mounted) return;
                   final result = await showBarModalBottomSheet(
                     context: context,
                     backgroundColor: context.theme.scaffoldBackgroundColor,
@@ -94,6 +97,7 @@ class OrderCustomer extends StatelessWidget {
                   }
                   break;
                 case 3:
+                  if (!context.mounted) return;
                   final result = await showBarModalBottomSheet(
                     context: context,
                     backgroundColor: context.theme.scaffoldBackgroundColor,
@@ -111,6 +115,7 @@ class OrderCustomer extends StatelessWidget {
                   }
                   break;
                 case 4:
+                  if (!context.mounted) return;
                   final result = await showBarModalBottomSheet(
                       context: context,
                       backgroundColor: context.theme.scaffoldBackgroundColor,

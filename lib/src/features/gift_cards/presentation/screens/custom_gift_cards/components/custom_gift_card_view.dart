@@ -66,10 +66,12 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
                         ]).then((value) async {
                       switch (value) {
                         case 0:
+                          if (!context.mounted) return;
                           context.maybePop();
                           widget.onEdit?.call();
                           break;
                         case 1:
+                          if (!context.mounted) return;
                           context.maybePop();
                           widget.onToggle?.call();
                           break;
@@ -90,6 +92,7 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
                       await Clipboard.setData(
                               ClipboardData(text: widget.giftCard.code ?? ''))
                           .then((_) {
+                        if (!context.mounted) return;
                         context.showSnackBar('Gift card code copied');
                       });
                     },

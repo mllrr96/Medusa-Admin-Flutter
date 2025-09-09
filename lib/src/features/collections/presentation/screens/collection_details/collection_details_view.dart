@@ -21,6 +21,7 @@ import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 @RoutePage()
 class CollectionDetailsView extends StatefulWidget {
   const CollectionDetailsView(this.collectionId, {super.key});
+
   final String collectionId;
 
   @override
@@ -30,7 +31,9 @@ class CollectionDetailsView extends StatefulWidget {
 class _CollectionDetailsViewState extends State<CollectionDetailsView> {
   @override
   void initState() {
-    context.read<CollectionCrudBloc>().add(CollectionCrudEvent.load(widget.collectionId));
+    context
+        .read<CollectionCrudBloc>()
+        .add(CollectionCrudEvent.load(widget.collectionId));
     super.initState();
   }
 
@@ -48,7 +51,9 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
           context.maybePop(true);
         }, productsRemoved: (_) {
           context.showSnackBar('Products updated');
-          context.read<CollectionCrudBloc>().add(CollectionCrudEvent.load(widget.collectionId));
+          context
+              .read<CollectionCrudBloc>()
+              .add(CollectionCrudEvent.load(widget.collectionId));
         });
       },
       builder: (context, state) {
@@ -60,22 +65,32 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                   collection: (collection) => IconButton(
                       padding: const EdgeInsets.all(16),
                       onPressed: () async {
-                        await showModalActionSheet(context: context, actions: <SheetAction>[
-                          SheetAction(label: tr.collectionModalEditCollection, key: 0),
-                          SheetAction(
-                              label: tr.collectionsTableDelete, isDestructiveAction: true, key: 1),
-                        ]).then((result) async {
+                        await showModalActionSheet(
+                            context: context,
+                            actions: <SheetAction>[
+                              SheetAction(
+                                  label: tr.collectionModalEditCollection,
+                                  key: 0),
+                              SheetAction(
+                                  label: tr.collectionsTableDelete,
+                                  isDestructiveAction: true,
+                                  key: 1),
+                            ]).then((result) async {
                           if (result == 0) {
+                            if (!context.mounted) return;
                             await context
-                                .pushRoute(CreateCollectionRoute(collection: collection))
+                                .pushRoute(CreateCollectionRoute(
+                                    collection: collection))
                                 .then((result) async {
                               if (result != null) {
-                                context
-                                    .read<CollectionCrudBloc>()
-                                    .add(CollectionCrudEvent.load(widget.collectionId));
+                                if (!context.mounted) return;
+                                context.read<CollectionCrudBloc>().add(
+                                    CollectionCrudEvent.load(
+                                        widget.collectionId));
                               }
                             });
                           } else if (result == 1) {
+                            if (!context.mounted) return;
                             await showOkCancelAlertDialog(
                                     context: context,
                                     title: tr.collectionsTableDeleteCollection,
@@ -86,9 +101,10 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                 .then((result) async {
                               if (result == OkCancelResult.ok) {
                                 // await controller.deleteCollection(context);
-                                context
-                                    .read<CollectionCrudBloc>()
-                                    .add(CollectionCrudEvent.delete(widget.collectionId));
+                                if (!context.mounted) return;
+                                context.read<CollectionCrudBloc>().add(
+                                    CollectionCrudEvent.delete(
+                                        widget.collectionId));
                               }
                             });
                           }
@@ -111,34 +127,49 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Text(collection.title ?? '', style: largeTextStyle),
+                                Text(collection.title ?? '',
+                                    style: largeTextStyle),
                                 // const SizedBox(height: 6.0),
                                 Text('/${collection.handle ?? ''}',
-                                    style: smallTextStyle!.copyWith(color: manatee)),
+                                    style: smallTextStyle!
+                                        .copyWith(color: manatee)),
                               ],
                             ),
-                            if (collection.products != null && collection.products!.isNotEmpty)
+                            if (collection.products != null &&
+                                collection.products!.isNotEmpty)
                               TextButton(
                                   onPressed: () async {
-                                    final result = await showBarModalBottomSheet(
-                                        context: context,
-                                        overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                                        backgroundColor: context.theme.scaffoldBackgroundColor,
-                                        builder: (context) => PickProductsView(
-                                                pickProductsReq: PickProductsReq(
-                                              selectedProducts: collection.products,
-                                            )));
+                                    final result =
+                                        await showBarModalBottomSheet(
+                                            context: context,
+                                            overlayStyle: context.theme
+                                                .appBarTheme.systemOverlayStyle,
+                                            backgroundColor: context
+                                                .theme.scaffoldBackgroundColor,
+                                            builder: (context) =>
+                                                PickProductsView(
+                                                    pickProductsReq:
+                                                        PickProductsReq(
+                                                  selectedProducts:
+                                                      collection.products,
+                                                )));
                                     if (result is PickProductsRes) {
-                                      final originalProducts =
-                                          collection.products?.map((e) => e.id).toList();
-                                      final selectedProducts =
-                                          result.selectedProducts.map((e) => e.id).toList();
+                                      final originalProducts = collection
+                                          .products
+                                          ?.map((e) => e.id)
+                                          .toList();
+                                      final selectedProducts = result
+                                          .selectedProducts
+                                          .map((e) => e.id)
+                                          .toList();
                                       final removedProducts = originalProducts
                                               ?.toSet()
-                                              .difference(selectedProducts.toSet())
+                                              .difference(
+                                                  selectedProducts.toSet())
                                               .toList() ??
                                           [];
-                                      if (selectedProducts.isNotEmpty && context.mounted) {
+                                      if (selectedProducts.isNotEmpty &&
+                                          context.mounted) {
                                         // context
                                         //     .read<CollectionCrudBloc>()
                                         //     .add(CollectionCrudEvent.addProducts(
@@ -148,7 +179,8 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                         //       productsIds: selectedProducts,
                                         //     )));
                                       }
-                                      if (removedProducts.isNotEmpty && context.mounted) {
+                                      if (removedProducts.isNotEmpty &&
+                                          context.mounted) {
                                         // context
                                         //     .read<CollectionCrudBloc>()
                                         //     .add(CollectionCrudEvent
@@ -171,7 +203,8 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
           body: SafeArea(
             child: state.maybeWhen(
               collection: (collection) {
-                if (collection.products == null || collection.products!.isEmpty) {
+                if (collection.products == null ||
+                    collection.products!.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -181,15 +214,19 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                             onPressed: () async {
                               final result = await showBarModalBottomSheet(
                                   context: context,
-                                  overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                                  backgroundColor: context.theme.scaffoldBackgroundColor,
+                                  overlayStyle: context
+                                      .theme.appBarTheme.systemOverlayStyle,
+                                  backgroundColor:
+                                      context.theme.scaffoldBackgroundColor,
                                   builder: (context) => PickProductsView(
                                           pickProductsReq: PickProductsReq(
                                         selectedProducts: collection.products,
                                       )));
-                              if (result is PickProductsRes && context.mounted) {
-                                final selectedProducts =
-                                    result.selectedProducts.map((e) => e.id).toList();
+                              if (result is PickProductsRes &&
+                                  context.mounted) {
+                                final selectedProducts = result.selectedProducts
+                                    .map((e) => e.id)
+                                    .toList();
                                 // context.read<CollectionCrudBloc>().add(
                                 //     CollectionCrudEvent.addProducts(
                                 //         CollectionUpdateProductsReq(
@@ -209,7 +246,8 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                       final product = collection.products![index];
                       return ListTile(
                         onTap: () async {
-                          await context.pushRoute(ProductDetailsRoute(productId: product.id));
+                          await context.pushRoute(
+                              ProductDetailsRoute(productId: product.id));
                         },
                         title: Text(product.title),
                         subtitle: Row(
@@ -217,7 +255,8 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                           children: [
                             _getStatusIcon(product.status),
                             const Gap(4),
-                            Text(product.status.name.capitalize, style: context.bodySmall),
+                            Text(product.status.name.capitalize,
+                                style: context.bodySmall),
                           ],
                         ),
                         leading: product.thumbnail != null
@@ -226,16 +265,19 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                 child: CachedNetworkImage(
                                   key: ValueKey(product.thumbnail),
                                   imageUrl: product.thumbnail!,
-                                  placeholder: (context, text) =>
-                                      const Center(child: CircularProgressIndicator.adaptive()),
+                                  placeholder: (context, text) => const Center(
+                                      child:
+                                          CircularProgressIndicator.adaptive()),
                                   errorWidget: (context, string, error) =>
-                                      const Icon(Icons.warning_rounded, color: Colors.redAccent),
+                                      const Icon(Icons.warning_rounded,
+                                          color: Colors.redAccent),
                                 ))
                             : null,
                         trailing: IconButton(
                             padding: const EdgeInsets.all(16.0),
                             onPressed: () async {
-                              if (await _showDeleteCollectionDialog && context.mounted) {
+                              if (await _showDeleteCollectionDialog &&
+                                  context.mounted) {
                                 // context.read<CollectionCrudBloc>().add(
                                 //     CollectionCrudEvent.removeProducts(
                                 //         CollectionRemoveProductsReq(
@@ -243,14 +285,16 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                 //             productsIds: [product.id])));
                               }
                             },
-                            icon: const Icon(Icons.delete_forever, color: Colors.redAccent)),
+                            icon: const Icon(Icons.delete_forever,
+                                color: Colors.redAccent)),
                       );
                     });
               },
               error: (error) => Center(
                 child: Text('Error loading collection, ${error.toString()}'),
               ),
-              orElse: () => const Center(child: CircularProgressIndicator.adaptive()),
+              orElse: () =>
+                  const Center(child: CircularProgressIndicator.adaptive()),
             ),
           ),
         );
@@ -258,10 +302,12 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
     );
   }
 
-  Future<bool> get _showDeleteCollectionDialog async => await showOkCancelAlertDialog(
+  Future<
+      bool> get _showDeleteCollectionDialog async => await showOkCancelAlertDialog(
           context: context,
           title: context.tr.collectionProductTableRemoveProductFromCollection,
-          message: 'Are you sure you want to remove products from this collection ?',
+          message:
+              'Are you sure you want to remove products from this collection ?',
           okLabel: context.tr.organismsYesRemove,
           cancelLabel: context.tr.organismsNoCancel,
           isDestructiveAction: true)

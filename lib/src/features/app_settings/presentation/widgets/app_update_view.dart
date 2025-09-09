@@ -60,8 +60,9 @@ class _AppUpdateViewState extends State<AppUpdateView> {
         if (await shouldCancel && isDownloading) {
           cancelToken.cancel();
           cancelToken.whenCancel.then((_) {
+            if (!context.mounted) return;
             ScaffoldMessenger.of(context).clearSnackBars();
-            context.router.popForced();
+            context.router.pop();
           });
         }
       },
@@ -87,8 +88,9 @@ class _AppUpdateViewState extends State<AppUpdateView> {
                           if (await shouldCancel && isDownloading) {
                             cancelToken.cancel('Download Cancelled');
                             cancelToken.whenCancel.then((_) {
+                              if (!context.mounted) return;
                               ScaffoldMessenger.of(context).clearSnackBars();
-                              context.router.popForced();
+                              context.router.pop();
                             });
                           }
                         }

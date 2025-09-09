@@ -103,6 +103,7 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                                     ]).then((value) async {
                                   switch (value) {
                                     case 0:
+                                      if (!context.mounted) return;
                                       final result = await context.pushRoute(
                                           AddUpdateCustomerRoute(
                                               customer: customer));

@@ -142,7 +142,8 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
             isDestructiveAction: true,
           ).then((result) {
             if (result == OkCancelResult.ok) {
-              context.router.popForced();
+              if (!context.mounted) return;
+              context.router.pop();
             }
           });
         },

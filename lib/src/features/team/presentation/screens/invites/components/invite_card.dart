@@ -15,9 +15,11 @@ class InviteCard extends StatelessWidget {
     this.onResendTap,
     this.onDeleteTap,
   });
+
   final Invite invite;
   final void Function()? onResendTap;
   final void Function()? onDeleteTap;
+
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = context.bodyMedium;
@@ -67,8 +69,10 @@ class InviteCard extends StatelessWidget {
                             case 1:
                               await Clipboard.setData(
                                       ClipboardData(text: invite.token ?? ''))
-                                  .then((value) =>
-                                      context.showSnackBar('Token copied'));
+                                  .then((value) {
+                                if (!context.mounted) return;
+                                context.showSnackBar('Token copied');
+                              });
                               return;
                             case 2:
                               onDeleteTap?.call();

@@ -35,6 +35,7 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
           .then((result) {
         switch (result) {
           case OkCancelResult.ok:
+            if (!mounted) return;
             context.maybePop();
           case OkCancelResult.cancel:
         }

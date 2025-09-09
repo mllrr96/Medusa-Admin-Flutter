@@ -20,7 +20,9 @@ class AppBarStyleView extends StatefulWidget {
 
 class _AppBarStyleViewState extends State<AppBarStyleView> {
   PreferenceService get preferenceService => PreferenceService.instance;
+
   AppPreference get appSettings => PreferenceService.appSettingsGetter;
+
   AppBarStyle get appBarStyle =>
       PreferenceService.appSettingsGetter.appBarStyle;
   late AppBarStyle selectedStyle;
@@ -44,7 +46,10 @@ class _AppBarStyleViewState extends State<AppBarStyleView> {
                   await preferenceService
                       .updateAppSettings(
                           appSettings.copyWith(appBarStyle: selectedStyle))
-                      .then((_) => context.maybePop());
+                      .then((_) {
+                    if (!context.mounted) return;
+                    context.maybePop();
+                  });
                 },
                 child: const Text('Save'))
           ],

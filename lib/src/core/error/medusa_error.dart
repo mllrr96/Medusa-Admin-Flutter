@@ -173,8 +173,9 @@ class MedusaError implements Exception {
         return 'Server error. Try again shortly.';
       case MedusaHttpStatus.unknown:
         // Fall back to type or generic label
-        if (type != null && type!.isNotEmpty)
+        if (type != null && type!.isNotEmpty) {
           return _titleCase(type!.replaceAll('_', ' '));
+        }
         return 'Something went wrong.';
     }
   }

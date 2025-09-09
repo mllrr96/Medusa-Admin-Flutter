@@ -152,6 +152,7 @@ class ProductDetailsVariants extends StatelessWidget {
                                         ]).then((result) async {
                                       switch (result) {
                                         case 0:
+                                          if (!context.mounted) return;
                                           await context.pushRoute(
                                               ProductAddVariantRoute(
                                                   productVariantReq:
