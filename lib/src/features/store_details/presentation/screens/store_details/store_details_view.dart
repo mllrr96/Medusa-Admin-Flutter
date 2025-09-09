@@ -64,17 +64,17 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
     return BlocListener<StoreBloc, StoreState>(
       bloc: storeBloc,
       listener: (context, state) {
-        state.maybeMap(
-            loading: (_) => loading(),
+        state.maybeWhen(
+            loading: () => loading(),
             store: (_) {
               dismissLoading();
               context.maybePop();
               context.showSnackBar('Store details updated successfully');
               // context.read<StoreBloc>().add(const StoreEvent.loadStore());
             },
-            error: (_) {
+            error: (e) {
               dismissLoading();
-              context.showSnackBar(_.e.toSnackBarString());
+              context.showSnackBar(e.toSnackBarString());
             },
             orElse: () => dismissLoading());
       },

@@ -63,8 +63,8 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
         );
       },
       builder: (context, state) {
-        final regionName = state.maybeMap(
-            region: (_) => _.region.name, orElse: () => 'Region');
+        final regionName = state.maybeWhen(
+            region: (region) => region.name, orElse: () => 'Region');
         final region = state.mapOrNull(region: (region) => region.region);
         return Scaffold(
           body: NestedScrollView(
@@ -119,9 +119,8 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                 ],
               ),
             ],
-            body: state.maybeMap(
-              region: (_) {
-                final region = _.region;
+            body: state.maybeWhen(
+              region: (region) {
                 return ListView(
                   padding: EdgeInsets.zero,
                   children: [
@@ -309,7 +308,7 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                   ],
                 );
               },
-              loading: (_) => const Center(
+              loading: () => const Center(
                 child: CircularProgressIndicator.adaptive(),
               ),
               error: (_) => Center(

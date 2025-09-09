@@ -60,8 +60,8 @@ class _CurrenciesViewState extends State<CurrenciesView> {
     return BlocConsumer<StoreBloc, StoreState>(
       bloc: storeBloc,
       listener: (context, state) {
-        state.maybeMap(
-          loading: (_) => loading(),
+        state.maybeWhen(
+          loading: () => loading(),
           // loaded: (_) {
           //   dismissLoading();
           //   context.maybePop();

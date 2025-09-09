@@ -134,7 +134,7 @@
 //     return BlocConsumer<BatchJobCrudBloc, BatchJobCrudState>(
 //       bloc: batchJobCrudBloc,
 //       listener: (context, state) {
-//         state.maybeMap(
+//         state.maybeWhen(
 //           // created: (_) {
 //           //   dismissLoading();
 //           //   context.showSnackBar('Batch job created');
@@ -170,7 +170,7 @@
 //             }
 //           },
 //           child: Scaffold(
-//             bottomNavigationBar: state.maybeMap(
+//             bottomNavigationBar: state.maybeWhen(
 //               initial: (_) => templateWidget,
 //               // loading: (_) => templateWidget,
 //               batchJob: (_) {
@@ -218,7 +218,7 @@
 //               body: Padding(
 //                 padding:
 //                     const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-//                 child: state.maybeMap(
+//                 child: state.maybeWhen(
 //                   batchJob: (_) {
 //                     final status = _.batchJob.status;
 //                     final batchJob = _.batchJob;

@@ -113,7 +113,7 @@
 //     return BlocListener<ShippingOptionCrudBloc, ShippingOptionCrudState>(
 //       bloc: shippingOptionCrudBloc,
 //       listener: (context, state) {
-//         state.maybeMap(
+//         state.maybeWhen(
 //             shippingOption: (_) {
 //               dismissLoading();
 //               context.showSnackBar(updateMode
@@ -270,7 +270,7 @@
 //                                   ShippingProfileCrudState>(
 //                                 bloc: shippingProfileCrudBloc,
 //                                 builder: (context, state) {
-//                                   return state.maybeMap(
+//                                   return state.maybeWhen(
 //                                       shippingProfiles: (_) =>
 //                                           DropdownButtonFormField<
 //                                               ShippingProfile>(
@@ -358,7 +358,7 @@
 //                               BlocBuilder<RegionCrudBloc, RegionCrudState>(
 //                                 bloc: fulfillmentOptionsBloc,
 //                                 builder: (context, state) {
-//                                   return state.maybeMap(
+//                                   return state.maybeWhen(
 //                                     fulfillmentOptions: (_) =>
 //                                         DropdownButtonFormField<
 //                                             FulfillmentOption>(

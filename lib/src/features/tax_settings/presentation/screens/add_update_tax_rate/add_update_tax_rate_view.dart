@@ -58,8 +58,8 @@ class _AddUpdateTaxRateViewState extends State<AddUpdateTaxRateView> {
     return BlocListener<TaxCrudBloc, TaxCrudState>(
       bloc: taxCrudBloc,
       listener: (context, state) {
-        state.maybeMap(
-            loading: (_) => loading(),
+        state.maybeWhen(
+            loading: () => loading(),
             taxRate: (taxRate) {
               context.showSnackBar(
                   'Tax rate ${updateMode ? 'updated' : 'created'}');
@@ -67,7 +67,7 @@ class _AddUpdateTaxRateViewState extends State<AddUpdateTaxRateView> {
               context.maybePop(true);
             },
             error: (error) {
-              context.showSnackBar(error.failure.toSnackBarString());
+              context.showSnackBar(error.toSnackBarString());
               dismissLoading();
             },
             orElse: () => dismissLoading());

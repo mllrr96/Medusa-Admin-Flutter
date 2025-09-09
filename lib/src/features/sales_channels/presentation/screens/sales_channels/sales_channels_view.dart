@@ -28,10 +28,10 @@ class _SalesChannelsViewState extends State<SalesChannelsView> {
       firstPageKey: 0, invisibleItemsThreshold: 6);
   final refreshController = RefreshController();
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     salesChannelCrudBloc.add(
       SalesChannelCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+        'offset': page == 0 ? 0 : pagingController.itemList?.length,
       }),
     );
   }

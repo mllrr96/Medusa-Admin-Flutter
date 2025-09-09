@@ -72,8 +72,8 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                     child: const Text('Reset'),
                   ),
                   const Gap(8.0),
-                  state.maybeMap(
-                    loaded: (_) => Expanded(
+                  state.maybeWhen(
+                    loaded: (_,__) => Expanded(
                       flex: 4,
                       child: FilledButton(
                           onPressed: () {
@@ -93,9 +93,9 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
               children: [
-                state.map(
-                  initial: (_) => const SizedBox(),
-                  loading: (_) => const Skeletonizer(
+                state.when(
+                  initial: () => const SizedBox(),
+                  loading: () => const Skeletonizer(
                     enabled: true,
                     child: Column(
                       children: [
@@ -113,9 +113,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                       ],
                     ),
                   ),
-                  loaded: (_) {
-                    final collections = _.collections;
-                    final tags = _.tags;
+                  loaded: (collections, tags) {
                     return Column(
                       children: [
                         FlexExpansionTile(
@@ -235,10 +233,10 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                       ],
                     );
                   },
-                  error: (error) => Column(
+                  error: (e) => Column(
                     children: [
                       Center(
-                        child: Text(error.failure.toString()),
+                        child: Text(e.toString()),
                       ),
                       FilledButton(
                           onPressed: () async => await context

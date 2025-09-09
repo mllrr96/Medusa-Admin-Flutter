@@ -6,13 +6,13 @@ class ShippingOptionLabel extends StatelessWidget {
   final bool adminOnly;
   @override
   Widget build(BuildContext context) {
-    Color containerColor = const Color(0xffCCFBF1).withOpacity(0.17);
+    Color containerColor = const Color(0xffCCFBF1).withValues(alpha: 0.17);
     Color textColor = const Color(0xff0EBA81);
     String text = 'Store';
 
     if (adminOnly) {
       text = 'Admin';
-      containerColor = Colors.grey.withOpacity(0.17);
+      containerColor = Colors.grey.withValues(alpha: 0.17);
       textColor = Colors.grey;
     }
 

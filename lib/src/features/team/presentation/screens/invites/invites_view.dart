@@ -27,7 +27,7 @@ class _InvitesViewState extends State<InvitesView> {
       firstPageKey: 0, invisibleItemsThreshold: 3);
   final refreshController = RefreshController();
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     invitesBloc.add(const InviteCrudEvent.loadAll());
   }
 

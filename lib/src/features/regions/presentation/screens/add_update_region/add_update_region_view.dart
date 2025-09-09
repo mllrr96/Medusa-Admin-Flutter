@@ -90,11 +90,11 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
     return BlocListener<RegionCrudBloc, RegionCrudState>(
       bloc: regionCrudBloc,
       listener: (context, state) {
-        state.maybeMap(
-          loading: (_) => loading(),
+        state.maybeWhen(
+          loading: () => loading(),
           error: (error) {
             dismissLoading();
-            context.showSnackBar(error.failure.toSnackBarString());
+            context.showSnackBar(error.toSnackBarString());
           },
           region: (_) {
             dismissLoading();
@@ -370,7 +370,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                             bloc: paymentProvidersCubit,
                             builder: (context, state) {
                               return SizedBox.shrink();
-                              // return state.maybeMap(
+                              // return state.maybeWhen(
                               //     loading: (_) => Skeletonizer(
                               //         enabled: true,
                               //         child: MultiSelectDropDown(

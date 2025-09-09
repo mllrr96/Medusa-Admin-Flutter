@@ -100,12 +100,12 @@ class _ProductOrganizeState extends State<ProductOrganize> {
               BlocBuilder<ProductTypesCubit, ProductTypesState>(
                 bloc: productTypesCubit,
                 builder: (context, state) {
-                  return state.maybeMap(
-                      loading: (_) => const Center(
+                  return state.maybeWhen(
+                      loading: () => const Center(
                             child: CircularProgressIndicator.adaptive(),
                           ),
-                      types: (state) {
-                        selectedType = state.types
+                      types: (types, count) {
+                        selectedType = types
                             .where((element) => element.id == product?.type?.id)
                             .firstOrNull;
                         return DropdownButtonFormField<ProductType>(
@@ -117,7 +117,7 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                               setState(() => selectedType = type);
                             }
                           },
-                          items: state.types
+                          items: types
                               .map((e) => DropdownMenuItem<ProductType>(
                                   value: e,
                                   child: Text(e.value.capitalize ?? e.value)))
@@ -155,11 +155,11 @@ class _ProductOrganizeState extends State<ProductOrganize> {
               BlocBuilder<CollectionCrudBloc, CollectionCrudState>(
                 bloc: collectionCrudBloc,
                 builder: (context, state) {
-                  return state.maybeMap(
-                      loading: (_) => const Center(
+                  return state.maybeWhen(
+                      loading: () => const Center(
                             child: CircularProgressIndicator.adaptive(),
                           ),
-                      collections: (state) {
+                      collections: (collections, count) {
                         return DropdownButtonFormField<ProductCollection>(
                           style: context.bodyMedium,
                           onSaved: (_) {
@@ -188,7 +188,7 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                               setState(() => selectedCollection = collection);
                             }
                           },
-                          items: state.collections
+                          items: collections
                               .map((e) => DropdownMenuItem<ProductCollection>(
                                   value: e, child: Text(e.title.capitalize)))
                               .toList(),
@@ -259,17 +259,17 @@ class _ProductOrganizeState extends State<ProductOrganize> {
           BlocBuilder<SalesChannelCrudBloc, SalesChannelCrudState>(
             bloc: salesChannelCrudBloc,
             builder: (context, state) {
-              return state.maybeMap(
-                  loading: (_) => const Center(
+              return state.maybeWhen(
+                  loading: () => const Center(
                         child: CircularProgressIndicator.adaptive(),
                       ),
-                  salesChannels: (state) {
+                  salesChannels: (salesChannels, count) {
                     return AnimatedSwitcher(
                       duration: const Duration(milliseconds: 300),
                       child: enableSalesChannels
                           ? Column(
                               children: [
-                                ...state.salesChannels
+                                ...salesChannels
                                     .map((channel) => CheckboxListTile(
                                           contentPadding: EdgeInsets.zero,
                                           title: Text(channel.name ?? ''),

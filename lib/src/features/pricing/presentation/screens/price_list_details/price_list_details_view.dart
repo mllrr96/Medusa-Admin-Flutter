@@ -21,6 +21,7 @@ import 'components/index.dart';
 @RoutePage()
 class PriceListDetailsView extends StatefulWidget {
   const PriceListDetailsView(this.priceList, {super.key});
+
   final PriceList priceList;
 
   @override
@@ -33,7 +34,8 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
       firstPageKey: 0, invisibleItemsThreshold: 6);
   late PricingCrudBloc pricingCrudBloc;
   late PricingCrudBloc priceListBloc;
-  void _loadPage(int _) {
+
+  void _loadPage(int page) {
     priceListBloc.add(PricingCrudEvent.load(id));
   }
 
@@ -95,16 +97,12 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
         BlocListener<PricingCrudBloc, PricingCrudState>(
           bloc: pricingCrudBloc,
           listener: (context, state) {
-            state.maybeMap(
+            state.maybeWhen(
               // loading: (_) => loading(),
-              deleted: (state) {
-                state.mapOrNull(
-                  deleted: (state) {
-                    dismissLoading();
-                    context.showSnackBar('Price list deleted');
-                    context.maybePop();
-                  },
-                );
+              deleted: () {
+                dismissLoading();
+                context.showSnackBar('Price list deleted');
+                context.maybePop();
               },
               orElse: () => dismissLoading(),
             );
@@ -195,9 +193,9 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                   SliverToBoxAdapter(
                     child: BlocBuilder<PricingCrudBloc, PricingCrudState>(
                       bloc: pricingCrudBloc,
-                      builder: (context, state) => state.maybeMap(
-                        pricingList: (_) => PriceListDetailsTile(_.priceList),
-                        loading: (_) => PriceListDetailsTile(widget.priceList,
+                      builder: (context, state) => state.maybeWhen(
+                        pricingList: (priceList) => PriceListDetailsTile(priceList),
+                        loading: () => PriceListDetailsTile(widget.priceList,
                             shimmer: true),
                         orElse: () => const SizedBox.shrink(),
                       ),

@@ -36,7 +36,7 @@ class AppTheme {
       ),
       // splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
       // splashColor: Colors.transparent,
-      highlightColor: ColorManager.primary.withOpacity(0.6),
+      highlightColor: ColorManager.primary.withValues(alpha: 0.6),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: CupertinoColors.white,
         selectedItemColor: ColorManager.primary,
@@ -152,7 +152,7 @@ class AppTheme {
       // splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
       // highlightColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
       // splashColor: Colors.transparent,
-      highlightColor: ColorManager.primary.withOpacity(0.6),
+      highlightColor: ColorManager.primary.withValues(alpha: 0.6),
       inputDecorationTheme: const InputDecorationTheme(
         contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
         labelStyle: TextStyle(color: Colors.grey),

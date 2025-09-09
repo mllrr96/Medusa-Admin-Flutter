@@ -107,7 +107,7 @@
 //                       ),
 //                     ),
 //                     const Gap(8.0),
-//                     state.maybeMap(
+//                     state.maybeWhen(
 //                         loaded: (state) => Expanded(
 //                               flex: 4,
 //                               child: FilledButton(

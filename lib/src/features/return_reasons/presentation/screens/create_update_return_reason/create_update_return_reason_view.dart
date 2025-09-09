@@ -59,8 +59,8 @@ class _CreateUpdateReturnReasonViewState
     return BlocListener<ReturnReasonsCrudBloc, ReturnReasonsCrudState>(
       bloc: returnReasonsCrudBloc,
       listener: (context, state) {
-        state.maybeMap(
-            loading: (_) => loading(),
+        state.maybeWhen(
+            loading: () => loading(),
             returnReason: (_) {
               context.showSnackBar(
                   'Return Reason ${updateMode ? 'Updated' : 'Created'}');
@@ -69,7 +69,7 @@ class _CreateUpdateReturnReasonViewState
             },
             error: (error) {
               dismissLoading();
-              context.showSnackBar(error.failure.toSnackBarString());
+              context.showSnackBar(error.toSnackBarString());
             },
             orElse: () => dismissLoading());
       },

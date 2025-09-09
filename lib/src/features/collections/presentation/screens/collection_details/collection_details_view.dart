@@ -56,8 +56,8 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
           appBar: AppBar(
             title: Text(tr.productTableCollection),
             actions: [
-              state.maybeMap(
-                  collection: (_) => IconButton(
+              state.maybeWhen(
+                  collection: (collection) => IconButton(
                       padding: const EdgeInsets.all(16),
                       onPressed: () async {
                         await showModalActionSheet(context: context, actions: <SheetAction>[
@@ -67,7 +67,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                         ]).then((result) async {
                           if (result == 0) {
                             await context
-                                .pushRoute(CreateCollectionRoute(collection: _.collection))
+                                .pushRoute(CreateCollectionRoute(collection: collection))
                                 .then((result) async {
                               if (result != null) {
                                 context
@@ -169,9 +169,9 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                     const SizedBox.shrink()),
           ),
           body: SafeArea(
-            child: state.maybeMap(
-              collection: (_) {
-                if (_.collection.products == null || _.collection.products!.isEmpty) {
+            child: state.maybeWhen(
+              collection: (collection) {
+                if (collection.products == null || collection.products!.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -185,7 +185,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                   backgroundColor: context.theme.scaffoldBackgroundColor,
                                   builder: (context) => PickProductsView(
                                           pickProductsReq: PickProductsReq(
-                                        selectedProducts: _.collection.products,
+                                        selectedProducts: collection.products,
                                       )));
                               if (result is PickProductsRes && context.mounted) {
                                 final selectedProducts =
@@ -204,9 +204,9 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                 }
                 return ListView.separated(
                     separatorBuilder: (_, __) => const Divider(height: 0),
-                    itemCount: _.collection.products!.length,
+                    itemCount: collection.products!.length,
                     itemBuilder: (context, index) {
-                      final product = _.collection.products![index];
+                      final product = collection.products![index];
                       return ListTile(
                         onTap: () async {
                           await context.pushRoute(ProductDetailsRoute(productId: product.id));
@@ -248,7 +248,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                     });
               },
               error: (error) => Center(
-                child: Text('Error loading collection, ${error.failure.toString()}'),
+                child: Text('Error loading collection, ${error.toString()}'),
               ),
               orElse: () => const Center(child: CircularProgressIndicator.adaptive()),
             ),

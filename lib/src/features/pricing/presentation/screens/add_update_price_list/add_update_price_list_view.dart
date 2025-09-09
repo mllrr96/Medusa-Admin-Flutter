@@ -515,13 +515,12 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
     return BlocListener<PricingCrudBloc, PricingCrudState>(
       bloc: pricingCrudBloc,
       listener: (context, state) {
-        state.maybeMap(
-          loading: (_) => loading(),
-          pricingList: (state) {
+        state.maybeWhen(
+          loading: () => loading(),
+          pricingList: (priceList) {
             dismissLoading();
             if (firstTimeLoading) {
               firstTimeLoading = false;
-              priceList = state.priceList;
               nameCtrl.text = priceList.title ?? '';
               descriptionCtrl.text = priceList.description ?? '';
               saveAsDraft = priceList.status == PriceListStatus.draft;

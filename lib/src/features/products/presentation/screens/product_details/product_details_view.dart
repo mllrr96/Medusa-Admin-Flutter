@@ -62,10 +62,10 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 BlocBuilder<ProductCrudBloc, ProductCrudState>(
                   bloc: productCrudBloc,
                   builder: (context, state) {
-                    return state.maybeMap(
-                      product: (state) {
+                    return state.maybeWhen(
+                      product: (product) {
                         final isPublished =
-                            state.product.status == ProductStatus.published;
+                            product.status == ProductStatus.published;
                         return TextButton(
                           onPressed: () async {
                             await showOkCancelAlertDialog(
@@ -90,10 +90,10 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              _getStatusIcon(state.product.status),
+                              _getStatusIcon(product.status),
                               const SizedBox(width: 4.0),
                               Text(
-                                state.product.status.name.capitalize,
+                               product.status.name.capitalize,
                                 style: context.bodySmall,
                               ),
                             ],

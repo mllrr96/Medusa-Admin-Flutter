@@ -181,8 +181,8 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
                                 //     size: 10),
                                 // Icon(Icons.circle,
                                 //     color: isDisabled
-                                //         ? Colors.red.withOpacity(0.17)
-                                //         : Colors.green.withOpacity(0.17),
+                                //         ? Colors.red.withValues(alpha: 0.17)
+                                //         : Colors.green.withValues(alpha: 0.17),
                                 //     size: 24),
                               ],
                             ),

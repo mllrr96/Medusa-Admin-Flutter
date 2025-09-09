@@ -37,10 +37,10 @@
 //   final searchCtrl = TextEditingController();
 //   String searchTerm = '';
 //
-//   void _loadPage(int _) {
+//   void _loadPage(int page) {
 //     productCrudBloc.add(ProductCrudEvent.loadAll(queryParameters: {
 //       'is_giftcard': false,
-//       'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+//       'offset': page == 0 ? 0 : pagingController.itemList?.length,
 //     }));
 //   }
 //

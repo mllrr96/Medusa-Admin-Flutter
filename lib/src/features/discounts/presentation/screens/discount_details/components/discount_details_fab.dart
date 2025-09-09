@@ -51,7 +51,7 @@ class DiscountDetailsFab extends StatelessWidget {
       return BlocBuilder<DiscountCrudBloc, DiscountCrudState>(
         bloc: discountCrudBloc,
         builder: (context, state) {
-          return state.maybeMap(
+          return state.maybeWhen(
               discount: (_) => SpeedDial(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -86,7 +86,7 @@ class DiscountDetailsFab extends StatelessWidget {
     return BlocBuilder<DiscountCrudBloc, DiscountCrudState>(
       bloc: discountCrudBloc,
       builder: (context, state) {
-        return state.maybeMap(
+        return state.maybeWhen(
             discount: (_) => Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

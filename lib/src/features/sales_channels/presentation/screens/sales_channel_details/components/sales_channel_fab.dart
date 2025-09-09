@@ -20,7 +20,7 @@ class SalesChannelFAB extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
           color:
-              Theme.of(context).appBarTheme.backgroundColor?.withOpacity(0.7),
+              Theme.of(context).appBarTheme.backgroundColor?.withValues(alpha: 0.7),
         ),
         child: SizedBox(
           height: 40,

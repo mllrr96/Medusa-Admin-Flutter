@@ -43,10 +43,10 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
   bool showGiftCardsTaxableHint = false;
   TaxProvider? selectedTaxProvider;
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     taxBloc.add(
       TaxCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+        'offset': page == 0 ? 0 : pagingController.itemList?.length,
       }),
     );
   }
@@ -187,7 +187,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                     BlocBuilder<TaxProviderCubit, TaxProviderState>(
                       bloc: taxProviderCubit,
                       builder: (context, state) {
-                        return state.maybeMap(
+                        return state.maybeWhen(
                             loading: (_) => const Skeletonizer(
                                   enabled: true,
                                   child: TextField(

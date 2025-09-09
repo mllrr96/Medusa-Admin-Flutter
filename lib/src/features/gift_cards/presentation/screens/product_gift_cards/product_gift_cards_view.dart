@@ -44,7 +44,7 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
     super.dispose();
   }
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     giftCardCrudBloc.add(GiftCardCrudEvent.loadAll(queryParameters: {
       'offset': pagingController.itemList?.length,
     }));

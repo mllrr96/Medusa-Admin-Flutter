@@ -12,8 +12,8 @@ class PriceListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget statusIcon(bool enabled) {
       final containerColor = enabled
-          ? Colors.green.withOpacity(0.17)
-          : Colors.grey.withOpacity(0.17);
+          ? Colors.green.withValues(alpha: 0.17)
+          : Colors.grey.withValues(alpha: 0.17);
       final textColor = enabled ? Colors.green : Colors.grey;
       return Row(
         mainAxisSize: MainAxisSize.min,

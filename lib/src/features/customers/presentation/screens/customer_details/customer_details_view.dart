@@ -127,12 +127,12 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
             BlocBuilder<CustomerCrudBloc, CustomerCrudState>(
               bloc: customerCrudBloc,
               builder: (context, state) {
-                return state.maybeMap(
-                    customer: (_) => SliverPersistentHeader(
+                return state.maybeWhen(
+                    customer: (customer) => SliverPersistentHeader(
                           key: const Key('customer_details_header'),
                           pinned: true,
                           delegate: Delegate(
-                              _.customer,
+                              customer,
                               ordersBloc.state.mapOrNull(
                                       orders: (state) => state.count > 0
                                           ? state.count
@@ -143,8 +143,8 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                           }),
                         ),
                     error: (e) => SliverToBoxAdapter(
-                        child: Center(child: Text(e.failure.toString()))),
-                    loading: (_) => SliverPersistentHeader(
+                        child: Center(child: Text(e.toString()))),
+                    loading: () => SliverPersistentHeader(
                           pinned: true,
                           delegate: Delegate(
                               Customer(

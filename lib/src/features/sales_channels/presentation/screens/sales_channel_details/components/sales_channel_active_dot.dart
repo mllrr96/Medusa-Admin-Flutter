@@ -16,7 +16,7 @@ class SalesChannelActiveDot extends StatelessWidget {
       alignment: AlignmentDirectional.center,
       children: [
         Icon(Icons.circle, color: circleColor, size: 10),
-        Icon(Icons.circle, color: haloColor.withOpacity(0.17), size: 24),
+        Icon(Icons.circle, color: haloColor.withValues(alpha: 0.17), size: 24),
       ],
     );
   }

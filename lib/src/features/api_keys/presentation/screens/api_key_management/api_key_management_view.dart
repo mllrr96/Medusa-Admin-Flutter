@@ -32,9 +32,9 @@ class _ApiKeyManagementViewState extends State<ApiKeyManagementView> {
     super.initState();
   }
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     apiKeyCrudBloc.add(ApiKeyCrudEvent.loadAll(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+      'offset': page == 0 ? 0 : pagingController.itemList?.length,
     }));
   }
 

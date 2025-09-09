@@ -27,10 +27,10 @@ class _ReturnReasonsViewState extends State<ReturnReasonsView> {
   late ReturnReasonsCrudBloc returnReasonsBloc;
   late ReturnReasonsCrudBloc returnReasonsCrudBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     returnReasonsBloc.add(
       ReturnReasonsCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+        'offset': page == 0 ? 0 : pagingController.itemList?.length,
       }),
     );
   }
@@ -91,16 +91,16 @@ class _ReturnReasonsViewState extends State<ReturnReasonsView> {
         BlocListener<ReturnReasonsCrudBloc, ReturnReasonsCrudState>(
           bloc: returnReasonsCrudBloc,
           listener: (context, state) {
-            state.maybeMap(
-              loading: (_) => loading(),
-              deleted: (_) {
+            state.maybeWhen(
+              loading: () => loading(),
+              deleted: () {
                 dismissLoading();
                 context.showSnackBar('Return Reason Deleted Successfully');
                 pagingController.refresh();
               },
-              error: (state) {
+              error: (e) {
                 dismissLoading();
-                context.showSnackBar(state.failure.toSnackBarString());
+                context.showSnackBar(e.toSnackBarString());
               },
               orElse: () => dismissLoading(),
             );

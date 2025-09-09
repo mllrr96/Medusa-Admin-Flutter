@@ -11,6 +11,7 @@ import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 @RoutePage()
 class DraftOrderDetailsView extends StatefulWidget {
   const DraftOrderDetailsView(this.draftId, {super.key});
+
   final String draftId;
 
   @override
@@ -23,6 +24,7 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
   final shippingKey = GlobalKey();
   final customerKey = GlobalKey();
   late DraftOrderCrudBloc draftOrderCrudBloc;
+
   @override
   void initState() {
     draftOrderCrudBloc = DraftOrderCrudBloc.instance;
@@ -119,22 +121,22 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
                 ],
               ),
             ],
-            body: state.maybeMap(
-              draftOrder: (_) => SingleChildScrollView(
+            body: state.maybeWhen(
+              draftOrder: (draftOrder) => SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 8.0, vertical: 10.0),
                   child: Column(
                     children: [
-                      DraftOrderOverview(_.draftOrder),
+                      DraftOrderOverview(draftOrder),
                       space,
                       DraftOrderSummery(
-                        _.draftOrder,
+                        draftOrder,
                         key: summeryKey,
                       ),
                       space,
                       DraftOrderPayment(
-                        _.draftOrder,
+                        draftOrder,
                         key: paymentKey,
                         markAsPaid: () {
                           draftOrderCrudBloc.add(
@@ -144,12 +146,12 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
                       ),
                       space,
                       DraftOrderShipping(
-                        _.draftOrder,
+                        draftOrder,
                         key: shippingKey,
                       ),
                       space,
                       DraftOrderCustomer(
-                        _.draftOrder,
+                        draftOrder,
                         key: customerKey,
                       ),
                       space,
@@ -157,22 +159,23 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
                   ),
                 ),
               ),
-              error: (_) => Center(
-                  child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.error, color: Colors.red),
-                    const SizedBox(width: 12.0),
-                    Flexible(
-                        child: Text(
-                      _.error.toString(),
-                      style: smallTextStyle,
-                    )),
-                  ],
+              error: (e) => Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.error, color: Colors.red),
+                      const SizedBox(width: 12.0),
+                      Flexible(
+                          child: Text(
+                        e.toString(),
+                        style: smallTextStyle,
+                      )),
+                    ],
+                  ),
                 ),
-              )),
+              ),
               // orElse: () => const DraftOrderLoadingPage(),
               orElse: () => Center(
                 child: CircularProgressIndicator(),

@@ -85,17 +85,17 @@ class _CreateUpdateCustomGiftCardViewState
     return BlocListener<GiftCardCrudBloc, GiftCardCrudState>(
       bloc: giftCardCrudBloc,
       listener: (context, state) {
-        state.maybeMap(
+        state.maybeWhen(
             loading: (_) => loading(),
-            giftCard: (_) {
-              context.maybePop(_.giftCard);
+            giftCard: (giftCard) {
+              context.maybePop(giftCard);
               context.showSnackBar(
                   'Gift card ${updateMode ? 'updated' : 'created'}');
               dismissLoading();
             },
             error: (error) {
               dismissLoading();
-              context.showSnackBar(error.failure.toSnackBarString());
+              context.showSnackBar(error.toSnackBarString());
             },
             orElse: () => dismissLoading());
       },

@@ -196,8 +196,9 @@ class MedusaError implements Exception {
       {int? status, Object? cause}) {
     if (v is List) {
       return v.map((e) {
-        if (e is Map<String, dynamic>)
+        if (e is Map<String, dynamic>) {
           return MedusaError.fromJson(e, status: status, cause: cause);
+        }
         return MedusaError(
             message: _asString(e) ?? 'Unknown error',
             statusCode: status,

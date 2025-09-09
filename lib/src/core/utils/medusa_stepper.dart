@@ -459,7 +459,7 @@ class _MedusaStepperState extends State<MedusaStepper>
     if (!_isDark()) {
       return isActive
           ? colorScheme.primary
-          : colorScheme.onSurface.withOpacity(0.38);
+          : colorScheme.onSurface.withValues(alpha: 0.38);
     } else {
       return isActive ? colorScheme.secondary : colorScheme.surface;
     }

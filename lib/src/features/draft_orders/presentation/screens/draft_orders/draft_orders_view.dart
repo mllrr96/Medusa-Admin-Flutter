@@ -114,7 +114,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
-                final ordersCount = draftOrderCrudBloc.state.maybeMap(
+                final ordersCount = draftOrderCrudBloc.state.maybeWhen(
                     draftOrders: (state) => state.count, orElse: () => 0);
                 return Text(
                     ordersCount > 0 ? 'Drafts ($ordersCount)' : 'Drafts',

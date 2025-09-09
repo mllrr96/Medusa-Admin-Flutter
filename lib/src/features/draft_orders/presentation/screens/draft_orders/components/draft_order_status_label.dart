@@ -7,17 +7,17 @@ class DraftOrderStatusLabel extends StatelessWidget {
   final String draftOrderStatus;
   @override
   Widget build(BuildContext context) {
-    Color containerColor = ColorManager.primary.withOpacity(0.17);
+    Color containerColor = ColorManager.primary.withValues(alpha: 0.17);
     Color textColor = ColorManager.primary;
     String text = 'Completed';
     switch (draftOrderStatus) {
       case 'open':
-        containerColor = ColorManager.primary.withOpacity(0.17);
+        containerColor = ColorManager.primary.withValues(alpha: 0.17);
         textColor = ColorManager.primary;
         text = '   Open   ';
         break;
       case 'completed':
-        containerColor = Colors.green.withOpacity(0.17);
+        containerColor = Colors.green.withValues(alpha: 0.17);
         textColor = Colors.green;
         text = 'Completed';
         break;

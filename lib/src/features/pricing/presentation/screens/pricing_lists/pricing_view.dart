@@ -25,9 +25,9 @@ class _PricingViewState extends State<PricingView> {
   late final PagingController<int, PriceList> pagingController;
   late PricingCrudBloc pricingCrudBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     pricingCrudBloc.add(PricingCrudEvent.loadAll(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+      'offset': page == 0 ? 0 : pagingController.itemList?.length,
     }));
   }
 
@@ -94,7 +94,7 @@ class _PricingViewState extends State<PricingView> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
-                final count = pricingCrudBloc.state.maybeMap(
+                final count = pricingCrudBloc.state.maybeWhen(
                   pricingLists: (state) => state.priceLists.length,
                   orElse: () => 0,
                 );

@@ -29,10 +29,10 @@ class _PickCustomerViewState extends State<PickCustomerView> {
   bool get multipleSelection =>
       widget.pickCustomerReq?.multipleSelection ?? false;
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     customerCrudBloc.add(
       CustomerCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+        'offset': page == 0 ? 0 : pagingController.itemList?.length,
         'q': searchCtrl.text,
       }),
     );

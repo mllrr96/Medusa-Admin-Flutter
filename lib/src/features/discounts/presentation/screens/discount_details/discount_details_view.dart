@@ -52,8 +52,8 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
           ),
           floatingActionButton: DiscountDetailsFab(discountCrudBloc),
           body: SafeArea(
-            child: state.maybeMap(
-              discount: (state) => SmartRefresher(
+            child: state.maybeWhen(
+              discount: (promotion) => SmartRefresher(
                 controller: refreshController,
                 onRefresh: () => discountCrudBloc
                     .add(DiscountCrudEvent.load(widget.discount.id)),
@@ -61,22 +61,22 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
                   padding: const EdgeInsets.fromLTRB(
                       12.0, 8.0, 12.0, kToolbarHeight * 2),
                   children: [
-                    // DiscountDetailsCard(state.discount, toggle: () {
+                    // DiscountDetailsCard(promotion, toggle: () {
                     //   discountCrudBloc.add(DiscountCrudEvent.update(
-                    //       state.discount.id,
+                    //       promotion.id,
                     //       PostPromotionReq(
-                    //         // isDisabled: !state.discount.isDisabled,
+                    //         // isDisabled: !promotion.isDisabled,
                     //       )));
                     // }),
                     space,
-                    ConfigurationsCard(state.discount),
+                    ConfigurationsCard(promotion),
                     space,
-                    ConditionsCard(state.discount,
+                    ConditionsCard(promotion,
                         discountCrudBloc: discountCrudBloc),
                   ],
                 ),
               ),
-              initial: (_) => const SizedBox.shrink(),
+              initial: () => const SizedBox.shrink(),
               loading: (_) => DiscountLoadingPage(widget.discount),
               error: (e) => SizedBox(
                 width: double.maxFinite,
@@ -84,7 +84,7 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Error loading discount \n ${e.failure.toString()}',
+                      'Error loading discount \n ${e.toString()}',
                       style: mediumTextStyle,
                       textAlign: TextAlign.center,
                     ),
@@ -96,7 +96,7 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
                   ],
                 ),
               ),
-              deleted: (_) => const SizedBox.shrink(),
+              deleted: () => const SizedBox.shrink(),
               orElse: () => const SizedBox.shrink(),
             ),
           ),

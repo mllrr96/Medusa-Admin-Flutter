@@ -51,8 +51,8 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
     return BlocListener<UserCrudBloc, UserCrudState>(
       bloc: userCrudBloc,
       listener: (context, state) {
-        state.maybeMap(
-          loading: (_) => loading(),
+        state.maybeWhen(
+          loading: () => loading(),
           user: (_) {
             dismissLoading();
             context.showSnackBar('User updated');
@@ -60,7 +60,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
           },
           error: (e) {
             dismissLoading();
-            context.showSnackBar(e.failure.toSnackBarString());
+            context.showSnackBar(e.toSnackBarString());
           },
           orElse: () => dismissLoading(),
         );
@@ -72,16 +72,16 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
             appBar: AppBar(
               title: const Text('Personal Information'),
             ),
-            floatingActionButton: state.mapOrNull(
-              user: (_) => FloatingActionButton.extended(
-                onPressed: () async => await updatePersonalInformation(_.user),
+            floatingActionButton: state.whenOrNull(
+              user: (user) => FloatingActionButton.extended(
+                onPressed: () async => await updatePersonalInformation(user),
                 label: const Text('Edit'),
                 icon: const Icon(MedusaIcons.pencil_square_solid),
               ),
             ),
             body: SafeArea(
-              child: state.maybeMap(
-                loading: (_) => const Skeletonizer(
+              child: state.maybeWhen(
+                loading: () => const Skeletonizer(
                     enabled: true,
                     child: PersonalInfoTile(User(
                       email: 'admin@medusa-test.com',
@@ -89,13 +89,13 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                       lastName: 'Js',
                       id: '',
                     ))),
-                user: (_) => PersonalInfoTile(
-                  _.user,
-                  onTap: () async => await updatePersonalInformation(_.user),
+                user: (user) => PersonalInfoTile(
+                  user,
+                  onTap: () async => await updatePersonalInformation(user),
                 ),
                 error: (e) => Column(
                   children: [
-                    Center(child: Text(e.failure.toSnackBarString())),
+                    Center(child: Text(e.toSnackBarString())),
                     const SizedBox(height: 8.0),
                     ElevatedButton(
                         onPressed: () =>

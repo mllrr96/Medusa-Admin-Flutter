@@ -8,23 +8,23 @@ class PromotionTypeLabel extends StatelessWidget {
   final Promotion discount;
   @override
   Widget build(BuildContext context) {
-    Color containerColor = ColorManager.primary.withOpacity(0.17);
+    Color containerColor = ColorManager.primary.withValues(alpha: 0.17);
     Color textColor = ColorManager.primary;
     String text = 'Upcoming';
     final valueText = discount.code;
     switch (discount.type) {
       case PromotionType.buyget:
-        containerColor = Colors.orangeAccent.withOpacity(0.17);
+        containerColor = Colors.orangeAccent.withValues(alpha: 0.17);
         textColor = Colors.orangeAccent;
         // text = discount.rule?.value.formatAsPrice(discount.regions.firstOrNull?.currencyCode) ?? '';
         break;
       case PromotionType.standard:
-        containerColor = Colors.blueAccent.withOpacity(0.17);
+        containerColor = Colors.blueAccent.withValues(alpha: 0.17);
         textColor = Colors.blueAccent;
         text = '${valueText ?? ''} %';
         break;
       // case PromotionType.freeShipping:
-      //   containerColor = Colors.green.withOpacity(0.17);
+      //   containerColor = Colors.green.withValues(alpha: 0.17);
       //   textColor = Colors.green;
       //   text = 'Free shipping';
       //   break;
@@ -54,15 +54,15 @@ class DiscountStatusDot extends StatelessWidget {
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
     Color circleColor = ColorManager.primary;
-    Color outerCircleColor = ColorManager.primary.withOpacity(0.17);
+    Color outerCircleColor = ColorManager.primary.withValues(alpha: 0.17);
     String text = 'Disabled';
 
     if (disabled) {
-      circleColor = Colors.grey.withOpacity(0.17);
+      circleColor = Colors.grey.withValues(alpha: 0.17);
       outerCircleColor = Colors.grey;
       text = 'Disabled';
     } else {
-      circleColor = Colors.green.withOpacity(0.17);
+      circleColor = Colors.green.withValues(alpha: 0.17);
       outerCircleColor = Colors.green;
       text = 'Active';
     }

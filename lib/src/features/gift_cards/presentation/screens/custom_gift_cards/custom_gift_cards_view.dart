@@ -50,7 +50,7 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
     super.dispose();
   }
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     giftCardBloc.add(
       GiftCardCrudEvent.loadAll(
         queryParameters: {
@@ -140,15 +140,18 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
-              title: Builder(builder: (context) {
-                final ordersCount = giftCardBloc.state.maybeMap(
-                    giftCards: (state) => state.count, orElse: () => 0);
-                return Text(
-                    ordersCount > 0
-                        ? 'Gift Cards History ($ordersCount)'
-                        : 'Gift Cards History',
-                    overflow: TextOverflow.ellipsis);
-              }),
+              title: BlocBuilder<GiftCardCrudBloc, GiftCardCrudState>(
+                bloc: giftCardBloc,
+                builder: (context, state) {
+                  final ordersCount = state.maybeWhen(
+                      giftCards: (_, count) => count, orElse: () => 0);
+                  return Text(
+                      ordersCount > 0
+                          ? 'Gift Cards History ($ordersCount)'
+                          : 'Gift Cards History',
+                      overflow: TextOverflow.ellipsis);
+                },
+              ),
             ),
           ],
           body: SmartRefresher(

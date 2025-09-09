@@ -59,7 +59,7 @@ class ProductTileWithVariantCount extends StatelessWidget {
           alignment: AlignmentDirectional.center,
           children: [
             const Icon(Icons.circle, color: Colors.grey, size: 10),
-            Icon(Icons.circle, color: Colors.grey.withOpacity(0.17), size: 20),
+            Icon(Icons.circle, color: Colors.grey.withValues(alpha: 0.17), size: 20),
           ],
         );
       case ProductStatus.proposed:
@@ -67,7 +67,7 @@ class ProductTileWithVariantCount extends StatelessWidget {
           alignment: AlignmentDirectional.center,
           children: [
             const Icon(Icons.circle, color: Colors.grey, size: 10),
-            Icon(Icons.circle, color: Colors.grey.withOpacity(0.17), size: 20),
+            Icon(Icons.circle, color: Colors.grey.withValues(alpha: 0.17), size: 20),
           ],
         );
 
@@ -76,7 +76,7 @@ class ProductTileWithVariantCount extends StatelessWidget {
           alignment: AlignmentDirectional.center,
           children: [
             const Icon(Icons.circle, color: Colors.green, size: 10),
-            Icon(Icons.circle, color: Colors.green.withOpacity(0.17), size: 20),
+            Icon(Icons.circle, color: Colors.green.withValues(alpha: 0.17), size: 20),
           ],
         );
 
@@ -85,7 +85,7 @@ class ProductTileWithVariantCount extends StatelessWidget {
           alignment: AlignmentDirectional.center,
           children: [
             const Icon(Icons.circle, color: Colors.red, size: 10),
-            Icon(Icons.circle, color: Colors.red.withOpacity(0.17), size: 20),
+            Icon(Icons.circle, color: Colors.red.withValues(alpha: 0.17), size: 20),
           ],
         );
     }

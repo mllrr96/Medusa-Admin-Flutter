@@ -30,10 +30,10 @@ class _PickRegionsViewState extends State<PickRegionsView> {
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
   List<Region> selectedRegions = <Region>[];
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     regionCrudBloc.add(
       RegionCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+        'offset': page == 0 ? 0 : pagingController.itemList?.length,
       }),
     );
   }

@@ -131,7 +131,7 @@
 //             ],
 //           ),
 //           body: SafeArea(
-//             child: state.maybeMap(
+//             child: state.maybeWhen(
 //               orderEdits: (_) {
 //                 if (orderEdit != null) {
 //                   return EditOrderItems(

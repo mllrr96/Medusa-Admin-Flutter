@@ -23,10 +23,10 @@ class _CategoriesViewState extends State<CategoriesView> {
   final refreshController = RefreshController();
   late CategoryCrudBloc categoryCrudBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     categoryCrudBloc.add(
       CategoryCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+        'offset': page == 0 ? 0 : pagingController.itemList?.length,
       }),
     );
   }

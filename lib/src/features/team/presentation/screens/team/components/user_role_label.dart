@@ -7,22 +7,22 @@ class UserRoleLabel extends StatelessWidget {
   final String userRole;
   @override
   Widget build(BuildContext context) {
-    var containerColor = ColorManager.primary.withOpacity(0.17);
+    var containerColor = ColorManager.primary.withValues(alpha: 0.17);
     var textColor = ColorManager.primary;
     String text = 'Admin';
     switch (userRole) {
       case 'admin':
-        containerColor = Colors.redAccent.withOpacity(0.17);
+        containerColor = Colors.redAccent.withValues(alpha: 0.17);
         textColor = Colors.redAccent;
         text = 'Admin';
         break;
       case 'developer':
-        containerColor = Colors.orange.withOpacity(0.17);
+        containerColor = Colors.orange.withValues(alpha: 0.17);
         textColor = Colors.orange;
         text = 'Developer';
         break;
       case 'member':
-        containerColor = ColorManager.primary.withOpacity(0.17);
+        containerColor = ColorManager.primary.withValues(alpha: 0.17);
         textColor = ColorManager.primary;
         text = 'Member';
         break;

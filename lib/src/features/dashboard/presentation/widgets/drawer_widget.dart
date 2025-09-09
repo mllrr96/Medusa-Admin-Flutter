@@ -201,8 +201,8 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             BlocBuilder<AppUpdateBloc, AppUpdateState>(
               builder: (context, state) {
-                return state.maybeMap(
-                    updateAvailable: (r) => Padding(
+                return state.maybeWhen(
+                    updateAvailable: (appUpdate) => Padding(
                           padding: const EdgeInsets.fromLTRB(12, 10, 12, 5),
                           child: Stack(
                             children: [
@@ -253,7 +253,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                                'New Update Available ${r.appUpdate.tagName ?? ''}',
+                                                'New Update Available ${appUpdate.tagName ?? ''}',
                                                 style: const TextStyle(
                                                     color: Colors.white)),
                                             Text('Tap to install',

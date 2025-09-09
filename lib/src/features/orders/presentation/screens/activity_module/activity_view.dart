@@ -30,10 +30,10 @@
 //   late Dio dio;
 //   late BatchJobCrudBloc batchJobCrudBloc;
 //
-//   void _loadPage(int _) {
+//   void _loadPage(int page) {
 //     batchJobCrudBloc.add(
 //       BatchJobCrudEvent.loadAll(queryParameters: {
-//         'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+//         'offset': page == 0 ? 0 : pagingController.itemList?.length,
 //       }),
 //     );
 //   }

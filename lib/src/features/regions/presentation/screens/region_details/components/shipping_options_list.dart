@@ -57,7 +57,7 @@ class _ShippingOptionsListState extends State<ShippingOptionsList> {
         });
       },
       builder: (context, state) {
-        return state.maybeMap(
+        return state.maybeWhen(
             // loading: (_) => Skeletonizer(
             //       child: ShippingOptionCard(
             //         shippingOption: ShippingOption(
@@ -103,9 +103,7 @@ class _ShippingOptionsListState extends State<ShippingOptionsList> {
                 ],
               );
             },
-            shippingOptions: (state) {
-              final shippingOptions = state.shippingOptions;
-
+            shippingOptions: (shippingOptions,count) {
               return ListView.separated(
                 padding: EdgeInsets.zero,
                 separatorBuilder: (_, __) => const SizedBox(height: 6.0),

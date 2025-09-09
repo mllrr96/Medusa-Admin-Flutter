@@ -42,9 +42,9 @@ class _GroupsViewState extends State<GroupsView> {
     super.initState();
   }
 
-  void _loadPage(int _) {
+  void _loadPage(int page) {
     groupCrudBloc.add(GroupCrudEvent.loadAll(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length,
+      'offset': page == 0 ? 0 : pagingController.itemList?.length,
     }));
   }
 
