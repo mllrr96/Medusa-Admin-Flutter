@@ -16,14 +16,12 @@ class GroupCrudUseCase {
 
   static GroupCrudUseCase get instance => getIt<GroupCrudUseCase>();
 
-  CustomerGroupsRepository get _customerGroupRepository =>
-      _medusaAdmin.customerGroups;
+  CustomerGroupsRepository get _customerGroupRepository => _medusaAdmin.customerGroups;
 
   Future<Result<CustomerGroupsListRes, MedusaError>> retrieveAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result =
-          await _customerGroupRepository.list(queryParameters: queryParameters);
+      final result = await _customerGroupRepository.list(queryParameters: queryParameters);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -32,12 +30,9 @@ class GroupCrudUseCase {
         cause: e,
       ));
     } catch (error, stack) {
-      if (kDebugMode) {
-        log(error.toString());
-        log(stack.toString());
-      }
-      return Error(MedusaError(
-          code: 'unknown', type: 'unknown', message: error.toString()));
+      log(error.toString());
+      log(stack.toString());
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -58,12 +53,9 @@ class GroupCrudUseCase {
         cause: e,
       ));
     } catch (error, stack) {
-      if (kDebugMode) {
-        log(error.toString());
-        log(stack.toString());
-      }
-      return Error(MedusaError(
-          code: 'unknown', type: 'unknown', message: error.toString()));
+      log(error.toString());
+      log(stack.toString());
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -84,12 +76,9 @@ class GroupCrudUseCase {
         cause: e,
       ));
     } catch (error, stack) {
-      if (kDebugMode) {
-        log(error.toString());
-        log(stack.toString());
-      }
-      return Error(MedusaError(
-          code: 'unknown', type: 'unknown', message: error.toString()));
+      log(error.toString());
+      log(stack.toString());
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -107,12 +96,9 @@ class GroupCrudUseCase {
         cause: e,
       ));
     } catch (error, stack) {
-      if (kDebugMode) {
-        log(error.toString());
-        log(stack.toString());
-      }
-      return Error(MedusaError(
-          code: 'unknown', type: 'unknown', message: error.toString()));
+      log(error.toString());
+      log(stack.toString());
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -130,12 +116,9 @@ class GroupCrudUseCase {
         cause: e,
       ));
     } catch (error, stack) {
-      if (kDebugMode) {
-        log(error.toString());
-        log(stack.toString());
-      }
-      return Error(MedusaError(
-          code: 'unknown', type: 'unknown', message: error.toString()));
+      log(error.toString());
+      log(stack.toString());
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -154,12 +137,9 @@ class GroupCrudUseCase {
         cause: e,
       ));
     } catch (error, stack) {
-      if (kDebugMode) {
-        log(error.toString());
-        log(stack.toString());
-      }
-      return Error(MedusaError(
-          code: 'unknown', type: 'unknown', message: error.toString()));
+      log(error.toString());
+      log(stack.toString());
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -175,12 +155,9 @@ class GroupCrudUseCase {
         cause: e,
       ));
     } catch (error, stack) {
-      if (kDebugMode) {
-        log(error.toString());
-        log(stack.toString());
-      }
-      return Error(MedusaError(
-          code: 'unknown', type: 'unknown', message: error.toString()));
+      log(error.toString());
+      log(stack.toString());
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

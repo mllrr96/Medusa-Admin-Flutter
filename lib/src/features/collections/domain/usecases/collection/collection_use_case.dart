@@ -20,7 +20,7 @@ class CollectionUseCase {
     try {
       final result =
           await _collectionsRepository.create(userCreateCollectionReq);
-      return Success(result);
+      return Success(result.collection);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -40,7 +40,7 @@ class CollectionUseCase {
     try {
       final result =
           await _collectionsRepository.update(id, updateCollectionReq);
-      return Success(result);
+      return Success(result.collection);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

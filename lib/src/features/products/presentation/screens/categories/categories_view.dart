@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/src/features/dashboard/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
@@ -53,19 +54,17 @@ class _CategoriesViewState extends State<CategoriesView> {
       listener: (context, state) {
         state.mapOrNull(
           categories: (state) async {
-            final isLastPage =
-                state.categories.length < CategoryCrudBloc.pageSize;
+            final isLastPage = state.categories.length < CategoryCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
+              pagingController.value =
+                  const PagingState(nextPageKey: null, error: null, itemList: null);
               await Future.delayed(const Duration(milliseconds: 250));
             }
             if (isLastPage) {
               pagingController.appendLastPage(state.categories);
             } else {
-              final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.categories.length;
+              final nextPageKey = pagingController.nextPageKey ?? 0 + state.categories.length;
               pagingController.appendPage(state.categories, nextPageKey);
             }
             if (refreshController.isRefresh) {
@@ -96,7 +95,29 @@ class _CategoriesViewState extends State<CategoriesView> {
               builderDelegate: PagedChildBuilderDelegate<ProductCategory>(
                   animateTransitions: true,
                   itemBuilder: (context, category, index) => ListTile(
-                        title: Text(category.name ?? ''),
+                        onTap: () {},
+                        title: Text(category.name),
+                        subtitle: (category.description?.isNotEmpty ?? false)
+                            ? Text(category.description!)
+                            : null,
+                        trailing: Column(mainAxisSize: MainAxisSize.min, children: [
+                          Text(
+                            category.isActive ? 'Active' : 'Inactive',
+                            style: TextStyle(
+                              color: category.isActive ? Colors.green : Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                           const Gap(4),
+                           Text(
+                            category.isInternal ? 'Internal' : 'Public',
+                            style: TextStyle(
+                              color: category.isActive ? Colors.green : Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                        ]),
                       ),
                   firstPageProgressIndicatorBuilder: (context) =>
                       const Center(child: CircularProgressIndicator.adaptive()),

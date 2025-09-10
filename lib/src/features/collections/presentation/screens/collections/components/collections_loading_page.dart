@@ -15,7 +15,6 @@ class CollectionsLoadingPage extends StatelessWidget {
         title: 'Collection',
         handle: 'medusa',
         updatedAt: DateTime.now(),
-        products: [],
         id: '');
     return Skeletonizer(
       enabled: true,

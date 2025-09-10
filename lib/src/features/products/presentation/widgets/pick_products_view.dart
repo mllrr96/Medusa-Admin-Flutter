@@ -18,6 +18,7 @@ import '../screens/products/components/products_loading_page.dart';
 @RoutePage()
 class PickProductsView extends StatefulWidget {
   const PickProductsView({super.key, this.pickProductsReq});
+
   final PickProductsReq? pickProductsReq;
 
   @override
@@ -25,25 +26,23 @@ class PickProductsView extends StatefulWidget {
 }
 
 class _PickProductsViewState extends State<PickProductsView> {
-  PickProductsReq get pickProductsReq =>
-      widget.pickProductsReq ?? PickProductsReq();
+  PickProductsReq get pickProductsReq => widget.pickProductsReq ?? PickProductsReq();
   List<Product> selectedProducts = [];
-  final pagingController = PagingController<int, Product>(
-      firstPageKey: 0, invisibleItemsThreshold: 3);
+  final pagingController =
+      PagingController<int, Product>(firstPageKey: 0, invisibleItemsThreshold: 3);
   RefreshController refreshController = RefreshController();
   late ProductCrudBloc productsBloc;
 
   void _loadPage(int page) {
     productsBloc.add(ProductCrudEvent.loadAll(queryParameters: {
-      'is_giftcard': false,
+      'fields': 'title,handle,thumbnail,status,variants, is_giftcard, discountable',
       'offset': page == 0 ? 0 : pagingController.itemList?.length,
     }));
   }
 
   @override
   void initState() {
-    selectedProducts =
-        List<Product>.from(pickProductsReq.selectedProducts ?? []);
+    selectedProducts = List<Product>.from(pickProductsReq.selectedProducts ?? []);
     productsBloc = ProductCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
@@ -69,15 +68,14 @@ class _PickProductsViewState extends State<PickProductsView> {
             final isLastPage = state.products.length < ProductCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
+              pagingController.value =
+                  const PagingState(nextPageKey: null, error: null, itemList: null);
               await Future.delayed(const Duration(milliseconds: 250));
             }
             if (isLastPage) {
               pagingController.appendLastPage(state.products);
             } else {
-              final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.products.length;
+              final nextPageKey = pagingController.nextPageKey ?? 0 + state.products.length;
               pagingController.appendPage(state.products, nextPageKey);
             }
             if (refreshController.isRefresh) {
@@ -97,20 +95,13 @@ class _PickProductsViewState extends State<PickProductsView> {
           title: const Text('Products'),
           actions: [
             TextButton(
-                onPressed: selectedProducts
-                        .map((e) => e.id)
-                        .toList()
-                        .listEquals(pickProductsReq.selectedProducts
-                                ?.map((e) => e.id)
-                                .toList() ??
-                            [])
+                onPressed: selectedProducts.map((e) => e.id).toList().listEquals(
+                        pickProductsReq.selectedProducts?.map((e) => e.id).toList() ?? [])
                     ? null
                     : () => context.maybePop(PickProductsRes(
                         selectedProducts: selectedProducts,
-                        deSelectedProducts: [
-                          ...?pickProductsReq.selectedProducts
-                        ]..removeWhere((e) =>
-                            selectedProducts.map((e) => e.id).contains(e.id)))),
+                        deSelectedProducts: [...?pickProductsReq.selectedProducts]
+                          ..removeWhere((e) => selectedProducts.map((e) => e.id).contains(e.id)))),
                 child: const Text('Save'))
           ],
         ),
@@ -134,8 +125,7 @@ class _PickProductsViewState extends State<PickProductsView> {
                   children: [
                     if (pickProductsReq.includeVariantCount)
                       Text('Variants: ${product.variants?.length ?? '0'}',
-                          style: smallTextStyle?.copyWith(
-                              color: enabled ? null : manatee)),
+                          style: smallTextStyle?.copyWith(color: enabled ? null : manatee)),
                     _getStatusIcon(product.status),
                   ],
                 ),
@@ -146,17 +136,13 @@ class _PickProductsViewState extends State<PickProductsView> {
                         child: CachedNetworkImage(
                           key: ValueKey(product.thumbnail!),
                           imageUrl: product.thumbnail!,
-                          placeholder: (context, text) => const Center(
-                              child: CircularProgressIndicator.adaptive()),
-                          errorWidget: (context, string, error) => const Icon(
-                              Icons.warning_rounded,
-                              color: Colors.redAccent),
+                          placeholder: (context, text) =>
+                              const Center(child: CircularProgressIndicator.adaptive()),
+                          errorWidget: (context, string, error) =>
+                              const Icon(Icons.warning_rounded, color: Colors.redAccent),
                         ))
                     : null,
-                value: selectedProducts
-                    .map((e) => e.id)
-                    .toList()
-                    .contains(product.id),
+                value: selectedProducts.map((e) => e.id).toList().contains(product.id),
                 selected: pickProductsReq.selectedProducts
                         ?.map((e) => e.id)
                         .toList()
@@ -173,8 +159,7 @@ class _PickProductsViewState extends State<PickProductsView> {
                 },
               );
             },
-            firstPageProgressIndicatorBuilder: (context) =>
-                const ProductsLoadingPage(),
+            firstPageProgressIndicatorBuilder: (context) => const ProductsLoadingPage(),
             firstPageErrorIndicatorBuilder: (_) =>
                 PaginationErrorPage(pagingController: pagingController),
           ),

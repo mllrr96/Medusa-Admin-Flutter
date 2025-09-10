@@ -27,10 +27,8 @@ class ProductTypeUseCase {
         cause: e,
       ));
     } catch (error, stack) {
-      if (kDebugMode) {
-        log(error.toString());
-        log(stack.toString());
-      }
+      log(error.toString());
+      log(stack.toString());
       return Error(MedusaError(
           code: 'unknown', type: 'unknown', message: error.toString()));
     }

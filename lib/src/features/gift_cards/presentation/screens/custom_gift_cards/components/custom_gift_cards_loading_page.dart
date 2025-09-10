@@ -16,7 +16,7 @@ class CustomGiftCardsLoadingPage extends StatelessWidget {
       value: 10,
       currencyCode: '',
       customerId: '',
-      customer: Customer(id: '', email: ''),
+      customer: Customer(id: '', email: '',hasAccount: false),
       referenceId: '',
       note: 'note',
       reference: 'reference',

@@ -23,7 +23,6 @@ class AddUpdateCustomerView extends StatefulWidget {
 class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
   final firstNameCtrl = TextEditingController();
   final lastNameCtrl = TextEditingController();
-  final passwordCtrl = TextEditingController();
   final emailNameCtrl = TextEditingController();
   final phoneNameCtrl = TextEditingController();
   final keyForm = GlobalKey<FormState>();
@@ -49,7 +48,6 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
     lastNameCtrl.dispose();
     emailNameCtrl.dispose();
     phoneNameCtrl.dispose();
-    passwordCtrl.dispose();
     super.dispose();
   }
 
@@ -66,9 +64,8 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
           },
           customer: (_) {
             dismissLoading();
-            context.showSnackBar(updateMode
-                ? 'Customer updated successfully'
-                : 'Customer created successfully');
+            context.showSnackBar(
+                updateMode ? 'Customer updated successfully' : 'Customer created successfully');
             context.maybePop();
           },
         );
@@ -77,80 +74,23 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
         child: Scaffold(
           appBar: AppBar(
             leading: const CloseButton(),
-            title: updateMode
-                ? const Text('Customer Details')
-                : const Text('Create New Customer'),
+            title: updateMode ? const Text('Customer Details') : const Text('Create New Customer'),
             actions: [
               TextButton(
-                  onPressed: updateMode
-                      ? () {
-                          if (emailNameCtrl.text == customer!.email &&
-                              firstNameCtrl.text ==
-                                  (customer!.firstName ?? '') &&
-                              lastNameCtrl.text == (customer!.lastName ?? '') &&
-                              phoneNameCtrl.text == (customer!.phone ?? '')) {
-                            context.maybePop();
-                            return;
-                          }
-                          if (!keyForm.currentState!.validate()) {
-                            return;
-                          }
-
-                          context
-                              .read<CustomerCrudBloc>()
-                              .add(CustomerCrudEvent.update(
-                                  customer!.id,
-                                  CustomerUpdateReq(
-                                    email:
-                                        emailNameCtrl.text == (customer!.email)
-                                            ? null
-                                            : emailNameCtrl.text,
-                                    firstName: firstNameCtrl.text ==
-                                            (customer!.firstName ?? '')
-                                        ? null
-                                        : firstNameCtrl.text,
-                                    lastName: lastNameCtrl.text ==
-                                            (customer!.lastName ?? '')
-                                        ? null
-                                        : lastNameCtrl.text,
-                                    phone: phoneNameCtrl.text ==
-                                            (customer!.phone ?? '')
-                                        ? null
-                                        : phoneNameCtrl.text,
-                                  )));
-                        }
-                      : () {
-                          if (!keyForm.currentState!.validate()) {
-                            return;
-                          }
-                          context
-                              .read<CustomerCrudBloc>()
-                              .add(CustomerCrudEvent.create(CustomerCreateReq(
-                                email: emailNameCtrl.text,
-                                firstName: firstNameCtrl.text,
-                                lastName: lastNameCtrl.text,
-                                // TODO: Check why no password is needed
-                                // password: passwordCtrl.text,
-                                phone: phoneNameCtrl.text,
-                              )));
-                        },
-                  child:
-                      updateMode ? const Text('Update') : const Text('Create'))
+                  onPressed: updateMode ? _update : _create,
+                  child: updateMode ? const Text('Update') : const Text('Create'))
             ],
           ),
           body: SafeArea(
             child: ListView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               children: [
                 Form(
                   key: keyForm,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                     decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(12.0)),
+                      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
                       color: Theme.of(context).appBarTheme.backgroundColor,
                     ),
                     child: Column(
@@ -160,49 +100,16 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
                         halfSpace,
                         LabeledTextField(
                           label: 'First Name',
-                          required: !updateMode,
                           textCapitalization: TextCapitalization.words,
                           controller: firstNameCtrl,
                           hintText: 'Lebron',
-                          validator: updateMode
-                              ? null
-                              : (val) {
-                                  if (val != null && val.isEmpty) {
-                                    return 'First name is required';
-                                  }
-                                  return null;
-                                },
                         ),
                         LabeledTextField(
                           label: 'Last Name',
-                          required: !updateMode,
                           textCapitalization: TextCapitalization.words,
                           controller: lastNameCtrl,
                           hintText: 'James',
-                          validator: updateMode
-                              ? null
-                              : (val) {
-                                  if (val != null && val.isEmpty) {
-                                    return 'Last name is required';
-                                  }
-                                  return null;
-                                },
                         ),
-                        if (!updateMode)
-                          LabeledTextField(
-                            label: 'Password',
-                            required: !updateMode,
-                            controller: passwordCtrl,
-                            obscureText: true,
-                            hintText: 'Enter strong password',
-                            keyboardType: TextInputType.visiblePassword,
-                            validator: (val) {
-                              if (val != null && val.length < 8) {
-                                return 'Password should be at least 8 characters long';
-                              }
-                              return null;
-                            },
-                          ),
                         const Divider(),
                         const Text('Contact'),
                         halfSpace,
@@ -228,9 +135,7 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
                           controller: phoneNameCtrl,
                           hintText: '+45 42 42 42 42',
                           validator: (val) {
-                            if (val != null &&
-                                val.isNotEmpty &&
-                                !val.isPhoneNumber) {
+                            if (val != null && val.isNotEmpty && !val.isPhoneNumber) {
                               return 'Invalid phone number';
                             }
                             return null;
@@ -246,5 +151,49 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
         ),
       ),
     );
+  }
+
+  void _update() {
+    if (emailNameCtrl.text == customer!.email &&
+        firstNameCtrl.text == (customer!.firstName ?? '') &&
+        lastNameCtrl.text == (customer!.lastName ?? '') &&
+        phoneNameCtrl.text == (customer!.phone ?? '')) {
+      context.maybePop();
+      return;
+    }
+    if (!keyForm.currentState!.validate()) {
+      return;
+    }
+
+    context.read<CustomerCrudBloc>().add(
+          CustomerCrudEvent.update(
+            customer!.id,
+            CustomerUpdateReq(
+              email: emailNameCtrl.text == (customer!.email) ? null : emailNameCtrl.text,
+              firstName:
+                  firstNameCtrl.text == (customer!.firstName ?? '') ? null : firstNameCtrl.text,
+              lastName: lastNameCtrl.text == (customer!.lastName ?? '') ? null : lastNameCtrl.text,
+              phone: phoneNameCtrl.text == (customer!.phone ?? '') ? null : phoneNameCtrl.text,
+            ),
+          ),
+        );
+  }
+
+  void _create() {
+    if (!keyForm.currentState!.validate()) {
+      return;
+    }
+    context.read<CustomerCrudBloc>().add(
+          CustomerCrudEvent.create(
+            CustomerCreateReq(
+              email: emailNameCtrl.text,
+              firstName: firstNameCtrl.text,
+              lastName: lastNameCtrl.text,
+              // TODO: Check why no password is needed
+              // password: passwordCtrl.text,
+              phone: phoneNameCtrl.text,
+            ),
+          ),
+        );
   }
 }

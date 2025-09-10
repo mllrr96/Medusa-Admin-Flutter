@@ -7,12 +7,13 @@ import 'package:medusa_admin/src/features/collections/domain/usecases/collection
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 part 'collection_crud_event.dart';
+
 part 'collection_crud_state.dart';
+
 part 'collection_crud_bloc.freezed.dart';
 
 @injectable
-class CollectionCrudBloc
-    extends Bloc<CollectionCrudEvent, CollectionCrudState> {
+class CollectionCrudBloc extends Bloc<CollectionCrudEvent, CollectionCrudState> {
   CollectionCrudBloc(this.collectionCrudUseCase) : super(const _Initial()) {
     on<_Load>(_load);
     on<_LoadAll>(_loadAll);
@@ -22,6 +23,7 @@ class CollectionCrudBloc
     on<_RemoveProducts>(_removeProducts);
     on<_AddProducts>(_addProducts);
   }
+
   Future<void> _load(
     _Load event,
     Emitter<CollectionCrudState> emit,
@@ -31,8 +33,7 @@ class CollectionCrudBloc
       event.id,
       queryParameters: event.queryParameters,
     );
-    result.when((collection) => emit(_Collection(collection)),
-        (error) => emit(_Error(error)));
+    result.when((collection) => emit(_Collection(collection)), (error) => emit(_Error(error)));
   }
 
   Future<void> _loadAll(
@@ -43,8 +44,7 @@ class CollectionCrudBloc
     final result = await collectionCrudUseCase.getCollections(
       queryParameters: {'limit': pageSize, ...?event.queryParameters},
     );
-    result.when(
-        (response) => emit(_Collections(response.collections, response.count)),
+    result.when((response) => emit(_Collections(response.collections, response.count)),
         (error) => emit(_Error(error)));
   }
 
@@ -56,8 +56,7 @@ class CollectionCrudBloc
     final result = await collectionCrudUseCase.create(
       userCreateCollectionReq: event.payload,
     );
-    result.when((collection) => emit(_Collection(collection)),
-        (error) => emit(_Error(error)));
+    result.when((collection) => emit(_Collection(collection)), (error) => emit(_Error(error)));
   }
 
   Future<void> _update(
@@ -69,8 +68,7 @@ class CollectionCrudBloc
       id: event.id,
       updateCollectionReq: event.payload,
     );
-    result.when((collection) => emit(_Collection(collection)),
-        (error) => emit(_Error(error)));
+    result.when((collection) => emit(_Collection(collection)), (error) => emit(_Error(error)));
   }
 
   Future<void> _delete(
@@ -79,8 +77,7 @@ class CollectionCrudBloc
   ) async {
     emit(const _Loading());
     final result = await collectionCrudUseCase.deleteCollection(event.id);
-    result.when(
-        (success) => emit(const _Deleted()), (error) => emit(_Error(error)));
+    result.when((success) => emit(const _Deleted()), (error) => emit(_Error(error)));
   }
 
   Future<void> _removeProducts(
@@ -88,10 +85,8 @@ class CollectionCrudBloc
     Emitter<CollectionCrudState> emit,
   ) async {
     emit(const _Loading());
-    final result =
-        await collectionCrudUseCase.removeProducts(event.id, event.productIds);
-    result.when((success) => emit(_ProductsRemoved([])),
-        (error) => emit(_Error(error)));
+    final result = await collectionCrudUseCase.removeProducts(event.id, event.productIds);
+    result.when((collection) => emit(_Collection(collection)), (error) => emit(_Error(error)));
   }
 
   Future<void> _addProducts(
@@ -99,13 +94,12 @@ class CollectionCrudBloc
     Emitter<CollectionCrudState> emit,
   ) async {
     emit(const _Loading());
-    final result =
-        await collectionCrudUseCase.removeProducts(event.id, event.productIds);
-    result.when((collection) => emit(_Collection(collection)),
-        (error) => emit(_Error(error)));
+    final result = await collectionCrudUseCase.addProducts(event.id, event.productIds);
+    result.when((collection) => emit(_Collection(collection)), (error) => emit(_Error(error)));
   }
 
   final CollectionCrudUseCase collectionCrudUseCase;
   static int pageSize = 20;
+
   static CollectionCrudBloc get instance => getIt<CollectionCrudBloc>();
 }

@@ -36,7 +36,7 @@ class CollectionCrudUseCase {
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _collectionRepository.retrieve(collectionId);
-      return Success(result);
+      return Success(result.collection);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -74,7 +74,7 @@ class CollectionCrudUseCase {
         id,
         productIds,
       );
-      return Success(result);
+      return Success(result.collection);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -94,7 +94,7 @@ class CollectionCrudUseCase {
         id,
         productIds,
       );
-      return Success(result);
+      return Success(result.collection);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -114,7 +114,7 @@ class CollectionCrudUseCase {
     // try {
     //   final result = await _collectionRepository.updateProducts(
     //       userCollectionUpdateProductsReq: userCollectionUpdateProductsReq);
-    //   return Success(result);
+    //   return Success(result.collection);
     // } on DioException catch (e) {
     //   return Error(MedusaError.fromHttp(
     //     status: e.response?.statusCode,
@@ -132,7 +132,7 @@ class CollectionCrudUseCase {
     try {
       final result =
           await _collectionRepository.create(userCreateCollectionReq);
-      return Success(result);
+      return Success(result.collection);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -152,7 +152,7 @@ class CollectionCrudUseCase {
     try {
       final result =
           await _collectionRepository.update(id, updateCollectionReq);
-      return Success(result);
+      return Success(result.collection);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

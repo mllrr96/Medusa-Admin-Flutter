@@ -43,7 +43,7 @@ class _ProductGeneralInformationState extends State<ProductGeneralInformation> {
       handleCtrl.text = widget.product!.handle;
       materialCtrl.text = widget.product!.material ?? '';
       descriptionCtrl.text = widget.product!.description ?? '';
-      discountable = widget.product!.discountable;
+      discountable = widget.product!.discountable ?? false;
     }
     super.initState();
   }

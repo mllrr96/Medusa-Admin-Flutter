@@ -17,7 +17,7 @@ class CustomerCrudBloc extends Bloc<CustomerCrudEvent, CustomerCrudState> {
     on<_LoadAll>(_loadAll);
     on<_Create>(_create);
     on<_Update>(_update);
-    // on<_Delete>(_delete);
+    on<_Delete>(_delete);
   }
   Future<void> _load(
     _Load event,
@@ -60,18 +60,18 @@ class CustomerCrudBloc extends Bloc<CustomerCrudEvent, CustomerCrudState> {
     });
   }
 
-  // Future<void> _delete(
-  //   _Delete event,
-  //   Emitter<CustomerCrudState> emit,
-  // ) async {
-  //   emit(const _Loading());
-  //   final result = await customerCrudUseCase.delete(id: event.id);
-  //   result.when((customer) {
-  //     emit(_Customer(customer));
-  //   }, (error) {
-  //     emit(_Error(error));
-  //   });
-  // }
+  Future<void> _delete(
+    _Delete event,
+    Emitter<CustomerCrudState> emit,
+  ) async {
+    emit(const _Loading());
+    final result = await customerCrudUseCase.delete(event.id);
+    result.when((customer) {
+      emit(_Deleted());
+    }, (error) {
+      emit(_Error(error));
+    });
+  }
 
   Future<void> _loadAll(
     _LoadAll event,

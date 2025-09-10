@@ -12,6 +12,7 @@ import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/features/customers/presentation/bloc/customer_crud/customer_crud_bloc.dart';
+import 'package:medusa_admin/src/features/groups/presentation/bloc/group_crud/group_crud_bloc.dart';
 import 'package:medusa_admin/src/features/orders/presentation/bloc/orders/orders_bloc.dart';
 import 'package:medusa_admin/src/features/orders/presentation/screens/orders/components/order_card.dart';
 import 'package:medusa_admin/src/features/orders/presentation/screens/orders/components/orders_loading_page.dart';
@@ -32,9 +33,13 @@ class CustomerDetailsView extends StatefulWidget {
 class _CustomerDetailsViewState extends State<CustomerDetailsView> {
   final PagingController<int, Order> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
-  late OrdersBloc ordersBloc;
-  late CustomerCrudBloc customerCrudBloc;
+  late final OrdersBloc ordersBloc;
+  late final CustomerCrudBloc customerCrudBloc;
 
+  // TODO: use this to show the groups the customer is in
+  late final GroupCrudBloc groupCrudBloc;
+
+//GET /admin/customer-groups?limit=10&offset=0&fields=%2Bcustomers.id&customers%5Bid%5D=cus_01K4TK4VZMR13CZ2GDVDS3GQ6N
   void _loadPage(int page) {
     ordersBloc.add(OrdersEvent.loadOrders(queryParameters: {
       'offset': page == 0 ? 0 : pagingController.itemList?.length,
@@ -46,6 +51,9 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
   void initState() {
     ordersBloc = OrdersBloc.instance;
     customerCrudBloc = CustomerCrudBloc.instance;
+    groupCrudBloc = GroupCrudBloc.instance;
+    groupCrudBloc
+        .add(GroupCrudEvent.loadAll(queryParameters: {'customers[id]': widget.customerId}));
     customerCrudBloc.add(CustomerCrudEvent.load(widget.customerId));
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
@@ -55,31 +63,45 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
   void dispose() {
     ordersBloc.close();
     customerCrudBloc.close();
+    groupCrudBloc.close();
     pagingController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<OrdersBloc, OrdersState>(
-      bloc: ordersBloc,
-      listener: (context, state) {
-        state.mapOrNull(
-          orders: (state) async {
-            final isLastPage = state.orders.length < OrdersBloc.pageSize;
-            if (isLastPage) {
-              pagingController.appendLastPage(state.orders);
-            } else {
-              final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.orders.length;
-              pagingController.appendPage(state.orders, nextPageKey);
-            }
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<OrdersBloc, OrdersState>(
+          bloc: ordersBloc,
+          listener: (context, state) {
+            state.mapOrNull(
+              orders: (state) async {
+                final isLastPage = state.orders.length < OrdersBloc.pageSize;
+                if (isLastPage) {
+                  pagingController.appendLastPage(state.orders);
+                } else {
+                  final nextPageKey = pagingController.nextPageKey ?? 0 + state.orders.length;
+                  pagingController.appendPage(state.orders, nextPageKey);
+                }
+              },
+              error: (state) {
+                pagingController.error = state.error;
+              },
+            );
           },
-          error: (state) {
-            pagingController.error = state.error;
+        ),
+        BlocListener<CustomerCrudBloc, CustomerCrudState>(
+          bloc: customerCrudBloc,
+          listener: (context, state) {
+            state.whenOrNull(
+              deleted: () {
+                context.pop(true);
+              },
+            );
           },
-        );
-      },
+        ),
+      ],
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
@@ -90,35 +112,44 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                   bloc: customerCrudBloc,
                   builder: (context, state) {
                     return state.maybeWhen(
-                        customer: (customer) => TextButton(
+                        customer: (customer) => IconButton(
                               onPressed: () async {
                                 await showModalActionSheet<int>(
                                     // title: tr.manageCustomer,
                                     title: customer.fullName,
                                     context: context,
                                     actions: <SheetAction<int>>[
+                                      SheetAction(label: context.tr.customerTableEdit, key: 0),
                                       SheetAction(
-                                          label: context.tr.customerTableEdit,
-                                          key: 0),
+                                          label: 'Delete', key: 1, isDestructiveAction: true),
                                     ]).then((value) async {
                                   switch (value) {
                                     case 0:
                                       if (!context.mounted) return;
-                                      final result = await context.pushRoute(
-                                          AddUpdateCustomerRoute(
-                                              customer: customer));
+                                      final result = await context
+                                          .pushRoute(AddUpdateCustomerRoute(customer: customer));
                                       if (result is bool) {
-                                        customerCrudBloc.add(
-                                            CustomerCrudEvent.load(
-                                                widget.customerId));
+                                        customerCrudBloc
+                                            .add(CustomerCrudEvent.load(widget.customerId));
                                       }
                                       break;
                                     case 1:
+                                      if (!context.mounted) return;
+                                      final shouldDelete = await showOkCancelAlertDialog(
+                                        context: context,
+                                        title: '${'Delete'} ${customer.fullName}?',
+                                        message: 'This action cannot be undone.',
+                                        okLabel: 'Delete',
+                                        isDestructiveAction: true,
+                                      );
+                                      if (shouldDelete == OkCancelResult.ok) {
+                                        customerCrudBloc.add(CustomerCrudEvent.delete(customer.id));
+                                      }
                                       break;
                                   }
                                 });
                               },
-                              child: const Text('Edit'),
+                              icon: Icon(Icons.more_vert),
                             ),
                         orElse: () => const SizedBox.shrink());
                   },
@@ -135,16 +166,12 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                           delegate: Delegate(
                               customer,
                               ordersBloc.state.mapOrNull(
-                                      orders: (state) => state.count > 0
-                                          ? state.count
-                                          : null) ??
+                                      orders: (state) => state.count > 0 ? state.count : null) ??
                                   0, onUpdateDone: () {
-                            customerCrudBloc
-                                .add(CustomerCrudEvent.load(widget.customerId));
+                            customerCrudBloc.add(CustomerCrudEvent.load(widget.customerId));
                           }),
                         ),
-                    error: (e) => SliverToBoxAdapter(
-                        child: Center(child: Text(e.toString()))),
+                    error: (e) => SliverToBoxAdapter(child: Center(child: Text(e.toString()))),
                     loading: () => SliverPersistentHeader(
                           pinned: true,
                           delegate: Delegate(
@@ -152,12 +179,12 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                                 email: 'Medusa@js.com',
                                 createdAt: DateTime.now(),
                                 id: '',
+                                hasAccount: false,
                               ),
                               0,
                               isSkeleton: true),
                         ),
-                    orElse: () =>
-                        const SliverToBoxAdapter(child: SizedBox.shrink()));
+                    orElse: () => const SliverToBoxAdapter(child: SizedBox.shrink()));
               },
             ),
             SliverSafeArea(
@@ -185,12 +212,10 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                     //   },
                     // ),
                   ),
-                  noItemsFoundIndicatorBuilder: (_) =>
-                      const Center(child: Text('No orders yet')),
+                  noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No orders yet')),
                   firstPageErrorIndicatorBuilder: (_) =>
                       PaginationErrorPage(pagingController: pagingController),
-                  firstPageProgressIndicatorBuilder: (context) =>
-                      const OrdersLoadingPage(),
+                  firstPageProgressIndicatorBuilder: (context) => const OrdersLoadingPage(),
                 ),
               ),
             ),
@@ -207,12 +232,10 @@ class Delegate extends SliverPersistentHeaderDelegate {
   final bool isSkeleton;
   final void Function()? onUpdateDone;
 
-  Delegate(this.customer, this.ordersCount,
-      {this.isSkeleton = false, this.onUpdateDone});
+  Delegate(this.customer, this.ordersCount, {this.isSkeleton = false, this.onUpdateDone});
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
@@ -234,8 +257,7 @@ class Delegate extends SliverPersistentHeaderDelegate {
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        ColorManager.getAvatarColor(customer.email),
+                    backgroundColor: ColorManager.getAvatarColor(customer.email),
                     child: Text(
                         customer.firstName == null
                             ? customer.email[0].toUpperCase()
@@ -244,10 +266,7 @@ class Delegate extends SliverPersistentHeaderDelegate {
                   ),
                   const Gap(12.0),
                   Flexible(
-                    child: Text(
-                        customer.fullName != null
-                            ? customer.fullName!
-                            : customer.email,
+                    child: Text(customer.fullName != null ? customer.fullName! : customer.email,
                         style: mediumTextStyle),
                   ),
                 ],

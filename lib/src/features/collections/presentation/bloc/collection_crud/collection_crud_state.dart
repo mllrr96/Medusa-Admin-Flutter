@@ -10,6 +10,4 @@ class CollectionCrudState with _$CollectionCrudState {
       List<ProductCollection> collections, int count) = _Collections;
   const factory CollectionCrudState.error(MedusaError failure) = _Error;
   const factory CollectionCrudState.deleted() = _Deleted;
-  const factory CollectionCrudState.productsRemoved(List<String> ids) =
-      _ProductsRemoved;
 }

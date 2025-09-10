@@ -13,6 +13,22 @@ class CustomerCrudUseCase {
   CustomerCrudUseCase(this._medusaAdminV2);
   static CustomerCrudUseCase get instance => getIt<CustomerCrudUseCase>();
 
+  Future<Result<CustomerDeleteRes, MedusaError>> delete(
+      String id) async {
+    try {
+      final result = await _customerRepository.delete(id);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error) {
+      return Error(MedusaError(
+          code: 'unknown', type: 'unknown', message: error.toString()));
+    }
+  }
   Future<Result<Customer, MedusaError>> create(
       CustomerCreateReq userCreateCustomerReq) async {
     try {

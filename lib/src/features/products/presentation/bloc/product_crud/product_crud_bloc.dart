@@ -27,7 +27,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     _Load event,
     Emitter<ProductCrudState> emit,
   ) async {
-    emit(_Loading(id: event.id));
+    emit(ProductCrudLoading(id: event.id));
     final result = await productCrudUseCase.fetchProduct(
       event.id,
       // queryParameters: {
@@ -35,9 +35,9 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
       // },
     );
     result.when((product) {
-      emit(_Product(product));
+      emit(ProductCrudProduct(product));
     }, (error) {
-      emit(_Error(error));
+      emit(ProductCrudError(error));
     });
   }
 
@@ -45,7 +45,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     _LoadAll event,
     Emitter<ProductCrudState> emit,
   ) async {
-    emit(const _Loading());
+    emit(const ProductCrudLoading());
     final result = await productCrudUseCase.fetchProducts(
       queryParameters: {
         'limit': pageSize,
@@ -53,9 +53,9 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
       },
     );
     result.when((response) {
-      emit(_Products(response.products, response.count));
+      emit(ProductCrudProducts(response.products, response.count));
     }, (error) {
-      emit(_Error(error));
+      emit(ProductCrudError(error));
     });
   }
 
@@ -63,7 +63,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     _LoadProductVariants event,
     Emitter<ProductCrudState> emit,
   ) async {
-    emit(_Loading(id: event.id));
+    emit(ProductCrudLoading(id: event.id));
     final result = await productCrudUseCase.fetchVariants(
       event.id,
       // queryParameters: {
@@ -71,9 +71,9 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
       // },
     );
     result.when((result) {
-      emit(_ProductVariants(result.variants));
+      emit(ProductCrudProductVariants(result.variants));
     }, (error) {
-      emit(_Error(error));
+      emit(ProductCrudError(error));
     });
   }
 
@@ -81,13 +81,13 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     _Create event,
     Emitter<ProductCrudState> emit,
   ) async {
-    emit(const _Loading());
+    emit(const ProductCrudLoading());
     final result =
         await productCrudUseCase.createProduct(payload: event.payload);
     result.when((product) {
-      emit(_Product(product));
+      emit(ProductCrudProduct(product));
     }, (error) {
-      emit(_Error(error));
+      emit(ProductCrudError(error));
     });
   }
 
@@ -95,12 +95,12 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     _Delete event,
     Emitter<ProductCrudState> emit,
   ) async {
-    emit(_Loading(id: event.id));
+    emit(ProductCrudLoading(id: event.id));
     final result = await productCrudUseCase.deleteProduct(id: event.id);
     result.when((success) {
-      emit(const _Deleted());
+      emit(const ProductCrudDeleted());
     }, (error) {
-      emit(_Error(error));
+      emit(ProductCrudError(error));
     });
   }
 
@@ -108,13 +108,13 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     _Update event,
     Emitter<ProductCrudState> emit,
   ) async {
-    emit(_Loading(id: event.id));
+    emit(ProductCrudLoading(id: event.id));
     final result = await productCrudUseCase.updateProduct(
         id: event.id, payload: event.payload);
     result.when((success) {
-      emit(_Updated(success));
+      emit(ProductCrudUpdated(success));
     }, (error) {
-      emit(_Error(error));
+      emit(ProductCrudError(error));
     });
   }
 

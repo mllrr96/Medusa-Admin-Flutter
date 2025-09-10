@@ -7,6 +7,7 @@ import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/medusa_model_extension.dart';
 import 'package:medusa_admin/src/core/extensions/string_extension.dart';
+
 // import 'package:medusa_admin/src/core/extension/copy_with_address.dart';import 'package:medusa_admin/src/core/extensions/medusa_model_extension.dart';import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
@@ -19,19 +20,19 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 class CreateDraftOrderAddressView extends StatefulWidget {
   const CreateDraftOrderAddressView(this.countries, {super.key, this.onSaved});
+
   final List<Country> countries;
   final void Function(
     Customer customer,
     Address shippingAddress,
     Address billingAddress,
   )? onSaved;
+
   @override
-  State<CreateDraftOrderAddressView> createState() =>
-      _CreateDraftOrderAddressViewState();
+  State<CreateDraftOrderAddressView> createState() => _CreateDraftOrderAddressViewState();
 }
 
-class _CreateDraftOrderAddressViewState
-    extends State<CreateDraftOrderAddressView> {
+class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressView> {
   final customerCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
 
@@ -60,23 +61,14 @@ class _CreateDraftOrderAddressViewState
   final billingPostalCodeCtrl = TextEditingController();
   final billingCityCtrl = TextEditingController();
   final billingProvinceCtrl = TextEditingController();
-  Address shippingAddress = const Address(
-      id: '',
-      address1: '',
-      city: '',
-      countryCode: '',
-      province: '',
-      postalCode: '');
-  Address billingAddress = const Address(
-      id: '',
-      address1: '',
-      city: '',
-      countryCode: '',
-      province: '',
-      postalCode: '');
+  Address shippingAddress =
+      const Address(id: '', address1: '', city: '', countryCode: '', province: '', postalCode: '');
+  Address billingAddress =
+      const Address(id: '', address1: '', city: '', countryCode: '', province: '', postalCode: '');
   Customer? selectedCustomer;
   bool customCustomer = true;
   bool sameAddress = false;
+
   List<Country> get countries => widget.countries;
 
   @override
@@ -121,9 +113,7 @@ class _CreateDraftOrderAddressViewState
           onTap: () async {
             final result = await context.pushRoute(PickCustomerRoute(
                 pickCustomerReq: PickCustomerReq(
-                    selectedCustomers: selectedCustomer != null
-                        ? [selectedCustomer!]
-                        : null)));
+                    selectedCustomers: selectedCustomer != null ? [selectedCustomer!] : null)));
             if (result is PickCustomerRes) {
               final customer = result.selectedCustomers.first;
               selectedCustomer = customer;
@@ -154,13 +144,11 @@ class _CreateDraftOrderAddressViewState
                 : const Icon(Icons.arrow_drop_down),
           ),
           validator: (val) {
-            if (emailCtrl.text.removeAllWhitespace.isNotEmpty &&
-                (val?.isEmpty ?? true)) {
+            if (emailCtrl.text.removeAllWhitespace.isNotEmpty && (val?.isEmpty ?? true)) {
               return null;
             }
 
-            if (emailCtrl.text.removeAllWhitespace.isEmpty &&
-                (val?.isEmpty ?? true)) {
+            if (emailCtrl.text.removeAllWhitespace.isEmpty && (val?.isEmpty ?? true)) {
               return 'Field is required';
             }
 
@@ -169,14 +157,17 @@ class _CreateDraftOrderAddressViewState
         ),
         LabeledTextField(
           label: 'Email',
-          style:
-              customCustomer ? null : smallTextStyle?.copyWith(color: manatee),
+          style: customCustomer ? null : smallTextStyle?.copyWith(color: manatee),
           onChanged: (val) {
             if (!customCustomer && selectedCustomer == null) {
               customCustomer = true;
             }
             if (val.removeAllWhitespace.isNotEmpty) {
-              selectedCustomer = Customer(email: val, id: '');
+              selectedCustomer = Customer(
+                email: val,
+                id: '',
+                hasAccount: false,
+              );
             }
           },
           validator: (val) {
@@ -199,9 +190,8 @@ class _CreateDraftOrderAddressViewState
           readOnly: !customCustomer,
           hintText: 'lebron@james.com',
           decoration: InputDecoration(
-              prefixIcon: customCustomer
-                  ? null
-                  : const Icon(CupertinoIcons.lock_fill, color: manatee)),
+              prefixIcon:
+                  customCustomer ? null : const Icon(CupertinoIcons.lock_fill, color: manatee)),
         ),
         space,
         const Text('Shipping Details'),
@@ -350,8 +340,7 @@ class _CreateDraftOrderAddressViewState
                     Row(
                       children: [
                         Text('Country', style: mediumTextStyle),
-                        Text('*',
-                            style: mediumTextStyle?.copyWith(color: Colors.red))
+                        Text('*', style: mediumTextStyle?.copyWith(color: Colors.red))
                       ],
                     ),
                     halfSpace,
@@ -406,12 +395,7 @@ class _CreateDraftOrderAddressViewState
               billingProvinceCtrl.clear();
             } else {
               billingAddress = const Address(
-                  id: '',
-                  address1: '',
-                  city: '',
-                  countryCode: '',
-                  province: '',
-                  postalCode: '');
+                  id: '', address1: '', city: '', countryCode: '', province: '', postalCode: '');
               sameAddress = false;
             }
             setState(() {});
@@ -588,8 +572,7 @@ class _CreateDraftOrderAddressViewState
                     Row(
                       children: [
                         Text('Country', style: mediumTextStyle),
-                        Text('*',
-                            style: mediumTextStyle?.copyWith(color: Colors.red))
+                        Text('*', style: mediumTextStyle?.copyWith(color: Colors.red))
                       ],
                     ),
                     halfSpace,

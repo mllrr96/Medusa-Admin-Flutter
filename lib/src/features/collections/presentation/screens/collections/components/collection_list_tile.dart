@@ -30,9 +30,9 @@ class CollectionListTile extends StatelessWidget {
           children: [
             if (collection.updatedAt != null)
               Text(collection.updatedAt.formatDate(), style: smallTextStyle),
-            if (collection.products != null)
-              Text('Products: ${collection.products?.length ?? ''}',
-                  style: smallTextStyle),
+            // if (collection.products != null)
+            //   Text('Products: ${collection.products?.length ?? ''}',
+            //       style: smallTextStyle),
           ],
         ),
       ),
