@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/src/core/di/di.dart';
 import 'package:medusa_admin/src/core/error/medusa_error.dart';
@@ -38,7 +36,7 @@ class GroupCrudUseCase {
 
   Future<Result<CustomerGroup, MedusaError>> removeCustomers(
       {required String id,
-      required AddCustomersToGroupReq customerIds,
+        required List<String> customerIds,
       Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _customerGroupRepository.removeCustomers(
@@ -61,7 +59,7 @@ class GroupCrudUseCase {
 
   Future<Result<CustomerGroup, MedusaError>> addCustomers({
     required String id,
-    required AddCustomersToGroupReq customerIds,
+    required List<String> customerIds,
   }) async {
     try {
       final result = await _customerGroupRepository.addCustomers(

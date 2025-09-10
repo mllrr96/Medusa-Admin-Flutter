@@ -7,7 +7,9 @@ import 'package:medusa_admin/src/features/groups/domain/usecases/group/group_cru
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 part 'group_crud_event.dart';
+
 part 'group_crud_state.dart';
+
 part 'group_crud_bloc.freezed.dart';
 
 @injectable
@@ -21,6 +23,7 @@ class GroupCrudBloc extends Bloc<GroupCrudEvent, GroupCrudState> {
     on<_AddCustomers>(_addCustomers);
     on<_RemoveCustomers>(_removeCustomers);
   }
+
   Future<void> _load(_Load event, Emitter<GroupCrudState> emit) async {
     emit(const _Loading());
     final result = await groupCrudUseCase.retrieve(id: event.id);
@@ -29,56 +32,47 @@ class GroupCrudBloc extends Bloc<GroupCrudEvent, GroupCrudState> {
 
   Future<void> _loadAll(_LoadAll event, Emitter<GroupCrudState> emit) async {
     emit(const _Loading());
-    final result = await groupCrudUseCase.retrieveAll(
-        queryParameters: event.queryParameters);
-    result.when(
-        (response) => emit(_Groups(response.customerGroups, response.count)),
+    final result = await groupCrudUseCase.retrieveAll(queryParameters: event.queryParameters);
+    result.when((response) => emit(_Groups(response.customerGroups, response.count)),
         (error) => emit(_Error(error)));
   }
 
   Future<void> _create(_Create event, Emitter<GroupCrudState> emit) async {
     emit(const _Loading());
     final result = await groupCrudUseCase.create(
-        payload:
-            CreateCustomerGroupReq(name: event.name, metadata: event.metadata));
+        payload: CreateCustomerGroupReq(name: event.name, metadata: event.metadata));
     result.when((group) => emit(_Group(group)), (error) => emit(_Error(error)));
   }
 
   Future<void> _delete(_Delete event, Emitter<GroupCrudState> emit) async {
     emit(const _Loading());
     final result = await groupCrudUseCase.delete(id: event.id);
-    result.when(
-        (group) => emit(const _Deleted()), (error) => emit(_Error(error)));
+    result.when((group) => emit(const _Deleted()), (error) => emit(_Error(error)));
   }
 
   Future<void> _update(_Update event, Emitter<GroupCrudState> emit) async {
     emit(const _Loading());
     final result = await groupCrudUseCase.update(
-        id: event.id,
-        payload:
-            UpdateCustomerGroupReq(name: event.name, metadata: event.metadata));
+        id: event.id, payload: UpdateCustomerGroupReq(name: event.name, metadata: event.metadata));
     result.when((group) => emit(_Group(group)), (error) => emit(_Error(error)));
   }
 
-  Future<void> _addCustomers(
-      _AddCustomers event, Emitter<GroupCrudState> emit) async {
+  Future<void> _addCustomers(_AddCustomers event, Emitter<GroupCrudState> emit) async {
     emit(const _Loading());
     final result = await groupCrudUseCase.addCustomers(
-        id: event.id,
-        customerIds: AddCustomersToGroupReq(customerIds: event.customerIds));
+        id: event.id, customerIds: event.customerIds);
     result.when((group) => emit(_Group(group)), (error) => emit(_Error(error)));
   }
 
-  Future<void> _removeCustomers(
-      _RemoveCustomers event, Emitter<GroupCrudState> emit) async {
+  Future<void> _removeCustomers(_RemoveCustomers event, Emitter<GroupCrudState> emit) async {
     emit(const _Loading());
     final result = await groupCrudUseCase.removeCustomers(
-        id: event.id,
-        customerIds: AddCustomersToGroupReq(customerIds: event.customerIds));
+        id: event.id, customerIds: event.customerIds);
     result.when((group) => emit(_Group(group)), (error) => emit(_Error(error)));
   }
 
   final GroupCrudUseCase groupCrudUseCase;
+
   static GroupCrudBloc get instance => getIt<GroupCrudBloc>();
   static const int pageSize = 10;
 }

@@ -45,6 +45,7 @@ class _GroupsViewState extends State<GroupsView> {
   void _loadPage(int page) {
     groupCrudBloc.add(GroupCrudEvent.loadAll(queryParameters: {
       'offset': page == 0 ? 0 : pagingController.itemList?.length,
+      'fields': 'id,name,created_at,updated_at',
     }));
   }
 
@@ -66,15 +67,14 @@ class _GroupsViewState extends State<GroupsView> {
             final isLastPage = state.groups.length < GroupCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
+              pagingController.value =
+                  const PagingState(nextPageKey: null, error: null, itemList: null);
               await Future.delayed(const Duration(milliseconds: 250));
             }
             if (isLastPage) {
               pagingController.appendLastPage(state.groups);
             } else {
-              final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.groups.length;
+              final nextPageKey = pagingController.nextPageKey ?? 0 + state.groups.length;
               pagingController.appendPage(state.groups, nextPageKey);
             }
             if (refreshController.isRefresh) {
@@ -99,8 +99,7 @@ class _GroupsViewState extends State<GroupsView> {
               const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SearchFloatingActionButton(
-                      searchCategory: SearchCategory.groups),
+                  SearchFloatingActionButton(searchCategory: SearchCategory.groups),
                   Gap(4.0),
                 ],
               ),
@@ -110,8 +109,7 @@ class _GroupsViewState extends State<GroupsView> {
                 label: const Text('New Group'),
                 icon: const Icon(Icons.group_add),
                 onPressed: () async {
-                  final result =
-                      await context.pushRoute(CreateUpdateGroupRoute());
+                  final result = await context.pushRoute(CreateUpdateGroupRoute());
                   if (result is bool && result) {
                     pagingController.refresh();
                   }
@@ -123,13 +121,13 @@ class _GroupsViewState extends State<GroupsView> {
             child: NestedScrollView(
               headerSliverBuilder: (context, innerBoxIsScrolled) => [
                 MedusaSliverAppBar(
-                  title: Builder(builder: (context) {
-                    final groupsCount = groupCrudBloc.state
-                        .mapOrNull(groups: (state) => state.count);
-                    return Text(
-                        groupsCount != 0 ? 'Groups ($groupsCount)' : 'Groups',
-                        overflow: TextOverflow.ellipsis);
-                  }),
+                  title: BlocBuilder<GroupCrudBloc, GroupCrudState>(
+                      bloc: groupCrudBloc,
+                      builder: (context, state) {
+                        final groupsCount = state.mapOrNull(groups: (state) => state.count);
+                        return Text(groupsCount != 0 ? 'Groups ($groupsCount)' : 'Groups',
+                            overflow: TextOverflow.ellipsis);
+                      }),
                 ),
               ],
               body: SmartRefresher(
@@ -152,8 +150,7 @@ class _GroupsViewState extends State<GroupsView> {
                         pagingController.refresh();
                       },
                     ),
-                    firstPageProgressIndicatorBuilder: (context) =>
-                        const GroupsLoadingPage(),
+                    firstPageProgressIndicatorBuilder: (context) => const GroupsLoadingPage(),
                     firstPageErrorIndicatorBuilder: (context) =>
                         PaginationErrorPage(pagingController: pagingController),
                   ),

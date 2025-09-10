@@ -21,6 +21,7 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 @RoutePage()
 class GroupDetailsView extends StatefulWidget {
   const GroupDetailsView(this.customerGroup, {super.key});
+
   final CustomerGroup customerGroup;
 
   @override
@@ -30,13 +31,13 @@ class GroupDetailsView extends StatefulWidget {
 class _GroupDetailsViewState extends State<GroupDetailsView> {
   final PagingController<int, Customer> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
-  late CustomerCrudBloc customerBloc;
+  late final CustomerCrudBloc customerBloc;
+  late final GroupCrudBloc groupCrudBloc;
 
   void _loadPage(int page) {
     customerBloc.add(
       CustomerCrudEvent.loadAll(queryParameters: {
         'offset': page == 0 ? 0 : pagingController.itemList?.length,
-        'expand': 'groups',
         'groups': [widget.customerGroup.id, ''],
       }),
     );
@@ -45,6 +46,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
   @override
   void initState() {
     customerBloc = CustomerCrudBloc.instance;
+    groupCrudBloc = GroupCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
@@ -52,6 +54,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
   @override
   void dispose() {
     customerBloc.close();
+    groupCrudBloc.close();
     pagingController.dispose();
     super.dispose();
   }
@@ -67,13 +70,11 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
           listener: (context, state) {
             state.mapOrNull(
               customers: (state) async {
-                final isLastPage =
-                    state.customers.length < CustomerCrudBloc.pageSize;
+                final isLastPage = state.customers.length < CustomerCrudBloc.pageSize;
                 if (isLastPage) {
                   pagingController.appendLastPage(state.customers);
                 } else {
-                  final nextPageKey =
-                      pagingController.nextPageKey! + state.customers.length;
+                  final nextPageKey = pagingController.nextPageKey! + state.customers.length;
                   pagingController.appendPage(state.customers, nextPageKey);
                 }
               },
@@ -84,6 +85,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
           },
         ),
         BlocListener<GroupCrudBloc, GroupCrudState>(
+          bloc: groupCrudBloc,
           listener: (context, state) {
             state.mapOrNull(
               loading: (_) => loading(),
@@ -98,7 +100,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
               deleted: (deleted) {
                 dismissLoading();
                 context.showSnackBar('Group deleted successfully');
-                context.router.popForced();
+                context.router.pop();
               },
             );
           },
@@ -106,7 +108,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
       ],
       child: Scaffold(
           floatingActionButton: FloatingActionButton.extended(
-            onPressed: () async => await addCustomers(),
+            onPressed: addCustomers,
             label: const Text('Add Customers'),
             icon: const Icon(CupertinoIcons.person_add_solid),
           ),
@@ -114,28 +116,25 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
             slivers: [
               SliverAppBar(
                 pinned: true,
-                title: Text(widget.customerGroup.name ?? ''),
+                title: Text(widget.customerGroup.name),
                 actions: [
                   IconButton(
                       padding: const EdgeInsets.all(16),
                       onPressed: () async {
                         await showModalActionSheet<int>(
                             title: 'Manage group',
-                            message: widget.customerGroup.name ?? '',
+                            message: widget.customerGroup.name,
                             context: context,
                             actions: <SheetAction<int>>[
                               const SheetAction(label: 'Edit', key: 0),
-                              const SheetAction(
-                                  label: 'Delete',
-                                  isDestructiveAction: true,
-                                  key: 1),
+                              const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
                             ]).then((result) async {
                           switch (result) {
                             case 0:
                               if (!context.mounted) return;
                               await context
-                                  .pushRoute(CreateUpdateGroupRoute(
-                                      customerGroup: widget.customerGroup))
+                                  .pushRoute(
+                                      CreateUpdateGroupRoute(customerGroup: widget.customerGroup))
                                   .then((value) {
                                 if (value is CustomerGroup) {
                                   // customerGroup = value;
@@ -146,9 +145,9 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                               break;
                             case 1:
                               if (await removeCustomer && context.mounted) {
-                                context.read<GroupCrudBloc>().add(
-                                    GroupCrudEvent.delete(
-                                        widget.customerGroup.id));
+                                context
+                                    .read<GroupCrudBloc>()
+                                    .add(GroupCrudEvent.delete(widget.customerGroup.id));
                               }
 
                               break;
@@ -165,30 +164,23 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                     itemBuilder: (context, customer, index) {
                       final name = customer.fullName;
                       return ListTile(
-                        onTap: () => context.pushRoute(
-                            CustomerDetailsRoute(customerId: customer.id)),
+                        onTap: () =>
+                            context.pushRoute(CustomerDetailsRoute(customerId: customer.id)),
                         leading: CircleAvatar(
-                          backgroundColor:
-                              ColorManager.getAvatarColor(customer.email),
+                          backgroundColor: ColorManager.getAvatarColor(customer.email),
                           radius: 16,
-                          child: Text(
-                              name?[0].capitalize ??
-                                  customer.email[0].capitalize,
-                              style: largeTextStyle?.copyWith(
-                                  color: Colors.white)),
+                          child: Text(name?[0].capitalize ?? customer.email[0].capitalize,
+                              style: largeTextStyle?.copyWith(color: Colors.white)),
                         ),
                         title: Text(name ?? customer.email),
-                        subtitle: name != null
-                            ? Text(customer.email, style: smallTextStyle)
-                            : null,
+                        subtitle: name != null ? Text(customer.email, style: smallTextStyle) : null,
                         trailing: IconButton(
                             padding: const EdgeInsets.all(16),
                             onPressed: () async {
                               await showModalActionSheet<int>(
                                   context: context,
                                   actions: <SheetAction<int>>[
-                                    const SheetAction(
-                                        label: 'Customer details', key: 0),
+                                    const SheetAction(label: 'Customer details', key: 0),
                                     const SheetAction(
                                         label: 'Delete from the group',
                                         isDestructiveAction: true,
@@ -197,8 +189,8 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                                 switch (result) {
                                   case 0:
                                     if (!context.mounted) return;
-                                    context.pushRoute(CustomerDetailsRoute(
-                                        customerId: customer.id));
+                                    context
+                                        .pushRoute(CustomerDetailsRoute(customerId: customer.id));
                                     break;
                                   case 1:
                                     if (!context.mounted) return;
@@ -213,10 +205,8 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                                         .then((value) async {
                                       if (value == OkCancelResult.ok) {
                                         if (!context.mounted) return;
-                                        context.read<GroupCrudBloc>().add(
-                                            GroupCrudEvent.removeCustomers(
-                                                widget.customerGroup.id,
-                                                [customer.id]));
+                                        groupCrudBloc.add(GroupCrudEvent.removeCustomers(
+                                            widget.customerGroup.id, [customer.id]));
                                       }
                                     });
 
@@ -228,12 +218,11 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                       );
                     },
                     firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(
-                            child: CircularProgressIndicator.adaptive()),
+                        const Center(child: CircularProgressIndicator.adaptive()),
                     firstPageErrorIndicatorBuilder: (_) =>
                         PaginationErrorPage(pagingController: pagingController),
-                    noItemsFoundIndicatorBuilder: (context) => const Center(
-                        child: Text('No customers in this group yet'))),
+                    noItemsFoundIndicatorBuilder: (context) =>
+                        const Center(child: Text('No customers in this group yet'))),
               ),
             ],
           )),
@@ -255,18 +244,14 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
     }
     final pickCustomerReq = await context.pushRoute(PickCustomerRoute(
         pickCustomerReq: PickCustomerReq(
-            multipleSelection: true,
-            selectedCustomers: pagingController.value.itemList)));
+            multipleSelection: true, selectedCustomers: pagingController.value.itemList)));
     if (pickCustomerReq == null) {
       return;
     }
-    final newCustomers = (pickCustomerReq as PickCustomerRes)
-        .selectedCustomers
-        .map((e) => e.id)
-        .toList();
+    final newCustomers =
+        (pickCustomerReq as PickCustomerRes).selectedCustomers.map((e) => e.id).toList();
     if (mounted) {
-      context.read<GroupCrudBloc>().add(
-          GroupCrudEvent.addCustomers(widget.customerGroup.id, newCustomers));
+      groupCrudBloc.add(GroupCrudEvent.addCustomers(widget.customerGroup.id, newCustomers));
     }
   }
 }

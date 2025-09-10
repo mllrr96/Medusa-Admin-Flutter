@@ -14,10 +14,12 @@ class GroupCard extends StatelessWidget {
       required this.index,
       this.onDelete,
       this.afterUpdate});
+
   final CustomerGroup customerGroup;
   final int index;
   final void Function()? onDelete;
   final void Function()? afterUpdate;
+
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
@@ -32,8 +34,7 @@ class GroupCard extends StatelessWidget {
           SlidableAction(
             onPressed: (_) async {
               await context
-                  .pushRoute(
-                      CreateUpdateGroupRoute(customerGroup: customerGroup))
+                  .pushRoute(CreateUpdateGroupRoute(customerGroup: customerGroup))
                   .then((value) {
                 if (value is CustomerGroup) {
                   afterUpdate?.call();
@@ -67,13 +68,12 @@ class GroupCard extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        onTap: () =>
-            context.pushRoute(GroupDetailsRoute(customerGroup: customerGroup)),
-        tileColor:
-            index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null,
-        title: Text(customerGroup.name ?? '', style: largeTextStyle),
-        subtitle: Text('Members: ${customerGroup.customers?.length ?? ''}',
-            style: smallTextStyle),
+        onTap: () => context.pushRoute(GroupDetailsRoute(customerGroup: customerGroup)),
+        tileColor: index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null,
+        title: Text(customerGroup.name, style: largeTextStyle),
+        subtitle: (customerGroup.customers?.isNotEmpty ?? false)
+            ? Text('Members: ${customerGroup.customers?.length ?? ''}', style: smallTextStyle)
+            : null,
       ),
     );
   }
