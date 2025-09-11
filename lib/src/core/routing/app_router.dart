@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/src/core/utils/enums.dart';
+import 'package:medusa_admin/src/features/campaigns/presentation/screens/campaigns/campaigns_view.dart';
 import 'package:medusa_admin/src/features/customers/data/models/pick_customer_req.dart';
 import 'package:medusa_admin/src/features/groups/data/models/pick_groups_req.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_req.dart';
@@ -115,6 +116,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: CustomersRoute.page),
     AutoRoute(page: GroupsRoute.page),
     AutoRoute(page: PromotionsRoute.page),
+    AutoRoute(page: CampaignsRoute.page),
     AutoRoute(page: ProductGiftCardsRoute.page),
     AutoRoute(page: PricingRoute.page),
     AutoRoute(page: StoreSettingsRoute.page),

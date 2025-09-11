@@ -74,7 +74,7 @@ class RegionCard extends StatelessWidget {
 
   String getCountries() {
     String countries = '';
-    for (Country country in region.countries) {
+    for (Country country in region.countries ?? []) {
       if (countries.isNotEmpty) {
         countries = '$countries, ${country.displayOnStore}';
       } else {
@@ -89,7 +89,7 @@ class RegionCard extends StatelessWidget {
 
   String getPaymentProviders() {
     String paymentProviders = '';
-    for (PaymentProvider payment in region.paymentProviders) {
+    for (PaymentProvider payment in region.paymentProviders ?? []) {
       if (paymentProviders.isNotEmpty) {
         paymentProviders = '$paymentProviders, ${payment.id}';
       } else {

@@ -81,6 +81,11 @@ class _AppDrawerState extends State<AppDrawer> {
         label: Text('Promotions'),
       ),
       const NavigationDrawerDestination(
+        icon: Icon(Icons.campaign),
+        label: Text('Campaigns'),
+      ),
+      divider,
+      const NavigationDrawerDestination(
         icon: Icon(CupertinoIcons.gift),
         label: Text('Gift Cards'),
       ),
@@ -139,46 +144,55 @@ class _AppDrawerState extends State<AppDrawer> {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Row(
                 children: [
+                  BlocBuilder<ThemeCubit, ThemeState>(
+                    builder: (context, state) {
+                      return IconButton(
+                        style: IconButton.styleFrom(
+                          backgroundColor: context
+                              .getAlphaBlend(context.theme.scaffoldBackgroundColor),
+                        ),
+                        padding: const EdgeInsets.all(16.0),
+                        onPressed: () => context
+                            .read<ThemeCubit>()
+                            .updateThemeState(
+                            themeMode: state.themeMode.next),
+                        icon: Icon(state.themeMode.icon),
+                      );
+                    },
+                  ),
+                  const Gap(5.0),
                   Expanded(
-                    child: Container(
-                      height: 56,
-                      decoration: ShapeDecoration(
-                        shape: const StadiumBorder(),
-                        color: context.getAlphaBlend(
-                            context.theme.scaffoldBackgroundColor),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          BlocBuilder<ThemeCubit, ThemeState>(
-                            builder: (context, state) {
-                              return IconButton(
-                                padding: const EdgeInsets.all(16.0),
-                                onPressed: () => context
-                                    .read<ThemeCubit>()
-                                    .updateThemeState(
-                                        themeMode: state.themeMode.next),
-                                icon: Icon(state.themeMode.icon),
-                              );
-                            },
-                          ),
-                          BlocBuilder<StoreBloc, StoreState>(
-                            builder: (context, state) {
-                              final storeName = state.mapOrNull(
-                                  stores: (r) =>
-                                      r.response.stores.firstOrNull?.name);
-                              return Flexible(
-                                child: Text(storeName ?? '',
-                                    style: context.bodyLarge,
-                                    overflow: TextOverflow.ellipsis),
-                              );
-                            },
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: SizedBox(),
-                          ),
-                        ],
+                    child: InkWell(
+                      customBorder: const StadiumBorder(),
+                      onTap: (){
+
+                      },
+                      child: Ink(
+                        height: 56,
+                        decoration: ShapeDecoration(
+                          shape: const StadiumBorder(),
+                          color: context.getAlphaBlend(
+                              context.theme.scaffoldBackgroundColor),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            BlocBuilder<StoreBloc, StoreState>(
+                              builder: (context, state) {
+                                final storeName = state.mapOrNull(
+                                    stores: (r) =>
+                                        r.response.stores.firstOrNull?.name);
+                                return Flexible(
+                                  child: Text(storeName ?? '',
+                                      style: context.bodyLarge,
+                                      overflow: TextOverflow.ellipsis),
+                                );
+                              },
+                            ),
+                            Icon(Icons.arrow_drop_down),
+                          ],
+                        ),
                       ),
                     ),
                   ),

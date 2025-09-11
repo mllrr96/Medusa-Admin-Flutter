@@ -55,7 +55,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
       titleCtrl.text = region!.name;
       defaultTaxRateCtrl.text = region!.taxRate.toString();
       defaultTextCode.text = region!.taxCode.toString();
-      selectedCountries = region!.countries;
+      selectedCountries = region!.countries ?? [];
       // selectedCurrency = context
       //     .read<StoreBloc>()
       //     .state

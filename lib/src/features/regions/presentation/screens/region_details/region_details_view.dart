@@ -149,7 +149,7 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                                   style: mediumTextStyle!
                                       .copyWith(color: manatee)),
                               Text(
-                                  '${region.currencyCode.toUpperCase() ?? '-'} ${region.currencyCode.getCurrencySymbol}',
+                                  '${region.currencyCode?.toUpperCase() ?? '-'} ${region.currencyCode.getCurrencySymbol}',
                                   style: mediumTextStyle),
                             ],
                           ),
@@ -334,27 +334,27 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
   }
 
   String getCountriesText(Region region) {
-    if (region.countries.isEmpty) {
+    if (region.countries?.isEmpty ?? true) {
       return 'No countries configured';
     }
-    if (region.countries.length > 4) {
+    if (region.countries!.length > 4) {
       String result = '';
-      region.countries.take(4).forEach((element) {
+      region.countries!.take(4).forEach((element) {
         if (result.isEmpty) {
-          result = element.name ?? '';
+          result = element.name ;
         } else {
-          result = '$result, ${element.name ?? ''}';
+          result = '$result, ${element.name }';
         }
       });
-      result = '$result +${region.countries.length - 4}';
+      result = '$result +${region.countries!.length - 4}';
       return result;
     } else {
       String result = '';
-      for (var element in region.countries) {
+      for (var element in region.countries!) {
         if (result.isEmpty) {
-          result = element.name ?? '';
+          result = element.name ;
         } else {
-          result = '$result, ${element.name ?? ''}';
+          result = '$result, ${element.name }';
         }
       }
       return result;
@@ -362,24 +362,27 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
   }
 
   String getAllCountriesText(Region region) {
-    if (region.countries.isEmpty) {
+    if (region.countries?.isEmpty ?? true) {
       return 'No countries configured';
     }
 
     String result = '';
-    for (var element in region.countries) {
+    for (var element in region.countries!) {
       if (result.isEmpty) {
-        result = element.name ?? '';
+        result = element.name ;
       } else {
-        result = '$result, ${element.name ?? ''}';
+        result = '$result, ${element.name }';
       }
     }
     return result;
   }
 
   String getPaymentProviders(Region region) {
+    if (region.paymentProviders == null || region.paymentProviders!.isEmpty) {
+      return 'No payment providers configured';
+    }
     String paymentProviders = '';
-    for (PaymentProvider payment in region.paymentProviders) {
+    for (PaymentProvider payment in region.paymentProviders!) {
       if (paymentProviders.isNotEmpty) {
         paymentProviders = '$paymentProviders, ${payment.id}';
       } else {

@@ -49,6 +49,7 @@ class DashboardView extends StatelessWidget {
               CustomersRoute(),
               GroupsRoute(),
               PromotionsRoute(),
+              CampaignsRoute(),
               ProductGiftCardsRoute(),
               PricingRoute(),
               StoreSettingsRoute(),
