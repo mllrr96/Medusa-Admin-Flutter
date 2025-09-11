@@ -163,7 +163,6 @@ enum SearchCategory {
   collections,
   customers,
   groups,
-  giftCards,
   promotions,
   priceLists;
 
@@ -184,10 +183,8 @@ enum SearchCategory {
       case 5:
         return SearchCategory.groups;
       case 6:
-        return SearchCategory.giftCards;
-      case 7:
         return SearchCategory.promotions;
-      case 8:
+      case 7:
         return SearchCategory.priceLists;
 
       default:

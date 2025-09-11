@@ -26,7 +26,7 @@ abstract class MedusaAdminDi {
               break;
             }
             final String? cookie =
-                await secureStorage.read(key: AppConstants.cookieKey);
+            await secureStorage.read(key: AppConstants.cookieKey);
             if (cookie?.isNotEmpty ?? false) {
               options.headers['Cookie'] = cookie;
             }
@@ -37,7 +37,7 @@ abstract class MedusaAdminDi {
               break;
             }
             final String? token =
-                await secureStorage.read(key: AppConstants.tokenKey);
+            await secureStorage.read(key: AppConstants.tokenKey);
             if (token?.isNotEmpty ?? false) {
               options.headers['x-medusa-access-token'] = token;
             }
@@ -47,7 +47,7 @@ abstract class MedusaAdminDi {
               break;
             }
             final String? jwt =
-                await secureStorage.read(key: AppConstants.jwtKey);
+            await secureStorage.read(key: AppConstants.jwtKey);
             if (jwt?.isNotEmpty ?? false) {
               options.headers['Authorization'] = 'Bearer $jwt';
             }
@@ -63,33 +63,33 @@ abstract class MedusaAdminDi {
       }
       final secureStorage = getIt<FlutterSecureStorage>();
       final authType = AuthPreferenceService.authTypeGetter;
-      try {
-        AuthPreferenceService.instance.setIsAuthenticated(false);
-        if (authType == AuthenticationType.cookie) {
-          await secureStorage.delete(key: AppConstants.cookieKey);
-        }
-        // if(authType == AuthenticationType.token && e.requestOptions.path.endsWith('/auth')){
-        //   await secureStorage.delete(key: AppConstants.tokenKey);
-        // }
-        if (authType == AuthenticationType.jwt) {
-          await secureStorage.delete(key: AppConstants.jwtKey);
-        }
-      } catch (_) {}
+      // try {
+      //   AuthPreferenceService.instance.setIsAuthenticated(false);
+      //   if (authType == AuthenticationType.cookie) {
+      //     await secureStorage.delete(key: AppConstants.cookieKey);
+      //   }
+      //   // if(authType == AuthenticationType.token && e.requestOptions.path.endsWith('/auth')){
+      //   //   await secureStorage.delete(key: AppConstants.tokenKey);
+      //   // }
+      //   if (authType == AuthenticationType.jwt) {
+      //     await secureStorage.delete(key: AppConstants.jwtKey);
+      //   }
+      // } catch (_) {}
       handler.next(e);
     },
   );
-  // static Future<void> registerMedusaAdminSingleton() async {
-  //   if (!getIt.isRegistered<MedusaAdminV2>()) {
-  //     getIt.registerLazySingleton<MedusaAdminV2>(
-  //       () => MedusaAdminV2.initialize(
-  //         baseUrl: AuthPreferenceService.baseUrlGetter!,
-  //         interceptors: [authInterceptor, loggerInterceptor],
-  //       ),
-  //     );
-  //   }
-  // }
-  //
-  // static Future<void> resetMedusaAdminSingleton() async {
-  //   await getIt.resetLazySingleton<MedusaAdminV2>();
-  // }
+// static Future<void> registerMedusaAdminSingleton() async {
+//   if (!getIt.isRegistered<MedusaAdminV2>()) {
+//     getIt.registerLazySingleton<MedusaAdminV2>(
+//       () => MedusaAdminV2.initialize(
+//         baseUrl: AuthPreferenceService.baseUrlGetter!,
+//         interceptors: [authInterceptor, loggerInterceptor],
+//       ),
+//     );
+//   }
+// }
+//
+// static Future<void> resetMedusaAdminSingleton() async {
+//   await getIt.resetLazySingleton<MedusaAdminV2>();
+// }
 }

@@ -25,8 +25,6 @@ import 'package:medusa_admin/src/features/customers/presentation/screens/custome
 import 'package:medusa_admin/src/features/dashboard/presentation/screens/dashboard_view.dart';
 import 'package:medusa_admin/src/features/promotions/presentation/screens/add_update_promotion/add_update_promotion_view.dart';
 import 'package:medusa_admin/src/features/draft_orders/presentation/screens/create_draft_order/create_draft_order_view.dart';
-import 'package:medusa_admin/src/features/gift_cards/presentation/screens/create_update_custom_gift_card/create_update_custom_gift_card_view.dart';
-import 'package:medusa_admin/src/features/gift_cards/presentation/screens/custom_gift_cards/custom_gift_cards_view.dart';
 import 'package:medusa_admin/src/features/groups/presentation/screens/add_update_group/create_update_group_view.dart';
 import 'package:medusa_admin/src/features/pricing/presentation/screens/add_update_price_list/add_update_price_list_view.dart';
 import 'package:medusa_admin/src/features/products/presentation/screens/categories/categories_view.dart';
@@ -48,7 +46,6 @@ import 'package:medusa_admin/src/features/orders/presentation/screens/orders/ord
 import 'package:medusa_admin/src/features/draft_orders/presentation/screens/draft_orders/draft_orders_view.dart';
 import 'package:medusa_admin/src/features/products/presentation/screens/products/products_view.dart';
 import 'package:medusa_admin/src/features/promotions/presentation/screens/promotions/promotions_view.dart';
-import 'package:medusa_admin/src/features/gift_cards/presentation/screens/product_gift_cards/product_gift_cards_view.dart';
 import 'package:medusa_admin/src/features/pricing/presentation/screens/pricing_lists/pricing_view.dart';
 import 'package:medusa_admin/src/features/store_settings/presentation/screens/store_settings/store_settings_view.dart';
 import 'package:medusa_admin/src/features/products/presentation/screens/add_update_product/components/image_card.dart';
@@ -117,7 +114,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: GroupsRoute.page),
     AutoRoute(page: PromotionsRoute.page),
     AutoRoute(page: CampaignsRoute.page),
-    AutoRoute(page: ProductGiftCardsRoute.page),
     AutoRoute(page: PricingRoute.page),
     AutoRoute(page: StoreSettingsRoute.page),
     AutoRoute(page: AppSettingsRoute.page),
@@ -172,10 +168,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: DraftOrderDetailsRoute.page),
         AutoRoute(page: PickCustomerRoute.page),
         AutoRoute(page: PickProductVariantsRoute.page),
-
-        // Gift cards module
-        AutoRoute(page: CreateUpdateCustomGiftCardRoute.page),
-        AutoRoute(page: CustomGiftCardsRoute.page),
 
         // Groups module
         AutoRoute(page: GroupDetailsRoute.page),

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/src/core/di/di.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';

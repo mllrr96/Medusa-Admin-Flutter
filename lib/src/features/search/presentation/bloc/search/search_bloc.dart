@@ -19,7 +19,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<_SearchCollections>(_searchCollections);
     on<_SearchCustomers>(_searchCustomers);
     on<_SearchGroups>(_searchGroups);
-    on<_SearchGiftCards>(_searchGiftCards);
     on<_SearchDiscounts>(_searchDiscounts);
     on<_SearchPriceLists>(_searchPriceLists);
     on<_SearchTags>(_searchTags);
@@ -94,18 +93,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         queryParameters: event.queryParameters);
     result.when((response) {
       emit(_Loaded(response.customerGroups, response.count));
-    }, (error) {
-      emit(_Error(error));
-    });
-  }
-
-  Future<void> _searchGiftCards(
-      _SearchGiftCards event, Emitter<SearchState> emit) async {
-    emit(const _Loading());
-    final result = await searchUseCase.fetchGiftCards(
-        queryParameters: event.queryParameters);
-    result.when((response) {
-      emit(_Loaded(response.giftCards, response.count));
     }, (error) {
       emit(_Error(error));
     });

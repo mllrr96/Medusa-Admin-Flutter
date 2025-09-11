@@ -14,8 +14,6 @@ sealed class SearchEvent with _$SearchEvent {
       {Map<String, dynamic>? queryParameters}) = _SearchCustomers;
   const factory SearchEvent.searchGroups(
       {Map<String, dynamic>? queryParameters}) = _SearchGroups;
-  const factory SearchEvent.searchGiftCards(
-      {Map<String, dynamic>? queryParameters}) = _SearchGiftCards;
   const factory SearchEvent.searchDiscounts(
       {Map<String, dynamic>? queryParameters}) = _SearchDiscounts;
   const factory SearchEvent.searchPriceLists(

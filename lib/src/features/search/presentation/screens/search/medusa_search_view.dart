@@ -106,8 +106,6 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                         case SearchCategory.groups:
                           return Divider(
                               height: 0, indent: Platform.isIOS ? 16.0 : 0);
-                        case SearchCategory.giftCards:
-                          return const Divider(height: 0);
                         case SearchCategory.promotions:
                           return const Gap(12.0);
                         case SearchCategory.priceLists:
@@ -153,14 +151,6 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                                 return GroupCard(
                                   customerGroup: object,
                                   index: index,
-                                );
-                              } else {
-                                return const SizedBox();
-                              }
-                            case SearchCategory.giftCards:
-                              if (object is GiftCard) {
-                                return ListTile(
-                                  title: Text(object.code),
                                 );
                               } else {
                                 return const SizedBox();

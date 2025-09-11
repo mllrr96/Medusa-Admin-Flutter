@@ -50,11 +50,6 @@ class SearchChip extends StatelessWidget {
         iconDate = Icons.groups;
         chipColor = Colors.deepOrange;
 
-      case SearchCategory.giftCards:
-        title = 'Gift Cards';
-        iconDate = CupertinoIcons.gift;
-        chipColor = Colors.pink;
-
       case SearchCategory.promotions:
         title = 'Promotions';
         iconDate = Icons.discount_outlined;

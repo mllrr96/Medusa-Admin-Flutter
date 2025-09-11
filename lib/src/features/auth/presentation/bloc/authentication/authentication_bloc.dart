@@ -59,17 +59,17 @@ class AuthenticationBloc
       emit(const _LoggedOut());
       return;
     }
-    final result = await authenticationUseCase.postSession(token);
-    log('Session user : ${result.tryGetSuccess() != null ? 'OK' : 'ERROR'}');
+    // final result = await authenticationUseCase.postSession(token);
+    // log('Session user : ${result.tryGetSuccess() != null ? 'OK' : 'ERROR'}');
     final userResult = await authenticationUseCase.getCurrentUser();
     log('Current user : ${userResult.tryGetSuccess() != null ? 'OK' : 'ERROR'}');
-    if (userResult.isError() || result.isError()) {
+    if (userResult.isError()) {
       authPreferenceService.setIsAuthenticated(false);
       emit(const _LoggedOut());
       return;
     }
     authPreferenceService.setIsAuthenticated(true);
-    result.when((user) => emit(_LoggedIn(userResult.tryGetSuccess()!)),
+    userResult.when((user) => emit(_LoggedIn(user)),
         (error) => emit(_Error(error)));
     // }
   }

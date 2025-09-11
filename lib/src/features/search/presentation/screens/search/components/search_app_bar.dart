@@ -306,7 +306,6 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                     case SearchCategory.collections:
                                     case SearchCategory.customers:
                                     case SearchCategory.groups:
-                                    case SearchCategory.giftCards:
                                     case SearchCategory.promotions:
                                     case SearchCategory.priceLists:
                                   }
@@ -365,7 +364,6 @@ class _SearchAppBarState extends State<SearchAppBar> {
         SearchCategory.draftOrders => false,
         SearchCategory.collections => false,
         SearchCategory.customers => false,
-        SearchCategory.giftCards => false,
         SearchCategory.promotions => false,
       };
 
@@ -383,8 +381,6 @@ class _SearchAppBarState extends State<SearchAppBar> {
         return 'Search for customer name, email, phone number ...';
       case SearchCategory.groups:
         return 'Search for group name';
-      case SearchCategory.giftCards:
-        return 'Search for gift card code, ID';
       case SearchCategory.promotions:
         return 'Search for discount code';
       case SearchCategory.priceLists:
@@ -449,11 +445,6 @@ class _SearchAppBarState extends State<SearchAppBar> {
         context
             .read<SearchBloc>()
             .add(SearchEvent.searchGroups(queryParameters: queryParameters));
-      // -----------------------------------------------------------
-      case SearchCategory.giftCards:
-        context
-            .read<SearchBloc>()
-            .add(SearchEvent.searchGiftCards(queryParameters: queryParameters));
       // -----------------------------------------------------------
       case SearchCategory.promotions:
         context

@@ -18,7 +18,6 @@ class SearchUseCase {
   CustomersRepository get _customerRepository => _medusaAdmin.customers;
   CustomerGroupsRepository get _customerGroupRepository =>
       _medusaAdmin.customerGroups;
-  GiftCardsRepository get _giftCardRepository => _medusaAdmin.giftCards;
   PromotionsRepository get _discountRepository => _medusaAdmin.promotions;
   PriceListsRepository get _priceListRepository => _medusaAdmin.priceLists;
   ProductTagsRepository get _tagRepository => _medusaAdmin.productTags;
@@ -75,27 +74,6 @@ class SearchUseCase {
     try {
       final result = await _productsRepository.retrieveAll(
           queryParameters: queryParameters);
-      return Success(result);
-    } on DioException catch (e) {
-      return Error(MedusaError.fromHttp(
-        status: e.response?.statusCode,
-        body: e.response?.data,
-        cause: e,
-      ));
-    } catch (error, stack) {
-      log(error.toString());
-      log(stack.toString());
-      return Error(MedusaError(
-          code: 'unknown', type: 'unknown', message: error.toString()));
-    }
-  }
-
-  Future<Result<GiftCardsListResponse, MedusaError>> fetchGiftCards({
-    Map<String, dynamic>? queryParameters,
-  }) async {
-    try {
-      final result =
-          await _giftCardRepository.retrieveAll(queryParameters ?? {});
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
