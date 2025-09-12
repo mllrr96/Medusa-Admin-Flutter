@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/src/core/error/medusa_error.dart';
@@ -70,25 +72,23 @@ class PriceListCrudUseCase {
     }
   }
 
-  // Future<Result<DeleteProductPricesRes, MedusaError>> deleteProductPrices({
-  Future<Result<bool, MedusaError>> deleteProductPrices({
+  Future<Result<PriceList, MedusaError>> deleteProductPrices({
     required String id,
-    required String productId,
+    required List<String> payload,
   }) async {
-    throw UnimplementedError();
-    // try {
-    //   final result = await _priceListRepository.deleteProductPrices(id: id, productId: productId);
-    //   return Success(result!);
-    // } on DioException catch (e) {
-    //   return Error(MedusaError.fromHttp(
-    //     status: e.response?.statusCode,
-    //     body: e.response?.data,
-    //     cause: e,
-    //   ));
-    // } catch (error) {
-    //   return Error(
-    //       MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
-    // }
+    try {
+      final result = await _priceListRepository.removeProducts(id, payload);
+      return Success(result.priceList);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error) {
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    }
   }
 
   Future<Result<PriceListsDeleteRes, MedusaError>> delete({
@@ -121,7 +121,8 @@ class PriceListCrudUseCase {
         body: e.response?.data,
         cause: e,
       ));
-    } catch (error) {
+    } catch (error, stackTrace) {
+      log(stackTrace.toString());
       return Error(MedusaError(
           code: 'unknown', type: 'unknown', message: error.toString()));
     }

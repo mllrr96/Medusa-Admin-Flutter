@@ -6,11 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
-import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin/src/features/pricing/presentation/bloc/pricing/pricing_crud_bloc.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_req.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_res.dart';
+import 'package:medusa_admin/src/features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/src/features/products/presentation/widgets/pick_products_view.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
@@ -30,13 +30,18 @@ class PriceListDetailsView extends StatefulWidget {
 
 class _PriceListDetailsViewState extends State<PriceListDetailsView> {
   final refreshController = RefreshController();
-  final pagingController = PagingController<int, Product>(
-      firstPageKey: 0, invisibleItemsThreshold: 6);
-  late PricingCrudBloc pricingCrudBloc;
-  late PricingCrudBloc priceListBloc;
+  final pagingController =
+      PagingController<int, Product>(firstPageKey: 0, invisibleItemsThreshold: 6);
+  late final PricingCrudBloc pricingCrudBloc;
+  late final PricingCrudBloc pricingUpdateBloc;
+  late final ProductCrudBloc productBloc;
 
   void _loadPage(int page) {
-    priceListBloc.add(PricingCrudEvent.load(id));
+    productBloc.add(ProductCrudEvent.loadAll(queryParameters: {
+      'limit': PricingCrudBloc.pageSize,
+      'offset': page,
+      'price_list_id': [id, ''],
+    }));
   }
 
   String get id => widget.priceList.id;
@@ -44,7 +49,8 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
   @override
   void initState() {
     pricingCrudBloc = PricingCrudBloc.instance;
-    priceListBloc = PricingCrudBloc.instance;
+    pricingUpdateBloc = PricingCrudBloc.instance;
+    productBloc = ProductCrudBloc.instance;
     pricingCrudBloc.add(PricingCrudEvent.load(id));
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
@@ -53,7 +59,8 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
   @override
   void dispose() {
     pricingCrudBloc.close();
-    priceListBloc.close();
+    pricingUpdateBloc.close();
+    productBloc.close();
     pagingController.dispose();
     super.dispose();
   }
@@ -62,24 +69,22 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<PricingCrudBloc, PricingCrudState>(
-          bloc: priceListBloc,
+        BlocListener<ProductCrudBloc, ProductCrudState>(
+          bloc: productBloc,
           listener: (context, state) {
             state.mapOrNull(
               products: (state) async {
-                final isLastPage =
-                    state.products.length < PricingCrudBloc.pageSize;
+                final isLastPage = state.products.length < PricingCrudBloc.pageSize;
                 if (refreshController.isRefresh) {
                   pagingController.removePageRequestListener(_loadPage);
-                  pagingController.value = const PagingState(
-                      nextPageKey: null, error: null, itemList: null);
+                  pagingController.value =
+                      const PagingState(nextPageKey: null, error: null, itemList: null);
                   await Future.delayed(const Duration(milliseconds: 250));
                 }
                 if (isLastPage) {
                   pagingController.appendLastPage(state.products);
                 } else {
-                  final nextPageKey =
-                      pagingController.nextPageKey ?? 0 + state.products.length;
+                  final nextPageKey = pagingController.nextPageKey ?? 0 + state.products.length;
                   pagingController.appendPage(state.products, nextPageKey);
                 }
                 if (refreshController.isRefresh) {
@@ -95,16 +100,17 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
           },
         ),
         BlocListener<PricingCrudBloc, PricingCrudState>(
-          bloc: pricingCrudBloc,
+          bloc: pricingUpdateBloc,
           listener: (context, state) {
-            state.maybeWhen(
-              // loading: (_) => loading(),
-              deleted: () {
-                dismissLoading();
-                context.showSnackBar('Price list deleted');
-                context.maybePop();
+            state.whenOrNull(
+              pricingList: (_) {
+                context.showSnackBar('Products updated');
+                _loadPage(0);
               },
-              orElse: () => dismissLoading(),
+              deleted: (){
+                context.showSnackBar('Price list deleted');
+                context.pop(true);
+              }
             );
           },
         ),
@@ -118,63 +124,53 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
               IconButton(
                   padding: const EdgeInsets.all(16.0),
                   onPressed: () async {
-                    await showModalActionSheet<int>(
-                        context: context,
-                        actions: <SheetAction<int>>[
-                          const SheetAction(
-                              label: 'Edit price list details', key: 0),
-                          const SheetAction(label: 'Add Products', key: 1),
-                          const SheetAction(
-                              label: 'Remove price list',
-                              isDestructiveAction: true,
-                              key: 2),
-                        ]).then((result) async {
+                    await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
+                      const SheetAction(label: 'Edit price list details', key: 0),
+                      const SheetAction(label: 'Add Products', key: 1),
+                      const SheetAction(
+                          label: 'Remove price list', isDestructiveAction: true, key: 2),
+                    ]).then((result) async {
                       switch (result) {
                         case 0:
                           if (!context.mounted) return;
                           context.pushRoute(AddUpdatePriceListRoute(id: id));
                           return;
                         case 1:
-                          final pickProductsRes = await addProduct;
-                          if (pickProductsRes is PickProductsRes &&
-                              context.mounted) {
-                            final prices = await showBarModalBottomSheet(
-                              context: context,
-                              backgroundColor:
-                                  context.theme.scaffoldBackgroundColor,
-                              enableDrag: false,
-                              overlayStyle:
-                                  context.theme.appBarTheme.systemOverlayStyle,
-                              builder: (context) => PriceListAddProducts(
-                                  pickProductsRes.selectedProducts),
-                            );
-                            if (prices is List<MoneyAmount> &&
-                                context.mounted) {
-                              // pricingCrudBloc.add(PricingCrudEvent.updatePrices(
-                              //     id,
-                              //     UpdatePricesReq(
-                              //         prices: prices
-                              //             .map((e) => MoneyAmount(
-                              //                 variantId: e.variantId,
-                              //                 amount: e.amount,
-                              //                 currencyCode: e.currencyCode))
-                              //             .toList())));
-                            }
-                          }
+                          // TODO: fix pricing products after products pick
+                          // final pickProductsRes = await addProduct;
+                          // if (pickProductsRes is PickProductsRes && context.mounted) {
+                          //   final prices = await showBarModalBottomSheet(
+                          //     context: context,
+                          //     backgroundColor: context.theme.scaffoldBackgroundColor,
+                          //     enableDrag: false,
+                          //     overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                          //     builder: (context) =>
+                          //         PriceListAddProducts(pickProductsRes.selectedProducts),
+                          //   );
+                          //   if (prices is List<MoneyAmount> && context.mounted) {
+                          //     // pricingCrudBloc.add(PricingCrudEvent.updatePrices(
+                          //     //     id,
+                          //     //     UpdatePricesReq(
+                          //     //         prices: prices
+                          //     //             .map((e) => MoneyAmount(
+                          //     //                 variantId: e.variantId,
+                          //     //                 amount: e.amount,
+                          //     //                 currencyCode: e.currencyCode))
+                          //     //             .toList())));
+                          //   }
+                          // }
                           return;
                         case 2:
                           if (!context.mounted) return;
                           final confirmDelete = await showOkCancelAlertDialog(
                             context: context,
                             title: 'Delete price list',
-                            message:
-                                'Are you sure you want to delete this price list?',
+                            message: 'Are you sure you want to delete this price list?',
                             okLabel: 'Yes, delete',
                             isDestructiveAction: true,
                           );
-                          if (confirmDelete == OkCancelResult.ok &&
-                              context.mounted) {
-                            pricingCrudBloc.add(PricingCrudEvent.delete(id));
+                          if (confirmDelete == OkCancelResult.ok && context.mounted) {
+                            pricingUpdateBloc.add(PricingCrudEvent.delete(id));
                           }
                           return;
                       }
@@ -188,7 +184,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
               controller: refreshController,
               onRefresh: () {
                 _loadPage(0);
-                priceListBloc.add(PricingCrudEvent.load(id));
+                pricingCrudBloc.add(PricingCrudEvent.load(id));
               },
               child: CustomScrollView(
                 slivers: [
@@ -196,22 +192,18 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                     child: BlocBuilder<PricingCrudBloc, PricingCrudState>(
                       bloc: pricingCrudBloc,
                       builder: (context, state) => state.maybeWhen(
-                        pricingList: (priceList) =>
-                            PriceListDetailsTile(priceList),
-                        loading: () => PriceListDetailsTile(widget.priceList,
-                            shimmer: true),
+                        pricingList: (priceList) => PriceListDetailsTile(priceList),
+                        loading: () => PriceListDetailsTile(widget.priceList, shimmer: true),
                         orElse: () => const SizedBox.shrink(),
                       ),
                     ),
                   ),
                   PagedSliverList.separated(
-                    separatorBuilder: (_, __) =>
-                        const Divider(height: 0, indent: 16),
+                    separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
                     pagingController: pagingController,
                     builderDelegate: PagedChildBuilderDelegate<Product>(
                       animateTransitions: true,
-                      itemBuilder: (context, product, index) =>
-                          PriceListProductTile(
+                      itemBuilder: (context, product, index) => PriceListProductTile(
                         product,
                         onEditPricesTap: () async {
                           // await context
@@ -235,21 +227,19 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                           // });
                         },
                         onRemoveProductTap: () async {
-                          pricingCrudBloc.add(
-                              PricingCrudEvent.deleteProduct(id, product.id));
+                          pricingUpdateBloc.add(PricingCrudEvent.deleteProduct(id, product.id));
                           // await controller.deleteProduct(
                           //     context, product);
                         },
                       ),
                       firstPageProgressIndicatorBuilder: (context) =>
                           const PriceListProductsLoadingPage(),
-                      firstPageErrorIndicatorBuilder: (_) =>
-                          PaginationErrorPage(
-                              pagingController: pagingController,
-                              onRetry: () {
-                                pagingController.refresh();
-                                priceListBloc.add(PricingCrudEvent.load(id));
-                              }),
+                      firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                          pagingController: pagingController,
+                          onRetry: () {
+                            pagingController.refresh();
+                            pricingCrudBloc.add(PricingCrudEvent.load(id));
+                          }),
                       noItemsFoundIndicatorBuilder: (context) {
                         return Center(
                             child: Column(
@@ -260,20 +250,16 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                             FilledButton(
                               onPressed: () async {
                                 final pickProductsRes = await addProduct;
-                                if (pickProductsRes is PickProductsRes &&
-                                    context.mounted) {
+                                if (pickProductsRes is PickProductsRes && context.mounted) {
                                   final prices = await showBarModalBottomSheet(
                                     context: context,
-                                    backgroundColor:
-                                        context.theme.scaffoldBackgroundColor,
+                                    backgroundColor: context.theme.scaffoldBackgroundColor,
                                     enableDrag: false,
-                                    overlayStyle: context
-                                        .theme.appBarTheme.systemOverlayStyle,
-                                    builder: (context) => PriceListAddProducts(
-                                        pickProductsRes.selectedProducts),
+                                    overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                                    builder: (context) =>
+                                        PriceListAddProducts(pickProductsRes.selectedProducts),
                                   );
-                                  if (prices is List<MoneyAmount> &&
-                                      context.mounted) {
+                                  if (prices is List<MoneyAmount> && context.mounted) {
                                     // await controller.addPrices(
                                     //     context, prices);
                                   }
@@ -295,8 +281,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
     );
   }
 
-  Future<PickProductsRes?> get addProduct async =>
-      await showBarModalBottomSheet(
+  Future<PickProductsRes?> get addProduct async => await showBarModalBottomSheet(
         context: context,
         backgroundColor: context.theme.scaffoldBackgroundColor,
         overlayStyle: context.theme.appBarTheme.systemOverlayStyle,

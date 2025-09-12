@@ -34,8 +34,7 @@ class _PricingViewState extends State<PricingView> {
   @override
   void initState() {
     pricingCrudBloc = PricingCrudBloc.instance;
-    pagingController =
-        PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
+    pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
@@ -55,19 +54,17 @@ class _PricingViewState extends State<PricingView> {
       listener: (context, state) {
         state.mapOrNull(
           pricingLists: (state) async {
-            final isLastPage =
-                state.priceLists.length < PricingCrudBloc.pageSize;
+            final isLastPage = state.priceLists.length < PricingCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
+              pagingController.value =
+                  const PagingState(nextPageKey: null, error: null, itemList: null);
               await Future.delayed(const Duration(milliseconds: 250));
             }
             if (isLastPage) {
               pagingController.appendLastPage(state.priceLists);
             } else {
-              final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.priceLists.length;
+              final nextPageKey = pagingController.nextPageKey ?? 0 + state.priceLists.length;
               pagingController.appendPage(state.priceLists, nextPageKey);
             }
             if (refreshController.isRefresh) {
@@ -98,8 +95,7 @@ class _PricingViewState extends State<PricingView> {
                   pricingLists: (priceLists, _) => priceLists.length,
                   orElse: () => 0,
                 );
-                return Text(
-                    count > 0 ? 'Pricing Lists ($count)' : 'Pricing Lists',
+                return Text(count > 0 ? 'Pricing Lists ($count)' : 'Pricing Lists',
                     overflow: TextOverflow.ellipsis);
               }),
             ),
@@ -108,15 +104,21 @@ class _PricingViewState extends State<PricingView> {
             controller: refreshController,
             onRefresh: () => _loadPage(0),
             child: PagedListView.separated(
-              separatorBuilder: (_, __) =>
-                  const Divider(height: 0, indent: 16.0),
+              separatorBuilder: (_, __) => const Divider(height: 0, indent: 16.0),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<PriceList>(
                 animateTransitions: true,
-                itemBuilder: (context, priceList, index) =>
-                    PriceListTile(priceList),
-                firstPageProgressIndicatorBuilder: (_) =>
-                    const PriceListsLoadingPage(),
+                itemBuilder: (context, priceList, index) => PriceListTile(
+                  priceList,
+                  onTap: () async {
+                    final result =
+                        await context.pushRoute(PriceListDetailsRoute(priceList: priceList));
+                    if (result == true) {
+                      _loadPage(0);
+                    }
+                  },
+                ),
+                firstPageProgressIndicatorBuilder: (_) => const PriceListsLoadingPage(),
                 firstPageErrorIndicatorBuilder: (_) =>
                     PaginationErrorPage(pagingController: pagingController),
                 noItemsFoundIndicatorBuilder: (_) => const Center(

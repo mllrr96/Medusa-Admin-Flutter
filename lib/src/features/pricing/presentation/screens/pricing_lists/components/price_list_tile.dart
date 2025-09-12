@@ -6,8 +6,9 @@ import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 
 class PriceListTile extends StatelessWidget {
-  const PriceListTile(this.priceList, {super.key});
+  const PriceListTile(this.priceList, {super.key, this.onTap});
   final PriceList priceList;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     Widget statusIcon(bool enabled) {
@@ -34,8 +35,7 @@ class PriceListTile extends StatelessWidget {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return ListTile(
-      onTap: () =>
-          context.pushRoute(PriceListDetailsRoute(priceList: priceList)),
+      onTap:onTap,
       onLongPress: () =>
           context.pushRoute(AddUpdatePriceListRoute(id: priceList.id)),
       title: Text(priceList.title),

@@ -86,10 +86,6 @@ class _AppDrawerState extends State<AppDrawer> {
       ),
       divider,
       const NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.gift),
-        label: Text('Gift Cards'),
-      ),
-      const NavigationDrawerDestination(
         icon: Icon(MedusaIcons.currency_dollar),
         label: Text('Pricing'),
       ),
