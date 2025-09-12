@@ -40,67 +40,77 @@ class _AppDrawerState extends State<AppDrawer> {
     final divider = Container(
         color: context.theme.navigationDrawerTheme.backgroundColor,
         child: const Divider(indent: 28, endIndent: 28));
-    List<Widget> items = [
-      divider,
-      const NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.cart),
-        label: Text('Orders'),
+
+    final destinations = [
+      DrawerDestination(
+        icon: const Icon(CupertinoIcons.cart),
+        label: 'Orders',
+        route: const OrdersRoute(),
       ),
-      const NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.cart_badge_plus),
-        label: Text('Draft Orders'),
+      DrawerDestination(
+        icon: const Icon(CupertinoIcons.cart_badge_plus),
+        label: 'Draft Orders',
+        route: const DraftOrdersRoute(),
       ),
-      divider,
-      const NavigationDrawerDestination(
-        icon: Icon(MedusaIcons.tag),
-        label: Text('Products'),
+      const DrawerDestination.divider(),
+      DrawerDestination(
+        icon: const Icon(MedusaIcons.tag),
+        label: 'Products',
+        route: const ProductsRoute(),
       ),
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.collections_bookmark),
-        label: Text('Collections'),
+      DrawerDestination(
+        icon: const Icon(Icons.collections_bookmark),
+        label: 'Collections',
+        route: const CollectionsRoute(),
       ),
-      const NavigationDrawerDestination(
-        icon: Icon(MedusaIcons.tag),
-        label: Text('Categories'),
+      DrawerDestination(
+        icon: const Icon(MedusaIcons.tag),
+        label: 'Categories',
+        route: const CategoriesRoute(),
       ),
-      // space,
-      divider,
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.person),
-        label: Text('Customers'),
+      const DrawerDestination.divider(),
+      DrawerDestination(
+        icon: const Icon(Icons.person),
+        label: 'Customers',
+        route: const CustomersRoute(),
       ),
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.groups),
-        label: Text('Customer Groups'),
+      DrawerDestination(
+        icon: const Icon(Icons.groups),
+        label: 'Customer Groups',
+        route: const GroupsRoute(),
       ),
-      // space,
-      divider,
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.discount_outlined),
-        label: Text('Promotions'),
+      const DrawerDestination.divider(),
+      DrawerDestination(
+        icon: const Icon(Icons.discount_outlined),
+        label: 'Promotions',
+        route: const PromotionsRoute(),
       ),
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.campaign),
-        label: Text('Campaigns'),
+      DrawerDestination(
+        icon: const Icon(Icons.campaign),
+        label: 'Campaigns',
+        route: const CampaignsRoute(),
       ),
-      divider,
-      const NavigationDrawerDestination(
-        icon: Icon(MedusaIcons.currency_dollar),
-        label: Text('Pricing'),
+      const DrawerDestination.divider(),
+      DrawerDestination(
+        icon: const Icon(MedusaIcons.currency_dollar),
+        label: 'Pricing',
+        route: const PricingRoute(),
       ),
-      // space,
-      divider,
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.settings_applications),
-        label: Text('Store Settings'),
+      const DrawerDestination.divider(),
+      DrawerDestination(
+        icon: const Icon(Icons.settings_applications),
+        label: 'Store Settings',
+        route: const StoreSettingsRoute(),
       ),
-      const NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.settings),
-        label: Text('App Settings'),
+      DrawerDestination(
+        icon: const Icon(CupertinoIcons.settings),
+        label: 'App Settings',
+        route: const AppSettingsRoute(),
       ),
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.logout, color: Colors.red),
-        label: Text('Sign Out'),
+      DrawerDestination(
+        icon: const Icon(Icons.logout, color: Colors.red),
+        label: 'Sign Out',
+        onTap: () => _signOut(context),
       ),
     ];
 
@@ -126,9 +136,10 @@ class _AppDrawerState extends State<AppDrawer> {
       child: NavigationDrawer(
           key: const PageStorageKey<String>('navigationDrawer'),
           selectedIndex: context.tabsRouter.activeIndex,
-          onDestinationSelected: (index) async {
-            if (index == 12) {
-              await signOut();
+          onDestinationSelected: (index) {
+            final destination = destinations[index];
+            if (destination.onTap != null) {
+              destination.onTap!();
               return;
             }
             context.closeDrawer();
@@ -179,7 +190,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                   );
                                 },
                               ),
-                              Icon(Icons.arrow_drop_down),
+                              const Icon(Icons.arrow_drop_down),
                             ],
                           ),
                         ),
@@ -251,7 +262,15 @@ class _AppDrawerState extends State<AppDrawer> {
               },
             ),
             const Gap(1),
-            ...items,
+            ...destinations.map((e) {
+              if (e.isDivider) {
+                return divider;
+              }
+              return NavigationDrawerDestination(
+                icon: e.icon!,
+                label: Text(e.label!),
+              );
+            }),
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
               child: Row(
@@ -317,32 +336,45 @@ class _AppDrawerState extends State<AppDrawer> {
           ]),
     );
   }
+}
 
-  Future<void> signOut() async {
-    await showOkCancelAlertDialog(
-            context: context,
-            title: 'Sign out',
-            message: 'Are you sure you want to sign out?',
-            okLabel: 'Sign Out',
-            isDestructiveAction: true)
-        .then(
-      (value) async {
-        if (value == OkCancelResult.ok && mounted) {
-          context.read<AuthenticationBloc>().add(const AuthenticationEvent.logOut());
-        }
-      },
-    );
-  }
+void _signOut(BuildContext context) async {
+  await showOkCancelAlertDialog(
+          context: context,
+          title: 'Sign out',
+          message: 'Are you sure you want to sign out?',
+          okLabel: 'Sign Out',
+          isDestructiveAction: true)
+      .then(
+    (value) async {
+      if (value == OkCancelResult.ok && context.mounted) {
+        context.read<AuthenticationBloc>().add(const AuthenticationEvent.logOut());
+      }
+    },
+  );
 }
 
 class DrawerDestination {
   const DrawerDestination({
-    required this.icon,
-    required this.label,
+    this.icon,
+    this.label,
+    this.route,
+    this.onTap,
+    this.isDivider = false,
   });
 
-  final Widget icon;
-  final Widget label;
+  const DrawerDestination.divider() 
+      : icon = null,
+        label = null,
+        route = null,
+        onTap = null,
+        isDivider = true;
+
+  final Widget? icon;
+  final String? label;
+  final PageRouteInfo? route;
+  final void Function()? onTap;
+  final bool isDivider;
 }
 
 void _showAppAboutDialog(BuildContext context, [bool useRootNavigator = true]) {
@@ -369,8 +401,8 @@ void _showAppAboutDialog(BuildContext context, [bool useRootNavigator = true]) {
             children: <TextSpan>[
               TextSpan(
                 style: footerStyle,
-                text: 'Built with Flutter ${AppConstants.flutterVersion}, '
-                    '\nMedia size (w:${width.toStringAsFixed(0)}, '
+                text: 'Built with Flutter ${AppConstants.flutterVersion}'
+                    '\nMedia size (w:${width.toStringAsFixed(0)}'
                     'h:${height.toStringAsFixed(0)})',
               ),
             ],
