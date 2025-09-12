@@ -15,7 +15,9 @@ import 'package:medusa_admin/src/features/auth/presentation/bloc/authentication/
 
 @RoutePage()
 class SplashView extends StatefulWidget {
-  const SplashView({super.key});
+  const SplashView({super.key, this.fromLogout = false});
+
+  final bool fromLogout;
 
   @override
   State<SplashView> createState() => _SplashViewState();
@@ -27,6 +29,11 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   void initState() {
+    if (widget.fromLogout) {
+      timer = Timer(1.seconds, () {
+        context.router.replace(SignInRoute());
+      });
+    }
     timer = Timer(15.seconds, () {
       setState(() => takingTooLong = true);
     });
@@ -45,14 +52,14 @@ class _SplashViewState extends State<SplashView> {
       listener: (context, state) {
         state.whenOrNull(
           loggedIn: (loggedIn) async {
-            context.router.replaceAll([const DashboardRoute()]);
+            context.router.replace(const DashboardRoute());
           },
           loggedOut: () {
-            context.router.replaceAll([SignInRoute()]);
+            context.router.replace(SignInRoute());
           },
           error: (e) {
             context.showSignInErrorSnackBar(e.toSnackBarString());
-            context.router.replaceAll([SignInRoute()]);
+            context.router.replace(SignInRoute());
           },
         );
       },
@@ -105,9 +112,7 @@ class _SplashViewState extends State<SplashView> {
                               .add(const AuthenticationEvent.cancel());
                         },
                         child: const Text('Go to login')),
-                    Gap(context.bottomViewPadding != 0
-                        ? context.bottomViewPadding
-                        : 10),
+                    Gap(context.bottomViewPadding != 0 ? context.bottomViewPadding : 10),
                   ],
                 )
                     .animate()
