@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:medusa_admin/src/core/constants/strings.dart';
 import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/extensions/theme_mode_extension.dart';
@@ -67,6 +68,17 @@ class _AppDrawerState extends State<AppDrawer> {
         icon: const Icon(MedusaIcons.tag),
         label: 'Categories',
         route: const CategoriesRoute(),
+      ),
+      const DrawerDestination.divider(),
+      DrawerDestination(
+        icon: const Icon(LucideIcons.warehouse),
+        label: 'Inventory',
+        route: const InventoryRoute(),
+      ),
+      DrawerDestination(
+        icon: Icon(LucideIcons.saveAll),
+        label: 'Reservations',
+        route: const ReservationsRoute(),
       ),
       const DrawerDestination.divider(),
       DrawerDestination(
@@ -363,7 +375,7 @@ class DrawerDestination {
     this.isDivider = false,
   });
 
-  const DrawerDestination.divider() 
+  const DrawerDestination.divider()
       : icon = null,
         label = null,
         route = null,
