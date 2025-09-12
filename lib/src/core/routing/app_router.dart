@@ -5,6 +5,7 @@ import 'package:medusa_admin/src/core/utils/enums.dart';
 import 'package:medusa_admin/src/features/campaigns/presentation/screens/campaigns/campaigns_view.dart';
 import 'package:medusa_admin/src/features/customers/data/models/pick_customer_req.dart';
 import 'package:medusa_admin/src/features/groups/data/models/pick_groups_req.dart';
+import 'package:medusa_admin/src/features/inventory/presentation/screens/inventory_view.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_req.dart';
 import 'package:medusa_admin/src/features/products/data/models/product_variant_req.dart';
 import 'package:medusa_admin/src/features/products/data/models/select_products_req.dart';
@@ -30,6 +31,7 @@ import 'package:medusa_admin/src/features/pricing/presentation/screens/add_updat
 import 'package:medusa_admin/src/features/products/presentation/screens/categories/categories_view.dart';
 import 'package:medusa_admin/src/features/api_keys/presentation/screens/add_update_api_key/add_update_api_key_view.dart';
 import 'package:medusa_admin/src/features/regions/presentation/screens/add_update_region/add_update_region_view.dart';
+import 'package:medusa_admin/src/features/reservations/presentation/screens/reservations_view.dart';
 import 'package:medusa_admin/src/features/sales_channels/presentation/screens/add_update_sales_channel/add_update_sales_channel_view.dart';
 import 'package:medusa_admin/src/features/tax_settings/presentation/screens/add_update_tax_rate/add_update_tax_rate_view.dart';
 import 'package:medusa_admin/src/features/api_keys/presentation/screens/api_key_management/api_key_management_view.dart';
@@ -110,6 +112,8 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: ProductsRoute.page),
     AutoRoute(page: CategoriesRoute.page),
     AutoRoute(page: CollectionsRoute.page),
+    AutoRoute(page: InventoryRoute.page),
+    AutoRoute(page: ReservationsRoute.page),
     AutoRoute(page: CustomersRoute.page),
     AutoRoute(page: GroupsRoute.page),
     AutoRoute(page: PromotionsRoute.page),
