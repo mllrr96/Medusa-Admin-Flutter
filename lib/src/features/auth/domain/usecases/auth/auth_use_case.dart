@@ -45,10 +45,10 @@ class AuthenticationUseCase {
     }
   }
 
-  Future<Result<bool, MedusaError>> logout() async {
+  Future<Result<DeleteSessionRes, MedusaError>> logout() async {
     try {
-      await _authenticationRepository.logout();
-      return const Success(true);
+      final result = await _authenticationRepository.logout();
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
