@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/color_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/features/app_settings/data/service/preference_service.dart';
@@ -45,7 +44,7 @@ class OrderCard extends StatelessWidget {
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7.0),
         decoration: BoxDecoration(
-            color: context.getAlphaBlend(context.theme.cardColor),
+            color: context.theme.colorScheme.secondaryContainer,
             borderRadius: const BorderRadius.all(Radius.circular(5.0))),
         child: Column(
           children: [

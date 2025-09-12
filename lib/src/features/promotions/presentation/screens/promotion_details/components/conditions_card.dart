@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
-import 'package:medusa_admin/src/core/extensions/color_extension.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/features/promotions/presentation/bloc/promotion_crud/promotion_crud_bloc.dart';
@@ -22,7 +21,7 @@ class ConditionsCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        color: context.getAlphaBlend(context.theme.cardColor),
+        color: context.theme.colorScheme.secondaryContainer,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -5,7 +5,6 @@ import 'package:medusa_admin/src/core/utils/date_time_card.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
-import 'package:medusa_admin/src/core/extensions/color_extension.dart';
 
 class ConfigurationsCard extends StatelessWidget {
   const ConfigurationsCard(this.discount, {super.key});
@@ -21,7 +20,7 @@ class ConfigurationsCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        color: context.getAlphaBlend(context.theme.cardColor),
+        color: context.theme.colorScheme.secondaryContainer,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

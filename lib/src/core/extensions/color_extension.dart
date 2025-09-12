@@ -18,9 +18,9 @@ extension HexColor on Color {
 extension ColorContextEntension<T> on BuildContext {
 // Color
 // ===================================================================//
-  Color getAlphaBlend(Color color) {
-    final surfaceTint = Theme.of(this).colorScheme.surfaceTint;
-    final isLight = Theme.of(this).brightness == Brightness.light;
-    return Color.alphaBlend(surfaceTint.withAlpha(isLight ? 10 : 16), color);
-  }
+//   Color getAlphaBlend(Color color) {
+//     final surfaceTint = Theme.of(this).colorScheme.surfaceTint;
+//     final isLight = Theme.of(this).brightness == Brightness.light;
+//     return Color.alphaBlend(surfaceTint.withAlpha(isLight ? 10 : 16), color);
+//   }
 }

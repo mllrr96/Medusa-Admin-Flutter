@@ -19,12 +19,10 @@ class CreateUpdateReturnReasonView extends StatefulWidget {
   final ReturnReason? returnReason;
 
   @override
-  State<CreateUpdateReturnReasonView> createState() =>
-      _CreateUpdateReturnReasonViewState();
+  State<CreateUpdateReturnReasonView> createState() => _CreateUpdateReturnReasonViewState();
 }
 
-class _CreateUpdateReturnReasonViewState
-    extends State<CreateUpdateReturnReasonView> {
+class _CreateUpdateReturnReasonViewState extends State<CreateUpdateReturnReasonView> {
   final labelCtrl = TextEditingController();
   final valueCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
@@ -38,8 +36,8 @@ class _CreateUpdateReturnReasonViewState
   void initState() {
     returnReasonsCrudBloc = ReturnReasonsCrudBloc.instance;
     if (updateMode) {
-      labelCtrl.text = widget.returnReason!.label ?? '';
-      valueCtrl.text = widget.returnReason!.value ?? '';
+      labelCtrl.text = widget.returnReason!.label;
+      valueCtrl.text = widget.returnReason!.value;
       descriptionCtrl.text = widget.returnReason!.description ?? '';
     }
     super.initState();
@@ -62,8 +60,7 @@ class _CreateUpdateReturnReasonViewState
         state.maybeWhen(
             loading: () => loading(),
             returnReason: (_) {
-              context.showSnackBar(
-                  'Return Reason ${updateMode ? 'Updated' : 'Created'}');
+              context.showSnackBar('Return Reason ${updateMode ? 'Updated' : 'Created'}');
               context.maybePop(true);
               dismissLoading();
             },
@@ -91,30 +88,28 @@ class _CreateUpdateReturnReasonViewState
                   if (updateMode &&
                       labelCtrl.text == widget.returnReason!.label &&
                       valueCtrl.text == widget.returnReason!.value &&
-                      descriptionCtrl.text ==
-                          widget.returnReason!.description) {
+                      descriptionCtrl.text == widget.returnReason!.description) {
                     context.maybePop();
                     return;
                   }
 
                   if (updateMode) {
-                    // returnReasonsCrudBloc.add(ReturnReasonsCrudEvent.update(
-                    //   widget.returnReason!.id,
-                    //   UpdateReturnReasonReq(
-                    //       label: labelCtrl.text,
-                    //       value: valueCtrl.text,
-                    //       description: descriptionCtrl.text),
-                    // ));
+                    returnReasonsCrudBloc.add(ReturnReasonsCrudEvent.update(
+                      widget.returnReason!.id,
+                      UpdateReturnReason(
+                          label: labelCtrl.text,
+                          value: valueCtrl.text,
+                          description: descriptionCtrl.text),
+                    ));
                   } else {
-                    // returnReasonsCrudBloc.add(
-                    //   ReturnReasonsCrudEvent.create(CreateReturnReasonReq(
-                    //       label: labelCtrl.text,
-                    //       value: valueCtrl.text,
-                    //       description:
-                    //           descriptionCtrl.text.removeAllWhitespace.isEmpty
-                    //               ? null
-                    //               : descriptionCtrl.text)),
-                    // );
+                    returnReasonsCrudBloc.add(
+                      ReturnReasonsCrudEvent.create(CreateReturnReason(
+                          label: labelCtrl.text,
+                          value: valueCtrl.text,
+                          description: descriptionCtrl.text.removeAllWhitespace.isEmpty
+                              ? null
+                              : descriptionCtrl.text)),
+                    );
                   }
                 },
                 child: updateMode ? const Text('Update') : const Text('Create'),
@@ -123,18 +118,15 @@ class _CreateUpdateReturnReasonViewState
           ),
           body: SafeArea(
             child: ListView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
               children: [
                 Form(
                   key: formKey,
                   child: Container(
                     decoration: BoxDecoration(
                         color: context.theme.cardColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12.0))),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 12.0),
+                        borderRadius: const BorderRadius.all(Radius.circular(12.0))),
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -144,8 +136,7 @@ class _CreateUpdateReturnReasonViewState
                           required: true,
                           hintText: 'Wrong Size',
                           validator: (val) {
-                            if (val == null ||
-                                val.removeAllWhitespace.isEmpty) {
+                            if (val == null || val.removeAllWhitespace.isEmpty) {
                               return 'Field is required';
                             }
                             return null;
@@ -157,22 +148,19 @@ class _CreateUpdateReturnReasonViewState
                           required: !updateMode,
                           hintText: 'wrong_size',
                           enabled: !updateMode,
-                          style: updateMode
-                              ? context.bodySmall?.copyWith(color: Colors.grey)
-                              : null,
+                          style:
+                              updateMode ? context.bodySmall?.copyWith(color: Colors.grey) : null,
                           decoration: updateMode
                               ? const InputDecoration(
                                   disabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.transparent)),
+                                      borderSide: BorderSide(color: Colors.transparent)),
                                 )
                               : null,
                           validator: (val) {
                             if (updateMode) {
                               return null;
                             }
-                            if (val == null ||
-                                val.removeAllWhitespace.isEmpty) {
+                            if (val == null || val.removeAllWhitespace.isEmpty) {
                               return 'Field is required';
                             }
                             return null;

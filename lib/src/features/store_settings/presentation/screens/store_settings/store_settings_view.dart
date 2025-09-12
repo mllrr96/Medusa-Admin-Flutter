@@ -37,7 +37,7 @@ class StoreSettingsView extends StatelessWidget {
                 SettingsTile.navigation(
                   leading: const Icon(LucideIcons.users),
                   title: const Text('Users'),
-                  // onPressed: (context) => context.pushRoute(const RegionsRoute()),
+                  onPressed: (_) => context.pushRoute(const TeamRoute()),
                 ),
                 SettingsTile.navigation(
                   leading: const Icon(Icons.location_on),
@@ -64,23 +64,16 @@ class StoreSettingsView extends StatelessWidget {
                   title: const Text('Locations & Shipping'),
                   onPressed: (_) {},
                 ),
-
-                //
                 // SettingsTile.navigation(
                 //   leading: const Icon(Icons.currency_exchange),
                 //   title: const Text('Currencies'),
                 //   onPressed: (_) => context.pushRoute(const CurrenciesRoute()),
                 // ),
-                // SettingsTile.navigation(
-                //   leading: const Icon(Icons.group),
-                //   title: const Text('The Team'),
-                //   onPressed: (_) => context.pushRoute(const TeamRoute()),
-                // ),
-                // SettingsTile.navigation(
-                //   leading: const Icon(Icons.group),
-                //   title: const Text('Invites'),
-                //   onPressed: (_) => context.pushRoute(const InvitesRoute()),
-                // ),
+                SettingsTile.navigation(
+                  leading: const Icon(Icons.group),
+                  title: const Text('Invites'),
+                  onPressed: (_) => context.pushRoute(const InvitesRoute()),
+                ),
                 // SettingsTile.navigation(
                 //   leading: const Icon(Icons.mail),
                 //   title: const Text('Support'),
