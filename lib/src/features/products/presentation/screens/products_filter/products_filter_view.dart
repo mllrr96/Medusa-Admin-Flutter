@@ -17,19 +17,23 @@ class ProductsFilterView extends StatefulWidget {
     this.onResetPressed,
     this.onSubmitted,
   });
+
   final ProductFilter? productFilter;
   final void Function()? onResetPressed;
   final void Function(ProductFilter?)? onSubmitted;
+
   @override
   State<ProductsFilterView> createState() => _ProductsFilterViewState();
 }
 
 class _ProductsFilterViewState extends State<ProductsFilterView> {
   late ProductFilter productFilter;
+  late final ProductsFilterCubit productsFilterCubit;
+
   @override
   void initState() {
-    productFilter = widget.productFilter ??
-        ProductFilter(status: [], tags: [], collection: []);
+    productsFilterCubit = ProductsFilterCubit.instance..loadData();
+    productFilter = widget.productFilter ?? ProductFilter(status: [], tags: [], collection: []);
     super.initState();
   }
 
@@ -37,14 +41,15 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
   final statusKey = GlobalKey();
   final collectionKey = GlobalKey();
   final tagsKey = GlobalKey();
-  static const Widget disabledApplyButton = Expanded(
-      flex: 4, child: FilledButton(onPressed: null, child: Text('Apply')));
+  static const Widget disabledApplyButton =
+      Expanded(flex: 4, child: FilledButton(onPressed: null, child: Text('Apply')));
 
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     return BlocConsumer<ProductsFilterCubit, ProductsFilterState>(
+      bloc: productsFilterCubit,
       listener: (context, state) {
         state.mapOrNull(
           loaded: (state) => refreshController.refreshCompleted(),
@@ -58,12 +63,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
           ),
           bottomNavigationBar: Padding(
               padding: EdgeInsets.fromLTRB(
-                  12,
-                  0,
-                  12,
-                  context.bottomViewPadding != 0
-                      ? context.bottomViewPadding
-                      : 12),
+                  12, 0, 12, context.bottomViewPadding != 0 ? context.bottomViewPadding : 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -87,11 +87,9 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
               )),
           body: SmartRefresher(
             controller: refreshController,
-            onRefresh: () async =>
-                await context.read<ProductsFilterCubit>().loadData(),
+            onRefresh: () async => await context.read<ProductsFilterCubit>().loadData(),
             child: ListView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
               children: [
                 state.when(
                   initial: () => const SizedBox(),
@@ -128,11 +126,9 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                           child: Column(
                             children: ProductStatus.values
                                 .map((e) => CheckboxListTile(
-                                      title: Text(e.name.capitalize,
-                                          style: smallTextStyle),
+                                      title: Text(e.name.capitalize, style: smallTextStyle),
                                       value: productFilter.status.contains(e),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       contentPadding: EdgeInsets.zero,
                                       onChanged: (bool? value) {
                                         if (value == null) {
@@ -154,20 +150,17 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                         FlexExpansionTile(
                           key: collectionKey,
                           title: const Text('Collections'),
-                          initiallyExpanded:
-                              productFilter.collection.isNotEmpty,
+                          initiallyExpanded: productFilter.collection.isNotEmpty,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await collectionKey.currentContext
-                                  .ensureVisibility();
+                              await collectionKey.currentContext.ensureVisibility();
                             }
                           },
                           child: Column(
                             children: [
                               if (collections.isNotEmpty)
                                 ...collections.map((e) => CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       contentPadding: EdgeInsets.zero,
                                       value: productFilter.collection
                                           .map((e) => e.id)
@@ -180,13 +173,12 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                                         if (val) {
                                           productFilter.collection.add(e);
                                         } else {
-                                          productFilter.collection.removeWhere(
-                                              (element) => element.id == e.id);
+                                          productFilter.collection
+                                              .removeWhere((element) => element.id == e.id);
                                         }
                                         setState(() {});
                                       },
-                                      title:
-                                          Text(e.title, style: smallTextStyle),
+                                      title: Text(e.title, style: smallTextStyle),
                                     ))
                             ],
                           ),
@@ -210,8 +202,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                                   children: tags
                                       .map(
                                         (e) => ChoiceChip(
-                                          label: Text(e.value ?? '',
-                                              style: smallTextStyle),
+                                          label: Text(e.value, style: smallTextStyle),
                                           labelStyle: smallTextStyle,
                                           onSelected: (val) {
                                             if (val) {
@@ -221,8 +212,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                                             }
                                             setState(() {});
                                           },
-                                          selected:
-                                              productFilter.tags.contains(e),
+                                          selected: productFilter.tags.contains(e),
                                         ),
                                       )
                                       .toList(),
@@ -239,10 +229,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                         child: Text(e.toString()),
                       ),
                       FilledButton(
-                          onPressed: () async => await context
-                              .read<ProductsFilterCubit>()
-                              .loadData(),
-                          child: const Text('Retry'))
+                          onPressed: productsFilterCubit.loadData, child: const Text('Retry'))
                     ],
                   ),
                 ),
@@ -260,8 +247,7 @@ class ProductFilter {
   final List<ProductTag> tags;
   final List<ProductCollection> collection;
 
-  ProductFilter(
-      {required this.status, required this.tags, required this.collection});
+  ProductFilter({required this.status, required this.tags, required this.collection});
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};

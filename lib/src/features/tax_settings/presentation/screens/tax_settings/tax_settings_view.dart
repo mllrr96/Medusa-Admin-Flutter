@@ -11,7 +11,7 @@ import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin/src/features/tax_settings/data/models/add_update_tax_rate_req.dart';
 import 'package:medusa_admin/src/features/tax_settings/presentation/bloc/tax_crud/tax_crud_bloc.dart';
-import 'package:medusa_admin/src/features/tax_settings/presentation/cubits/tax_providers/tax_provider_cubit.dart';
+import 'package:medusa_admin/src/features/tax_settings/presentation/cubits/tax_regions/tax_regions_cubit.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -30,7 +30,7 @@ class TaxSettingsView extends StatefulWidget {
 }
 
 class _TaxSettingsViewState extends State<TaxSettingsView> {
-  late TaxProviderCubit taxProviderCubit;
+  late TaxRegionsCubit taxRegionsCubit;
   late TaxCrudBloc taxBloc;
   late TaxCrudBloc taxCrudBloc;
 
@@ -41,7 +41,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
   bool showAutomaticTaxesHint = false;
   bool giftCardsTaxable = false;
   bool showGiftCardsTaxableHint = false;
-  TaxProvider? selectedTaxProvider;
+  TaxRegion? selectedTaxProvider;
 
   void _loadPage(int page) {
     taxBloc.add(
@@ -56,10 +56,10 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
     taxBloc = TaxCrudBloc.instance;
     taxCrudBloc = TaxCrudBloc.instance;
 
-    taxProviderCubit = TaxProviderCubit.instance;
+    taxRegionsCubit = TaxRegionsCubit.instance;
     pagingController.addPageRequestListener(_loadPage);
 
-    taxProviderCubit.fetch();
+    taxRegionsCubit.fetch();
     automaticTaxes = widget.region.automaticTaxes ?? false;
     // giftCardsTaxable = widget.region.giftCardsTaxable ?? false;
     super.initState();
@@ -69,14 +69,15 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
   void dispose() {
     taxBloc.close();
     taxCrudBloc.close();
-    taxProviderCubit.close();
+    taxRegionsCubit.close();
     pagingController.dispose();
     super.dispose();
   }
 
   bool same() {
-    if (automaticTaxes == widget.region.automaticTaxes &&
-        giftCardsTaxable == widget.region.giftCardsTaxable) {
+    if (automaticTaxes == widget.region.automaticTaxes
+        // && giftCardsTaxable == widget.region.giftCardsTaxable
+        ) {
       return true;
     }
     return false;
@@ -99,15 +100,14 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                 final isLastPage = state.taxRates.length < TaxCrudBloc.pageSize;
                 if (refreshController.isRefresh) {
                   pagingController.removePageRequestListener(_loadPage);
-                  pagingController.value = const PagingState(
-                      nextPageKey: null, error: null, itemList: null);
+                  pagingController.value =
+                      const PagingState(nextPageKey: null, error: null, itemList: null);
                   await Future.delayed(const Duration(milliseconds: 250));
                 }
                 if (isLastPage) {
                   pagingController.appendLastPage(state.taxRates);
                 } else {
-                  final nextPageKey =
-                      pagingController.nextPageKey ?? 0 + state.taxRates.length;
+                  final nextPageKey = pagingController.nextPageKey ?? 0 + state.taxRates.length;
                   pagingController.appendPage(state.taxRates, nextPageKey);
                 }
                 if (refreshController.isRefresh) {
@@ -141,8 +141,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
             TextButton(
                 onPressed: () async {
                   final result = await context.pushRoute(AddUpdateTaxRateRoute(
-                    addUpdateTaxRateReq:
-                        AddUpdateTaxRateReq(regionId: widget.region.id),
+                    addUpdateTaxRateReq: AddUpdateTaxRateReq(regionId: widget.region.id),
                   ));
                   if (result is bool) {
                     pagingController.refresh();
@@ -160,32 +159,27 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
               top: MediaQuery.of(context).viewPadding.bottom / 2),
           child: FilledButton(
             onPressed: same() ? null : () {},
-            child: Text('Save',
-                style: TextStyle(color: same() ? Colors.grey : Colors.white)),
+            child: Text('Save', style: TextStyle(color: same() ? Colors.grey : Colors.white)),
           ),
         ),
         body: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 decoration: BoxDecoration(
                     color: Theme.of(context).appBarTheme.backgroundColor,
-                    borderRadius:
-                        const BorderRadius.all(Radius.circular(12.0))),
+                    borderRadius: const BorderRadius.all(Radius.circular(12.0))),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Tax Calculation Settings', style: largeTextStyle),
                     space,
-                    Text('Tax Provider',
-                        style: mediumTextStyle?.copyWith(color: manatee)),
+                    Text('Tax Provider', style: mediumTextStyle?.copyWith(color: manatee)),
                     halfSpace,
-                    BlocBuilder<TaxProviderCubit, TaxProviderState>(
-                      bloc: taxProviderCubit,
+                    BlocBuilder<TaxRegionsCubit, TaxRegionsState>(
+                      bloc: taxRegionsCubit,
                       builder: (context, state) {
                         return state.maybeWhen(
                             loading: () => const Skeletonizer(
@@ -198,11 +192,10 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                                     ),
                                   ),
                                 ),
-                            taxProviders: (taxProviders) =>
-                                DropdownButtonFormField<TaxProvider>(
+                            taxRegions: (taxRegions) => DropdownButtonFormField<TaxRegion>(
                                   style: context.bodyMedium,
-                                  items: taxProviders
-                                      .map((e) => DropdownMenuItem<TaxProvider>(
+                                  items: taxRegions
+                                      .map((e) => DropdownMenuItem<TaxRegion>(
                                             value: e,
                                             child: Text(e.id ?? ''),
                                           ))
@@ -212,8 +205,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                                   decoration: const InputDecoration(
                                       isDense: true,
                                       border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4.0)))),
+                                          borderRadius: BorderRadius.all(Radius.circular(4.0)))),
                                 ),
                             error: (error) => Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -222,7 +214,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                                     const Gap(6.0),
                                     TextButton(
                                         onPressed: () {
-                                          taxProviderCubit.fetch();
+                                          taxRegionsCubit.fetch();
                                         },
                                         child: const Text('Retry'))
                                   ],
@@ -255,8 +247,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                     ),
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 300),
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
+                      transitionBuilder: (Widget child, Animation<double> animation) {
                         return SizeTransition(
                           sizeFactor: animation,
                           child: child,
@@ -266,13 +257,11 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                           ? Column(
                               children: [
                                 ListTile(
-                                  tileColor:
-                                      context.theme.dialogBackgroundColor,
+                                  tileColor: context.theme.dialogBackgroundColor,
                                   leading: const Icon(Icons.info),
                                   title: Text(
                                     'When checked Medusa will automatically apply tax calculations to Carts in this Region. When unchecked you will have to manually compute taxes at checkout. Manual taxes are recommended if using a 3rd party tax provider to avoid performing too many requests',
-                                    style: context.bodySmall
-                                        ?.copyWith(color: manatee),
+                                    style: context.bodySmall?.copyWith(color: manatee),
                                     textAlign: TextAlign.justify,
                                   ),
                                 ),
@@ -305,8 +294,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                     ),
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 300),
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
+                      transitionBuilder: (Widget child, Animation<double> animation) {
                         return SizeTransition(
                           sizeFactor: animation,
                           child: child,
@@ -317,8 +305,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                               leading: const Icon(Icons.info),
                               title: Text(
                                 'When checked taxes will be applied to gift cards on checkout. In some countries tax regulations require that taxes are applied to gift cards on purchase.',
-                                style:
-                                    context.bodySmall?.copyWith(color: manatee),
+                                style: context.bodySmall?.copyWith(color: manatee),
                                 textAlign: TextAlign.justify,
                               ),
                             )
@@ -330,21 +317,17 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
             ),
             SliverToBoxAdapter(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 decoration: BoxDecoration(
                     color: Theme.of(context).appBarTheme.backgroundColor,
-                    borderRadius:
-                        const BorderRadius.all(Radius.circular(12.0))),
+                    borderRadius: const BorderRadius.all(Radius.circular(12.0))),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Details', style: context.headlineMedium),
                     halfSpace,
-                    Text('Tax rates: ',
-                        style: mediumTextStyle?.copyWith(color: manatee)),
+                    Text('Tax rates: ', style: mediumTextStyle?.copyWith(color: manatee)),
                   ],
                 ),
               ),
@@ -359,38 +342,27 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                   itemBuilder: (context, taxRate, index) => TaxRateCard(
                     taxRate: taxRate,
                     onEditTap: () async {
-                      final result =
-                          await context.pushRoute(AddUpdateTaxRateRoute(
-                        addUpdateTaxRateReq: AddUpdateTaxRateReq(
-                            regionId: widget.region.id, taxRate: taxRate),
+                      final result = await context.pushRoute(AddUpdateTaxRateRoute(
+                        addUpdateTaxRateReq:
+                            AddUpdateTaxRateReq(regionId: widget.region.id, taxRate: taxRate),
                       ));
                       if (result is bool) {
                         pagingController.refresh();
                       }
                     },
-                    onDeleteTap: () =>
-                        taxCrudBloc.add(TaxCrudEvent.delete(taxRate.id)),
+                    onDeleteTap: () => taxCrudBloc.add(TaxCrudEvent.delete(taxRate.id)),
                   ),
-                  firstPageProgressIndicatorBuilder: (context) =>
-                      const Skeletonizer(
+                  firstPageProgressIndicatorBuilder: (context) => const Skeletonizer(
                     enabled: true,
                     child: Column(
                       children: [
                         TaxRateCard(
                             taxRate: TaxRate(
-                                name: 'Default',
-                                rate: '0.0',
-                                code: '-',
-                                id: '',
-                                regionId: '')),
+                                name: 'Default', rate: '0.0', code: '-', id: '', regionId: '')),
                         Gap(6.0),
                         TaxRateCard(
                           taxRate: TaxRate(
-                              name: 'Default',
-                              rate: '0.0',
-                              code: '-',
-                              id: '',
-                              regionId: ''),
+                              name: 'Default', rate: '0.0', code: '-', id: '', regionId: ''),
                         ),
                       ],
                     ),
@@ -401,11 +373,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                     children: [
                       TaxRateCard(
                           taxRate: TaxRate(
-                              name: 'Default',
-                              rate: '0.0',
-                              code: '-',
-                              id: '',
-                              regionId: '')),
+                              name: 'Default', rate: '0.0', code: '-', id: '', regionId: '')),
                     ],
                   ),
                 ),

@@ -56,28 +56,53 @@ abstract class MedusaAdminDi {
       } catch (_) {}
       handler.next(options);
     },
-    onError: (DioException e, handler) async {
-      if (e.response?.statusCode != 401) {
-        handler.next(e);
-        return;
-      }
-      final secureStorage = getIt<FlutterSecureStorage>();
-      final authType = AuthPreferenceService.authTypeGetter;
-      // try {
-      //   AuthPreferenceService.instance.setIsAuthenticated(false);
-      //   if (authType == AuthenticationType.cookie) {
-      //     await secureStorage.delete(key: AppConstants.cookieKey);
-      //   }
-      //   // if(authType == AuthenticationType.token && e.requestOptions.path.endsWith('/auth')){
-      //   //   await secureStorage.delete(key: AppConstants.tokenKey);
-      //   // }
-      //   if (authType == AuthenticationType.jwt) {
-      //     await secureStorage.delete(key: AppConstants.jwtKey);
-      //   }
-      // } catch (_) {}
-      handler.next(e);
-    },
+    // onError: (DioException e, handler) async {
+    //   if (e.response?.statusCode != 401) {
+    //     handler.next(e);
+    //     return;
+    //   }
+    //   final secureStorage = getIt<FlutterSecureStorage>();
+    //   final authType = AuthPreferenceService.authTypeGetter;
+    //   // try {
+    //   //   AuthPreferenceService.instance.setIsAuthenticated(false);
+    //   //   if (authType == AuthenticationType.cookie) {
+    //   //     await secureStorage.delete(key: AppConstants.cookieKey);
+    //   //   }
+    //   //   // if(authType == AuthenticationType.token && e.requestOptions.path.endsWith('/auth')){
+    //   //   //   await secureStorage.delete(key: AppConstants.tokenKey);
+    //   //   // }
+    //   //   if (authType == AuthenticationType.jwt) {
+    //   //     await secureStorage.delete(key: AppConstants.jwtKey);
+    //   //   }
+    //   // } catch (_) {}
+    //   handler.next(e);
+    // },
   );
+
+  // static final Interceptor contentTypeInterceptor = InterceptorsWrapper(
+  //   onRequest: (
+  //       RequestOptions options,
+  //       RequestInterceptorHandler handler,
+  //       ) {
+  //     if (options.contentType == null) {
+  //       final dynamic data = options.data;
+  //       final String? contentType;
+  //       if (data is FormData) {
+  //         contentType = Headers.multipartFormDataContentType;
+  //       } else if (data is Map) {
+  //         contentType = Headers.formUrlEncodedContentType;
+  //       } else if (data is String) {
+  //         contentType = Headers.jsonContentType;
+  //       } else if (data != null) {
+  //         contentType = Headers.textPlainContentType; // Can be removed if unnecessary.
+  //       } else {
+  //         contentType = null;
+  //       }
+  //       options.contentType = contentType;
+  //     }
+  //     handler.next(options);
+  //   },
+  // );
 // static Future<void> registerMedusaAdminSingleton() async {
 //   if (!getIt.isRegistered<MedusaAdminV2>()) {
 //     getIt.registerLazySingleton<MedusaAdminV2>(

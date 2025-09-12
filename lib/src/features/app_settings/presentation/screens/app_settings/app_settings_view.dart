@@ -213,7 +213,7 @@ class _AppSettingsViewState extends State<AppSettingsView> {
                       ],
                     ),
                     SettingsSection(
-                      title: const Text('DateTime settings'),
+                      title: const Text('Date & Time'),
                       tiles: <SettingsTile>[
                         if (Platform.isIOS)
                           SettingsTile.switchTile(

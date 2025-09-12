@@ -29,33 +29,32 @@ class SalesChannelDetailsView extends StatefulWidget {
   final SalesChannel salesChannel;
 
   @override
-  State<SalesChannelDetailsView> createState() =>
-      _SalesChannelDetailsViewState();
+  State<SalesChannelDetailsView> createState() => _SalesChannelDetailsViewState();
 }
 
 class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
   late ProductCrudBloc productCrudBloc;
   late SalesChannelCrudBloc salesChannelCrudBloc;
-  final pagingController = PagingController<int, Product>(
-      firstPageKey: 0, invisibleItemsThreshold: 6);
+  final pagingController =
+      PagingController<int, Product>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final refreshController = RefreshController();
   ProductFilter? productFilter;
+
   SalesChannel get salesChannel => widget.salesChannel;
-  bool selectAll = false;
+  bool? selectAll = false;
   List<String> selectedProducts = [];
+
   void _loadPage(int page) {
     Map<String, dynamic> queryParameters = {
       'offset': pagingController.itemList?.length,
       'sales_channel_id': [salesChannel.id, ''],
-      'expand': 'collection,type,sales_channels',
-      'fields': 'id,title,thumbnail,status',
+      // 'fields': 'id,title,thumbnail,status,handle,type,collection,collection_id,sales_channels',
     };
 
     if (productFilter != null) {
       queryParameters.addAll(productFilter!.toJson());
     }
-    productCrudBloc
-        .add(ProductCrudEvent.loadAll(queryParameters: queryParameters));
+    productCrudBloc.add(ProductCrudEvent.loadAll(queryParameters: queryParameters));
   }
 
   @override
@@ -96,19 +95,17 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
           listener: (context, state) {
             state.mapOrNull(
               products: (state) async {
-                final isLastPage =
-                    state.products.length < ProductCrudBloc.pageSize;
+                final isLastPage = state.products.length < ProductCrudBloc.pageSize;
                 if (refreshController.isRefresh) {
                   pagingController.removePageRequestListener(_loadPage);
-                  pagingController.value = const PagingState(
-                      nextPageKey: null, error: null, itemList: null);
+                  pagingController.value =
+                      const PagingState(nextPageKey: null, error: null, itemList: null);
                   await Future.delayed(const Duration(milliseconds: 250));
                 }
                 if (isLastPage) {
                   pagingController.appendLastPage(state.products);
                 } else {
-                  final nextPageKey =
-                      pagingController.nextPageKey ?? 0 + state.products.length;
+                  final nextPageKey = pagingController.nextPageKey ?? 0 + state.products.length;
                   pagingController.appendPage(state.products, nextPageKey);
                 }
                 if (refreshController.isRefresh) {
@@ -165,16 +162,21 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                 children: [
                   const SizedBox(width: 4.0),
                   Checkbox(
+                      tristate: true,
                       value: selectAll,
                       onChanged: (val) {
-                        if (val == null ||
-                            (pagingController.itemList?.isEmpty ?? true)) {
+                        if ((pagingController.itemList?.isEmpty ?? true)) {
+                          return;
+                        }
+                        if (val == null) {
+                          selectedProducts.clear();
+                          selectAll = false;
+                          setState(() {});
                           return;
                         }
                         if (val) {
-                          selectedProducts.addAll(
-                              pagingController.itemList?.map((e) => e.id) ??
-                                  []);
+                          selectedProducts
+                              .addAll(pagingController.itemList?.map((e) => e.id) ?? []);
                           selectAll = true;
                         } else {
                           selectedProducts.clear();
@@ -192,10 +194,8 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                       Future<ProductFilter?> productFilterView() async =>
                           await showBarModalBottomSheet<ProductFilter>(
                               context: context,
-                              backgroundColor:
-                                  context.theme.scaffoldBackgroundColor,
-                              overlayStyle:
-                                  context.theme.appBarTheme.systemOverlayStyle,
+                              backgroundColor: context.theme.scaffoldBackgroundColor,
+                              overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                               builder: (context) => ProductsFilterView(
                                     onResetPressed: () {
                                       productFilter = null;
@@ -220,21 +220,16 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                                 ? ColorManager.primary
                                 : Colors.transparent),
                         color: Theme.of(context).scaffoldBackgroundColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(6.0)),
+                        borderRadius: const BorderRadius.all(Radius.circular(6.0)),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Filters',
-                              style:
-                                  context.bodySmall?.copyWith(color: manatee)),
+                          Text('Filters', style: context.bodySmall?.copyWith(color: manatee)),
                           if (productFilter?.count() != null)
                             Text(' ${productFilter?.count() ?? ''}',
-                                style: context.bodySmall
-                                    ?.copyWith(color: ColorManager.primary)),
+                                style: context.bodySmall?.copyWith(color: ColorManager.primary)),
                         ],
                       ),
                     ),
@@ -255,10 +250,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                         const SheetAction(label: 'Edit General Info', key: 0),
                         const SheetAction(label: 'Add Products', key: 1),
                         if (pagingController.itemList?.isEmpty ?? false)
-                          const SheetAction(
-                              label: 'Delete',
-                              isDestructiveAction: true,
-                              key: 2),
+                          const SheetAction(label: 'Delete', isDestructiveAction: true, key: 2),
                       ]).then((value) async {
                     switch (value) {
                       case 0:
@@ -275,10 +267,8 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                         if (!context.mounted) return;
                         final result = await showBarModalBottomSheet(
                           context: context,
-                          overlayStyle:
-                              context.theme.appBarTheme.systemOverlayStyle,
-                          backgroundColor:
-                              context.theme.scaffoldBackgroundColor,
+                          overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                          backgroundColor: context.theme.scaffoldBackgroundColor,
                           builder: (context) => PickProductsView(
                             pickProductsReq: PickProductsReq(
                               disabledProducts: pagingController.itemList,
@@ -286,16 +276,13 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                           ),
                         );
                         if (result is PickProductsRes) {
-                          final ids =
-                              result.selectedProducts.map((e) => e.id).toList();
-                          salesChannelCrudBloc.add(
-                              SalesChannelCrudEvent.addProducts(
-                                  salesChannel.id, ids));
+                          final ids = result.selectedProducts.map((e) => e.id).toList();
+                          salesChannelCrudBloc
+                              .add(SalesChannelCrudEvent.addProducts(salesChannel.id, ids));
                         }
                         break;
                       case 2:
-                        salesChannelCrudBloc
-                            .add(SalesChannelCrudEvent.delete(salesChannel.id));
+                        salesChannelCrudBloc.add(SalesChannelCrudEvent.delete(salesChannel.id));
                         break;
                     }
                   });
@@ -308,8 +295,8 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
             ? SalesChannelFAB(
                 selectedProductsCount: selectedProducts.length,
                 onRemove: () {
-                  salesChannelCrudBloc.add(SalesChannelCrudEvent.deleteProducts(
-                      salesChannel.id, selectedProducts));
+                  salesChannelCrudBloc
+                      .add(SalesChannelCrudEvent.deleteProducts(salesChannel.id, selectedProducts));
                 },
                 onClear: () {
                   selectAll = false;
@@ -326,22 +313,21 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<Product>(
                 animateTransitions: true,
-                itemBuilder: (context, product, index) =>
-                    ProductCheckboxListTile(
+                itemBuilder: (context, product, index) => ProductCheckboxListTile(
                   product,
                   selected: selectedProducts.contains(product.id),
                   onRemove: () {
-                    salesChannelCrudBloc.add(
-                        SalesChannelCrudEvent.deleteProducts(
-                            salesChannel.id, [product.id]));
+                    salesChannelCrudBloc
+                        .add(SalesChannelCrudEvent.deleteProducts(salesChannel.id, [product.id]));
                   },
                   onToggle: (val) {
                     if (val == null) return;
                     if (val) {
                       selectedProducts.add(product.id);
-                      if (selectedProducts.length ==
-                          pagingController.itemList?.length) {
+                      if (selectedProducts.length == pagingController.itemList?.length) {
                         selectAll = true;
+                      } else {
+                        selectAll = null;
                       }
                     } else {
                       selectedProducts.remove(product.id);
@@ -370,21 +356,16 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                         onPressed: () async {
                           final result = await showBarModalBottomSheet(
                               context: context,
-                              overlayStyle:
-                                  context.theme.appBarTheme.systemOverlayStyle,
-                              backgroundColor:
-                                  context.theme.scaffoldBackgroundColor,
+                              overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                              backgroundColor: context.theme.scaffoldBackgroundColor,
                               builder: (context) => PickProductsView(
                                       pickProductsReq: PickProductsReq(
                                     disabledProducts: pagingController.itemList,
                                   )));
                           if (result is PickProductsRes) {
-                            final ids = result.selectedProducts
-                                .map((e) => e.id)
-                                .toList();
-                            salesChannelCrudBloc.add(
-                                SalesChannelCrudEvent.addProducts(
-                                    salesChannel.id, ids));
+                            final ids = result.selectedProducts.map((e) => e.id).toList();
+                            salesChannelCrudBloc
+                                .add(SalesChannelCrudEvent.addProducts(salesChannel.id, ids));
                           }
                         },
                         child: const Text('Add products'))

@@ -31,6 +31,7 @@ abstract class RegisterCoreDependencies {
         interceptors: [
           MedusaAdminDi.loggerInterceptor,
           MedusaAdminDi.authInterceptor,
+          // MedusaAdminDi.contentTypeInterceptor,
         ],
       );
 }

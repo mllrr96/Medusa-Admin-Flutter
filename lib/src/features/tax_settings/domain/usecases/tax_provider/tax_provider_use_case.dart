@@ -5,22 +5,22 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 @lazySingleton
-class TaxProviderUseCase {
-  TaxProvidersRepository get _taxProviderRepository =>
-      _medusaAdmin.taxProviders;
+class TaxRegionUseCase {
+  TaxRegionsRepository get _taxRegionsRepository => _medusaAdmin.taxRegions;
 
-  static TaxProviderUseCase get instance => getIt<TaxProviderUseCase>();
+  static TaxRegionUseCase get instance => getIt<TaxRegionUseCase>();
   final MedusaAdminV2 _medusaAdmin;
 
-  TaxProviderUseCase(this._medusaAdmin);
+  TaxRegionUseCase(this._medusaAdmin);
 
-  Future<Result<List<TaxProvider>, MedusaError>> call() async {
+  Future<Result<List<TaxRegion>, MedusaError>> call({
+    Map<String, dynamic>? queryParam,
+  }) async {
     try {
-      final result = await _taxProviderRepository.list();
-      return Success(result.taxProviders);
+      final result = await _taxRegionsRepository.list(query: queryParam);
+      return Success(result.taxRegions);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -30,8 +30,7 @@ class TaxProviderUseCase {
     } catch (error, stack) {
       log(error.toString());
       log(stack.toString());
-      return Error(MedusaError(
-          code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

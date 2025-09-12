@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
@@ -56,7 +57,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
           user: (_) {
             dismissLoading();
             context.showSnackBar('User updated');
-            context.maybePop();
+            userBloc.add(const UserCrudEvent.loadCurrentUser());
           },
           error: (e) {
             dismissLoading();
@@ -115,7 +116,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
   Future<void> updatePersonalInformation(User user) async {
     firstNameCtrl.text = user.firstName ?? '';
     lastNameCtrl.text = user.lastName ?? '';
-    widgetBuilder(context) {
+    widgetBuilder(BuildContext context) {
       return Padding(
         padding: EdgeInsets.only(
             top: 8.0,
@@ -131,7 +132,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
               children: [
                 TextButton(
                     child: const Text('Cancel'),
-                    onPressed: () => context.maybePop()),
+                    onPressed: () => context.pop()),
                 TextButton(
                   child: const Text('Update'),
                   onPressed: () async {
@@ -140,7 +141,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                     }
                     if (firstNameCtrl.text == user.firstName &&
                         lastNameCtrl.text == user.lastName) {
-                      context.maybePop();
+                      context.pop();
                     } else {
                       context.unfocus();
                       userCrudBloc.add(UserCrudEvent.update(
@@ -148,7 +149,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                           UserUpdateReq(
                               firstName: firstNameCtrl.text,
                               lastName: lastNameCtrl.text)));
-                      context.maybePop();
+                      context.pop();
                     }
                   },
                 ),
@@ -181,7 +182,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                         }
                         if (firstNameCtrl.text == user.firstName &&
                             lastNameCtrl.text == user.lastName) {
-                          context.maybePop();
+                          context.pop();
                         } else {
                           context.unfocus();
                           userCrudBloc.add(UserCrudEvent.update(
@@ -189,7 +190,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                               UserUpdateReq(
                                   firstName: firstNameCtrl.text,
                                   lastName: lastNameCtrl.text)));
-                          context.maybePop();
+                          context.pop();
                         }
                       },
                       validator: (val) {

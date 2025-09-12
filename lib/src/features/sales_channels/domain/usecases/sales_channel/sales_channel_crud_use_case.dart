@@ -5,7 +5,6 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 @lazySingleton
 class SalesChannelCrudUseCase {
@@ -61,7 +60,7 @@ class SalesChannelCrudUseCase {
   Future<Result<SalesChannel, MedusaError>> removeProducts(
       {required String id, required List<String> productIds}) async {
     try {
-      final result = await _salesChannelRepository.manageProducts(
+      final result = await _salesChannelRepository.removeProducts(
           id, ManageProductsReq(remove: productIds));
       return Success(result.salesChannel);
     } on DioException catch (e) {
@@ -81,7 +80,7 @@ class SalesChannelCrudUseCase {
   Future<Result<SalesChannel, MedusaError>> addProducts(
       {required String id, required List<String> productIds}) async {
     try {
-      final result = await _salesChannelRepository.manageProducts(
+      final result = await _salesChannelRepository.addProducts(
           id, ManageProductsReq(add: productIds));
       return Success(result.salesChannel);
     } on DioException catch (e) {

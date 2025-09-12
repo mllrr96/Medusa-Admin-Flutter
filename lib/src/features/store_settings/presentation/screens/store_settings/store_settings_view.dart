@@ -6,6 +6,7 @@ import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:medusa_admin/src/core/utils/medusa_sliver_app_bar.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 @RoutePage()
 class StoreSettingsView extends StatelessWidget {
@@ -26,73 +27,93 @@ class StoreSettingsView extends StatelessWidget {
           darkTheme: context.settingsListDarkTheme,
           sections: [
             SettingsSection(
-              title: const Text('Manage the settings for your Medusa store'),
+              title: const Text('General'),
               tiles: <SettingsTile>[
+                SettingsTile.navigation(
+                  leading: Icon(LucideIcons.store),
+                  title: const Text('Store'),
+                  onPressed: (_) => context.pushRoute(const StoreDetailsRoute()),
+                ),
+                SettingsTile.navigation(
+                  leading: const Icon(LucideIcons.users),
+                  title: const Text('Users'),
+                  // onPressed: (context) => context.pushRoute(const RegionsRoute()),
+                ),
                 SettingsTile.navigation(
                   leading: const Icon(Icons.location_on),
                   title: const Text('Regions'),
-                  onPressed: (context) =>
-                      context.pushRoute(const RegionsRoute()),
+                  onPressed: (context) => context.pushRoute(const RegionsRoute()),
                 ),
                 SettingsTile.navigation(
-                  leading: const Icon(Icons.store),
-                  title: const Text('Store Details'),
-                  onPressed: (_) =>
-                      context.pushRoute(const StoreDetailsRoute()),
+                  leading: const Icon(Icons.percent),
+                  title: const Text('Tax Regions'),
+                  onPressed: (_) => context.pushRoute(const TaxSettingsSelectRegionRoute()),
                 ),
                 SettingsTile.navigation(
                   leading: const Icon(Icons.attach_money),
                   title: const Text('Return Reasons'),
-                  onPressed: (_) =>
-                      context.pushRoute(const ReturnReasonsRoute()),
-                ),
-                SettingsTile.navigation(
-                  leading: const Icon(Icons.face),
-                  title: const Text('Personal Information'),
-                  onPressed: (_) =>
-                      context.pushRoute(const PersonalInformationRoute()),
-                ),
-                SettingsTile.navigation(
-                  leading: const Icon(Icons.percent),
-                  title: const Text('Tax Settings'),
-                  onPressed: (_) =>
-                      context.pushRoute(const TaxSettingsSelectRegionRoute()),
-                ),
-                SettingsTile.navigation(
-                  leading: const Icon(Icons.currency_exchange),
-                  title: const Text('Currencies'),
-                  onPressed: (_) => context.pushRoute(const CurrenciesRoute()),
-                ),
-                SettingsTile.navigation(
-                  leading: const Icon(Icons.local_shipping_outlined),
-                  title: const Text('Shipping'),
-                  onPressed: (_) {},
+                  onPressed: (_) => context.pushRoute(const ReturnReasonsRoute()),
                 ),
                 SettingsTile.navigation(
                   leading: const Icon(Icons.call_split),
                   title: const Text('Sales channels'),
-                  onPressed: (_) =>
-                      context.pushRoute(const SalesChannelsRoute()),
+                  onPressed: (_) => context.pushRoute(const SalesChannelsRoute()),
                 ),
                 SettingsTile.navigation(
-                  leading: const Icon(Icons.key),
-                  title: const Text('API key management'),
-                  onPressed: (_) =>
-                      context.pushRoute(const ApiKeyManagementRoute()),
+                  leading: const Icon(Icons.local_shipping_outlined),
+                  title: const Text('Locations & Shipping'),
+                  onPressed: (_) {},
+                ),
+
+                //
+                // SettingsTile.navigation(
+                //   leading: const Icon(Icons.currency_exchange),
+                //   title: const Text('Currencies'),
+                //   onPressed: (_) => context.pushRoute(const CurrenciesRoute()),
+                // ),
+                // SettingsTile.navigation(
+                //   leading: const Icon(Icons.group),
+                //   title: const Text('The Team'),
+                //   onPressed: (_) => context.pushRoute(const TeamRoute()),
+                // ),
+                // SettingsTile.navigation(
+                //   leading: const Icon(Icons.group),
+                //   title: const Text('Invites'),
+                //   onPressed: (_) => context.pushRoute(const InvitesRoute()),
+                // ),
+                // SettingsTile.navigation(
+                //   leading: const Icon(Icons.mail),
+                //   title: const Text('Support'),
+                // ),
+              ],
+            ),
+            SettingsSection(
+              title: const Text('Developer'),
+              tiles: [
+                SettingsTile.navigation(
+                  leading: const Icon(LucideIcons.rotateCcwKey),
+                  title: const Text('Publishable API Keys'),
+                  // onPressed: (_) => context.pushRoute(const ApiKeyManagementRoute()),
                 ),
                 SettingsTile.navigation(
-                  leading: const Icon(Icons.group),
-                  title: const Text('The Team'),
-                  onPressed: (_) => context.pushRoute(const TeamRoute()),
+                  leading: const Icon(LucideIcons.key),
+                  title: const Text('Secret API Keys'),
+                  // onPressed: (_) => context.pushRoute(const ApiKeyManagementRoute()),
                 ),
                 SettingsTile.navigation(
-                  leading: const Icon(Icons.group),
-                  title: const Text('Invites'),
-                  onPressed: (_) => context.pushRoute(const InvitesRoute()),
+                  leading: const Icon(LucideIcons.gitBranch),
+                  title: const Text('Workflows'),
+                  // onPressed: (_) => context.pushRoute(const ApiKeyManagementRoute()),
                 ),
+              ],
+            ),
+            SettingsSection(
+              title: const Text('My Account'),
+              tiles: [
                 SettingsTile.navigation(
-                  leading: const Icon(Icons.mail),
-                  title: const Text('Support'),
+                  leading: const Icon(LucideIcons.user),
+                  title: const Text('Profile'),
+                  onPressed: (_) => context.pushRoute(const PersonalInformationRoute()),
                 ),
               ],
             ),
