@@ -31,20 +31,7 @@ class StoreDetailsFab extends StatelessWidget {
               const VerticalDivider(width: 24),
               InkWell(
                 borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                onTap: () async {
-                  await showOkCancelAlertDialog(
-                    context: context,
-                    title: 'Are you sure?',
-                    message:
-                        'You are about to remove $currenciesCount currency from your store. Ensure that you have removed all prices using the currency before proceeding.',
-                    okLabel: 'Remove',
-                    isDestructiveAction: true,
-                  ).then((value) async {
-                    if (value == OkCancelResult.ok) {
-                      onRemove?.call();
-                    }
-                  });
-                },
+                onTap: onRemove,
                 child: Ink(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                   decoration: BoxDecoration(

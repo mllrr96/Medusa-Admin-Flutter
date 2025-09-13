@@ -20,8 +20,8 @@ class RegionCrudBloc extends Bloc<RegionCrudEvent, RegionCrudState> {
     on<_Create>(_create);
     on<_Update>(_update);
     on<_Delete>(_delete);
-    on<_AddCountry>(_addCountry);
-    on<_RemoveCountry>(_removeCountry);
+    // on<_AddCountry>(_addCountry);
+    // on<_RemoveCountry>(_removeCountry);
     // on<_LoadFulfillmentOptions>(_loadFulfillmentOptions);
     // on<_AddFulfillmentProvider>(_addFulfillmentProvider);
     // on<_RemoveFulfillmentProvider>(_removeFulfillmentProvider);
@@ -68,23 +68,7 @@ class RegionCrudBloc extends Bloc<RegionCrudEvent, RegionCrudState> {
         (unit) => emit(const _Deleted()), (error) => emit(_Error(error)));
   }
 
-  Future<void> _addCountry(
-      _AddCountry event, Emitter<RegionCrudState> emit) async {
-    emit(const _Loading());
-    final result =
-        await _useCase.addCountry(id: event.id, countryCode: event.countryCode);
-    result.when(
-        (region) => emit(_Region(region)), (error) => emit(_Error(error)));
-  }
 
-  Future<void> _removeCountry(
-      _RemoveCountry event, Emitter<RegionCrudState> emit) async {
-    emit(const _Loading());
-    final result = await _useCase.removeCountry(
-        id: event.id, countryCode: event.countryCode);
-    result.when(
-        (region) => emit(_Region(region)), (error) => emit(_Error(error)));
-  }
 
   // Future<void> _loadFulfillmentOptions(
   //     _LoadFulfillmentOptions event, Emitter<RegionCrudState> emit) async {

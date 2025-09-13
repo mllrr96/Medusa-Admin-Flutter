@@ -120,51 +120,6 @@ class RegionCrudUseCase {
     }
   }
 
-  // TODO: check how to add a country, this approach might remove all existing countries
-  Future<Result<Region, MedusaError>> addCountry({
-    required String id,
-    required String countryCode,
-  }) async {
-    try {
-      final result = await _regionsRepository.update(
-          id, UpdateRegionReq(countries: [countryCode]));
-      return Success(result.region);
-    } on DioException catch (e) {
-      return Error(MedusaError.fromHttp(
-        status: e.response?.statusCode,
-        body: e.response?.data,
-        cause: e,
-      ));
-    } catch (error, stack) {
-      log(error.toString());
-      log(stack.toString());
-      return Error(MedusaError(
-          code: 'unknown', type: 'unknown', message: error.toString()));
-    }
-  }
-
-  // TODO: check how to remove a country
-  Future<Result<Region, MedusaError>> removeCountry({
-    required String id,
-    required String countryCode,
-  }) async {
-    try {
-      final result = await _regionsRepository.update(id, UpdateRegionReq());
-      return Success(result.region);
-    } on DioException catch (e) {
-      return Error(MedusaError.fromHttp(
-        status: e.response?.statusCode,
-        body: e.response?.data,
-        cause: e,
-      ));
-    } catch (error, stack) {
-      log(error.toString());
-      log(stack.toString());
-      return Error(MedusaError(
-          code: 'unknown', type: 'unknown', message: error.toString()));
-    }
-  }
-
   // Future<Result<List<FulfillmentOption>, MedusaError>> loadFulfillmentOptions(
   //   String id,
   // ) async {

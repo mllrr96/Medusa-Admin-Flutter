@@ -16,7 +16,6 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
   final emailCtrl = TextEditingController();
   final firstNameCtrl = TextEditingController();
   final lastNameCtrl = TextEditingController();
-  final tokenCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -24,7 +23,6 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
     emailCtrl.text = widget.user.email ?? '';
     firstNameCtrl.text = widget.user.firstName ?? '';
     lastNameCtrl.text = widget.user.lastName ?? '';
-    // tokenCtrl.text = widget.user.apiToken ?? '';
     super.initState();
   }
 
@@ -33,7 +31,6 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
     emailCtrl.dispose();
     firstNameCtrl.dispose();
     lastNameCtrl.dispose();
-    tokenCtrl.dispose();
     super.dispose();
   }
 
@@ -120,11 +117,6 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                 readOnly: true,
                 controller: emailCtrl,
                 hintText: 'Lebron@james.com',
-              ),
-              const SizedBox(height: 12.0),
-              LabeledTextField(
-                label: 'Api Token',
-                controller: tokenCtrl,
               ),
             ],
           ),

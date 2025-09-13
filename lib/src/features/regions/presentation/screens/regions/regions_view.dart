@@ -12,6 +12,7 @@ import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'components/region_card.dart';
+import 'components/regions_loading_page.dart';
 
 @RoutePage()
 class RegionsView extends StatefulWidget {
@@ -60,15 +61,14 @@ class _RegionsViewState extends State<RegionsView> {
             final isLastPage = state.regions.length < RegionCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
+              pagingController.value =
+                  const PagingState(nextPageKey: null, error: null, itemList: null);
               await Future.delayed(const Duration(milliseconds: 250));
             }
             if (isLastPage) {
               pagingController.appendLastPage(state.regions);
             } else {
-              final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.regions.length;
+              final nextPageKey = pagingController.nextPageKey ?? 0 + state.regions.length;
               pagingController.appendPage(state.regions, nextPageKey);
             }
             if (refreshController.isRefresh) {
@@ -105,15 +105,12 @@ class _RegionsViewState extends State<RegionsView> {
             header: const MaterialClassicHeader(),
             child: PagedListView.separated(
               separatorBuilder: (_, __) => const Gap(6.0),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<Region>(
                 animateTransitions: true,
-                itemBuilder: (context, region, index) =>
-                    RegionCard(region: region),
-                // firstPageProgressIndicatorBuilder: (context) =>
-                //     const RegionsLoadingPage(),
+                itemBuilder: (context, region, index) => RegionCard(region: region),
+                firstPageProgressIndicatorBuilder: (context) => const RegionsLoadingPage(),
                 firstPageErrorIndicatorBuilder: (context) =>
                     PaginationErrorPage(pagingController: pagingController),
               ),

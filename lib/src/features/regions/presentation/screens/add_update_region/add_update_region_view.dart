@@ -35,8 +35,8 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
   late PaymentProvidersCubit paymentProvidersCubit;
 
   final titleCtrl = TextEditingController();
-  final defaultTaxRateCtrl = TextEditingController();
-  final defaultTextCode = TextEditingController();
+  // final defaultTaxRateCtrl = TextEditingController();
+  // final defaultTextCode = TextEditingController();
   final formKey = GlobalKey<FormState>();
   List<Country> selectedCountries = [];
   List<String> selectedPaymentProviders = [];
@@ -53,8 +53,8 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
     //     .mapOrNull(loaded: (_) => _.store.currencies);
     if (updateMode) {
       titleCtrl.text = region!.name;
-      defaultTaxRateCtrl.text = region!.taxRate.toString();
-      defaultTextCode.text = region!.taxCode.toString();
+      // defaultTaxRateCtrl.text = region!.taxRate.toString();
+      // defaultTextCode.text = region!.taxCode.toString();
       selectedCountries = region!.countries ?? [];
       // selectedCurrency = context
       //     .read<StoreBloc>()
@@ -71,8 +71,8 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
     regionCrudBloc.close();
     paymentProvidersCubit.close();
     titleCtrl.dispose();
-    defaultTaxRateCtrl.dispose();
-    defaultTextCode.dispose();
+    // defaultTaxRateCtrl.dispose();
+    // defaultTextCode.dispose();
     super.dispose();
   }
 
@@ -226,21 +226,21 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                                 errorBorder: border),
                           ),
                           space,
-                          if (updateMode == false)
-                            LabeledTextField(
-                              label: 'Default Tax Rate',
-                              controller: defaultTaxRateCtrl,
-                              keyboardType: TextInputType.number,
-                              required: true,
-                              hintText: '% 25',
-                              validator: (val) {
-                                if (val == null ||
-                                    val.removeAllWhitespace.isEmpty) {
-                                  return 'Field required';
-                                }
-                                return null;
-                              },
-                            ),
+                          // if (updateMode == false)
+                          //   LabeledTextField(
+                          //     label: 'Default Tax Rate',
+                          //     controller: defaultTaxRateCtrl,
+                          //     keyboardType: TextInputType.number,
+                          //     required: true,
+                          //     hintText: '% 25',
+                          //     validator: (val) {
+                          //       if (val == null ||
+                          //           val.removeAllWhitespace.isEmpty) {
+                          //         return 'Field required';
+                          //       }
+                          //       return null;
+                          //     },
+                          //   ),
                           // if (!controller.updateMode)
                           //   LabeledTextField(
                           //     label: 'Default Tax Code',

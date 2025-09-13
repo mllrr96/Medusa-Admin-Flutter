@@ -3,14 +3,17 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/src/features/team/presentation/bloc/invite_crud/invite_crud_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:simple_icons/simple_icons.dart';
 
 import 'components/index.dart';
+import 'components/invite_user.dart';
 
 @RoutePage()
 class InvitesView extends StatefulWidget {
@@ -23,8 +26,8 @@ class InvitesView extends StatefulWidget {
 class _InvitesViewState extends State<InvitesView> {
   late InviteCrudBloc invitesBloc;
   late InviteCrudBloc inviteCrudBloc;
-  final pagingController = PagingController<int, Invite>(
-      firstPageKey: 0, invisibleItemsThreshold: 3);
+  final pagingController =
+      PagingController<int, Invite>(firstPageKey: 0, invisibleItemsThreshold: 3);
   final refreshController = RefreshController();
 
   void _loadPage(int page) {
@@ -57,19 +60,17 @@ class _InvitesViewState extends State<InvitesView> {
           listener: (context, state) {
             state.mapOrNull(
               invites: (state) async {
-                final isLastPage =
-                    state.invites.length < InviteCrudBloc.pageSize;
+                final isLastPage = state.invites.length < InviteCrudBloc.pageSize;
                 if (refreshController.isRefresh) {
                   pagingController.removePageRequestListener(_loadPage);
-                  pagingController.value = const PagingState(
-                      nextPageKey: null, error: null, itemList: null);
+                  pagingController.value =
+                      const PagingState(nextPageKey: null, error: null, itemList: null);
                   await Future.delayed(const Duration(milliseconds: 250));
                 }
                 if (isLastPage) {
                   pagingController.appendLastPage(state.invites);
                 } else {
-                  final nextPageKey =
-                      pagingController.nextPageKey ?? 0 + state.invites.length;
+                  final nextPageKey = pagingController.nextPageKey ?? 0 + state.invites.length;
                   pagingController.appendPage(state.invites, nextPageKey);
                 }
                 if (refreshController.isRefresh) {
@@ -108,6 +109,20 @@ class _InvitesViewState extends State<InvitesView> {
         ),
       ],
       child: Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+          icon: const Icon(LucideIcons.userPlus),
+          onPressed: () async {
+            final result = await showModalBottomSheet<bool?>(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => const InviteUser(),
+            );
+            if (result == true) {
+              pagingController.refresh();
+            }
+          },
+          label: Text('Invite'),
+        ),
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             const MedusaSliverAppBar(title: Text('Invites')),
@@ -122,8 +137,7 @@ class _InvitesViewState extends State<InvitesView> {
                 itemBuilder: (context, invite, index) {
                   return InviteCard(
                     invite: invite,
-                    onResendTap: () =>
-                        inviteCrudBloc.add(InviteCrudEvent.resend(invite.id)),
+                    onResendTap: () => inviteCrudBloc.add(InviteCrudEvent.resend(invite.id)),
                     onDeleteTap: () async {
                       if (await delete) {
                         inviteCrudBloc.add(InviteCrudEvent.delete(invite.id));

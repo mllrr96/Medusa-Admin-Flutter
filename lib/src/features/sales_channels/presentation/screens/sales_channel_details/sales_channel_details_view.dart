@@ -8,6 +8,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_req.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_res.dart';
 import 'package:medusa_admin/src/features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
@@ -40,7 +41,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
   final refreshController = RefreshController();
   ProductFilter? productFilter;
 
-  SalesChannel get salesChannel => widget.salesChannel;
+  late SalesChannel salesChannel;
   bool? selectAll = false;
   List<String> selectedProducts = [];
 
@@ -59,6 +60,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
 
   @override
   void initState() {
+    salesChannel = widget.salesChannel;
     productCrudBloc = ProductCrudBloc.instance;
     salesChannelCrudBloc = SalesChannelCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
@@ -151,7 +153,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SalesChannelActiveDot(disabled),
-              Text(salesChannel.name ?? ''),
+              Text(salesChannel.name),
             ],
           ),
           bottom: PreferredSize(
@@ -244,7 +246,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                 onPressed: () async {
                   await showModalActionSheet<int>(
                       title: 'Manage Sales Channel',
-                      message: salesChannel.name ?? '',
+                      message: salesChannel.name,
                       context: context,
                       actions: <SheetAction<int>>[
                         const SheetAction(label: 'Edit General Info', key: 0),
@@ -254,14 +256,15 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                       ]).then((value) async {
                     switch (value) {
                       case 0:
-                        // await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL, arguments: salesChannel)
-                        //     ?.then((result) {
-                        //   if (result is SalesChannel) {
-                        //     salesChannel = result;
-                        //     update();
-                        //     SalesChannelsinstance.pagingrefresh();
-                        //   }
-                        // });
+                        if (!context.mounted) return;
+                        await context
+                            .pushRoute(AddUpdateSalesChannelRoute(salesChannel: salesChannel))
+                            .then((result) {
+                          if (result is SalesChannel) {
+                            salesChannel = result;
+                            setState(() {});
+                          }
+                        });
                         break;
                       case 1:
                         if (!context.mounted) return;

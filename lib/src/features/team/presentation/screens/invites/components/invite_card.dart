@@ -40,7 +40,7 @@ class InviteCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       backgroundColor: ColorManager.getAvatarColor(email),
-                      child: Text(email[0].toUpperCase(),
+                      child: Text(email.isNotEmpty ? email[0].toUpperCase() : '',
                           style: largeTextStyle?.copyWith(color: Colors.white)),
                     ),
                     const SizedBox(width: 6.0),
@@ -53,22 +53,20 @@ class InviteCard extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () async {
-                        await showModalActionSheet<
-                            int>(context: context, actions: <SheetAction<int>>[
-                          const SheetAction(label: 'Resend Invitation', key: 0),
-                          const SheetAction(label: 'Copy Invite Link', key: 1),
-                          const SheetAction(
-                              label: 'Remove Invitation',
-                              isDestructiveAction: true,
-                              key: 2),
-                        ]).then((result) async {
+                        await showModalActionSheet<int>(
+                            context: context,
+                            actions: <SheetAction<int>>[
+                              const SheetAction(label: 'Resend Invitation', key: 0),
+                              const SheetAction(label: 'Copy Invite Link', key: 1),
+                              const SheetAction(
+                                  label: 'Remove Invitation', isDestructiveAction: true, key: 2),
+                            ]).then((result) async {
                           switch (result) {
                             case 0:
                               onResendTap?.call();
                               return;
                             case 1:
-                              await Clipboard.setData(
-                                      ClipboardData(text: invite.token ?? ''))
+                              await Clipboard.setData(ClipboardData(text: invite.token ?? ''))
                                   .then((value) {
                                 if (!context.mounted) return;
                                 context.showSnackBar('Token copied');

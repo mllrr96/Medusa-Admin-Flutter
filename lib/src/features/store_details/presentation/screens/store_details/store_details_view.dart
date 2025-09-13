@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:flutter/material.dart';
@@ -108,7 +109,10 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
                         selectedCurrencies.clear();
                         setState(() {});
                       },
-                      onRemove: () {
+                      onRemove: () async {
+                        if (!await shouldRemove(selectedCurrencies.length)) {
+                          return;
+                        }
                         List<StoreCurrency> supportedCurrencies =
                             List<StoreCurrency>.from(store?.supportedCurrencies ?? []);
                         supportedCurrencies.removeWhere((element) =>
@@ -360,4 +364,13 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
       ),
     );
   }
+
+  Future<bool> shouldRemove(int currenciesCount) async => await showOkCancelAlertDialog(
+        context: context,
+        title: 'Are you sure?',
+        message:
+            'You are about to remove $currenciesCount currency from your store. Ensure that you have removed all prices using the currency before proceeding.',
+        okLabel: 'Remove',
+        isDestructiveAction: true,
+      ).then((value) => value == OkCancelResult.ok);
 }

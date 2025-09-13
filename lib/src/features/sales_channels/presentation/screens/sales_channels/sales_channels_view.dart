@@ -24,8 +24,8 @@ class SalesChannelsView extends StatefulWidget {
 
 class _SalesChannelsViewState extends State<SalesChannelsView> {
   late SalesChannelCrudBloc salesChannelCrudBloc;
-  final pagingController = PagingController<int, SalesChannel>(
-      firstPageKey: 0, invisibleItemsThreshold: 6);
+  final pagingController =
+      PagingController<int, SalesChannel>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final refreshController = RefreshController();
 
   void _loadPage(int page) {
@@ -58,19 +58,17 @@ class _SalesChannelsViewState extends State<SalesChannelsView> {
       listener: (context, state) {
         state.mapOrNull(
           salesChannels: (state) async {
-            final isLastPage =
-                state.salesChannels.length < SalesChannelCrudBloc.pageSize;
+            final isLastPage = state.salesChannels.length < SalesChannelCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
+              pagingController.value =
+                  const PagingState(nextPageKey: null, error: null, itemList: null);
               await Future.delayed(const Duration(milliseconds: 250));
             }
             if (isLastPage) {
               pagingController.appendLastPage(state.salesChannels);
             } else {
-              final nextPageKey = pagingController.nextPageKey ??
-                  0 + state.salesChannels.length;
+              final nextPageKey = pagingController.nextPageKey ?? 0 + state.salesChannels.length;
               pagingController.appendPage(state.salesChannels, nextPageKey);
             }
             if (refreshController.isRefresh) {
@@ -98,12 +96,9 @@ class _SalesChannelsViewState extends State<SalesChannelsView> {
                   children: [
                     Expanded(
                         child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Text(
-                                'Control which products are available in which channels',
-                                style: context.bodySmall
-                                    ?.copyWith(color: ColorManager.manatee)))),
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Text('Control which products are available in which channels',
+                                style: context.bodySmall?.copyWith(color: ColorManager.manatee)))),
                     const Divider(height: 0),
                   ],
                 ),
@@ -113,9 +108,8 @@ class _SalesChannelsViewState extends State<SalesChannelsView> {
             onPressed: () async {
               // final result =
               //     await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL);
-              final result =
-                  await context.pushRoute(AddUpdateSalesChannelRoute());
-              if (result is bool) {
+              final result = await context.pushRoute(AddUpdateSalesChannelRoute());
+              if (result is SalesChannel) {
                 pagingController.refresh();
               }
             },
@@ -131,10 +125,17 @@ class _SalesChannelsViewState extends State<SalesChannelsView> {
             pagingController: pagingController,
             builderDelegate: PagedChildBuilderDelegate<SalesChannel>(
                 animateTransitions: true,
-                itemBuilder: (context, salesChannel, index) =>
-                    SalesChannelTile(salesChannel),
-                firstPageProgressIndicatorBuilder: (_) =>
-                    const SalesChannelsLoadingPage(),
+                itemBuilder: (context, salesChannel, index) => SalesChannelTile(
+                      salesChannel,
+                      onTap: () async {
+                        final result = await context
+                            .pushRoute(SalesChannelDetailsRoute(salesChannel: salesChannel));
+                        if (result is bool) {
+                          pagingController.refresh();
+                        }
+                      },
+                    ),
+                firstPageProgressIndicatorBuilder: (_) => const SalesChannelsLoadingPage(),
                 firstPageErrorIndicatorBuilder: (_) =>
                     PaginationErrorPage(pagingController: pagingController)),
           ),

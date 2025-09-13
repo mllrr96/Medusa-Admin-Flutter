@@ -8,8 +8,9 @@ import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 class SalesChannelTile extends StatelessWidget {
-  const SalesChannelTile(this.salesChannel, {super.key});
+  const SalesChannelTile(this.salesChannel, {super.key, this.onTap});
   final SalesChannel salesChannel;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
@@ -18,8 +19,7 @@ class SalesChannelTile extends StatelessWidget {
     final largeTextStyle = context.bodyLarge;
     final isDisabled = salesChannel.isDisabled ?? false;
     return ListTile(
-      onTap: () => context
-          .pushRoute(SalesChannelDetailsRoute(salesChannel: salesChannel)),
+      onTap: onTap,
       tileColor: context.theme.appBarTheme.backgroundColor,
       title: Text(salesChannel.name ?? '', style: largeTextStyle),
       subtitle: Text(salesChannel.description ?? '',

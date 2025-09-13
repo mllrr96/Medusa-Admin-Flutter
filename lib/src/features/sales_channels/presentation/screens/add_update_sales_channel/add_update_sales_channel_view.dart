@@ -12,11 +12,11 @@ import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 @RoutePage()
 class AddUpdateSalesChannelView extends StatefulWidget {
   const AddUpdateSalesChannelView({super.key, this.salesChannel});
+
   final SalesChannel? salesChannel;
 
   @override
-  State<AddUpdateSalesChannelView> createState() =>
-      _AddUpdateSalesChannelViewState();
+  State<AddUpdateSalesChannelView> createState() => _AddUpdateSalesChannelViewState();
 }
 
 class _AddUpdateSalesChannelViewState extends State<AddUpdateSalesChannelView> {
@@ -31,9 +31,9 @@ class _AddUpdateSalesChannelViewState extends State<AddUpdateSalesChannelView> {
   void initState() {
     salesChannelCrudBloc = SalesChannelCrudBloc.instance;
     if (updateMode) {
-      titleCtrl.text = widget.salesChannel!.name ?? '';
+      titleCtrl.text = widget.salesChannel!.name;
       descriptionCtrl.text = widget.salesChannel!.description ?? '';
-      disabled = widget.salesChannel!.isDisabled ?? false;
+      disabled = widget.salesChannel!.isDisabled;
     }
 
     super.initState();
@@ -80,48 +80,42 @@ class _AddUpdateSalesChannelViewState extends State<AddUpdateSalesChannelView> {
           ),
           bottomNavigationBar: Container(
             margin: const EdgeInsets.symmetric(horizontal: 18.0),
-            padding: EdgeInsets.only(
-                bottom: bottomViewPadding, top: bottomViewPadding / 2),
+            padding: EdgeInsets.only(bottom: bottomViewPadding, top: bottomViewPadding / 2),
             child: FilledButton(
-              style: FilledButton.styleFrom(
-                  backgroundColor: disabled ? Colors.blueGrey : null),
+              style: FilledButton.styleFrom(fixedSize: const Size(double.infinity, 50)),
               onPressed: () {
                 if (!formKey.currentState!.validate()) {
                   return;
                 }
-                // updateMode
-                //     ? salesChannelCrudBloc.add(SalesChannelCrudEvent.update(
-                //         widget.salesChannel!.id,
-                //         SalesChannelUpdateReq(
-                //           name: titleCtrl.text,
-                //           description: descriptionCtrl.text,
-                //           isDisabled: disabled,
-                //         ),
-                //       ))
-                //     : salesChannelCrudBloc.add(SalesChannelCrudEvent.create(
-                //         SalesChannelCreateReq(
-                //           name: titleCtrl.text,
-                //           description: descriptionCtrl.text,
-                //           isDisabled: disabled,
-                //         ),
-                //       ));
+                updateMode
+                    ? salesChannelCrudBloc.add(SalesChannelCrudEvent.update(
+                        widget.salesChannel!.id,
+                        UpdateSalesChannel(
+                          name: titleCtrl.text,
+                          description: descriptionCtrl.text,
+                          isDisabled: disabled,
+                        ),
+                      ))
+                    : salesChannelCrudBloc.add(SalesChannelCrudEvent.create(
+                        CreateSalesChannel(
+                          name: titleCtrl.text,
+                          description: descriptionCtrl.text,
+                          isDisabled: disabled,
+                        ),
+                      ));
               },
               child: updateMode
-                  ? const Text('Update Channel',
-                      style: TextStyle(color: Colors.white))
+                  ? const Text('Update Channel')
                   : disabled
-                      ? const Text('Save as draft',
-                          style: TextStyle(color: Colors.white))
-                      : const Text('Publish Channel',
-                          style: TextStyle(color: Colors.white)),
+                      ? const Text('Save as draft')
+                      : const Text('Publish Channel'),
             ),
           ),
           body: SafeArea(
             child: Form(
               key: formKey,
               child: ListView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 children: [
                   FlexExpansionTile(
                     initiallyExpanded: true,
@@ -145,20 +139,16 @@ class _AddUpdateSalesChannelViewState extends State<AddUpdateSalesChannelView> {
                         LabeledTextField(
                           label: 'Description',
                           controller: descriptionCtrl,
-                          hintText:
-                              'Available products at our website, app ...',
+                          hintText: 'Available products at our website, app ...',
                           textInputAction: TextInputAction.done,
                         ),
-                        CheckboxListTile(
-                          value: disabled,
+                        SwitchListTile(
+                          title: Text('Enabled'),
+                          value: !disabled,
                           onChanged: (val) {
-                            if (val == null) return;
-                            setState(() => disabled = val);
+                            setState(() => disabled = !val);
                           },
-                          title: const Text('Disabled'),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          contentPadding: EdgeInsets.zero,
-                        )
+                        ),
                       ],
                     ),
                   ),

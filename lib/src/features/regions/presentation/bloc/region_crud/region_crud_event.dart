@@ -11,11 +11,6 @@ class RegionCrudEvent with _$RegionCrudEvent {
   const factory RegionCrudEvent.loadAll(
       {Map<String, dynamic>? queryParameters}) = _LoadAll;
   const factory RegionCrudEvent.delete(String id) = _Delete;
-  //
-  const factory RegionCrudEvent.addCountry(String id, String countryCode) =
-      _AddCountry;
-  const factory RegionCrudEvent.removeCountry(String id, String countryCode) =
-      _RemoveCountry;
   const factory RegionCrudEvent.loadFulfillmentOptions(String id) =
       _LoadFulfillmentOptions;
   const factory RegionCrudEvent.addFulfillmentProvider(
