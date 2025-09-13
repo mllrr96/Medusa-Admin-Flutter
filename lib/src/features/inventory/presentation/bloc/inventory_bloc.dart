@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:medusa_admin/src/core/di/di.dart';
 import 'package:medusa_admin/src/core/error/medusa_error.dart';
 import 'package:medusa_admin/src/features/inventory/domain/usecases/batch_inventory_items_use_case.dart';
 import 'package:medusa_admin/src/features/inventory/domain/usecases/batch_location_levels_use_case.dart';
@@ -16,7 +17,9 @@ import 'package:medusa_admin/src/features/inventory/domain/usecases/update_locat
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 part 'inventory_event.dart';
+
 part 'inventory_state.dart';
+
 part 'inventory_bloc.freezed.dart';
 
 @injectable
@@ -34,7 +37,7 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
     this._deleteLocationLevelUseCase,
     this._updateLocationLevelUseCase,
   ) : super(const _Initial()) {
-    on<_Load>(_load);
+    on<_LoadInventoryItems>(_loadInventoryItems);
     on<_CreateInventoryItem>(_createInventoryItem);
     on<_BatchInventoryItems>(_batchInventoryItems);
     on<_RetrieveInventoryItem>(_retrieveInventoryItem);
@@ -59,12 +62,12 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
   final DeleteLocationLevelUseCase _deleteLocationLevelUseCase;
   final UpdateLocationLevelUseCase _updateLocationLevelUseCase;
 
-  Future<void> _load(
-    _Load event,
+  Future<void> _loadInventoryItems(
+    _LoadInventoryItems event,
     Emitter<InventoryState> emit,
   ) async {
     emit(const _Loading());
-    final result = await _listInventoryItemsUseCase();
+    final result = await _listInventoryItemsUseCase(queryParameters: event.query);
     result.when(
       (inventoryItems) => emit(_InventoryItemsList(inventoryItems)),
       (error) => emit(_Error(error)),
@@ -190,4 +193,6 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
       (error) => emit(_Error(error)),
     );
   }
+
+  static InventoryBloc get instance => getIt<InventoryBloc>();
 }

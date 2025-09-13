@@ -2,7 +2,7 @@ part of 'inventory_bloc.dart';
 
 @freezed
 class InventoryEvent with _$InventoryEvent {
-  const factory InventoryEvent.load() = _Load;
+  const factory InventoryEvent.loadInventoryItems(Map<String,dynamic>? query) = _LoadInventoryItems;
   const factory InventoryEvent.createInventoryItem(InventoryItemCreateReq body) = _CreateInventoryItem;
   const factory InventoryEvent.batchInventoryItems(BatchInventoryItemLocationsLevelReq body) = _BatchInventoryItems;
   const factory InventoryEvent.retrieveInventoryItem(String id) = _RetrieveInventoryItem;

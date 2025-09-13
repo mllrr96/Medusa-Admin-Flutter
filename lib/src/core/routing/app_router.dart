@@ -5,6 +5,7 @@ import 'package:medusa_admin/src/core/utils/enums.dart';
 import 'package:medusa_admin/src/features/campaigns/presentation/screens/campaigns/campaigns_view.dart';
 import 'package:medusa_admin/src/features/customers/data/models/pick_customer_req.dart';
 import 'package:medusa_admin/src/features/groups/data/models/pick_groups_req.dart';
+import 'package:medusa_admin/src/features/inventory/presentation/screens/inventory_details/inventory_details_view.dart';
 import 'package:medusa_admin/src/features/inventory/presentation/screens/inventory_view.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_req.dart';
 import 'package:medusa_admin/src/features/products/data/models/product_variant_req.dart';
@@ -225,6 +226,7 @@ class AppRouter extends RootStackRouter {
 
         AutoRoute(page: TeamRoute.page),
         AutoRoute(page: InvitesRoute.page),
+        AutoRoute(page: InventoryDetailsRoute.page),
 
         // App Settings
         AutoRoute(page: OrderSettingsRoute.page),
