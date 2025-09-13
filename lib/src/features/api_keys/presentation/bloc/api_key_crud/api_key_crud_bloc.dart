@@ -50,7 +50,7 @@ class ApiKeyCrudBloc extends Bloc<ApiKeyCrudEvent, ApiKeyCrudState> {
 
   void _create(_Create event, Emitter<ApiKeyCrudState> emit) async {
     emit(const _Loading());
-    final result = await _useCase.create(event.title);
+    final result = await _useCase.create(event.title, event.type);
     result.when(
         (success) => emit(_ApiKey(success)), (error) => emit(_Error(error)));
   }

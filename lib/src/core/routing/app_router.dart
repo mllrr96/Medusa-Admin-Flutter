@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/src/core/utils/enums.dart';
+import 'package:medusa_admin/src/features/api_keys/presentation/screens/api_key_details/api_key_details_view.dart';
+import 'package:medusa_admin/src/features/api_keys/presentation/screens/publishable_api_keys/publishable_api_keys_view.dart';
+import 'package:medusa_admin/src/features/api_keys/presentation/screens/secret_api_keys/secret_api_keys_view.dart';
 import 'package:medusa_admin/src/features/campaigns/presentation/screens/campaigns/campaigns_view.dart';
 import 'package:medusa_admin/src/features/customers/data/models/pick_customer_req.dart';
 import 'package:medusa_admin/src/features/groups/data/models/pick_groups_req.dart';
@@ -35,7 +38,6 @@ import 'package:medusa_admin/src/features/regions/presentation/screens/add_updat
 import 'package:medusa_admin/src/features/reservations/presentation/screens/reservations_view.dart';
 import 'package:medusa_admin/src/features/sales_channels/presentation/screens/add_update_sales_channel/add_update_sales_channel_view.dart';
 import 'package:medusa_admin/src/features/tax_settings/presentation/screens/add_update_tax_rate/add_update_tax_rate_view.dart';
-import 'package:medusa_admin/src/features/api_keys/presentation/screens/api_key_management/api_key_management_view.dart';
 import 'package:medusa_admin/src/features/return_reasons/presentation/screens/create_update_return_reason/create_update_return_reason_view.dart';
 import 'package:medusa_admin/src/features/currencies/presentation/screens/currencies/currencies_view.dart';
 import 'package:medusa_admin/src/features/tax_settings/data/models/add_update_tax_rate_req.dart';
@@ -221,8 +223,10 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: AddUpdateSalesChannelRoute.page),
         AutoRoute(page: SalesChannelDetailsRoute.page),
 
-        AutoRoute(page: ApiKeyManagementRoute.page),
+        AutoRoute(page: SecretApiKeysRoute.page),
+        AutoRoute(page: PublishableApiKeysRoute.page),
         AutoRoute(page: AddUpdateApiKeyRoute.page),
+        AutoRoute(page: ApiKeyDetailsRoute.page),
 
         AutoRoute(page: TeamRoute.page),
         AutoRoute(page: InvitesRoute.page),

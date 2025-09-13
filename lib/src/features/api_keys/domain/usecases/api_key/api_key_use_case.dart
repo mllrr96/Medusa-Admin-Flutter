@@ -15,11 +15,10 @@ class ApiKeyUseCase {
 
   static ApiKeyUseCase get instance => getIt<ApiKeyUseCase>();
 
-  Future<Result<ApiKey, MedusaError>> create(String title) async {
+  Future<Result<ApiKey, MedusaError>> create(String title, ApiKeyType type) async {
     try {
-      // TODO : handle type
       final result = await _apiKeyRepository
-          .create(CreateApiKeyReq(title: title, type: ''));
+          .create(CreateApiKeyReq(title: title, type: type));
       return Success(result.apiKey);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(

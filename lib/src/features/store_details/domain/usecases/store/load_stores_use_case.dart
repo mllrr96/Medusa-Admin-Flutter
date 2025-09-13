@@ -13,7 +13,7 @@ class LoadStoresUseCase {
 
   LoadStoresUseCase(this._medusaAdmin);
 
-  StoreRepository get _storeRepository => _medusaAdmin.store;
+  StoresRepository get _storeRepository => _medusaAdmin.store;
 
   static LoadStoresUseCase get instance => getIt<LoadStoresUseCase>();
 

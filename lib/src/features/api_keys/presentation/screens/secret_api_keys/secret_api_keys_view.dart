@@ -6,19 +6,19 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/features/api_keys/presentation/bloc/api_key_crud/api_key_crud_bloc.dart';
+import 'package:medusa_admin/src/features/api_keys/presentation/screens/publishable_api_keys/components/api_key_tile.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'components/api_key_tile.dart';
 
 @RoutePage()
-class ApiKeyManagementView extends StatefulWidget {
-  const ApiKeyManagementView({super.key});
+class SecretApiKeysView extends StatefulWidget {
+  const SecretApiKeysView({super.key});
 
   @override
-  State<ApiKeyManagementView> createState() => _ApiKeyManagementViewState();
+  State<SecretApiKeysView> createState() => _SecretApiKeysViewState();
 }
 
-class _ApiKeyManagementViewState extends State<ApiKeyManagementView> {
+class _SecretApiKeysViewState extends State<SecretApiKeysView> {
   late ApiKeyCrudBloc apiKeyCrudBloc;
 
   final pagingController = PagingController<int, ApiKey>(
@@ -35,6 +35,7 @@ class _ApiKeyManagementViewState extends State<ApiKeyManagementView> {
   void _loadPage(int page) {
     apiKeyCrudBloc.add(ApiKeyCrudEvent.loadAll(queryParameters: {
       'offset': page == 0 ? 0 : pagingController.itemList?.length,
+      'type': ApiKeyType.secret.name,
     }));
   }
 
@@ -80,10 +81,10 @@ class _ApiKeyManagementViewState extends State<ApiKeyManagementView> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Api Key Management'),
+          title: const Text('Secret Api Keys'),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => context.pushRoute(AddUpdateApiKeyRoute()),
+          onPressed: () => context.pushRoute(AddUpdateApiKeyRoute(type: ApiKeyType.secret)),
           child: const Icon(CupertinoIcons.add),
         ),
         body: SafeArea(

@@ -10,6 +10,7 @@ import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
 import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
 import 'package:medusa_admin/src/features/api_keys/presentation/bloc/api_key_crud/api_key_crud_bloc.dart';
+import 'package:medusa_admin/src/features/sales_channels/presentation/bloc/sales_channel_crud/sales_channel_crud_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
@@ -17,24 +18,30 @@ import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 @RoutePage()
 class AddUpdateApiKeyView extends StatefulWidget {
-  const AddUpdateApiKeyView({super.key, this.publishableApiKey});
+  const AddUpdateApiKeyView({super.key, this.publishableApiKey, this.type});
+
   final ApiKey? publishableApiKey;
+  final ApiKeyType? type;
 
   @override
   State<AddUpdateApiKeyView> createState() => _AddUpdateApiKeyViewState();
 }
 
 class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
-  late ApiKeyCrudBloc apiKeyCrudBloc;
+  late final ApiKeyCrudBloc apiKeyCrudBloc;
+
   bool get updateMode => widget.publishableApiKey != null;
   final titleCtrl = TextEditingController();
   final keyForm = GlobalKey<FormState>();
+
   @override
   void initState() {
     apiKeyCrudBloc = ApiKeyCrudBloc.instance;
     if (updateMode) {
       titleCtrl.text = widget.publishableApiKey!.title;
     }
+
+
     super.initState();
   }
 
@@ -69,9 +76,7 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
       child: HideKeyboard(
         child: Scaffold(
           appBar: AppBar(
-            title: updateMode
-                ? const Text('Update Api Key')
-                : const Text('Create New Api Key'),
+            title: updateMode ? const Text('Update Api Key') : const Text('Create New Api Key'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -80,10 +85,12 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
                   }
                   context.unfocus();
                   if (updateMode) {
-                    apiKeyCrudBloc.add(ApiKeyCrudEvent.update(
-                        widget.publishableApiKey!.id, titleCtrl.text));
+                    apiKeyCrudBloc
+                        .add(ApiKeyCrudEvent.update(widget.publishableApiKey!.id, titleCtrl.text));
                   } else {
-                    apiKeyCrudBloc.add(ApiKeyCrudEvent.create(titleCtrl.text));
+                    assert(
+                        widget.type != null, 'Type must be provided when creating a new api key');
+                    apiKeyCrudBloc.add(ApiKeyCrudEvent.create(titleCtrl.text, widget.type!));
                   }
                 },
                 child: const Text('Publish'),
@@ -92,8 +99,7 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
           ),
           body: SafeArea(
             child: ListView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               children: [
                 Form(
                   key: keyForm,
@@ -102,8 +108,11 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
                     initiallyExpanded: true,
                     child: Column(
                       children: [
+                        if(!updateMode)
                         Text(
-                          'Create and manage API keys. Right now this is only related to sales channels.',
+                          widget.type == ApiKeyType.secret
+                              ? 'Create a new secret API key to access the Medusa API as an authenticated admin user.'
+                              : 'Create a new publishable API key to limit the scope of requests to specific sales channels.',
                           style: smallTextStyle?.copyWith(color: manatee),
                         ),
                         space,
@@ -113,8 +122,7 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
                           hintText: 'Name your key',
                           required: true,
                           validator: (val) {
-                            if (val == null ||
-                                val.removeAllWhitespace.isEmpty) {
+                            if (val == null || val.removeAllWhitespace.isEmpty) {
                               return 'Field is required';
                             }
                             return null;
@@ -122,19 +130,6 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
                         )
                       ],
                     ),
-                  ),
-                ),
-                space,
-                FlexExpansionTile(
-                  title: const Text('Sales channels'),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Connect as many sales channels to your API key as you need.',
-                        style: smallTextStyle?.copyWith(color: manatee),
-                      ),
-                      space,
-                    ],
                   ),
                 ),
               ],

@@ -13,7 +13,7 @@ class UpdateStoreUseCase {
 
   UpdateStoreUseCase(this._medusaAdmin);
 
-  StoreRepository get _storeRepository => _medusaAdmin.store;
+  StoresRepository get _storeRepository => _medusaAdmin.store;
 
   static UpdateStoreUseCase get instance => getIt<UpdateStoreUseCase>();
 

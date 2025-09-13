@@ -86,12 +86,12 @@ class StoreSettingsView extends StatelessWidget {
                 SettingsTile.navigation(
                   leading: const Icon(LucideIcons.rotateCcwKey),
                   title: const Text('Publishable API Keys'),
-                  // onPressed: (_) => context.pushRoute(const ApiKeyManagementRoute()),
+                  onPressed: (_) => context.pushRoute(const PublishableApiKeysRoute()),
                 ),
                 SettingsTile.navigation(
                   leading: const Icon(LucideIcons.key),
                   title: const Text('Secret API Keys'),
-                  // onPressed: (_) => context.pushRoute(const ApiKeyManagementRoute()),
+                  onPressed: (_) => context.pushRoute(const SecretApiKeysRoute()),
                 ),
                 SettingsTile.navigation(
                   leading: const Icon(LucideIcons.gitBranch),
