@@ -149,7 +149,7 @@ class _AppDrawerState extends State<AppDrawer> {
           key: const PageStorageKey<String>('navigationDrawer'),
           selectedIndex: context.tabsRouter.activeIndex,
           onDestinationSelected: (index) {
-            final destination = destinations[index];
+            final destination = destinations.where((e) => !e.isDivider).toList()[index];
             if (destination.onTap != null) {
               destination.onTap!();
               return;
