@@ -78,6 +78,33 @@ It's available for iOS and Android. This app is currently in beta, so expect to 
     </table>
 </div>
 
+## Features
+This is a beta release for Medusa v2. The following features are available:
+- View and update store settings (Return reasons, sales channels etc).
+- View, add, and update products, collections, customers, and customer groups.
+- View, add, and update gift cards and draft orders.
+- Manage app settings, including light/dark mode.
+
+## Known Issues & Not Implemented
+This beta version has some limitations. The following features are not yet implemented or are known to have issues:
+- **Creating:**
+  - Orders
+  - Products
+  - Promotions
+  - Campaigns
+  - Price Lists
+  - Regions
+- **Viewing:**
+  - Order details
+  - Region details
+  - Tax regions
+  - Locations
+  - Shipping details
+  - Workflows
+- **Other:**
+  - Metadata (add/update/read)
+  - Importing orders
+
 ## Installation
 
 ### Android
@@ -124,34 +151,6 @@ flutter run
 ```
 flutter build ipa
 ```
-
-## Features
-This is a beta release for Medusa v2. The following features are available:
-- View and update store settings (Return reasons, sales channels etc).
-- View, add, and update products, collections, customers, and customer groups.
-- View, add, and update gift cards and draft orders.
-- Manage app settings, including light/dark mode.
-
-## Known Issues & Not Implemented
-This beta version has some limitations. The following features are not yet implemented or are known to have issues:
-- **Creating:**
-    - Orders
-    - Products
-    - Promotions
-    - Campaigns
-    - Price Lists
-    - Regions
-- **Viewing:**
-    - Order details
-    - Region details
-    - Tax regions
-    - Locations
-    - Shipping details
-    - Workflows
-- **Other:**
-    - Metadata (add/update/read)
-    - Importing orders
-      
 
 ## Contributing
 We welcome contributions from the community to make Medusa Admin even better. If you want to contribute, please follow these steps:
