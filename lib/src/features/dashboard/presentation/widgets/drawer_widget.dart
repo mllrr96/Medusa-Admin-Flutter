@@ -402,7 +402,12 @@ void _showAppAboutDialog(BuildContext context, [bool useRootNavigator = true]) {
     applicationName: AppConstants.appName,
     applicationVersion: PreferenceService.packageInfo.version,
     useRootNavigator: useRootNavigator,
-    applicationIcon: Image.asset('assets/images/medusa.png', scale: 12),
+    applicationIcon: SvgPicture.asset(
+      context.isDark
+          ? 'assets/images/medusa-logo-light.svg'
+          : 'assets/images/medusa-logo-dark.svg',
+      height: 120,
+    ),
     applicationLegalese:
         '${AppConstants.copyright}  \n${AppConstants.author} \n${AppConstants.license}',
     children: <Widget>[
@@ -413,7 +418,7 @@ void _showAppAboutDialog(BuildContext context, [bool useRootNavigator = true]) {
             children: <TextSpan>[
               TextSpan(
                 style: footerStyle,
-                text: 'Built with Flutter ${AppConstants.flutterVersion}'
+                text: 'Built with Flutter'
                     '\nMedia size (w:${width.toStringAsFixed(0)}'
                     'h:${height.toStringAsFixed(0)})',
               ),

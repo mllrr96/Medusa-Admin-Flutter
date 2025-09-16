@@ -30,9 +30,10 @@ class DraftOrderCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 4),
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-        onTap: onTap ??
-            () => context
-                .pushRoute(DraftOrderDetailsRoute(draftId: draftOrder.id)),
+        onTap: onTap,
+        // onTap: onTap ??
+        //     () => context
+        //         .pushRoute(DraftOrderDetailsRoute(draftId: draftOrder.id)),
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           decoration: const BoxDecoration(

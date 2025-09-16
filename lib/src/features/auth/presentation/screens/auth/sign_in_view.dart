@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -38,8 +39,8 @@ class SignInView extends StatefulWidget {
 
 class _SignInViewState extends State<SignInView> {
   final formKey = GlobalKey<FormState>();
-  final emailCtrl = TextEditingController(text: '1@1.com');
-  final passwordCtrl = TextEditingController(text: '12345678');
+  final emailCtrl = TextEditingController();
+  final passwordCtrl = TextEditingController();
   late bool? useBiometric;
   late bool showAuthenticateButton;
 
@@ -277,6 +278,7 @@ class _SignInViewState extends State<SignInView> {
                             ),
                           ),
                           space,
+                          if (kDebugMode)
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Hero(

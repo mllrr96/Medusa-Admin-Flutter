@@ -1,9 +1,10 @@
 # Medusa Admin Mobile
-Manage your [MedusaJs](https://medusajs.com/) ecommerce store from your mobile phone.
+Manage your [MedusaJs](https://medusajs.com/) v2 ecommerce store from your mobile phone.
 
 
 ## Getting Started
-Medusa Admin Mobile is built with [Flutter](https://flutter.dev/) with the aim to ease managing ecommerce store that are built using [MedusaJs](https://medusajs.com/), it's available for iOS and Android, it's still in beta so expect to see some bugs/unimplemented features.
+Medusa Admin Mobile is built with [Flutter](https://flutter.dev/) with the aim to ease managing ecommerce store that are built using [MedusaJs](https://medusajs.com/). This version adds support for Medusa v2.
+It's available for iOS and Android. This app is currently in beta, so expect to see some bugs and unimplemented features.
 
 ## Screenshots
 <div style="text-align: center">
@@ -89,6 +90,8 @@ You need to sideload the latest ipa file found in [releases](https://github.com/
 - Open the app and click on set URL, then enter your MedusaJs backend URL (e.g. https://your-backend-url.com) and click on save
 - Enter your email and password and click on sign in
 
+**Note:** Currently, only the JWT (email and password) sign-in method is supported. Cookie-based authentication is not yet implemented.
+
 ##  Build it yourself
 Add [Flutter](https://docs.flutter.dev/get-started/install) to your machine
 
@@ -123,24 +126,31 @@ flutter build ipa
 ```
 
 ## Features
-- [x] View and update store settings ( Regions, Return reasons, sales channels etc)
-- [x] View and add new products
-- [x] View, add and update collection groups
-- [x] View, add and update customers and customer groups
-- [x] View, add and update promotions
-- [x] View and add/update pricing list
-- [x] View and add/update gift cards
-- [x] Update order items
-- [x] Add and update draft order
-- [x] App settings
-- [x] Support for light/dark mode
+This is a beta release for Medusa v2. The following features are available:
+- View and update store settings (Return reasons, sales channels etc).
+- View, add, and update products, collections, customers, and customer groups.
+- View, add, and update gift cards and draft orders.
+- Manage app settings, including light/dark mode.
 
-## Not implemented yet
-- [ ] Metadata add/update/read
-- [ ] Creating a new region has some errors
-- [ ] Import orders
-- [ ] Duplicating product
-- [ ] Denomination in gift card
+## Known Issues & Not Implemented
+This beta version has some limitations. The following features are not yet implemented or are known to have issues:
+- **Creating:**
+    - Orders
+    - Products
+    - Promotions
+    - Campaigns
+    - Price Lists
+    - Regions
+- **Viewing:**
+    - Order details
+    - Region details
+    - Tax regions
+    - Locations
+    - Shipping details
+    - Workflows
+- **Other:**
+    - Metadata (add/update/read)
+    - Importing orders
       
 
 ## Contributing
