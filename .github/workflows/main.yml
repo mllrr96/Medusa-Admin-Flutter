@@ -58,5 +58,5 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1.13.0
         with:
-          artifacts: "build/app/outputs/apk/release/*.apk,build/ios/iphoneos/*.ipa"
+          artifacts: "build/app/outputs/flutter-apk/*.apk,build/ios/iphoneos/*.ipa"
           allowUpdates: true
