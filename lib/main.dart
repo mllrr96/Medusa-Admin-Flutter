@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'core/constants/strings.dart';
-import 'multi_bloc_provider.dart';
+import 'src/core/constants/strings.dart';
+import 'src/multi_bloc_provider.dart';
 import 'package:medusa_admin/src/features/app_settings/presentation/cubits/language/language_cubit.dart';
 import 'package:medusa_admin/src/features/app_settings/presentation/cubits/theme/theme_cubit.dart';
-import 'core/routing/app_router.dart';
-import 'core/theme/flex_theme.dart';
-import 'core/di/di.dart';
-import 'core/localization/app_localizations.dart';
-import 'observer.dart';
+import 'src/core/routing/app_router.dart';
+import 'src/core/theme/flex_theme.dart';
+import 'src/core/di/di.dart';
+import 'src/core/localization/app_localizations.dart';
+import 'src/observer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
