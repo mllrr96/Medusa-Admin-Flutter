@@ -50,17 +50,10 @@ class OrderPayment extends StatelessWidget {
         case PaymentStatus.requiresAction:
           break;
         case PaymentStatus.authorized:
-          // TODO: Handle this case.
-          throw UnimplementedError();
         case PaymentStatus.partiallyAuthorized:
-          // TODO: Handle this case.
-          throw UnimplementedError();
         case PaymentStatus.partiallyCaptured:
-          // TODO: Handle this case.
-          throw UnimplementedError();
+
         case null:
-          // TODO: Handle this case.
-          throw UnimplementedError();
       }
       return null;
     }

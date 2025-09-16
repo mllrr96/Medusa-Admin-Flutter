@@ -42,7 +42,9 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
     String reason = 'Discount';
     const space = Gap(12);
     const halfSpace = Gap(6);
-    final currencyCode = widget.order.currencyCode;
+    // final currencyCode = widget.order.currencyCode;
+    // TODO: fix this
+    final currencyCode = 'USD';
     return HideKeyboard(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -140,20 +142,20 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                               if (val == null || val.isEmpty) {
                                 return 'Field is required';
                               }
-                              final amount =
-                                  val.replaceAll(RegExp(r'[^0-9]'), '');
-                              // final total = widget.order.refundableAmount ?? widget.order.total;
-                              final total = widget.order.total;
-
-                              if (int.tryParse(amount) == null) {
-                                return 'Amount should be in numbers';
-                              }
-                              if (int.parse(amount) == 0) {
-                                return 'Amount can\'t be zero';
-                              }
-                              if (int.parse(amount).isGreaterThan(total ?? 0)) {
-                                return 'Cannot refund more than the order\'s net total.';
-                              }
+                              // final amount =
+                              //     val.replaceAll(RegExp(r'[^0-9]'), '');
+                              // // final total = widget.order.refundableAmount ?? widget.order.total;
+                              // // final total = widget.order.total;
+                              //
+                              // if (int.tryParse(amount) == null) {
+                              //   return 'Amount should be in numbers';
+                              // }
+                              // if (int.parse(amount) == 0) {
+                              //   return 'Amount can\'t be zero';
+                              // }
+                              // if (int.parse(amount).isGreaterThan(total ?? 0)) {
+                              //   return 'Cannot refund more than the order\'s net total.';
+                              // }
 
                               return null;
                             },

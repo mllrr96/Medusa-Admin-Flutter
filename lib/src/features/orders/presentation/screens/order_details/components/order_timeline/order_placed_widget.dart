@@ -24,7 +24,9 @@ class _OrderPlacedWidgetState extends State<OrderPlacedWidget> {
         DateTime.now().difference(widget.order.createdAt ?? DateTime.now());
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final total = widget.order.total.formatAsPrice(widget.order.currencyCode);
+    // TODO: fix total
+    // final total = widget.order.total.formatAsPrice(widget.order.currencyCode);
+    final total = '';
     return InkWell(
       onTap: () {
         setState(() {

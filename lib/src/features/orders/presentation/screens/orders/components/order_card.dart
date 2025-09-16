@@ -18,8 +18,7 @@ import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
 
 class OrderCard extends StatelessWidget {
-  const OrderCard(this.order,
-      {super.key, this.onTap, this.orderPreference, this.shimmer = false});
+  const OrderCard(this.order, {super.key, this.onTap, this.orderPreference, this.shimmer = false});
 
   final Order order;
   final void Function()? onTap;
@@ -32,15 +31,13 @@ class OrderCard extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;
-    final orderSettingsModel =
-        orderPreference ?? PreferenceService.orderPreference;
+    final orderSettingsModel = orderPreference ?? PreferenceService.orderPreference;
     // TODO: Fix customer name retrieval
-    final customerName = order.customer?.firstName;
+    // final customerName = order.customer?.firstName;
 
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-      onTap: onTap ??
-          () => context.pushRoute(OrderDetailsRoute(orderId: order.id)),
+      onTap: onTap ?? () => context.pushRoute(OrderDetailsRoute(orderId: order.id)),
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7.0),
         decoration: BoxDecoration(
@@ -64,14 +61,14 @@ class OrderCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text(
-                      order.total.formatAsPrice(order.currencyCode),
-                      style: mediumTextStyle,
-                    ),
-                    if (order.shippingAddress?.countryCode != null &&
-                        !orderSettingsModel.hideFlag)
-                      Flag.fromString(order.shippingAddress!.countryCode,
-                          height: 15, width: 30),
+                    // Text(
+                    //   order.total.formatAsPrice(order.currencyCode),
+                    //   style: mediumTextStyle,
+                    // ),
+                    // if (order.shippingAddress?.countryCode != null &&
+                    //     !orderSettingsModel.hideFlag)
+                    //   Flag.fromString(order.shippingAddress!.countryCode,
+                    //       height: 15, width: 30),
                   ],
                 ),
               ],
@@ -108,44 +105,44 @@ class OrderCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(
-                            height: 32,
-                            width: 32,
-                            decoration: ShapeDecoration(
-                              shape: const CircleBorder(),
-                              color: shimmer
-                                  ? context.theme.scaffoldBackgroundColor
-                                  : ColorManager.getAvatarColor(
-                                      order.customer?.email),
-                            ),
-                            alignment: Alignment.center,
-                            child: shimmer
-                                ? null
-                                : Text(
-                                    customerName?[0] ??
-                                        order.customer!.email[0] ??
-                                        '',
-                                    style:
-                                        const TextStyle(color: Colors.white)),
-                          ),
+                          // Container(
+                          //   height: 32,
+                          //   width: 32,
+                          //   decoration: ShapeDecoration(
+                          //     shape: const CircleBorder(),
+                          //     color: shimmer
+                          //         ? context.theme.scaffoldBackgroundColor
+                          //         : ColorManager.getAvatarColor(
+                          //             order.customer?.email),
+                          //   ),
+                          //   alignment: Alignment.center,
+                          //   child: shimmer
+                          //       ? null
+                          //       : Text(
+                          //           customerName?[0] ??
+                          //               order.customer!.email[0] ??
+                          //               '',
+                          //           style:
+                          //               const TextStyle(color: Colors.white)),
+                          // ),
                           const SizedBox(width: 6.0),
-                          if (customerName != null)
-                            Flexible(
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(customerName, style: smallTextStyle),
-                                if (orderSettingsModel.includeEmail)
-                                  Text(order.email ?? '',
-                                      style: smallTextStyle?.copyWith(
-                                          color: manatee)),
-                              ],
-                            )),
-                          if (customerName == null)
-                            Flexible(
-                                child: Text(order.customer?.email ?? '',
-                                    style: mediumTextStyle,
-                                    overflow: TextOverflow.ellipsis)),
+                          // if (customerName != null)
+                          //   Flexible(
+                          //       child: Column(
+                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //     children: [
+                          //       Text(customerName, style: smallTextStyle),
+                          //       if (orderSettingsModel.includeEmail)
+                          //         Text(order.email ?? '',
+                          //             style: smallTextStyle?.copyWith(
+                          //                 color: manatee)),
+                          //     ],
+                          //   )),
+                          // if (customerName == null)
+                          //   Flexible(
+                          //       child: Text(order.customer?.email ?? '',
+                          //           style: mediumTextStyle,
+                          //           overflow: TextOverflow.ellipsis)),
                         ],
                       ),
                     )
@@ -175,30 +172,28 @@ class AlternativeOrderCard extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     const manatee = ColorManager.manatee;
     final lightMediumTextStyle = mediumTextStyle?.copyWith(color: manatee);
-    final orderPreference =
-        this.orderPreference ?? PreferenceService.orderPreference;
+    final orderPreference = this.orderPreference ?? PreferenceService.orderPreference;
     // TODO: Fix customer name retrieval
-    final customerName = order.customer?.firstName;
+    // final customerName = order.customer?.firstName;
+    final customerName = '';
 
     return Card(
       // color: context.getAlphaBlend(context.theme.cardColor),
       margin: const EdgeInsets.symmetric(horizontal: 4),
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-        onTap: onTap ??
-            () => context.pushRoute(OrderDetailsRoute(orderId: order.id)),
+        onTap: onTap ?? () => context.pushRoute(OrderDetailsRoute(orderId: order.id)),
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5.0))),
+          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('#${order.displayId}', style: mediumTextStyle),
-                  Text(order.total.formatAsPrice(order.currencyCode),
-                      style: mediumTextStyle),
+                  // Text(order.total.formatAsPrice(order.currencyCode),
+                  //     style: mediumTextStyle),
                 ],
               ),
               Padding(
@@ -212,16 +207,16 @@ class AlternativeOrderCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        if (order.currencyCode != null)
-                          Text(
-                            order.currencyCode!.toUpperCase(),
-                            style: lightMediumTextStyle,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        if (order.shippingAddress?.countryCode != null &&
-                            !orderPreference.hideFlag)
-                          Flag.fromString(order.shippingAddress!.countryCode,
-                              height: 15, width: 30),
+                        // if (order.currencyCode != null)
+                        //   Text(
+                        //     order.currencyCode!.toUpperCase(),
+                        //     style: lightMediumTextStyle,
+                        //     overflow: TextOverflow.ellipsis,
+                        //   ),
+                        // if (order.shippingAddress?.countryCode != null &&
+                        //     !orderPreference.hideFlag)
+                        //   Flag.fromString(order.shippingAddress!.countryCode,
+                        //       height: 15, width: 30),
                       ],
                     ),
                   ],
@@ -233,43 +228,43 @@ class AlternativeOrderCard extends StatelessWidget {
                   Flexible(
                     child: Row(
                       children: [
-                        Container(
-                          height: 32,
-                          width: 32,
-                          decoration: ShapeDecoration(
-                            shape: const CircleBorder(),
-                            color: shimmer
-                                ? context.theme.scaffoldBackgroundColor
-                                : ColorManager.getAvatarColor(
-                                    order.customer?.email),
-                          ),
-                          alignment: Alignment.center,
-                          child: shimmer
-                              ? null
-                              : Text(
-                                  customerName?[0] ??
-                                      order.customer!.email[0] ??
-                                      '',
-                                  style: const TextStyle(color: Colors.white)),
-                        ),
+                        // Container(
+                        //   height: 32,
+                        //   width: 32,
+                        //   decoration: ShapeDecoration(
+                        //     shape: const CircleBorder(),
+                        //     color: shimmer
+                        //         ? context.theme.scaffoldBackgroundColor
+                        //         : ColorManager.getAvatarColor(
+                        //             order.customer?.email),
+                        //   ),
+                        //   alignment: Alignment.center,
+                        //   child: shimmer
+                        //       ? null
+                        //       : Text(
+                        //           customerName?[0] ??
+                        //               order.customer!.email[0] ??
+                        //               '',
+                        //           style: const TextStyle(color: Colors.white)),
+                        // ),
                         const SizedBox(width: 6.0),
-                        if (customerName != null)
-                          Flexible(
-                              child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(customerName, style: smallTextStyle),
-                              if (orderPreference.includeEmail)
-                                Text(order.email ?? '',
-                                    style: smallTextStyle?.copyWith(
-                                        color: manatee)),
-                            ],
-                          )),
-                        if (customerName == null)
-                          Flexible(
-                              child: Text(order.customer?.email ?? '',
-                                  style: mediumTextStyle,
-                                  overflow: TextOverflow.ellipsis)),
+                        // if (customerName != null)
+                        //   Flexible(
+                        //       child: Column(
+                        //     crossAxisAlignment: CrossAxisAlignment.start,
+                        //     children: [
+                        //       Text(customerName, style: smallTextStyle),
+                        //       if (orderPreference.includeEmail)
+                        //         Text(order.email ?? '',
+                        //             style: smallTextStyle?.copyWith(
+                        //                 color: manatee)),
+                        //     ],
+                        //   )),
+                        // if (customerName == null)
+                        //   Flexible(
+                        //       child: Text(order.customer?.email ?? '',
+                        //           style: mediumTextStyle,
+                        //           overflow: TextOverflow.ellipsis)),
                       ],
                     ),
                   ),
@@ -364,18 +359,18 @@ class AlternativeOrderCard extends StatelessWidget {
               3,
               (index) => Row(
                     children: [
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
-                            border: Border.all(color: Colors.grey.shade300),
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(
-                                    order.items![index].thumbnail))),
-                      ),
+                      if (order.items![index].thumbnail != null)
+                        Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(5)),
+                              border: Border.all(color: Colors.grey.shade300),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image:
+                                      CachedNetworkImageProvider(order.items![index].thumbnail!))),
+                        ),
                       const SizedBox(width: 10)
                     ],
                   )),
@@ -388,8 +383,8 @@ class AlternativeOrderCard extends StatelessWidget {
             ),
             child: Center(
                 child: Text('+ ${order.items!.length - 3}',
-                    style: context.bodySmall?.copyWith(
-                        color: context.isDark ? Colors.white : Colors.grey))),
+                    style: context.bodySmall
+                        ?.copyWith(color: context.isDark ? Colors.white : Colors.grey))),
           ),
         ],
       );
@@ -400,18 +395,17 @@ class AlternativeOrderCard extends StatelessWidget {
           order.items!.length,
           (index) => Row(
                 children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(color: Colors.grey.shade300),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: CachedNetworkImageProvider(
-                                order.items![index].thumbnail))),
-                  ),
+                  if (order.items![index].thumbnail != null)
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(5)),
+                          border: Border.all(color: Colors.grey.shade300),
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: CachedNetworkImageProvider(order.items![index].thumbnail!))),
+                    ),
                   const SizedBox(width: 10)
                 ],
               )),
@@ -421,11 +415,7 @@ class AlternativeOrderCard extends StatelessWidget {
 
 class CustomerOrderCard extends StatelessWidget {
   const CustomerOrderCard(this.order,
-      {super.key,
-      this.onTap,
-      this.cardColor,
-      this.onTransferTap,
-      required this.index});
+      {super.key, this.onTap, this.cardColor, this.onTransferTap, required this.index});
 
   final Order order;
   final void Function()? onTap;
@@ -447,8 +437,7 @@ class CustomerOrderCard extends StatelessWidget {
         : Theme.of(context).scaffoldBackgroundColor;
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-      onTap: onTap ??
-          () => context.pushRoute(OrderDetailsRoute(orderId: order.id)),
+      onTap: onTap ?? () => context.pushRoute(OrderDetailsRoute(orderId: order.id)),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
         decoration: BoxDecoration(
@@ -460,20 +449,16 @@ class CustomerOrderCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 4.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
                     decoration: BoxDecoration(
                         color: orderNumberBackgroundColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(6.0))),
-                    child:
-                        Text('#${order.displayId}', style: context.bodyMedium)),
+                        borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+                    child: Text('#${order.displayId}', style: context.bodyMedium)),
                 Row(
                   children: [
                     Text(
                       '${order.createdAt.formatDate()} at ${order.createdAt.formatTime()}',
-                      style: context.bodyMedium
-                          ?.copyWith(color: const Color(0xff6B7280)),
+                      style: context.bodyMedium?.copyWith(color: const Color(0xff6B7280)),
                     ),
                     IconButton(
                         onPressed: onTransferTap,
@@ -507,8 +492,7 @@ class CustomerOrderCard extends StatelessWidget {
                       style: smallTextStyle.copyWith(color: manatee),
                     ),
                     const SizedBox(height: 6.0),
-                    FulfillmentStatusLabel(
-                        fulfillmentStatus: FulfillmentStatus.partiallyFulfilled)
+                    FulfillmentStatusLabel(fulfillmentStatus: FulfillmentStatus.partiallyFulfilled)
                   ],
                 ),
               ],
@@ -596,18 +580,18 @@ class CustomerOrderCard extends StatelessWidget {
               3,
               (index) => Row(
                     children: [
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
-                            border: Border.all(color: Colors.grey.shade300),
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(
-                                    order.items![index].thumbnail))),
-                      ),
+                      if (order.items![index].thumbnail != null)
+                        Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(5)),
+                              border: Border.all(color: Colors.grey.shade300),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image:
+                                      CachedNetworkImageProvider(order.items![index].thumbnail!))),
+                        ),
                       const SizedBox(width: 10)
                     ],
                   )),
@@ -620,8 +604,8 @@ class CustomerOrderCard extends StatelessWidget {
             ),
             child: Center(
                 child: Text('+ ${order.items!.length - 3}',
-                    style: context.bodySmall?.copyWith(
-                        color: context.isDark ? Colors.white : Colors.grey))),
+                    style: context.bodySmall
+                        ?.copyWith(color: context.isDark ? Colors.white : Colors.grey))),
           ),
         ],
       );
@@ -632,18 +616,17 @@ class CustomerOrderCard extends StatelessWidget {
           order.items!.length,
           (index) => Row(
                 children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(color: Colors.grey.shade300),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: CachedNetworkImageProvider(
-                                order.items![index].thumbnail))),
-                  ),
+                  if (order.items![index].thumbnail != null)
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(5)),
+                          border: Border.all(color: Colors.grey.shade300),
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: CachedNetworkImageProvider(order.items![index].thumbnail!))),
+                    ),
                   const SizedBox(width: 10)
                 ],
               )),

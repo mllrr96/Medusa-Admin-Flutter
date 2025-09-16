@@ -50,14 +50,20 @@ class PaymentStatusLabel extends StatelessWidget {
         text = 'Partially Refunded';
         break;
       case PaymentStatus.authorized:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        containerColor = Colors.cyan.withValues(alpha: 0.17);
+        textColor = Colors.cyan;
+        text = 'Authorized';
+        break;
       case PaymentStatus.partiallyAuthorized:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        containerColor = Colors.cyan.withValues(alpha: 0.17);
+        textColor = Colors.cyan;
+        text = 'Partially Authorized';
+        break;
       case PaymentStatus.partiallyCaptured:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        containerColor = Colors.cyan.withValues(alpha: 0.17);
+        textColor = Colors.cyan;
+        text = 'Partially Captured';
+        break;
     }
 
     if (dotOnly) {

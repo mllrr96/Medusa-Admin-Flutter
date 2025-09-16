@@ -1,17 +1,6 @@
 import 'package:medusa_admin/src/core/utils/enums.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
-extension Name on Order {
-  String? get customerName {
-    final firstName = customer?.firstName;
-    final lastName = customer?.lastName;
-    if (firstName == null && lastName == null) {
-      return null;
-    }
-    return '${firstName ?? ''} ${lastName ?? ''}';
-  }
-}
-
 extension UserFullName on User {
   String get fullName {
     return '$firstName $lastName';

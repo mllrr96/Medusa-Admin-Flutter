@@ -52,7 +52,7 @@ class OrderOverview extends StatelessWidget {
                   Text(tr.customerOrdersTableStatus,
                       style: smallTextStyle!.copyWith(color: manatee)),
                   const SizedBox(height: 6.0),
-                  OrderStatusLabel(orderStatus: order.status),
+                  OrderStatusLabel(orderStatus: order.status!),
                 ],
               ),
             ],
@@ -65,11 +65,11 @@ class OrderOverview extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(order.email ?? '', style: context.bodyMedium),
-                    if (order.billingAddress != null &&
-                        order.billingAddress!.phone != null)
-                      Text(order.billingAddress!.phone.toString(),
-                          style: context.bodyMedium),
+                    // Text(order.email ?? '', style: context.bodyMedium),
+                    // if (order.billingAddress != null &&
+                    //     order.billingAddress!.phone != null)
+                    //   Text(order.billingAddress!.phone.toString(),
+                    //       style: context.bodyMedium),
                   ],
                 ),
               ),

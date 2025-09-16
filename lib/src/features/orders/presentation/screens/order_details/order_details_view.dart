@@ -28,16 +28,18 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
   final refreshController = RefreshController();
   late OrderCrudBloc orderCrudBloc;
 
+
   void loadOrder() {
     orderCrudBloc.add(OrderCrudEvent.load(
       widget.orderId,
       queryParameters: {
-        'expand': 'customer,billing_address,shipping_address,promotions,promotions.rule,shipping_methods,payments,items,'
-            'fulfillments,fulfillments.tracking_links,returns,returns.shipping_method,returns.shipping_method.tax_lines,'
-            'refunds,claims,claims.claim_items,claims.claim_items.item,claims.fulfillments,claims.return_order,'
-            'claims.additional_items,claims.additional_items.variant,claims.additional_items.variant.product,'
-            'swaps,swaps.return_order,swaps.additional_items,swaps.additional_items.variant,'
-            'swaps.additional_items.variant.product,swaps.fulfillments,returnable_items,edits,currency,edits,region.countries,shipping_address.country',
+        'fields': '+items.variant.manage_inventory,items.variant.inventory_items.inventory,items.variant.allow_backorder,'
+            '+items.variant.inventory_items.required_quantity,+summary,'
+            'shipping_address,billing_address,sales_channel,promotions,'
+            'shipping_methods,credit_lines,fulfillments,+fulfillments.shipping_option.service_zone.fulfillment_set.type,'
+            'fulfillments.items,fulfillments.labels,fulfillments.labels,payment_collections,'
+            'payment_collections.payments,payment_collections.payments.refunds,payment_collections.payments.refunds.refund_reason,'
+            'region.automatic_taxes'
       },
     ));
   }

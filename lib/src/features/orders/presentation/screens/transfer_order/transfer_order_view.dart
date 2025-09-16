@@ -17,6 +17,7 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 @RoutePage()
 class TransferOrderView extends StatefulWidget {
   const TransferOrderView(this.order, {super.key});
+
   final Order order;
 
   @override
@@ -32,9 +33,11 @@ class _TransferOrderViewState extends State<TransferOrderView> {
   @override
   void initState() {
     orderCrudBloc = OrderCrudBloc.instance;
-    final customer = widget.order.customer;
-    currentOwnerCtrl.text =
-        '${customer?.firstName ?? ''} ${customer?.lastName ?? ''} ${customer?.firstName != null || customer?.lastName != null ? '-' : ''} ${customer?.email ?? ''}';
+    // TODO: fix
+    // final customer = widget.order.customer;
+    final customer = '';
+    currentOwnerCtrl.text = '';
+        // '${customer?.firstName ?? ''} ${customer?.lastName ?? ''} ${customer?.firstName != null || customer?.lastName != null ? '-' : ''} ${customer?.email ?? ''}';
     super.initState();
   }
 
@@ -75,9 +78,7 @@ class _TransferOrderViewState extends State<TransferOrderView> {
           ),
           bottomNavigationBar: Container(
             padding: EdgeInsets.only(
-                bottom: bottomViewPadding == 0 ? 12 : bottomViewPadding,
-                left: 24,
-                right: 24),
+                bottom: bottomViewPadding == 0 ? 12 : bottomViewPadding, left: 24, right: 24),
             child: FilledButton(
                 onPressed: selectedCustomer != null
                     ? () {
@@ -94,16 +95,14 @@ class _TransferOrderViewState extends State<TransferOrderView> {
           ),
           body: SafeArea(
               child: ListView(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             children: [
               // AlternativeOrderCard(order, onTap: null),
               space,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FulfillmentStatusLabel(
-                      fulfillmentStatus: order.fulfillmentStatus!),
+                  FulfillmentStatusLabel(fulfillmentStatus: order.fulfillmentStatus!),
                   PaymentStatusLabel(paymentStatus: order.paymentStatus!)
                 ],
               ),
@@ -119,16 +118,17 @@ class _TransferOrderViewState extends State<TransferOrderView> {
                 hintText: 'Select...',
                 readOnly: true,
                 onTap: () async {
-                  final result = await context.pushRoute(PickCustomerRoute(
-                      pickCustomerReq: PickCustomerReq(
-                          disabledCustomers: [order.customer!])));
-                  if (result is PickCustomerRes) {
-                    setState(() =>
-                        selectedCustomer = result.selectedCustomers.first);
-                    final customer = selectedCustomer;
-                    newOwnerCtrl.text =
-                        '${customer?.firstName ?? ''} ${customer?.lastName ?? ''} ${customer?.firstName != null || customer?.lastName != null ? '-' : ''} ${customer?.email ?? ''}';
-                  }
+                  // final result = await context.pushRoute(
+                  //   PickCustomerRoute(
+                  //     pickCustomerReq: PickCustomerReq(disabledCustomers: [order.customer!]),
+                  //   ),
+                  // );
+                  // if (result is PickCustomerRes) {
+                  //   setState(() => selectedCustomer = result.selectedCustomers.first);
+                  //   final customer = selectedCustomer;
+                  //   newOwnerCtrl.text =
+                  //       '${customer?.firstName ?? ''} ${customer?.lastName ?? ''} ${customer?.firstName != null || customer?.lastName != null ? '-' : ''} ${customer?.email ?? ''}';
+                  // }
                 },
               ),
             ],

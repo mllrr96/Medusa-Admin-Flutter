@@ -12,10 +12,10 @@ class OrdersLoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final order = Order(
       displayId: 123,
-      customerId: '',
-      email: 'Medusa@js.com',
-      regionId: '',
-      currencyCode: 'USD',
+      // customerId: '',
+      // email: 'Medusa@js.com',
+      // regionId: '',
+      // currencyCode: 'USD',
       id: '',
       version: 0,
       status: OrderStatus.canceled,

@@ -117,7 +117,7 @@ class OrderCrudUseCase {
   }
 
   Future<Result<Fulfillment, MedusaError>> createFulfillment({
-    required CreateFulfillmentReq payload,
+    required PostFulfillmentsReq payload,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
