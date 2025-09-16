@@ -162,11 +162,11 @@ class _PromotionsViewState extends State<PromotionsView> {
             FloatingActionButton.extended(
               heroTag: UniqueKey(),
               onPressed: () async {
-                final result =
-                    await context.pushRoute(AddUpdatePromotionRoute());
-                if (result is Promotion) {
-                  pagingController.refresh();
-                }
+                // final result =
+                //     await context.pushRoute(AddUpdatePromotionRoute());
+                // if (result is Promotion) {
+                //   pagingController.refresh();
+                // }
               },
               label: const Text('New Discount'),
               icon: const Icon(Icons.add),

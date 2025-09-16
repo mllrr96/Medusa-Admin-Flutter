@@ -71,9 +71,11 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                   tr.collectionModalSuccessfullyCreatedCollection);
             }
             context.maybePop();
+            dismissLoading();
           },
           error: (state) {
             context.showSnackBar(state.failure.toSnackBarString());
+            dismissLoading();
           },
         );
       },
@@ -164,47 +166,47 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                           label: tr.collectionModalHandleLabel,
                           controller: handleCtrl,
                           hintText: tr.collectionModalHandlePlaceholder),
-                      Row(
-                        children: [
-                          Text(tr.collectionModalMetadata,
-                              style: largeTextStyle),
-                        ],
-                      ),
-                      space,
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(12.0)),
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12.0, vertical: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.delete_forever,
-                                    color: Colors.red)),
-                            LabeledTextField(
-                                label: 'Key',
-                                controller: TextEditingController(),
-                                hintText: 'Key'),
-                            LabeledTextField(
-                                label: 'Value',
-                                controller: TextEditingController(),
-                                hintText: 'Value'),
-                          ],
-                        ),
-                      ),
-                      TextButton(
-                          child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.add),
-                                Text('Add Metadata'),
-                              ]),
-                          onPressed: () {}),
+                      // Row(
+                      //   children: [
+                      //     Text(tr.collectionModalMetadata,
+                      //         style: largeTextStyle),
+                      //   ],
+                      // ),
+                      // space,
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     borderRadius:
+                      //         const BorderRadius.all(Radius.circular(12.0)),
+                      //     color: Theme.of(context).scaffoldBackgroundColor,
+                      //   ),
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: 12.0, vertical: 8.0),
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.end,
+                      //     children: [
+                      //       IconButton(
+                      //           onPressed: () {},
+                      //           icon: const Icon(Icons.delete_forever,
+                      //               color: Colors.red)),
+                      //       LabeledTextField(
+                      //           label: 'Key',
+                      //           controller: TextEditingController(),
+                      //           hintText: 'Key'),
+                      //       LabeledTextField(
+                      //           label: 'Value',
+                      //           controller: TextEditingController(),
+                      //           hintText: 'Value'),
+                      //     ],
+                      //   ),
+                      // ),
+                      // TextButton(
+                      //     child: const Row(
+                      //         mainAxisSize: MainAxisSize.min,
+                      //         children: [
+                      //           Icon(Icons.add),
+                      //           Text('Add Metadata'),
+                      //         ]),
+                      //     onPressed: () {}),
                     ],
                   ),
                 ),

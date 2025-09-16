@@ -35,13 +35,13 @@ class _InventoryViewState extends State<InventoryView> {
   }
 
   void _loadPage(int page) {
-    _inventoryBloc.add(InventoryEvent.loadInventoryItems({
-      'offset': page == 0 ? 0 : pagingController.itemList?.length,
-    }));
+    _inventoryBloc.add(InventoryEvent.loadInventoryItems({'offset': page}));
   }
 
   @override
   void dispose() {
+    pagingController.dispose();
+    refreshController.dispose();
     _inventoryBloc.close();
     super.dispose();
   }
@@ -52,28 +52,23 @@ class _InventoryViewState extends State<InventoryView> {
       bloc: _inventoryBloc,
       listener: (context, state) {
         state.whenOrNull(
-          inventoryItemsList: (result) async {
+          inventoryItemsList: (result) {
             final isLastPage = result.inventoryItems.length < 20;
-            if (refreshController.isRefresh) {
-              pagingController.removePageRequestListener(_loadPage);
-              pagingController.value =
-                  const PagingState(nextPageKey: null, error: null, itemList: null);
-              await Future.delayed(const Duration(milliseconds: 250));
-            }
             if (isLastPage) {
               pagingController.appendLastPage(result.inventoryItems);
             } else {
-              final nextPageKey = pagingController.nextPageKey ?? 0 + result.inventoryItems.length;
+              final nextPageKey = (pagingController.nextPageKey ?? 0) + result.inventoryItems.length;
               pagingController.appendPage(result.inventoryItems, nextPageKey);
             }
             if (refreshController.isRefresh) {
-              pagingController.addPageRequestListener(_loadPage);
               refreshController.refreshCompleted();
             }
           },
           error: (e) {
-            refreshController.refreshFailed();
             pagingController.error = e;
+            if (refreshController.isRefresh) {
+              refreshController.refreshFailed();
+            }
           },
         );
       },

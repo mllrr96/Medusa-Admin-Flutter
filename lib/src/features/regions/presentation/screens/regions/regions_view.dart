@@ -87,10 +87,10 @@ class _RegionsViewState extends State<RegionsView> {
           label: const Text('New Region'),
           icon: const Icon(Icons.add),
           onPressed: () async {
-            final result = await context.pushRoute(AddUpdateRegionRoute());
-            if (result is bool && result == true) {
-              pagingController.refresh();
-            }
+            // final result = await context.pushRoute(AddUpdateRegionRoute());
+            // if (result is bool && result == true) {
+            //   pagingController.refresh();
+            // }
           },
         ),
         body: NestedScrollView(

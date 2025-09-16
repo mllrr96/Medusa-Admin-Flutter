@@ -273,19 +273,16 @@ class SearchHistoryView extends StatelessWidget {
       );
     } else if (searchCtrl.text.removeAllWhitespace.isEmpty &&
         searchHistory.isEmpty) {
-      return const Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(MedusaIcons.magnifying_glass),
-                Text('Search in your store'),
-              ],
-            ),
-          )
+          Icon(MedusaIcons.magnifying_glass),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Search in your store', textAlign: TextAlign.center,),
+            ],
+          ),
         ],
       );
     }

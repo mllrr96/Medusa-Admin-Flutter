@@ -185,15 +185,15 @@ class _ProductsViewState extends State<ProductsView> {
                     label: 'New Product',
                     labelStyle: smallTextStyle,
                     onTap: () async {
-                      await context
-                          .pushRoute(
-                              AddUpdateProductRoute(updateProductReq: null))
-                          .then((result) {
-                        if (result is Product) {
-                          pagingController.addItem(result);
-                          setState(() {});
-                        }
-                      });
+                      // await context
+                      //     .pushRoute(
+                      //         AddUpdateProductRoute(updateProductReq: null))
+                      //     .then((result) {
+                      //   if (result is Product) {
+                      //     pagingController.addItem(result);
+                      //     setState(() {});
+                      //   }
+                      // });
                     },
                     onLongPress: () {},
                   ),

@@ -85,7 +85,8 @@ class _PricingViewState extends State<PricingView> {
           heroTag: UniqueKey(),
           label: const Text('New Price List'),
           icon: const Icon(Icons.add),
-          onPressed: () => context.pushRoute(AddUpdatePriceListRoute()),
+          // onPressed: () => context.pushRoute(AddUpdatePriceListRoute()),
+          onPressed: () {},
         ),
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [

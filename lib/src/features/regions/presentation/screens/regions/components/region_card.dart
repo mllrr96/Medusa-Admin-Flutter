@@ -22,7 +22,8 @@ class RegionCard extends StatelessWidget {
       color: Theme.of(context).appBarTheme.backgroundColor,
       borderRadius: const BorderRadius.all(Radius.circular(12.0)),
       child: InkWell(
-        onTap: onTap ?? () => context.pushRoute(RegionDetailsRoute(regionId: region.id)),
+        // onTap: onTap ?? () => context.pushRoute(RegionDetailsRoute(regionId: region.id)),
+        onTap: onTap ?? () {},
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),

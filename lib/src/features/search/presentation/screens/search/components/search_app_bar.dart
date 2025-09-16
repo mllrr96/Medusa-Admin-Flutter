@@ -84,12 +84,12 @@ class _SearchAppBarState extends State<SearchAppBar> {
                 child: SearchBar(
                   controller: widget.searchCtrl,
                   onSubmitted: (val) async {
-                    if (val.removeAllWhitespace.isNotEmpty) {
-                      _search(0);
-                      await PreferenceService.instance.updateSearchHistory(
-                          SearchHistory(
-                              text: val, searchableFields: searchCategory));
-                    }
+                    // if (val.removeAllWhitespace.isNotEmpty) {
+                    //   _search(0);
+                    //   await PreferenceService.instance.updateSearchHistory(
+                    //       SearchHistory(
+                    //           text: val, searchableFields: searchCategory));
+                    // }
                   },
                   hintText: getHintText(searchCategory),
                   padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
