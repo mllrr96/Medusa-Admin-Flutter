@@ -11,41 +11,41 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
+
       - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
           architecture: x64
           cache: true
+          flutter-version: '3.35.3'
+
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '17'
-          cache: 'gradle'
+
       - name: Run flutter doctor
         run: flutter doctor -v
+
+      - name: Run pub get
+        run: flutter pub get
+
       - name: Run pub get and build runner
-        run: |
-          flutter pub get
-          dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Write secrets to files
-        shell: bash
+      - name: Build APKs
         run: |
-          echo $GOOGLE_SERVICE_ANDROID | base64 -d > android/app/google-services.json
-          echo $FIREBASE_APP_ID | base64 -d > ios/firebase_app_id_file.json
-          echo $FIREBASE_OPTIONS | base64 -d > lib/firebase_options.dart
-          echo $GOOGLE_INFO_PLIST_IOS | base64 -d > ios/Runner/GoogleService-Info.plist
-        env:
-          GOOGLE_SERVICE_ANDROID: ${{ secrets.GOOGLE_SERVICE_ANDROID }}
-          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-          FIREBASE_OPTIONS: ${{ secrets.FIREBASE_OPTIONS }}
-          GOOGLE_INFO_PLIST_IOS: ${{ secrets.GOOGLE_INFO_PLIST_IOS }}
-
-      - name: Build APK
-        run: | 
+          flutter build apk --release --split-per-abi
           flutter build apk --release
-          cd build/app/outputs/apk/release
-          mv *.apk Medusa-Admin-${GITHUB_REF#refs/*/}.apk
+
+      - name: Rename APKs
+        run: |
+          cd build/app/outputs/flutter-apk
+          mv app-armeabi-v7a-release.apk Medusa-Admin-${GITHUB_REF_NAME}-armeabi-v7a.apk
+          mv app-arm64-v8a-release.apk Medusa-Admin-${GITHUB_REF_NAME}-arm64-v8a.apk
+          mv app-x86_64-release.apk Medusa-Admin-${GITHUB_REF_NAME}-x86_64.apk
+          mv app-release.apk Medusa-Admin-${GITHUB_REF_NAME}-universal.apk
+
       - name: Build iPA
         run: |
           flutter build ios --release --no-codesign
