@@ -1,0 +1,188 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/features/products/presentation/bloc/product_crud/product_crud_bloc.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin/src/core/extensions/context_extension.dart';
+
+import 'components/index.dart';
+
+@RoutePage()
+class ProductDetailsView extends StatefulWidget {
+  const ProductDetailsView(this.productId, {super.key});
+
+  final String productId;
+
+  @override
+  State<ProductDetailsView> createState() => _ProductDetailsViewState();
+}
+
+class _ProductDetailsViewState extends State<ProductDetailsView> {
+  late final ProductCrudBloc productCrudBloc;
+  late final ProductCrudBloc variantsCrudBloc;
+
+  @override
+  void initState() {
+    productCrudBloc = ProductCrudBloc.instance;
+    variantsCrudBloc = ProductCrudBloc.instance;
+    // variantsCrudBloc.add(ProductCrudEvent.loadProductVariants(widget.productId));
+    productCrudBloc.add(ProductCrudEvent.load(widget.productId));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    productCrudBloc.close();
+    variantsCrudBloc.close();
+    super.dispose();
+  }
+
+  final GlobalKey variantsKey = GlobalKey();
+  final GlobalKey attributesKey = GlobalKey();
+  final GlobalKey thumbnailKey = GlobalKey();
+  final GlobalKey imagesKey = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    const space = Gap(12);
+    return BlocProvider(
+      create: (context) => productCrudBloc,
+      child: BlocBuilder<ProductCrudBloc, ProductCrudState>(
+        bloc: productCrudBloc,
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              systemOverlayStyle: context.defaultSystemUiOverlayStyle,
+              title: const Text('Product Details'),
+              actions: [
+                BlocBuilder<ProductCrudBloc, ProductCrudState>(
+                  bloc: productCrudBloc,
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      product: (product) {
+                        final isPublished =
+                            product.status == ProductStatus.published;
+                        return TextButton(
+                          onPressed: () async {
+                            await showOkCancelAlertDialog(
+                              context: context,
+                              title: isPublished
+                                  ? 'Unpublish product?'
+                                  : 'Publish product?',
+                              message:
+                                  'Are you sure you want to ${isPublished ? 'unpublish' : 'publish'} this product?',
+                              isDestructiveAction: true,
+                            ).then((result) async {
+                              if (result == OkCancelResult.ok) {
+                                productCrudBloc.add(ProductCrudEvent.update(
+                                    widget.productId,
+                                    UpdateProductReq(
+                                        status: isPublished
+                                            ? ProductStatus.draft
+                                            : ProductStatus.published)));
+                              }
+                            });
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _getStatusIcon(product.status),
+                              const SizedBox(width: 4.0),
+                              Text(
+                                product.status.name.capitalize,
+                                style: context.bodySmall,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      orElse: () => const SizedBox.shrink(),
+                    );
+                  },
+                ),
+              ],
+            ),
+            body: SafeArea(
+              child: BlocConsumer<ProductCrudBloc, ProductCrudState>(
+                bloc: productCrudBloc,
+                listener: (context, state) {
+                  state.maybeWhen(
+                    deleted: () {
+                      context.maybePop();
+                    },
+                    updated: (product) {
+                      productCrudBloc.add(
+                          ProductCrudEvent.loadProductVariants(product.id));
+                    },
+                    orElse: () {},
+                  );
+                },
+                builder: (context, state) {
+                  return state.whenOrNull(
+                        product: (product) => SingleChildScrollView(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 10.0),
+                          child: Column(
+                            children: [
+                              ProductDetailsOverview(product: product),
+                              space,
+                              ProductDetailsVariants(
+                                  product: product, key: variantsKey),
+                              space,
+                              ProductDetailsAttributes(
+                                  product: product, key: attributesKey),
+                              space,
+                              ProductDetailsThumbnail(
+                                  product: product, key: thumbnailKey),
+                              space,
+                              ProductDetailsImages(
+                                  product: product, key: imagesKey),
+                            ],
+                          ),
+                        ),
+                        loading: (_) => const ProductDetailsLoadingPage(),
+                        error: (e) => Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text('Error loading product'),
+                              FilledButton(
+                                  child: const Text('Retry'),
+                                  onPressed: () {
+                                    productCrudBloc.add(
+                                        ProductCrudEvent.loadProductVariants(
+                                            widget.productId));
+                                  }),
+                            ],
+                          ),
+                        ),
+                      ) ??
+                      SizedBox.shrink();
+                },
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _getStatusIcon(ProductStatus status) {
+    switch (status) {
+      case ProductStatus.draft:
+        return const Icon(Icons.circle, color: Colors.grey, size: 12);
+      case ProductStatus.proposed:
+        return const Icon(Icons.circle, color: Colors.grey, size: 12);
+
+      case ProductStatus.published:
+        return const Icon(Icons.circle, color: Colors.green, size: 12);
+
+      case ProductStatus.rejected:
+        return const Icon(Icons.circle, color: Colors.red, size: 12);
+    }
+  }
+}
