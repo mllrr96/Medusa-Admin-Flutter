@@ -21,8 +21,8 @@ class SecretApiKeysView extends StatefulWidget {
 class _SecretApiKeysViewState extends State<SecretApiKeysView> {
   late ApiKeyCrudBloc apiKeyCrudBloc;
 
-  final pagingController = PagingController<int, ApiKey>(
-      firstPageKey: 0, invisibleItemsThreshold: 6);
+  final pagingController =
+      PagingController<int, ApiKey>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final refreshController = RefreshController();
 
   @override
@@ -57,15 +57,14 @@ class _SecretApiKeysViewState extends State<SecretApiKeysView> {
             final isLastPage = state.apiKeys.length < ApiKeyCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
+              pagingController.value =
+                  const PagingState(nextPageKey: null, error: null, itemList: null);
               await Future.delayed(const Duration(milliseconds: 250));
             }
             if (isLastPage) {
               pagingController.appendLastPage(state.apiKeys);
             } else {
-              final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.apiKeys.length;
+              final nextPageKey = pagingController.nextPageKey ?? 0 + state.apiKeys.length;
               pagingController.appendPage(state.apiKeys, nextPageKey);
             }
             if (refreshController.isRefresh) {
@@ -97,9 +96,13 @@ class _SecretApiKeysViewState extends State<SecretApiKeysView> {
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<ApiKey>(
                 animateTransitions: true,
-                itemBuilder: (context, apiKey, index) => ApiKeyTile(apiKey),
-                noItemsFoundIndicatorBuilder: (_) =>
-                    const Center(child: Text('No items found')),
+                itemBuilder: (context, apiKey, index) => ApiKeyTile(
+                  apiKey,
+                  onTap: () {
+                    context.pushRoute(ApiKeyDetailsRoute(apiKey: apiKey));
+                  },
+                ),
+                noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No items found')),
                 firstPageProgressIndicatorBuilder: (context) =>
                     const Center(child: CircularProgressIndicator.adaptive()),
                 firstPageErrorIndicatorBuilder: (_) =>

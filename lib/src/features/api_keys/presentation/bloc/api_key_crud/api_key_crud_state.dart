@@ -9,6 +9,4 @@ class ApiKeyCrudState with _$ApiKeyCrudState {
       _ApiKeys;
   const factory ApiKeyCrudState.deleted() = _Deleted;
   const factory ApiKeyCrudState.error(MedusaError failure) = _Error;
-  const factory ApiKeyCrudState.apiKeySalesChannels(
-      List<SalesChannel> salesChannels, int count) = _ApiKeySalesChannels;
 }

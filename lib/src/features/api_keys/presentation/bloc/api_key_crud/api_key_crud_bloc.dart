@@ -23,7 +23,6 @@ class ApiKeyCrudBloc extends Bloc<ApiKeyCrudEvent, ApiKeyCrudState> {
     on<_Revoke>(_revoke);
     on<_AddSalesChannels>(_addSalesChannels);
     on<_RemoveSalesChannels>(_removeSalesChannels);
-    on<_LoadAllSalesChannels>(_loadAllSalesChannels);
   }
 
   void _load(_Load event, Emitter<ApiKeyCrudState> emit) async {
@@ -85,18 +84,6 @@ class ApiKeyCrudBloc extends Bloc<ApiKeyCrudEvent, ApiKeyCrudState> {
         await _useCase.removeSalesChannels(event.id, event.salesChannelsIds);
     result.when(
         (success) => emit(_ApiKey(success)), (error) => emit(_Error(error)));
-  }
-
-  void _loadAllSalesChannels(
-      _LoadAllSalesChannels event, Emitter<ApiKeyCrudState> emit) async {
-    emit(const _Loading());
-    throw UnimplementedError();
-    // final result = await _useCase.loadAllSalesChannels(event.id,
-    //     queryParameters: event.queryParameters);
-    // result.when(
-    //     (success) => emit(_ApiKeySalesChannels(
-    //         success.salesChannels, success.count)),
-    //     (error) => emit(_Error(error)));
   }
 
   final ApiKeyUseCase _useCase;

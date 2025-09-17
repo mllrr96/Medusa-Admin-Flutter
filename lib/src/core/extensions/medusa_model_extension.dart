@@ -3,6 +3,9 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 extension UserFullName on User {
   String get fullName {
+    if (firstName == null && lastName == null) {
+      return email ?? 'No Name';
+    }
     return '$firstName $lastName';
   }
 }
