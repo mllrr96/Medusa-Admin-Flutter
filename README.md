@@ -78,13 +78,6 @@ It's available for iOS and Android. This app is currently in beta, so expect to 
     </table>
 </div>
 
-## Features
-This is a beta release for Medusa v2. The following features are available:
-- View and update store settings (Return reasons, sales channels etc).
-- View, add, and update products, collections, customers, and customer groups.
-- View, add, and update gift cards and draft orders.
-- Manage app settings, including light/dark mode.
-
 ## Known Issues & Not Implemented
 This beta version has some limitations. The following features are not yet implemented or are known to have issues:
 - **Creating:**
