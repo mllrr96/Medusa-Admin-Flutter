@@ -5,6 +5,7 @@ import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -12,9 +13,12 @@ import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/date_time_extension.dart';
 import 'package:medusa_admin/src/core/extensions/medusa_model_extension.dart';
 import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin/src/features/api_keys/presentation/bloc/api_key_crud/api_key_crud_bloc.dart';
+import 'package:medusa_admin/src/features/api_keys/presentation/screens/api_key_details/api_key_status.dart';
 import 'package:medusa_admin/src/features/sales_channels/presentation/bloc/sales_channel_crud/sales_channel_crud_bloc.dart';
 import 'package:medusa_admin/src/features/store_details/presentation/screens/store_details/store_details_fab.dart';
 import 'package:medusa_admin/src/features/team/presentation/bloc/user_crud/user_crud_bloc.dart';
@@ -35,18 +39,21 @@ class ApiKeyDetailsView extends StatefulWidget {
 class _ApiKeyDetailsViewState extends State<ApiKeyDetailsView> {
   late final UserCrudBloc userCrudBloc;
   late final SalesChannelCrudBloc channelBloc;
-  late final ApiKeyCrudBloc apiKeyCrudBloc;
+  late final ApiKeyCrudBloc apiSaleChannelsBloc;
+  late final ApiKeyCrudBloc apiCrudBloc;
   List<SalesChannel> selectedChannels = [];
 
-  ApiKey get apiKey => widget.apiKey;
+  late ApiKey apiKey;
 
   bool get isPublishable => apiKey.type == ApiKeyType.publishable;
 
   @override
   void initState() {
+    apiKey = widget.apiKey;
     userCrudBloc = UserCrudBloc.instance;
     channelBloc = SalesChannelCrudBloc.instance;
-    apiKeyCrudBloc = ApiKeyCrudBloc.instance;
+    apiSaleChannelsBloc = ApiKeyCrudBloc.instance;
+    apiCrudBloc = ApiKeyCrudBloc.instance;
     if (isPublishable) {
       channelBloc.add(
         SalesChannelCrudEvent.loadAll(
@@ -62,34 +69,59 @@ class _ApiKeyDetailsViewState extends State<ApiKeyDetailsView> {
   void dispose() {
     userCrudBloc.close();
     channelBloc.close();
+    apiCrudBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final smallTextStyle = context.bodySmall;
     const space = Gap(10);
-    return BlocListener<ApiKeyCrudBloc, ApiKeyCrudState>(
-      bloc: apiKeyCrudBloc,
-      listener: (context, state) {
-        state.whenOrNull(
-          loading: () {
-            loading();
-          },
-          apiKey: (apiKey) {
-            dismissLoading();
-            channelBloc.add(
-              SalesChannelCrudEvent.loadAll(
-                queryParameters: {'publishable_key_id': apiKey.id},
-              ),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ApiKeyCrudBloc, ApiKeyCrudState>(
+          bloc: apiSaleChannelsBloc,
+          listener: (context, state) {
+            state.whenOrNull(
+              loading: () {
+                loading();
+              },
+              apiKey: (apiKey) {
+                dismissLoading();
+                channelBloc.add(
+                  SalesChannelCrudEvent.loadAll(
+                    queryParameters: {'publishable_key_id': apiKey.id},
+                  ),
+                );
+                setState(() => selectedChannels.clear());
+              },
+              error: (e) {
+                dismissLoading();
+                context.showSnackBar(e.toSnackBarString());
+              },
             );
-            setState(() => selectedChannels.clear());
           },
-          error: (e) {
-            dismissLoading();
-            context.showSnackBar(e.toSnackBarString());
+        ),
+        BlocListener<ApiKeyCrudBloc, ApiKeyCrudState>(
+          bloc: apiCrudBloc,
+          listener: (context, state) {
+            state.whenOrNull(loading: () {
+              loading();
+            }, apiKey: (apiKey) {
+              dismissLoading();
+              setState(() => this.apiKey = apiKey);
+              context.showSnackBar('API Key revoked successfully');
+            }, error: (e) {
+              dismissLoading();
+              context.showSnackBar(e.toSnackBarString());
+            }, deleted: () {
+              dismissLoading();
+              context.showSnackBar('API Key deleted successfully');
+              context.pop(true);
+            });
           },
-        );
-      },
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: const Text('API Key Details'),
@@ -105,7 +137,7 @@ class _ApiKeyDetailsViewState extends State<ApiKeyDetailsView> {
                   if (!await shouldRemove(selectedChannels.length)) {
                     return;
                   }
-                  apiKeyCrudBloc.add(
+                  apiSaleChannelsBloc.add(
                     ApiKeyCrudEvent.removeSalesChannels(
                       apiKey.id,
                       selectedChannels.map((e) => e.id).toList(),
@@ -113,7 +145,67 @@ class _ApiKeyDetailsViewState extends State<ApiKeyDetailsView> {
                   );
                 },
               )
-            : null,
+            : SpeedDial(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                animatedIcon: AnimatedIcons.menu_close,
+                spacing: 10,
+                children: [
+                  SpeedDialChild(
+                    child: const Icon(LucideIcons.pen),
+                    label: 'Edit',
+                    labelStyle: smallTextStyle,
+                    onTap: () async {
+                      final result = await context.pushRoute<bool>(
+                        AddUpdateApiKeyRoute(apiKey: apiKey),
+                      );
+                      if (result == true) {
+                        apiCrudBloc.add(ApiKeyCrudEvent.load(apiKey.id));
+                      }
+                    },
+                    onLongPress: () {},
+                  ),
+                  SpeedDialChild(
+                    child: const Icon(LucideIcons.circleX),
+                    label: 'Revoke API Key',
+                    labelStyle: smallTextStyle,
+                    visible: apiKey.revokedAt == null,
+                    onTap: () async {
+                      final result = await showOkCancelAlertDialog(
+                        context: context,
+                        title: 'Are you sure?',
+                        message:
+                            'You are about to revoke this API key. This action cannot be undone.',
+                        okLabel: 'Revoke',
+                        isDestructiveAction: true,
+                      );
+                      if (result == OkCancelResult.ok) {
+                        apiCrudBloc.add(ApiKeyCrudEvent.revoke(apiKey.id));
+                      }
+                    },
+                    onLongPress: () {},
+                  ),
+                  SpeedDialChild(
+                    child: const Icon(LucideIcons.trash),
+                    label: 'Delete',
+                    labelStyle: smallTextStyle,
+                    visible: apiKey.revokedAt != null,
+                    onTap: () async {
+                      final result = await showOkCancelAlertDialog(
+                        context: context,
+                        title: 'Are you sure?',
+                        message:
+                            'You are about to delete this API key. This action cannot be undone.',
+                        okLabel: 'Delete',
+                        isDestructiveAction: true,
+                      );
+                      if (result != OkCancelResult.ok) return;
+                      apiCrudBloc.add(ApiKeyCrudEvent.delete(apiKey.id));
+                    },
+                    onLongPress: () {},
+                  ),
+                ],
+              ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -121,6 +213,7 @@ class _ApiKeyDetailsViewState extends State<ApiKeyDetailsView> {
             FlexExpansionTile(
               initiallyExpanded: true,
               title: Text(apiKey.title),
+              trailing: ApiKeyStatus(apiKey),
               childPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
               child: Column(
                 children: [
@@ -146,13 +239,13 @@ class _ApiKeyDetailsViewState extends State<ApiKeyDetailsView> {
                           Row(
                             children: [
                               Text(apiKey.redacted),
-                              if(isPublishable)
-                              Row(
-                                children: [
-                                  space,
-                                  Icon(LucideIcons.copy),
-                                ],
-                              )
+                              if (isPublishable)
+                                Row(
+                                  children: [
+                                    space,
+                                    Icon(LucideIcons.copy),
+                                  ],
+                                )
                             ],
                           ),
                         ],
@@ -232,7 +325,7 @@ class _ApiKeyDetailsViewState extends State<ApiKeyDetailsView> {
                       if (result == null || result.isEmpty) return;
                       final list = result + selectedChannels.map((e) => e.id).toList();
                       final uniqueList = list.toSet().toList();
-                      apiKeyCrudBloc.add(
+                      apiSaleChannelsBloc.add(
                         ApiKeyCrudEvent.addSalesChannels(apiKey.id, uniqueList),
                       );
                     },

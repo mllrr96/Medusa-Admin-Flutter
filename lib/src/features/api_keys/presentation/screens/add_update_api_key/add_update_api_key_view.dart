@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,9 +18,9 @@ import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 
 @RoutePage()
 class AddUpdateApiKeyView extends StatefulWidget {
-  const AddUpdateApiKeyView({super.key, this.publishableApiKey, this.type});
+  const AddUpdateApiKeyView({super.key, this.apiKey, this.type});
 
-  final ApiKey? publishableApiKey;
+  final ApiKey? apiKey;
   final ApiKeyType? type;
 
   @override
@@ -29,7 +30,7 @@ class AddUpdateApiKeyView extends StatefulWidget {
 class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
   late final ApiKeyCrudBloc apiKeyCrudBloc;
 
-  bool get updateMode => widget.publishableApiKey != null;
+  bool get updateMode => widget.apiKey != null;
   final titleCtrl = TextEditingController();
   final keyForm = GlobalKey<FormState>();
 
@@ -37,9 +38,8 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
   void initState() {
     apiKeyCrudBloc = ApiKeyCrudBloc.instance;
     if (updateMode) {
-      titleCtrl.text = widget.publishableApiKey!.title;
+      titleCtrl.text = widget.apiKey!.title;
     }
-
 
     super.initState();
   }
@@ -61,10 +61,27 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
       listener: (context, state) {
         state.mapOrNull(
           loading: (_) => loading(),
-          apiKey: (_) {
+          apiKey: (result) async {
             dismissLoading();
-            context.showSnackBar('Api key created');
-            context.maybePop();
+            if (result.apiKey.type == ApiKeyType.secret && !updateMode) {
+              final ok = await showOkAlertDialog(
+                context: context,
+                title: 'Secret Key Created',
+                message:
+                    'Your secret key has been created. Please copy and store it securely as it will not be shown again.\n\nSecret Key: ${result.apiKey.token}',
+                okLabel: 'Copy API Key',
+              );
+              if (ok == OkCancelResult.ok && context.mounted) {
+                context.copyToClipboard(result.apiKey.token);
+              }
+              if (context.mounted) {
+                context.showSnackBar('Api key created');
+              }
+            } else {
+              context.showSnackBar('Api key created');
+            }
+            if (!context.mounted) return;
+            context.pop(true);
           },
           error: (e) {
             dismissLoading();
@@ -85,7 +102,7 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
                   context.unfocus();
                   if (updateMode) {
                     apiKeyCrudBloc
-                        .add(ApiKeyCrudEvent.update(widget.publishableApiKey!.id, titleCtrl.text));
+                        .add(ApiKeyCrudEvent.update(widget.apiKey!.id, titleCtrl.text));
                   } else {
                     assert(
                         widget.type != null, 'Type must be provided when creating a new api key');
@@ -107,13 +124,13 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
                     initiallyExpanded: true,
                     child: Column(
                       children: [
-                        if(!updateMode)
-                        Text(
-                          widget.type == ApiKeyType.secret
-                              ? 'Create a new secret API key to access the Medusa API as an authenticated admin user.'
-                              : 'Create a new publishable API key to limit the scope of requests to specific sales channels.',
-                          style: smallTextStyle?.copyWith(color: manatee),
-                        ),
+                        if (!updateMode)
+                          Text(
+                            widget.type == ApiKeyType.secret
+                                ? 'Create a new secret API key to access the Medusa API as an authenticated admin user.'
+                                : 'Create a new publishable API key to limit the scope of requests to specific sales channels.',
+                            style: smallTextStyle?.copyWith(color: manatee),
+                          ),
                         space,
                         LabeledTextField(
                           label: 'Title',
