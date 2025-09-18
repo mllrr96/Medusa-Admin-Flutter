@@ -55,6 +55,16 @@ class StoreSettingsView extends StatelessWidget {
                   onPressed: (_) => context.pushRoute(const ReturnReasonsRoute()),
                 ),
                 SettingsTile.navigation(
+                  leading: Icon(LucideIcons.box),
+                  title: const Text('Product Types'),
+                  onPressed: (_) => context.pushRoute(const ProductTypesRoute()),
+                ),
+                SettingsTile.navigation(
+                  leading: Icon(LucideIcons.tags),
+                  title: const Text('Product Tags'),
+                  onPressed: (_) => context.pushRoute(const ProductTagsRoute()),
+                ),
+                SettingsTile.navigation(
                   leading: const Icon(Icons.call_split),
                   title: const Text('Sales channels'),
                   onPressed: (_) => context.pushRoute(const SalesChannelsRoute()),

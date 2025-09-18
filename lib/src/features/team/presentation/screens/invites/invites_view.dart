@@ -10,7 +10,6 @@ import 'package:medusa_admin/src/core/utils/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/src/features/team/presentation/bloc/invite_crud/invite_crud_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:simple_icons/simple_icons.dart';
 
 import 'components/index.dart';
 import 'components/invite_user.dart';
@@ -133,6 +132,23 @@ class _InvitesViewState extends State<InvitesView> {
             child: PagedListView(
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<Invite>(
+                noItemsFoundIndicatorBuilder: (context) => Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(
+                        LucideIcons.userMinus,
+                        size: 64,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        'No invites found',
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
                 animateTransitions: true,
                 itemBuilder: (context, invite, index) {
                   return InviteCard(

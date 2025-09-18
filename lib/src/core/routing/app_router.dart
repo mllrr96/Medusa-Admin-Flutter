@@ -10,6 +10,8 @@ import 'package:medusa_admin/src/features/customers/data/models/pick_customer_re
 import 'package:medusa_admin/src/features/groups/data/models/pick_groups_req.dart';
 import 'package:medusa_admin/src/features/inventory/presentation/screens/inventory_details/inventory_details_view.dart';
 import 'package:medusa_admin/src/features/inventory/presentation/screens/inventory_view.dart';
+import 'package:medusa_admin/src/features/product_tags/presentation/screens/product_tags_view.dart';
+import 'package:medusa_admin/src/features/product_types/presentation/screens/product_types_view.dart';
 import 'package:medusa_admin/src/features/products/data/models/pick_products_req.dart';
 import 'package:medusa_admin/src/features/products/data/models/product_variant_req.dart';
 import 'package:medusa_admin/src/features/products/data/models/select_products_req.dart';
@@ -212,6 +214,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: CreateUpdateReturnReasonRoute.page),
 
         AutoRoute(page: PersonalInformationRoute.page),
+        AutoRoute(page: ProductTagsRoute.page),
+        AutoRoute(page: ProductTypesRoute.page),
 
         AutoRoute(page: TaxSettingsRoute.page),
         AutoRoute(page: AddUpdateTaxRateRoute.page),
