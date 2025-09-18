@@ -206,7 +206,9 @@ class _ApiKeyDetailsViewState extends State<ApiKeyDetailsView> {
                   ),
                 ],
               ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: selectedChannels.isNotEmpty
+            ? FloatingActionButtonLocation.centerFloat
+            : FloatingActionButtonLocation.endFloat,
         body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           children: [
