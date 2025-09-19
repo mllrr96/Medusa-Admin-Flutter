@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:medusa_admin/src/core/di/di.dart';
 import 'package:medusa_admin/src/core/error/medusa_error.dart';
 import 'package:medusa_admin/src/features/product_types/domain/usecases/create_product_type_use_case.dart';
 import 'package:medusa_admin/src/features/product_types/domain/usecases/delete_product_type_use_case.dart';
@@ -96,4 +97,8 @@ class ProductTypesBloc extends Bloc<ProductTypesEvent, ProductTypesState> {
       (error) => emit(_Error(error)),
     );
   }
+
+  static ProductTypesBloc get instance => getIt<ProductTypesBloc>();
+  static const int pageSize = 20;
+
 }
