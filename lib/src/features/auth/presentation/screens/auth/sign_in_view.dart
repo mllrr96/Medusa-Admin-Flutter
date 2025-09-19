@@ -152,6 +152,7 @@ class _SignInViewState extends State<SignInView> {
                                 BlocBuilder<ThemeCubit, ThemeState>(
                                   builder: (context, state) {
                                     return ElevatedButton.icon(
+                                      style: ElevatedButton.styleFrom(elevation: 0),
                                       label: Text(state.themeMode.name.capitalize),
                                       onPressed: () => context
                                           .read<ThemeCubit>()
@@ -161,6 +162,7 @@ class _SignInViewState extends State<SignInView> {
                                   },
                                 ),
                                 ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(elevation: 0),
                                   onPressed: () async => await showBarModalBottomSheet(
                                     backgroundColor: context.theme.scaffoldBackgroundColor,
                                     overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
@@ -279,25 +281,25 @@ class _SignInViewState extends State<SignInView> {
                           ),
                           space,
                           if (kDebugMode)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Hero(
-                              tag: 'Test Sign In',
-                              child: FilledButton.icon(
-                                  style: FilledButton.styleFrom(
-                                    minimumSize: const Size(220, 48.0),
-                                  ),
-                                  onPressed: loading
-                                      ? null
-                                      : () async {
-                                          emailCtrl.text = '1@1.com';
-                                          passwordCtrl.text = '12345678';
-                                          await _signIn();
-                                        },
-                                  icon: const Icon(Icons.login),
-                                  label: Text('Test Sign In')),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Hero(
+                                tag: 'Test Sign In',
+                                child: FilledButton.icon(
+                                    style: FilledButton.styleFrom(
+                                      minimumSize: const Size(220, 48.0),
+                                    ),
+                                    onPressed: loading
+                                        ? null
+                                        : () async {
+                                            emailCtrl.text = '1@1.com';
+                                            passwordCtrl.text = '12345678';
+                                            await _signIn();
+                                          },
+                                    icon: const Icon(Icons.login),
+                                    label: Text('Test Sign In')),
+                              ),
                             ),
-                          ),
                           space,
                         ],
                       ),

@@ -33,6 +33,7 @@ class SignInFooterButtons extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: isUrlSet ? null : Colors.red,
         minimumSize: const Size(110, 48.0),
+        elevation: 0,
       ),
       label: Text('Configure URL',
           style: isUrlSet
