@@ -18,7 +18,7 @@ class CreateShippingOptionUseCase {
   static CreateShippingOptionUseCase get instance => getIt<CreateShippingOptionUseCase>();
 
   Future<Result<ShippingOptionType, MedusaError>> call(
-      CreateShippingOptionType payload) async {
+      CreateShippingOptionTypeReq payload) async {
     try {
       final result = await _shippingOptionsRepository.create(payload);
       return Success(result.shippingOptionType);

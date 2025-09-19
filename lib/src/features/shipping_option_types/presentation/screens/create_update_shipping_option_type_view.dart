@@ -12,10 +12,12 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 @RoutePage()
 class CreateUpdateShippingOptionTypeView extends StatefulWidget {
   const CreateUpdateShippingOptionTypeView({super.key, this.shippingOptionType});
+
   final ShippingOptionType? shippingOptionType;
 
   @override
-  State<CreateUpdateShippingOptionTypeView> createState() => _CreateUpdateShippingOptionTypeViewState();
+  State<CreateUpdateShippingOptionTypeView> createState() =>
+      _CreateUpdateShippingOptionTypeViewState();
 }
 
 class _CreateUpdateShippingOptionTypeViewState extends State<CreateUpdateShippingOptionTypeView> {
@@ -24,6 +26,7 @@ class _CreateUpdateShippingOptionTypeViewState extends State<CreateUpdateShippin
   final _codeController = TextEditingController();
   final _descriptionController = TextEditingController();
   late final ShippingOptionTypesBloc _crudBloc;
+
   bool get isUpdate => widget.shippingOptionType != null;
 
   @override
@@ -57,7 +60,9 @@ class _CreateUpdateShippingOptionTypeViewState extends State<CreateUpdateShippin
           },
           option: (_) {
             dismissLoading();
-            context.showSnackBar(isUpdate ? 'Shipping Option Type updated successfully' : 'Shipping Option Type created successfully');
+            context.showSnackBar(isUpdate
+                ? 'Shipping Option Type updated successfully'
+                : 'Shipping Option Type created successfully');
             context.pop(true);
           },
           error: (e) {
@@ -78,25 +83,26 @@ class _CreateUpdateShippingOptionTypeViewState extends State<CreateUpdateShippin
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     if (isUpdate) {
-                      // _crudBloc.add(
-                      //   ShippingOptionTypesEvent.update(
-                      //     widget.shippingOptionType!.id,
-                      //     UpdateShippingOptionTypeReq(
-                      //       label: _labelController.text,
-                      //       description: _descriptionController.text,
-                      //     ),
-                      //   ),
-                      // );
+                      _crudBloc.add(
+                        ShippingOptionTypesEvent.update(
+                          widget.shippingOptionType!.id,
+                          UpdateShippingOptionTypeReq(
+                            label: _labelController.text,
+                            code: _codeController.text,
+                            description: _descriptionController.text,
+                          ),
+                        ),
+                      );
                     } else {
-                      // _crudBloc.add(
-                      //   ShippingOptionTypesEvent.create(
-                      //     CreateShippingOptionTypeReq(
-                      //       label: _labelController.text,
-                      //       code: _codeController.text,
-                      //       description: _descriptionController.text,
-                      //     ),
-                      //   ),
-                      // );
+                      _crudBloc.add(
+                        ShippingOptionTypesEvent.create(
+                          CreateShippingOptionTypeReq(
+                            label: _labelController.text,
+                            code: _codeController.text,
+                            description: _descriptionController.text,
+                          ),
+                        ),
+                      );
                     }
                   }
                 },
@@ -129,9 +135,8 @@ class _CreateUpdateShippingOptionTypeViewState extends State<CreateUpdateShippin
                         label: 'Code',
                         controller: _codeController,
                         required: !isUpdate,
-                        enabled: !isUpdate,
                         validator: (value) {
-                          if (!isUpdate && (value == null || value.isEmpty)) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter a code';
                           }
                           return null;

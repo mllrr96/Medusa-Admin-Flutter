@@ -18,7 +18,7 @@ class UpdateShippingOptionUseCase {
   static UpdateShippingOptionUseCase get instance => getIt<UpdateShippingOptionUseCase>();
 
   Future<Result<ShippingOptionType, MedusaError>> call(
-      String id, UpdateShippingOptionType payload) async {
+      String id, UpdateShippingOptionTypeReq payload) async {
     try {
       final result = await _shippingOptionsRepository.update(id, payload);
       return Success(result.shippingOptionType);

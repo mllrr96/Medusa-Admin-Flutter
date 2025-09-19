@@ -1,7 +1,10 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
 import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
@@ -19,6 +22,7 @@ class ShippingOptionTypesScreen extends StatefulWidget {
 
 class _ShippingOptionTypesScreenState extends State<ShippingOptionTypesScreen> {
   late final ShippingOptionTypesBloc _shippingOptionTypesBloc;
+  late final ShippingOptionTypesBloc _deleteShippingOptionTypeBloc;
   final pagingController =
       PagingController<int, ShippingOptionType>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final refreshController = RefreshController();
@@ -34,6 +38,7 @@ class _ShippingOptionTypesScreenState extends State<ShippingOptionTypesScreen> {
   @override
   void initState() {
     _shippingOptionTypesBloc = ShippingOptionTypesBloc.instance;
+    _deleteShippingOptionTypeBloc = ShippingOptionTypesBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
@@ -41,6 +46,7 @@ class _ShippingOptionTypesScreenState extends State<ShippingOptionTypesScreen> {
   @override
   void dispose() {
     _shippingOptionTypesBloc.close();
+    _deleteShippingOptionTypeBloc.close();
     pagingController.dispose();
     refreshController.dispose();
     super.dispose();
@@ -48,36 +54,55 @@ class _ShippingOptionTypesScreenState extends State<ShippingOptionTypesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ShippingOptionTypesBloc, ShippingOptionTypesState>(
-      bloc: _shippingOptionTypesBloc,
-      listener: (context, state) {
-        state.whenOrNull(
-          optionTypes: (res) async {
-            final shippingOptionTypes = res.shippingOptionTypes;
-            final isLastPage = shippingOptionTypes.length < 20;
-            if (refreshController.isRefresh) {
-              pagingController.removePageRequestListener(_loadPage);
-              pagingController.value =
-                  const PagingState(nextPageKey: null, error: null, itemList: null);
-              await Future.delayed(const Duration(milliseconds: 250));
-            }
-            if (isLastPage) {
-              pagingController.appendLastPage(shippingOptionTypes);
-            } else {
-              final nextPageKey = pagingController.nextPageKey ?? 0 + shippingOptionTypes.length;
-              pagingController.appendPage(shippingOptionTypes, nextPageKey);
-            }
-            if (refreshController.isRefresh) {
-              pagingController.addPageRequestListener(_loadPage);
-              refreshController.refreshCompleted();
-            }
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ShippingOptionTypesBloc, ShippingOptionTypesState>(
+          bloc: _shippingOptionTypesBloc,
+          listener: (context, state) {
+            state.whenOrNull(
+              optionTypes: (res) async {
+                final shippingOptionTypes = res.shippingOptionTypes;
+                final isLastPage = shippingOptionTypes.length < 20;
+                if (refreshController.isRefresh) {
+                  pagingController.removePageRequestListener(_loadPage);
+                  pagingController.value =
+                      const PagingState(nextPageKey: null, error: null, itemList: null);
+                  await Future.delayed(const Duration(milliseconds: 250));
+                }
+                if (isLastPage) {
+                  pagingController.appendLastPage(shippingOptionTypes);
+                } else {
+                  final nextPageKey =
+                      pagingController.nextPageKey ?? 0 + shippingOptionTypes.length;
+                  pagingController.appendPage(shippingOptionTypes, nextPageKey);
+                }
+                if (refreshController.isRefresh) {
+                  pagingController.addPageRequestListener(_loadPage);
+                  refreshController.refreshCompleted();
+                }
+              },
+              error: (e) {
+                refreshController.refreshFailed();
+                pagingController.error = e;
+              },
+            );
           },
-          error: (e) {
-            refreshController.refreshFailed();
-            pagingController.error = e;
+        ),
+        BlocListener<ShippingOptionTypesBloc, ShippingOptionTypesState>(
+          bloc: _deleteShippingOptionTypeBloc,
+          listener: (context, state) {
+            state.whenOrNull(
+              deleted: () {
+                pagingController.refresh();
+                context.showSnackBar('Shipping option type deleted successfully');
+              },
+              error: (e) {
+                context.showSnackBar(e.toSnackBarString());
+              },
+            );
           },
-        );
-      },
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Shipping Option Types'),
@@ -113,6 +138,24 @@ class _ShippingOptionTypesScreenState extends State<ShippingOptionTypesScreen> {
                       pagingController.refresh();
                     }
                   },
+                  trailing: IconButton(
+                      padding: EdgeInsets.all(16),
+                      onPressed: () async {
+                        final shouldDelete = await showOkCancelAlertDialog(
+                          context: context,
+                          title: 'Are you sure you want to delete this shipping option type?',
+                          okLabel: 'Delete',
+                          isDestructiveAction: true,
+                        );
+                        if (shouldDelete == OkCancelResult.ok) {
+                          _deleteShippingOptionTypeBloc
+                              .add(ShippingOptionTypesEvent.delete(type.id));
+                        }
+                      },
+                      icon: Icon(
+                        LucideIcons.trash2,
+                        color: Colors.red,
+                      )),
                 );
               },
               noItemsFoundIndicatorBuilder: (_) => Center(
