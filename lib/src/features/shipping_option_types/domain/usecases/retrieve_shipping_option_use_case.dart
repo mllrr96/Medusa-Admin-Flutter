@@ -13,14 +13,14 @@ class RetrieveShippingOptionUseCase {
 
   RetrieveShippingOptionUseCase(this._medusaAdmin);
 
-  ShippingOptionsRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptions;
+  ShippingOptionTypesRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptionTypes;
 
   static RetrieveShippingOptionUseCase get instance => getIt<RetrieveShippingOptionUseCase>();
 
-  Future<Result<ShippingOption, MedusaError>> call(String id) async {
+  Future<Result<ShippingOptionType, MedusaError>> call(String id) async {
     try {
-      final result = await _shippingOptionsRepository.retrieve(id: id);
-      return Success(result.shippingOption);
+      final result = await _shippingOptionsRepository.retrieve(id);
+      return Success(result.shippingOptionType);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

@@ -13,11 +13,11 @@ class ListShippingOptionTypesUseCase {
 
   ListShippingOptionTypesUseCase(this._medusaAdmin);
 
-  ShippingOptionsRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptions;
+  ShippingOptionTypesRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptionTypes;
 
   static ListShippingOptionTypesUseCase get instance => getIt<ListShippingOptionTypesUseCase>();
 
-  Future<Result<ShippingOptionListRes, MedusaError>> call(
+  Future<Result<ShippingOptionTypeListResponse, MedusaError>> call(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _shippingOptionsRepository.list(query: queryParameters);

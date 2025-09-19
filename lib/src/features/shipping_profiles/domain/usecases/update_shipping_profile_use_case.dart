@@ -21,7 +21,7 @@ class UpdateShippingProfileUseCase {
       String id, UpdateShippingProfileReq payload) async {
     try {
       final result = await _shippingProfilesRepository.update(id, payload);
-      return Success(result);
+      return Success(result.shippingProfile);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

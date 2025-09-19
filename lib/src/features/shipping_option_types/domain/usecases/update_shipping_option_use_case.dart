@@ -13,15 +13,15 @@ class UpdateShippingOptionUseCase {
 
   UpdateShippingOptionUseCase(this._medusaAdmin);
 
-  ShippingOptionsRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptions;
+  ShippingOptionTypesRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptionTypes;
 
   static UpdateShippingOptionUseCase get instance => getIt<UpdateShippingOptionUseCase>();
 
-  Future<Result<ShippingOption, MedusaError>> call(
-      String id, UpdateShippingOptionReq payload) async {
+  Future<Result<ShippingOptionType, MedusaError>> call(
+      String id, UpdateShippingOptionType payload) async {
     try {
-      final result = await _shippingOptionsRepository.update(id: id, body: payload);
-      return Success(result.shippingOption);
+      final result = await _shippingOptionsRepository.update(id, payload);
+      return Success(result.shippingOptionType);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

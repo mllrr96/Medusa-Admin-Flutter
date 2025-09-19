@@ -2,10 +2,8 @@ import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/src/core/error/medusa_error.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
-
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 @lazySingleton
 class ShippingProfileCrudUseCase {
@@ -20,7 +18,7 @@ class ShippingProfileCrudUseCase {
       CreateShippingProfileReq payload) async {
     try {
       final result = await _shippingProfileRepository.create(payload);
-      return Success(result);
+      return Success(result.shippingProfile);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -42,7 +40,7 @@ class ShippingProfileCrudUseCase {
     try {
       final result = await _shippingProfileRepository.update(
           id, userUpdateShippingProfileReq);
-      return Success(result);
+      return Success(result.shippingProfile);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -81,7 +79,7 @@ class ShippingProfileCrudUseCase {
       {Map<String, dynamic>? queryParams}) async {
     try {
       final result = await _shippingProfileRepository.retrieve(id);
-      return Success(result);
+      return Success(result.shippingProfile);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

@@ -13,15 +13,15 @@ class CreateShippingOptionUseCase {
 
   CreateShippingOptionUseCase(this._medusaAdmin);
 
-  ShippingOptionsRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptions;
+  ShippingOptionTypesRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptionTypes;
 
   static CreateShippingOptionUseCase get instance => getIt<CreateShippingOptionUseCase>();
 
-  Future<Result<ShippingOption, MedusaError>> call(
-      CreateShippingOptionReq payload) async {
+  Future<Result<ShippingOptionType, MedusaError>> call(
+      CreateShippingOptionType payload) async {
     try {
-      final result = await _shippingOptionsRepository.create(body: payload);
-      return Success(result.shippingOption);
+      final result = await _shippingOptionsRepository.create(payload);
+      return Success(result.shippingOptionType);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

@@ -21,7 +21,7 @@ class CreateShippingProfileUseCase {
       CreateShippingProfileReq payload) async {
     try {
       final result = await _shippingProfilesRepository.create(payload);
-      return Success(result);
+      return Success(result.shippingProfile);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

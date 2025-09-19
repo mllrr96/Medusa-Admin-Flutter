@@ -6,6 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/src/core/extensions/text_style_extension.dart';
+import 'package:medusa_admin/src/core/routing/app_router.dart';
 import 'package:medusa_admin/src/core/utils/pagination_error_page.dart';
 import 'package:medusa_admin/src/features/shipping_profiles/presentation/bloc/shipping_profiles_bloc.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
@@ -107,7 +108,10 @@ class _ShippingProfilesScreenState extends State<ShippingProfilesScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            // context.pushRoute(const CreateUpdateShippingProfileRoute());
+            final result = await context.pushRoute<bool>(CreateUpdateShippingProfileRoute());
+            if (result == true) {
+              pagingController.refresh();
+            }
           },
           child: const Icon(Icons.add),
         ),
@@ -124,7 +128,6 @@ class _ShippingProfilesScreenState extends State<ShippingProfilesScreen> {
               animateTransitions: true,
               itemBuilder: (context, shippingOption, index) {
                 return ListTile(
-                  onTap: () async {},
                   title: Text(shippingOption.name),
                   subtitle: Text(shippingOption.type),
                   trailing: IconButton(

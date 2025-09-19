@@ -20,7 +20,7 @@ class RetrieveShippingProfileUseCase {
   Future<Result<ShippingProfile, MedusaError>> call(String id) async {
     try {
       final result = await _shippingProfilesRepository.retrieve(id);
-      return Success(result);
+      return Success(result.shippingProfile);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

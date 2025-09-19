@@ -11,7 +11,9 @@ import 'package:medusa_admin/src/features/shipping_option_types/domain/usecases/
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 part 'shipping_option_types_event.dart';
+
 part 'shipping_option_types_state.dart';
+
 part 'shipping_option_types_bloc.freezed.dart';
 
 @injectable
@@ -36,6 +38,18 @@ class ShippingOptionTypesBloc extends Bloc<ShippingOptionTypesEvent, ShippingOpt
   final UpdateShippingOptionUseCase _updateShippingOptionUseCase;
   final DeleteShippingOptionUseCase _deleteShippingOptionUseCase;
 
+  Future<void> _retrieve(
+    _Retrieve event,
+    Emitter<ShippingOptionTypesState> emit,
+  ) async {
+    emit(const _Loading());
+    final result = await _retrieveShippingOptionUseCase(event.id);
+    result.when(
+      (optionType) => emit(_Option(optionType)),
+      (error) => emit(_Error(error)),
+    );
+  }
+
   Future<void> _load(
     _Load event,
     Emitter<ShippingOptionTypesState> emit,
@@ -54,18 +68,6 @@ class ShippingOptionTypesBloc extends Bloc<ShippingOptionTypesEvent, ShippingOpt
   ) async {
     emit(const _Loading());
     final result = await _createShippingOptionUseCase(event.payload);
-    result.when(
-      (option) => emit(_Option(option)),
-      (error) => emit(_Error(error)),
-    );
-  }
-
-  Future<void> _retrieve(
-    _Retrieve event,
-    Emitter<ShippingOptionTypesState> emit,
-  ) async {
-    emit(const _Loading());
-    final result = await _retrieveShippingOptionUseCase(event.id);
     result.when(
       (option) => emit(_Option(option)),
       (error) => emit(_Error(error)),

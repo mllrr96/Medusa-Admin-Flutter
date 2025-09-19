@@ -13,13 +13,13 @@ class DeleteShippingOptionUseCase {
 
   DeleteShippingOptionUseCase(this._medusaAdmin);
 
-  ShippingOptionsRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptions;
+  ShippingOptionTypesRepository get _shippingOptionsRepository => _medusaAdmin.shippingOptionTypes;
 
   static DeleteShippingOptionUseCase get instance => getIt<DeleteShippingOptionUseCase>();
 
-  Future<Result<ShippingOptionDeleteRes, MedusaError>> call(String id) async {
+  Future<Result<ShippingOptionTypeDeleteResponse, MedusaError>> call(String id) async {
     try {
-      final result = await _shippingOptionsRepository.delete(id: id);
+      final result = await _shippingOptionsRepository.delete(id);
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
