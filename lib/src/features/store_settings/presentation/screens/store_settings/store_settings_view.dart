@@ -71,8 +71,22 @@ class StoreSettingsView extends StatelessWidget {
                 ),
                 SettingsTile.navigation(
                   leading: const Icon(Icons.local_shipping_outlined),
-                  title: const Text('Locations & Shipping'),
+                  title: const Text('Locations'),
                   onPressed: (_) {},
+                ),
+                SettingsTile.navigation(
+                  leading: const Icon(Icons.local_shipping),
+                  title: const Text('Shipping Profiles'),
+                  onPressed: (_) {
+                    context.pushRoute(const ShippingProfilesRoute());
+                  },
+                ),
+                SettingsTile.navigation(
+                  leading: const Icon(Icons.delivery_dining),
+                  title: const Text('Shipping Option Types'),
+                  onPressed: (_) {
+                    context.pushRoute(ShippingOptionTypesRoute());
+                  },
                 ),
                 // SettingsTile.navigation(
                 //   leading: const Icon(Icons.currency_exchange),

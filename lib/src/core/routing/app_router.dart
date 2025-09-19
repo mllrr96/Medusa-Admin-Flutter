@@ -43,6 +43,8 @@ import 'package:medusa_admin/src/features/api_keys/presentation/screens/add_upda
 import 'package:medusa_admin/src/features/regions/presentation/screens/add_update_region/add_update_region_view.dart';
 import 'package:medusa_admin/src/features/reservations/presentation/screens/reservations_view.dart';
 import 'package:medusa_admin/src/features/sales_channels/presentation/screens/add_update_sales_channel/add_update_sales_channel_view.dart';
+import 'package:medusa_admin/src/features/shipping_option_types/presentation/screens/shipping_option_types_screen.dart';
+import 'package:medusa_admin/src/features/shipping_profiles/presentation/screens/shipping_profiles_screen.dart';
 import 'package:medusa_admin/src/features/tax_settings/presentation/screens/add_update_tax_rate/add_update_tax_rate_view.dart';
 import 'package:medusa_admin/src/features/return_reasons/presentation/screens/create_update_return_reason/create_update_return_reason_view.dart';
 import 'package:medusa_admin/src/features/currencies/presentation/screens/currencies/currencies_view.dart';
@@ -216,6 +218,8 @@ class AppRouter extends RootStackRouter {
 
         AutoRoute(page: ReturnReasonsRoute.page),
         AutoRoute(page: CreateUpdateReturnReasonRoute.page),
+        AutoRoute(page: ShippingOptionTypesRoute.page),
+        AutoRoute(page: ShippingProfilesRoute.page),
 
         AutoRoute(page: PersonalInformationRoute.page),
         AutoRoute(page: ProductTagsRoute.page),
