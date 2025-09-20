@@ -48,6 +48,7 @@ import 'package:medusa_admin/src/features/shipping_option_types/presentation/scr
 import 'package:medusa_admin/src/features/shipping_profiles/presentation/screens/create_update_shipping_profile_view.dart';
 import 'package:medusa_admin/src/features/shipping_profiles/presentation/screens/shipping_profiles_screen.dart';
 import 'package:medusa_admin/src/features/stock_locations/presentation/screens/create_update_stock_location_view.dart';
+import 'package:medusa_admin/src/features/stock_locations/presentation/screens/stock_location_details_screen.dart';
 import 'package:medusa_admin/src/features/stock_locations/presentation/screens/stock_locations_screen.dart';
 import 'package:medusa_admin/src/features/tax_settings/presentation/screens/add_update_tax_rate/add_update_tax_rate_view.dart';
 import 'package:medusa_admin/src/features/return_reasons/presentation/screens/create_update_return_reason/create_update_return_reason_view.dart';
@@ -253,6 +254,12 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: TeamRoute.page),
         AutoRoute(page: InvitesRoute.page),
         AutoRoute(page: InventoryDetailsRoute.page),
+
+        // Stock Locations
+        AutoRoute(page: StockLocationsRoute.page),
+        AutoRoute(page: StockLocationDetailsRoute.page),
+        AutoRoute(page: CreateUpdateStockLocationRoute.page),
+
 
         // App Settings
         AutoRoute(page: OrderSettingsRoute.page),

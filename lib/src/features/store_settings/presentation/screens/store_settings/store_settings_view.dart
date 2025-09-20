@@ -72,7 +72,7 @@ class StoreSettingsView extends StatelessWidget {
                 SettingsTile.navigation(
                   leading: const Icon(Icons.local_shipping_outlined),
                   title: const Text('Locations'),
-                  onPressed: (_) {},
+                  onPressed: (_) => context.pushRoute(const StockLocationsRoute()),
                 ),
                 SettingsTile.navigation(
                   leading: const Icon(Icons.local_shipping),
