@@ -33,8 +33,8 @@ class _CreateUpdateShippingOptionTypeViewState extends State<CreateUpdateShippin
   void initState() {
     _crudBloc = ShippingOptionTypesBloc.instance;
     if (isUpdate) {
-      _labelController.text = widget.shippingOptionType!.label;
-      _codeController.text = widget.shippingOptionType!.code;
+      _labelController.text = widget.shippingOptionType!.label ?? '';
+      _codeController.text = widget.shippingOptionType!.code ?? '';
       _descriptionController.text = widget.shippingOptionType!.description ?? '';
     }
     super.initState();
@@ -85,7 +85,7 @@ class _CreateUpdateShippingOptionTypeViewState extends State<CreateUpdateShippin
                     if (isUpdate) {
                       _crudBloc.add(
                         ShippingOptionTypesEvent.update(
-                          widget.shippingOptionType!.id,
+                          widget.shippingOptionType!.id!,
                           UpdateShippingOptionTypeReq(
                             label: _labelController.text,
                             code: _codeController.text,

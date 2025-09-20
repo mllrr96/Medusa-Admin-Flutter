@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medusa_admin/src/core/extensions/context_extension.dart';
 import 'package:medusa_admin/src/core/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/src/core/extensions/string_extension.dart';
 import 'package:medusa_admin/src/core/utils/custom_text_field.dart';
 import 'package:medusa_admin/src/core/utils/easy_loading.dart';
 import 'package:medusa_admin/src/core/utils/hide_keyboard.dart';
@@ -45,6 +46,20 @@ class _CreateUpdateStockLocationViewState extends State<CreateUpdateStockLocatio
   @override
   void initState() {
     _stockLocationsBloc = StockLocationsBloc.instance;
+    if (isUpdate){
+      _nameCtrl.text = stockLocation!.name;
+      _addressCtrl.text = stockLocation!.address?.address1 ?? '';
+      _address2Ctrl.text = stockLocation!.address?.address2 ?? '';
+      _cityCtrl.text = stockLocation!.address?.city ?? '';
+      _postalCodeCtrl.text = stockLocation!.address?.postalCode ?? '';
+      _stateCtrl.text = stockLocation!.address?.province ?? '';
+      _companyCtrl.text = stockLocation!.address?.company ?? '';
+      _phoneCtrl.text = stockLocation!.address?.phone ?? '';
+      if (stockLocation!.address?.countryCode != null) {
+        selectedCountry = stockLocation!.address!.countryCode?.getCountry;
+        _countryCtrl.text = selectedCountry!.displayOnStore;
+      }
+    }
     super.initState();
   }
 

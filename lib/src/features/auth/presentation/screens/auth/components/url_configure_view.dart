@@ -2,8 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gap/gap.dart';
-
-import 'package:medusa_admin/src/core/constants/colors.dart';
 import 'package:medusa_admin/src/core/constants/strings.dart';
 import 'package:medusa_admin/src/core/di/di.dart';
 import 'package:medusa_admin/src/core/extensions/string_extension.dart';

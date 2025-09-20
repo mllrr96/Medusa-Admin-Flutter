@@ -129,8 +129,8 @@ class _ShippingOptionTypesScreenState extends State<ShippingOptionTypesScreen> {
               animateTransitions: true,
               itemBuilder: (context, type, index) {
                 return ListTile(
-                  title: Text(type.label),
-                  subtitle: Text(type.code),
+                  title: Text(type.label ?? ''),
+                  subtitle: Text(type.code ??''),
                   onTap: () async {
                     final result = await context.pushRoute<bool>(
                         CreateUpdateShippingOptionTypeRoute(shippingOptionType: type));
@@ -149,7 +149,7 @@ class _ShippingOptionTypesScreenState extends State<ShippingOptionTypesScreen> {
                         );
                         if (shouldDelete == OkCancelResult.ok) {
                           _deleteShippingOptionTypeBloc
-                              .add(ShippingOptionTypesEvent.delete(type.id));
+                              .add(ShippingOptionTypesEvent.delete(type.id!));
                         }
                       },
                       icon: Icon(

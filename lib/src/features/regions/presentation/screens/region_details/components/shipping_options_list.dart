@@ -114,7 +114,7 @@ class _ShippingOptionsListState extends State<ShippingOptionsList> {
                   shippingOption: shippingOptions[index],
                   onDeleteTap: () => shippingOptionCrudBloc.add(
                     ShippingOptionCrudEvent.delete(
-                      shippingOptions[index].id,
+                      shippingOptions[index].id!,
                     ),
                   ),
                   onEditTap: () {

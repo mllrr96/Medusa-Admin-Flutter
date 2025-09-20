@@ -9,19 +9,19 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
-class RetrieveStockLocationUseCase {
+class ListFulfillmentOptionsUseCase {
   final MedusaAdminV2 _medusaAdmin;
 
-  RetrieveStockLocationUseCase(this._medusaAdmin);
+  ListFulfillmentOptionsUseCase(this._medusaAdmin);
 
-  StockLocationsRepository get _stockLocationsRepository => _medusaAdmin.stockLocations;
+  FulfillmentProvidersRepository get _fulfillmentProvidersRepository => _medusaAdmin.fulfillmentProviders;
 
-  static RetrieveStockLocationUseCase get instance => getIt<RetrieveStockLocationUseCase>();
+  static ListFulfillmentOptionsUseCase get instance => getIt<ListFulfillmentOptionsUseCase>();
 
-  Future<Result<StockLocation, MedusaError>> call(String id, {Map<String, dynamic>? query}) async {
+  Future<Result<FulfillmentProviderOptionListRes, MedusaError>> call(String id) async {
     try {
-      final result = await _stockLocationsRepository.retrieve(id, query: query);
-      return Success(result.stockLocation);
+      final result = await _fulfillmentProvidersRepository.listOptions(id);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

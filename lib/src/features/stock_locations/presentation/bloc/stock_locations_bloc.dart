@@ -41,7 +41,7 @@ class StockLocationsBloc extends Bloc<StockLocationsEvent, StockLocationsState> 
     Emitter<StockLocationsState> emit,
   ) async {
     emit(const _Loading());
-    final result = await _listStockLocationsUseCase();
+    final result = await _listStockLocationsUseCase(queryParameters: event.queryParameters);
     result.when(
       (stockLocations) => emit(_StockLocations(stockLocations)),
       (error) => emit(_Error(error)),
@@ -65,7 +65,7 @@ class StockLocationsBloc extends Bloc<StockLocationsEvent, StockLocationsState> 
     Emitter<StockLocationsState> emit,
   ) async {
     emit(const _Loading());
-    final result = await _retrieveStockLocationUseCase(event.id);
+    final result = await _retrieveStockLocationUseCase(event.id, query: event.query);
     result.when(
       (stockLocation) => emit(_StockLocation(stockLocation)),
       (error) => emit(_Error(error)),

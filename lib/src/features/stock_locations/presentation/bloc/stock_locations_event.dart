@@ -6,7 +6,7 @@ class StockLocationsEvent with _$StockLocationsEvent {
 
   const factory StockLocationsEvent.create(CreateStockLocation payload) = _Create;
 
-  const factory StockLocationsEvent.retrieve(String id) = _Retrieve;
+  const factory StockLocationsEvent.retrieve(String id, {Map<String, dynamic>? query}) = _Retrieve;
 
   const factory StockLocationsEvent.update(String id, UpdateStockLocation payload) = _Update;
 

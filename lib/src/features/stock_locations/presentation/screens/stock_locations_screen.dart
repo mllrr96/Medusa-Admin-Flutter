@@ -30,6 +30,7 @@ class _StockLocationsScreenState extends State<StockLocationsScreen> {
     _stockLocationsBloc.add(
       StockLocationsEvent.load(queryParameters: {
         'offset': page == 0 ? 0 : pagingController.itemList?.length,
+        'fields':'id,name,*address',
       }),
     );
   }
@@ -127,8 +128,8 @@ class _StockLocationsScreenState extends State<StockLocationsScreen> {
               itemBuilder: (context, stockLocation, index) => StockLocationTile(
                 stockLocation,
                 onEdit: () async {
-                  final result =
-                      await context.pushRoute<bool>(CreateUpdateStockLocationRoute(stockLocation: stockLocation));
+                  final result = await context.pushRoute<bool>(
+                      CreateUpdateStockLocationRoute(stockLocation: stockLocation));
                   if (result == true) {
                     pagingController.refresh();
                   }
