@@ -1,5 +1,5 @@
 name: medusa_admin
-version: 2.0.1+1
+version: 2.0.2+1
 publish_to: none
 description: A medusa store manger for mobile !.
 environment:
