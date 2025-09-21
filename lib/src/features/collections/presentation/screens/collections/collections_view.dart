@@ -58,19 +58,17 @@ class _CollectionsViewState extends State<CollectionsView> {
       listener: (context, state) {
         state.mapOrNull(
           collections: (state) async {
-            final isLastPage =
-                state.collections.length < CollectionCrudBloc.pageSize;
+            final isLastPage = state.collections.length < CollectionCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
+              pagingController.value =
+                  const PagingState(nextPageKey: null, error: null, itemList: null);
               await Future.delayed(const Duration(milliseconds: 250));
             }
             if (isLastPage) {
               pagingController.appendLastPage(state.collections);
             } else {
-              final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.collections.length;
+              final nextPageKey = pagingController.nextPageKey ?? 0 + state.collections.length;
               pagingController.appendPage(state.collections, nextPageKey);
             }
             if (refreshController.isRefresh) {
@@ -95,14 +93,18 @@ class _CollectionsViewState extends State<CollectionsView> {
             const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SearchFloatingActionButton(
-                    searchCategory: SearchCategory.collections),
+                SearchFloatingActionButton(searchCategory: SearchCategory.collections),
                 Gap(4.0),
               ],
             ),
             const Gap(6.0),
             FloatingActionButton.extended(
-              onPressed: () => context.pushRoute(CreateCollectionRoute()),
+              onPressed: () async {
+                final result = await context.pushRoute<bool>(CreateCollectionRoute());
+                if (result == true) {
+                  refreshController.requestRefresh();
+                }
+              },
               label: const Text('New Collection'),
               icon: const Icon(Icons.add),
               heroTag: UniqueKey(),
@@ -115,13 +117,10 @@ class _CollectionsViewState extends State<CollectionsView> {
               title: BlocBuilder<CollectionCrudBloc, CollectionCrudState>(
                 bloc: collectionCrudBloc,
                 builder: (context, state) {
-                  final collectionsCount = collectionCrudBloc.state
-                          .mapOrNull(collections: (state) => state.count) ??
-                      0;
+                  final collectionsCount =
+                      collectionCrudBloc.state.mapOrNull(collections: (state) => state.count) ?? 0;
                   return Text(
-                      collectionsCount != 0
-                          ? 'Collections ($collectionsCount)'
-                          : 'Collections',
+                      collectionsCount != 0 ? 'Collections ($collectionsCount)' : 'Collections',
                       overflow: TextOverflow.ellipsis);
                 },
               ),
@@ -136,12 +135,17 @@ class _CollectionsViewState extends State<CollectionsView> {
               builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
                 animateTransitions: true,
                 itemBuilder: (context, collection, index) => CollectionListTile(
-                    collection,
-                    tileColor: index.isOdd
-                        ? context.theme.appBarTheme.backgroundColor
-                        : null),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const CollectionsLoadingPage(),
+                  collection,
+                  tileColor: index.isOdd ? context.theme.appBarTheme.backgroundColor : null,
+                  onTap: () async {
+                    final result = await context
+                        .pushRoute<bool>(CollectionDetailsRoute(collectionId: collection.id));
+                    if (result == true) {
+                      refreshController.requestRefresh();
+                    }
+                  },
+                ),
+                firstPageProgressIndicatorBuilder: (context) => const CollectionsLoadingPage(),
                 firstPageErrorIndicatorBuilder: (context) =>
                     PaginationErrorPage(pagingController: pagingController),
               ),

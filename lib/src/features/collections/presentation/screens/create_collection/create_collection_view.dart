@@ -70,7 +70,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
               context.showSnackBar(
                   tr.collectionModalSuccessfullyCreatedCollection);
             }
-            context.maybePop();
+            context.maybePop(true);
             dismissLoading();
           },
           error: (state) {

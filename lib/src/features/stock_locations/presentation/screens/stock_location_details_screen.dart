@@ -135,7 +135,7 @@ class _StockLocationDetailsScreenState extends State<StockLocationDetailsScreen>
                       if (pickupSet == null) {
                         return Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: Text('Shipping is disabled'),
+                          child: Text('Pickup is disabled'),
                         );
                       }
                       return _buildShippingSetSection(pickupSet, 'Pickup');
